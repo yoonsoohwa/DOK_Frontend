@@ -2,10 +2,15 @@ import { styled } from "styled-components";
 import React from "react";
 import { Alert, Button } from "@mui/material";
 import { Logout } from "@mui/icons-material";
+import { MemberHeader } from "../../components/Header/Header";
+import { NonMemberHeader } from "../../components/Header/Header";
+import { Footer } from "../../components/Footer/Footer";
 
 export function MainPage() {
   return (
     <div>
+      <MemberHeader />
+      <NonMemberHeader />
       <h1>한글 잘 나오나?</h1>
       <Button variant="outlined">test</Button>
       <Button variant="contained" color="red2B" sx={{ borderRadius: "50px" }}>
@@ -13,6 +18,7 @@ export function MainPage() {
       </Button>
       <MyLogout />
       <Test>zz</Test>
+      <Footer/>
     </div>
   );
 }
