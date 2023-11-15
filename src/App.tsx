@@ -5,6 +5,7 @@ import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
+import { CertificationPostListPage } from "./pages/Certification/CertificationPostListPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <ScrollToTop />
             <Routes>
               <Route path="/" element={<MainPage />} />
+              <Route path="/certification" element={<CertificationPostListPage />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>
