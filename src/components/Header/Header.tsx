@@ -1,8 +1,8 @@
 import React,{useState} from 'react';
-import HeaderLogo from '/HeaderLogo.svg'
+import HeaderLogo from '/svg/HeaderLogo.svg'
 import { styled } from 'styled-components';
 
-export const MemberHeader = () => {        
+export const NonMemberHeader = () => {        
     const [isMachingClicked, setIsMachingClicked] = useState(false);
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
     const [isMypageClicked, setMypageClicked] = useState(false);
@@ -44,8 +44,8 @@ export const MemberHeader = () => {
     </>
 }
 
-export const NonMemberHeader = () => {
-    const [bookmarkClicked , setBookmarkClicked] = useState("/HeaderBookmarkOff.svg");
+export const MemberHeader = () => {
+    const [bookmarkClicked , setBookmarkClicked] = useState("/svg/HeaderBookmarkOff.svg");
     const [isClicked, setIsClicked] = useState(false);
     const [isMachingClicked, setIsMachingClicked] = useState(false);
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
@@ -55,10 +55,10 @@ export const NonMemberHeader = () => {
 
     const handleBookmarkClick = () => {
         if(isClicked){
-            setBookmarkClicked("/HeaderBookmarkOff.svg");
+            setBookmarkClicked("/svg/HeaderBookmarkOff.svg");
             setIsClicked(false);
         } else {
-            setBookmarkClicked("/HeaderBookmarkOn.svg");
+            setBookmarkClicked("/svg/HeaderBookmarkOn.svg");
             setIsClicked(true);
         }
     };
