@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { MatchingCard } from "./components/Matching/MatchingCard";
+import { CertificationPostListPage } from "./pages/Certification/CertificationPostListPage";
 
 function App() {
   return (
@@ -15,8 +16,8 @@ function App() {
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
-              <Route path="/test" element={<MainPage />} />
-
+              <Route path="/" element={<MainPage />} />
+              <Route path="/certification" element={<CertificationPostListPage />} />
               <Route path="/matching" element={<MatchingCard />} />
             </Routes>
           </BrowserRouter>
