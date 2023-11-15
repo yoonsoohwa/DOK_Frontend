@@ -1,14 +1,14 @@
 import React,{useState} from 'react';
 import HeaderLogo from '/HeaderLogo.svg'
 import { styled } from 'styled-components';
-import { isAbsolute } from 'path';
 
-export const MemberHeader = () => {
-    const [bookmarkClicked , setBookmarkClicked] = useState("/HeaderBookmarkOff.svg");
-    const [isClicked, setIsClicked] = useState(false);
+export const MemberHeader = () => {        
     const [isMachingClicked, setIsMachingClicked] = useState(false);
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
     const [isMypageClicked, setMypageClicked] = useState(false);
+
+    const headerHover = "/svg/HeaderHover.svg";
+
     return <>
         <BorderDiv>
             <MainDiv>
@@ -18,21 +18,21 @@ export const MemberHeader = () => {
                         setIsMachingClicked(!isMachingClicked); 
                         setIsCertifiedClicked(false); 
                         setMypageClicked(false)}}>매칭
-                        <img src={isMachingClicked ? "/HeaderHover.svg" : ""}/>
+                        <img src={isMachingClicked ? headerHover : ""}/>
                     </div>
                     <div onClick={() => {
                         setIsCertifiedClicked(!isCertifiedClicked);
                         setIsMachingClicked(false);
                         setMypageClicked(false);
                     }}>인증
-                        <img src={isCertifiedClicked ? "/HeaderHover.svg" : ""} />
+                        <img src={isCertifiedClicked ? headerHover : ""} />
                     </div>
                     <div onClick={() => {
                         setMypageClicked(!isMypageClicked);
                         setIsCertifiedClicked(false);
                         setIsMachingClicked(false);
                     }}>마이페이지
-                        <img src={isMypageClicked ? "/HeaderHover.svg" : ""} />
+                        <img src={isMypageClicked ? headerHover : ""} />
                     </div>
                 </CatagoryDiv>
                 <SubCatagoryDiv>
@@ -50,6 +50,8 @@ export const NonMemberHeader = () => {
     const [isMachingClicked, setIsMachingClicked] = useState(false);
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
     const [isMypageClicked, setMypageClicked] = useState(false);
+
+    const headerHover = "/svg/HeaderHover.svg";
 
     const handleBookmarkClick = () => {
         if(isClicked){
@@ -69,23 +71,22 @@ export const NonMemberHeader = () => {
                 <div onClick={() => {
                     setIsMachingClicked(!isMachingClicked); 
                     setIsCertifiedClicked(false); 
-                    setMypageClicked(false)}}>매칭
-                    {/* <div style={{position:'absolute', backgroundColor:'green', width:"50px", height:"50px"}}></div> */}
-                    <img src={isMachingClicked ? "/HeaderHover.svg" : ""}/>
+                    setMypageClicked(false)}}>매칭                    
+                    <img src={isMachingClicked ? headerHover : ""}/>
                 </div>
                 <div onClick={() => {
                     setIsCertifiedClicked(!isCertifiedClicked);
                     setIsMachingClicked(false);
                     setMypageClicked(false);
                 }}>인증
-                    <img src={isCertifiedClicked ? "/HeaderHover.svg" : ""} />
+                    <img src={isCertifiedClicked ? headerHover : ""} />
                 </div>
                 <div onClick={() => {
                     setMypageClicked(!isMypageClicked);
                     setIsCertifiedClicked(false);
                     setIsMachingClicked(false);
                 }}>마이페이지
-                    <img src={isMypageClicked ? "/HeaderHover.svg" : ""} />
+                    <img src={isMypageClicked ? headerHover : ""} />
                 </div>
             </CatagoryDiv>
             <SubCatagoryImg>
