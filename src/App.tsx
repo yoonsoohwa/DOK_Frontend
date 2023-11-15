@@ -5,6 +5,7 @@ import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
+import { MatchingCard } from "./components/Matching/MatchingCard";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
             <ScrollToTop />
             <Routes>
               <Route path="/test" element={<MainPage />} />
+
+              <Route path="/matching" element={<MatchingCard />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>
