@@ -1,4 +1,6 @@
 import "styled-components";
+import "@mui/material/styles";
+import "@mui/material/Button";
 
 declare module "styled-components" {
   export interface DefaultTheme {

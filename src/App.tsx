@@ -3,7 +3,7 @@ import { ThemeProvider } from "styled-components";
 import "./App.css";
 import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./utils/ScrollToTop";
+import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
 
 function App() {
