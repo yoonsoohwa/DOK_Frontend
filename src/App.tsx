@@ -14,7 +14,7 @@ function App() {
           <BrowserRouter>
             <ScrollToTop />
             <Routes>
-              <Route path="/test" element={<MainPage />} />
+              <Route path="/" element={<MainPage />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>
