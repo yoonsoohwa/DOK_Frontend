@@ -5,8 +5,8 @@ import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/Scroll/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
+import { CertificationListPage } from "./pages/Certification/CertificationListPage";
 import { MatchingListPage } from "./pages/Matching/MatchingListPage";
-import { CertificationPostListPage } from "./pages/Certification/CertificationPostListPage";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
             <ScrollToTop />
             <Routes>
               <Route path="/" element={<MainPage />} />
-              <Route path="/certification" element={<CertificationPostListPage />} />
+              <Route path="/certification" element={<CertificationListPage />} />
               <Route path="/matching" element={<MatchingListPage />} />
             </Routes>
           </BrowserRouter>
