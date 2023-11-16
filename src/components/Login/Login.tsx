@@ -10,7 +10,7 @@ export function Login() {
     <MainDiv>
         <img src={DOKLOGO}/>
         <LoginDiv>
-            <h1>로그인하기</h1>
+            <p>로그인하기</p>
             <TextField
                 id="loginID"
                 label="아이디"
@@ -27,14 +27,14 @@ export function Login() {
             />
             <Button variant="contained" color="mainB" sx={{width:"70%", margin:"15% 0 5% 0", borderRadius:"50px"}}>로그인</Button>
             <Button variant="contained" color="sub2B" sx={{width:"70%", borderRadius:"50px"}}>회원가입</Button>
-        </LoginDiv>
+        </LoginDiv>        
         <Footer />
     </MainDiv>
-    
   );
 }
 
 const MainDiv = styled.div`
+    
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -54,6 +54,11 @@ const LoginDiv = styled.div`
     height: 500px;
     border: black solid 2px;
     border-radius: 50px;
+
+    & > p {
+        margin-top: 10%;
+        font-size: 24px;
+    }
 
     & > h1 {
         margin-top: 10%;
