@@ -3,7 +3,7 @@ import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 
 export function MatchingCard() {
   return (
-    <CardContainer>
+    <CardContainer className="pointer">
       <PostUser>
         <AccountCircle sx={{ fontSize: "200%" }} />
         <PostInfo>
@@ -36,7 +36,6 @@ export function MatchingCard() {
 
 const CardContainer = styled.div`
   width: 220px;
-  height: fit-content;
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.main4};
@@ -47,7 +46,7 @@ const CardContainer = styled.div`
   box-sizing: border-box;
 
   @media screen and (max-width: 768px) {
-    width: 170px;
+    width: 195px;
     font-size: 13px;
   }
 `;
