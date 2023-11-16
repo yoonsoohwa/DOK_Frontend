@@ -7,6 +7,7 @@ import ScrollToTop from "./components/Common/Scroll/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { CertificationListPage } from "./pages/Certification/CertificationListPage";
 import { MatchingListPage } from "./pages/Matching/MatchingListPage";
+import { LoginPage } from "./pages/Login/LoginPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/certification" element={<CertificationListPage />} />
               <Route path="/matching" element={<MatchingListPage />} />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>

@@ -25,8 +25,8 @@ export function Login() {
                 // helperText="Some important text"
                 sx={{width:"70%"}}
             />
-            <Button variant="contained" sx={{width:"70%", margin:"15% 0 5% 0", borderRadius:"50px"}}>로그인</Button>
-            <Button variant="contained" sx={{width:"70%", borderRadius:"50px", backgroundColor:"#62AADA"}}>회원가입</Button>
+            <Button variant="contained" color="mainB" sx={{width:"70%", margin:"15% 0 5% 0", borderRadius:"50px"}}>로그인</Button>
+            <Button variant="contained" color="sub2B" sx={{width:"70%", borderRadius:"50px"}}>회원가입</Button>
         </LoginDiv>
         <Footer />
     </MainDiv>
@@ -40,7 +40,7 @@ const MainDiv = styled.div`
     flex-direction: column;
     
     & > img{
-        width: 10%;
+        width: 8%;
         margin: 3%;
     }
 `
@@ -51,7 +51,7 @@ const LoginDiv = styled.div`
     align-items: center;
     justify-content: flex-start;
     width: 500px;
-    height: 600px;
+    height: 500px;
     border: black solid 2px;
     border-radius: 50px;
 
