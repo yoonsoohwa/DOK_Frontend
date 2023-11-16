@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { CertificationPostListPage } from "./pages/Certification/CertificationPostListPage";
+import { LoginPage } from "./pages/Login/LoginPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/certification" element={<CertificationPostListPage />} />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>
