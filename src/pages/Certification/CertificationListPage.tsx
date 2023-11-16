@@ -1,10 +1,25 @@
 import { styled } from "styled-components";
 import React from "react";
-import { Box, Button, IconButton, MobileStepper } from "@mui/material";
+import { Box, Button, IconButton, MobileStepper, Rating } from "@mui/material";
 import { ListPageBanner } from "../../components/Common/Banner/ListPageBanner";
 import BannerImage from "/svg/matchingBannerImage.svg";
 import { ListPageTopBar } from "../../components/Common/Bar/ListPageTopBar";
-import { AccountCircle, Clear, KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import {
+  AccessTime,
+  AccountCircle,
+  Chat,
+  ChatOutlined,
+  Clear,
+  Edit,
+  EditAttributes,
+  EditNote,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  LocationOff,
+  LocationOn,
+  ModeEdit,
+  Update,
+} from "@mui/icons-material";
 import userImage from "/temp/뽀삐.png";
 
 const images = [
@@ -71,7 +86,7 @@ export function CertificationListPage() {
         <ListPageTopBar text={["132", "개의 산책 인증이 있습니다."]} />
 
         <DetailBox>
-          <Left>
+          <Left className="detail-left">
             <div className="image-box">
               {images.map((step, index) => (
                 <div className="image" key={step.label} style={style}>
@@ -111,7 +126,7 @@ export function CertificationListPage() {
           <Right>
             <Top>
               <PostUser>
-                <img src={userImage} />
+                <img className="user-img" src={userImage} />
                 <UserInfo>
                   I am 진이에요
                   <span>45분 전</span>
@@ -124,17 +139,73 @@ export function CertificationListPage() {
 
             <Contents>
               <div>
-                <img src="/svg/card-dog-icon.svg" />
-                <div>이뽀삐</div>
+                <img className="icon" src="/svg/card-dog-icon.svg" />
+                <div className="title">강아지</div>
+                <div className="text">이뽀삐</div>
+              </div>
+
+              <div>
+                <AccessTime className="icon" />
+                <div className="title">산책 시간</div>
+                <div className="text">2023-11-08 14:00 ~ 14:30(30m)</div>
+              </div>
+
+              <div>
+                <LocationOn className="icon" />
+                <div className="title">산책 위치</div>
+                <div className="text">송파 근린 공원</div>
+              </div>
+
+              <div>
+                <ChatOutlined className="icon" />
+                <div className="title">인증 내용</div>
+                <div className="text contents">
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />물 100ml 마셨어요~ 뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
+                  뽀삐가 너무 발랄하고 귀여웠습니다. <br />
+                  사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고
+                </div>
               </div>
             </Contents>
-            <Review></Review>
+
+            <Review>
+              <div className="top">
+                <div className="label">견주의 후기</div>
+                <div className="left">
+                  <img src={userImage} className="user-img" />
+                  <div>뽀삐엄마</div>
+                  <Rating readOnly={true}></Rating>
+                  <IconButton size="small">
+                    <Edit fontSize="small" />
+                  </IconButton>
+                </div>
+                <div className="right">30분 전</div>
+              </div>
+              <div>
+                뽀삐 표정 보니 산책 신나게 잘 한 것 같습니다 <br />
+                ^^근데 사진 조금 더 많이 찍어주셨으면 좋았을 것 같아요~ <br />
+                확실히 전문가다 보니 제가 산책시킨 것보다 낫네요
+              </div>
+            </Review>
           </Right>
         </DetailBox>
       </Section>
     </CertificationList>
   );
 }
+
+const detailBoxImageWidth = document.querySelector(".detail-left")?.clientWidth;
 
 const CertificationList = styled.div`
   width: 100%;
@@ -186,7 +257,7 @@ const Left = styled.div`
 
   .image {
     float: left;
-    width: 38vw;
+    width: ${detailBoxImageWidth}px;
     height: 100%;
     transition: all 0.4s ease-in-out;
   }
@@ -224,7 +295,8 @@ const SlideIconButton = styled(IconButton)`
 const Right = styled.div`
   flex-grow: 1;
   height: 100%;
-  background-color: aliceblue;
+  overflow-y: auto;
+  position: relative;
 `;
 
 const Top = styled.div`
@@ -238,13 +310,6 @@ const PostUser = styled.div`
   display: flex;
   padding-bottom: 10px;
   align-items: center;
-
-  img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-  }
 `;
 
 const UserInfo = styled.div`
@@ -263,11 +328,77 @@ const UserInfo = styled.div`
 
   @media screen and (max-width: 768px) {
     & > span {
-      font-size: 9px;
     }
   }
 `;
 
-const Contents = styled.div``;
+const Contents = styled.div`
+  font-size: 16px;
+  margin: 0 30px;
+  line-height: 26px;
+  font-weight: 500;
 
-const Review = styled.div``;
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 0;
+
+    .icon {
+      width: 28px;
+      height: 28px;
+      margin-right: 6px;
+      color: #3e3e3e;
+    }
+
+    .title {
+      width: 80px;
+      margin-right: 24px;
+      color: #6b6b6b;
+    }
+
+    .contents {
+    }
+  }
+`;
+
+const Review = styled.div`
+  width: 100%;
+  position: static;
+  bottom: 0px;
+  border-top: 2px #8e8e8e solid;
+  margin-top: 60px;
+  padding: 20px 26px;
+  box-sizing: border-box;
+
+  .label {
+    position: absolute;
+    top: -33px;
+    background-color: #fff;
+    padding: 0 4px;
+    color: #8e8e8e;
+    font-weight: 500;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 14px;
+
+    .left {
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      font-weight: 500;
+
+      > * {
+        margin-right: 8px;
+      }
+    }
+
+    .user-img {
+      width: 35px;
+      height: 35px;
+    }
+  }
+`;
