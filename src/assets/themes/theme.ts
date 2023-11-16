@@ -5,6 +5,7 @@ export const defaultTheme: DefaultTheme = {
   main: "#FCD11E",
   main2: "#F8EBA4",
   main3: "#F8F3C1",
+  main4: "#FFFEFA",
 
   sub: "#4194CB",
   sub2: "#62AADA",
