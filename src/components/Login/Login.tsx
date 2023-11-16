@@ -3,7 +3,6 @@ import React from "react";
 import DOKLOGO from "/DOK LOGO.svg"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Footer } from "../Footer/Footer";
 
 export function Login() {
   return (
@@ -27,8 +26,7 @@ export function Login() {
             />
             <Button variant="contained" color="mainB" sx={{width:"70%", margin:"15% 0 5% 0", borderRadius:"50px"}}>로그인</Button>
             <Button variant="contained" color="sub2B" sx={{width:"70%", borderRadius:"50px"}}>회원가입</Button>
-        </LoginDiv>        
-        <Footer />
+        </LoginDiv>       
     </MainDiv>
   );
 }
