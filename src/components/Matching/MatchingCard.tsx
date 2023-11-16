@@ -44,6 +44,7 @@ const CardContainer = styled.div`
   border-radius: 8px;
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   position: relative;
+  box-sizing: border-box;
 
   @media screen and (max-width: 768px) {
     width: 170px;
