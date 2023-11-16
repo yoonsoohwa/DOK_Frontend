@@ -5,6 +5,7 @@ import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
+import { MatchingListPage } from "./pages/Matching/MatchingListPage";
 import { CertificationPostListPage } from "./pages/Certification/CertificationPostListPage";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/certification" element={<CertificationPostListPage />} />
+              <Route path="/matching" element={<MatchingListPage />} />
             </Routes>
           </BrowserRouter>
         </MuiThemeProvider>
