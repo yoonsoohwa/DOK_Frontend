@@ -56,6 +56,6 @@ const RightBox = styled.div`
 `;
 const Section = styled.div`
   width: 100%;
-  max-width: 1024px;
+  max-width: 1140px;
   margin: 0 auto;
 `;

@@ -17,4 +17,8 @@ const CardListContainer = styled.div`
   padding: 20px 6px;
   gap: 25px 0;
   box-sizing: border-box;
+
+  @media screen and (max-width: 768px){
+    justify-content: space-evenly;
+  }
 `;
