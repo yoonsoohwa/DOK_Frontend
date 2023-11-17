@@ -1,7 +1,5 @@
 import { styled } from "styled-components";
 import { MatchingCardList } from "../../components/Matching/MatchingCardList";
-import { NonMemberHeader } from "../../components/Header/Header";
-import { Footer } from "../../components/Footer/Footer";
 import { ListPageBanner } from "../../components/Common/Banner/ListPageBanner";
 import { ScrollToTopButton } from "../../components/Common/Scroll/ScrollToTopButton";
 import { Button } from "@mui/material";

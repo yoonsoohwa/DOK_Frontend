@@ -3,8 +3,8 @@ import { styled } from 'styled-components';
 export const Footer = () => {
     return <>
         <MainDiv>
-        주소 : 서울특별시 성동구 아차산로17길 48 성수낙낙<br></br>
-        COPYRIGHT(c) 2023 DOGWALK ALL RIGHTS RESERVED.
+            주소 : 서울특별시 성동구 아차산로17길 48 성수낙낙<br></br>
+            COPYRIGHT(c) 2023 DOGWALK ALL RIGHTS RESERVED.
         </MainDiv>
     </>
 }
@@ -15,5 +15,7 @@ const MainDiv = styled.div`
     background-color: #FFFEFA;
     text-align: center;
     justify-content: center;
-    margin: 0 auto;
+    margin-top: auto;
+    margin-bottom: 0.5%;
+    
 `
