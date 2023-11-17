@@ -25,12 +25,7 @@ import { Clear, Search } from "@mui/icons-material";
 export function TopBarFilter() {
   const [area, setArea] = React.useState("집");
   const [date, setDate] = React.useState<Dayjs | null>(dayjs());
-  const [sort, setSort] = React.useState("");
   const [open, setOpen] = React.useState(false);
-
-  const handleChangeSort = (event: SelectChangeEvent) => {
-    setSort(event.target.value);
-  };
 
   const handleChangeArea = (event: SelectChangeEvent) => {
     setArea(event.target.value);
@@ -48,7 +43,7 @@ export function TopBarFilter() {
 
   return (
     <Section>
-      <TextField id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={area} InputProps={{ readOnly: true }} size="small" />
+      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={area} InputProps={{ readOnly: true }} size="small" />
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
         <DialogContent>
@@ -132,7 +127,7 @@ export function TopBarFilter() {
 
       <DateSection>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]} sx={{ width: 200 }}>
+          <DemoContainer components={["DatePicker"]} sx={{ width: "200px" }}>
             <DesktopDatePicker format="YYYY-MM-DD" label="날짜 선택" value={date} onChange={(newValue) => setDate(newValue)} slotProps={{ textField: { size: "small" } }} />
           </DemoContainer>
         </LocalizationProvider>
@@ -142,20 +137,22 @@ export function TopBarFilter() {
           </IconButton>
         )}
       </DateSection>
-      <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "10px", padding: "10px 2px" }}></MyButton>
+
+      <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton>
     </Section>
   );
 }
 
 const Section = styled.div`
-  width: fit-content;
+  width: 100%;
+  max-width: 500px;
   font-size: 20px;
   font-weight: 800;
   display: flex;
   align-items: end;
 
-  * {
-    padding-left: 8px;
+  > div {
+    margin-left: 8px;
   }
 `;
 
