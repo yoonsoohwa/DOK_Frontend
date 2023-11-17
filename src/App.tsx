@@ -12,6 +12,7 @@ import { NonMemberHeader } from "./components/Header/Header";
 import { MemberHeader } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { JoinMembershipPage } from "./pages/JoinMembership/JoinMembershipPage";
+import { Profile } from "./components/Profile/Profile";
 
 function App() {
   
@@ -33,6 +34,7 @@ function App() {
               <Route path="/matching" element={<MatchingListPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/joinmembership" element={<JoinMembershipPage />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
             <Footer/>
             </DivForHeaderFooter>
