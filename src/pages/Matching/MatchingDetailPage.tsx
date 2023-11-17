@@ -17,18 +17,44 @@ export function MatchingDetailPage() {
             </PostUser>
             <img src="/temp/리버.png" />
             <DogInfo>
-              <div>
-                <DogIcon src="/svg/card-dog-icon.svg" />
-                <span>이뽀삐</span>
-              </div>
-              <div>
-                <ul>나이: 2살</ul>
-                <ul>견종: 말티즈</ul>
-                <ul>성별: 여자</ul>
-                <ul>성격: 매우 활발</ul>
-                <ul>특이사항: 호기심이 많고, 냄새 맡는 거 좋아합니다.
-산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</ul>
-              </div>
+              <ul>
+                <li>
+                  <div>
+                    <DogIcon src="/svg/card-dog-icon.svg" />
+                    <span>이뽀삐</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    나이:
+                    <span> 2살</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    견종:
+                    <span> 말티즈</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    성별:
+                    <span> 여자</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    성격:
+                    <span> 매우 활발</span>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    특이사항:
+                    <span>호기심이 많고, 냄새 맡는 거 좋아합니다. 산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</span>
+                  </div>
+                </li>
+              </ul>
             </DogInfo>
           </DogProfile>
           <WalkDetail>
@@ -46,26 +72,38 @@ export function MatchingDetailPage() {
 const MatchingDetail = styled.div`
   width: 100%;
   margin: 0 auto;
+  max-width: 1024px;
 `;
 
 const Section = styled.div`
   width: 100%;
-  max-width: 1024px;
   margin: 50px auto;
+  padding: 0 10px;
+  box-sizing: border-box;
 `;
 
 const WalkContainer = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
 `;
 
 const WalkDetail = styled.div`
-  width: 540px;
+  width: 100%;
+  max-width: 540px;
+  padding-left: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  & > Button {
+    margin: 20px 0;
+    align-self: center;
+  }
 `;
 
 const DogProfile = styled.div`
-  width: 460px;
+  width: 100%;
+  max-width: 460px;
   padding: 10px 20px;
   background-color: ${({ theme }) => theme.main4};
   box-sizing: border-box;
@@ -80,8 +118,10 @@ const DogProfile = styled.div`
 `;
 
 const WalkInfo = styled.div`
-  height: 100px;
-  background-color: ${({ theme }) => theme.sub};
+  height: 100%;
+  background-color: ${({ theme }) => theme.main4};
+  border-radius: 8px;
+  border: 1px dashed #fcd11e;
 `;
 
 const PostUser = styled.div`
@@ -107,11 +147,19 @@ const PostInfo = styled.div`
 `;
 
 const DogInfo = styled.div`
-  & > div > span {
-    padding-left: 7px;
-    font-size: 24px;
+  display: flex;
+  flex-direction: column;
+
+  & > ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > ul > li:nth-child(1) {
+    font-size: 26px;
   }
 `;
+
 const DogIcon = styled.img`
   width: 2.5rem;
 `;
