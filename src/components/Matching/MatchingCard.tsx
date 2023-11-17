@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
+import { CardContainer } from "../Certification/CertifiPostCard";
 
 export function MatchingCard() {
   return (
@@ -34,22 +35,23 @@ export function MatchingCard() {
   );
 }
 
-const CardContainer = styled.div`
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.main4};
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
-  position: relative;
-  box-sizing: border-box;
+// const CardContainer = styled.div`
+//   width: 220px;
+//   height: fit-content;
+//   display: flex;
+//   flex-direction: column;
+//   background-color: ${({ theme }) => theme.main4};
+//   padding: 10px;
+//   border-radius: 8px;
+//   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
+//   position: relative;
+//   box-sizing: border-box;
 
-  @media screen and (max-width: 768px) {
-    width: 195px;
-    font-size: 13px;
-  }
-`;
+//   @media screen and (max-width: 768px) {
+//     width: 170px;
+//     font-size: 13px;
+//   }
+// `;
 
 const PostUser = styled.div`
   display: flex;
