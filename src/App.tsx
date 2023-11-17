@@ -27,18 +27,18 @@ function App() {
             <ScrollToTop />
             <DivForHeaderFooter>
               {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
-            {test ? <NonMemberHeader /> : <MemberHeader />}
-            <Test>
-                <Routes>
-                  <Route path="/" element={<MainPage />} />
-                  <Route path="/certification" element={<CertificationListPage />} />
-                  <Route path="/matching" element={<MatchingListPage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/joinmembership" element={<JoinMembershipPage />} />
-                  <Route path="/profile" element={<Profile />} />
-                </Routes>
-              </Test>
-            <Footer/>
+              {test ? <NonMemberHeader /> : <MemberHeader />}
+                <DivForFixedHeader>
+                  <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/certification" element={<CertificationListPage />} />
+                    <Route path="/matching" element={<MatchingListPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/joinmembership" element={<JoinMembershipPage />} />
+                    <Route path="/profile" element={<Profile />} />
+                  </Routes>
+                </DivForFixedHeader>
+              <Footer/>
             </DivForHeaderFooter>
           </BrowserRouter>
         </MuiThemeProvider>
@@ -56,6 +56,6 @@ const DivForHeaderFooter = styled.div`
   margin: 0 auto;
 `
 
-const Test = styled.div`
+const DivForFixedHeader = styled.div`
   padding-top: 70px;
 `
