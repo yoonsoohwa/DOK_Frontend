@@ -1,15 +1,18 @@
 import { styled } from "styled-components";
 import { MatchingCardList } from "../../components/Matching/MatchingCardList";
-import { NonMemberHeader } from "../../components/Header/Header";
-import { ListPageBanner } from "../../components/Common/Banner/ListPageBanner";
 import { ScrollToTopButton } from "../../components/Common/Scroll/ScrollToTopButton";
+import { Section } from "../Certification/CertificationListPage";
+import { ListPageTopBar } from "../../components/Common/Bar/ListPageTopBar";
+import { MatchingBanner } from "../../components/Matching/MatchingBanner";
 
 export function MatchingListPage() {
   return (
     <>
-      <NonMemberHeader />
-      <ListPageBanner title="sd" desc={<></>} children={<></>} />
-      <MatchingCardList />
+      <MatchingBanner />
+      <Section>
+        <ListPageTopBar text={["132", "개의 산책 인증이 있습니다."]} />
+        <MatchingCardList />
+      </Section>
       <ScrollToTopButton />
     </>
   );

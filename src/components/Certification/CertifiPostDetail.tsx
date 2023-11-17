@@ -45,8 +45,16 @@ export function CertificationPostDetail() {
     });
   };
 
+  const handleCloseDetail = (e: any): void => {
+    const postDetail = e.target.closest(".certifiDetail");
+    const postCard = postDetail.previousSibling;
+    console.log(postCard);
+    postDetail.classList.add("hidden");
+    postCard.classList.remove("hidden");
+  };
+
   return (
-    <DetailBox>
+    <DetailBox className="certifiDetail hidden">
       <Left className="detail-left">
         <div className="image-box">
           {images.map((step, index) => (
@@ -87,7 +95,7 @@ export function CertificationPostDetail() {
       <Right className="custom-scrollbar">
         <Top>
           <Profile />
-          <IconButton>
+          <IconButton onClick={handleCloseDetail}>
             <Clear />
           </IconButton>
         </Top>
@@ -158,15 +166,16 @@ export function CertificationPostDetail() {
   );
 }
 
-const detailBoxImageWidth = document.querySelector(".detail-left")?.clientWidth;
-
 const DetailBox = styled.div`
-  width: 100%;
+  width: 98%;
   height: 560px;
   border-top: 4px #bdbdbd solid;
   border-bottom: 4px #bdbdbd solid;
-  margin-bottom: 20px; //zzzzzzzzzzzzzzzzzzzzzzz
   display: flex;
+
+  &.hidden {
+    display: none;
+  }
 `;
 
 const Left = styled.div`
@@ -234,6 +243,7 @@ const Top = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  width: calc(100% - 40px);
 `;
 
 const Contents = styled.div`

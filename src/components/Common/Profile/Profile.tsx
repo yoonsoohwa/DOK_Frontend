@@ -49,9 +49,10 @@ const UserInfo = styled.div`
   font-weight: 500;
   line-height: 26px;
   width: 100%;
+  overflow: hidden;
 
   div {
-    width: 70%;
+    width: 90%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
