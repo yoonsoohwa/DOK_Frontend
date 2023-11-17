@@ -8,7 +8,7 @@ export function MatchingListPage() {
   return (
     <>
       <NonMemberHeader />
-      <ListPageBanner />
+      <ListPageBanner title="sd" desc={<></>} children={<></>} />
       <MatchingCardList />
       <ScrollToTopButton />
     </>

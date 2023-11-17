@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
+import { CardContainer } from "../Certification/CertifiPostCard";
 
 export function MatchingCard() {
   return (
@@ -11,8 +12,8 @@ export function MatchingCard() {
           <span>45분 전</span>
         </PostInfo>
       </PostUser>
-        <img src="/temp/리버.png" />
-      
+      <img src="/temp/리버.png" />
+
       <WalkInfo>
         <div>
           <DogIcon src="/svg/card-dog-icon.svg" />
@@ -34,23 +35,23 @@ export function MatchingCard() {
   );
 }
 
-const CardContainer = styled.div`
-  width: 220px;
-  height: fit-content;
-  display: flex;
-  flex-direction: column;
-  background-color: ${({ theme }) => theme.main4};
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
-  position: relative;
-  box-sizing: border-box;
+// const CardContainer = styled.div`
+//   width: 220px;
+//   height: fit-content;
+//   display: flex;
+//   flex-direction: column;
+//   background-color: ${({ theme }) => theme.main4};
+//   padding: 10px;
+//   border-radius: 8px;
+//   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
+//   position: relative;
+//   box-sizing: border-box;
 
-  @media screen and (max-width: 768px) {
-    width: 170px;
-    font-size: 13px;
-  }
-`;
+//   @media screen and (max-width: 768px) {
+//     width: 170px;
+//     font-size: 13px;
+//   }
+// `;
 
 const PostUser = styled.div`
   display: flex;
@@ -116,5 +117,5 @@ const MatchingStatus = styled.div`
 `;
 
 const DogIcon = styled.img`
-    width: 8%;
-`
+  width: 8%;
+`;
