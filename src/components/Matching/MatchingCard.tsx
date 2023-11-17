@@ -4,7 +4,7 @@ import { CardContainer } from "../Certification/CertifiPostCard";
 
 export function MatchingCard() {
   return (
-    <CardContainer>
+    <CardContainer className="pointer">
       <PostUser>
         <AccountCircle sx={{ fontSize: "200%" }} />
         <PostInfo>

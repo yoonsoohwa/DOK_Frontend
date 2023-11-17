@@ -7,6 +7,7 @@ import ScrollToTop from "./components/Common/Scroll/ScrollToTop";
 import { MainPage } from "./pages/MainPage/MainPage";
 import { CertificationListPage } from "./pages/Certification/CertificationListPage";
 import { MatchingListPage } from "./pages/Matching/MatchingListPage";
+import { MatchingDetailPage } from "./pages/Matching/MatchingDetailPage";
 import { LoginPage } from "./pages/Login/LoginPage";
 import { NonMemberHeader } from "./components/Header/Header";
 import { MemberHeader } from "./components/Header/Header";
@@ -30,7 +31,10 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/certification" element={<CertificationListPage />} />
+
               <Route path="/matching" element={<MatchingListPage />} />
+              <Route path="/matching-detail" element={<MatchingDetailPage />}/>
+              
               <Route path="/login" element={<LoginPage />} />
               <Route path="/joinmembership" element={<JoinMembershipPage />} />
             </Routes>

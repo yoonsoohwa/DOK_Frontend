@@ -1,41 +1,24 @@
 import { styled } from "styled-components";
 import { MatchingCard } from "../../components/Matching/MatchingCard";
 
-export function MatchingCardList() {
+export function MatchingCardList({posts}: {posts: string[]}) {
   return (
     <CardListContainer>
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
+      {posts.map((post) => <MatchingCard />)}
     </CardListContainer>
   );
 }
 
 const CardListContainer = styled.div`
-  width: 1024px;
-  height: fit-content;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 auto;
-  padding: 1rem;
-  gap: 40px 0;
+  padding: 20px 6px;
+  gap: 25px 0;
   box-sizing: border-box;
 
-  @media screen and (max-width: 768px) {
-    width: 768px;
-  }
-
-  @media screen and (max-width: 425px) {
-    width: 425px;
+  @media screen and (max-width: 768px){
+    justify-content: space-evenly;
   }
 `;
