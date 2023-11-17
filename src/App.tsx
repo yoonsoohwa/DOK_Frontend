@@ -11,6 +11,7 @@ import { LoginPage } from "./pages/Login/LoginPage";
 import { NonMemberHeader } from "./components/Header/Header";
 import { MemberHeader } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
+import { JoinMembershipPage } from "./pages/JoinMembership/JoinMembershipPage";
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
               <Route path="/certification" element={<CertificationListPage />} />
               <Route path="/matching" element={<MatchingListPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/joinmembership" element={<JoinMembershipPage />} />
             </Routes>
             <Footer/>
             </DivForHeaderFooter>
