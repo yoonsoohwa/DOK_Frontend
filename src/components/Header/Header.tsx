@@ -105,8 +105,8 @@ const BorderDiv = styled.div`
     border-bottom: #dedede solid 1px;
     position: fixed;
     width: 100%;
-    z-index: 1;
-    /* background-color: #fffbfb; */
+    z-index: 999;
+    background-color: #ffffff;
 `
 
 const MainDiv = styled.div`

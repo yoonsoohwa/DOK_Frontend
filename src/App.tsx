@@ -3,19 +3,13 @@ import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import { theme, defaultTheme } from "./assets/themes/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/Common/Scroll/ScrollToTop";
-import { MainPage } from "./pages/MainPage/MainPage";
-import { CertificationListPage } from "./pages/Certification/CertificationListPage";
-import { MatchingListPage } from "./pages/Matching/MatchingListPage";
-import { MatchingDetailPage } from "./pages/Matching/MatchingDetailPage";
-import { LoginPage } from "./pages/Login/LoginPage";
+import ScrollToTop from "./components/Common/ScrollTopRendering";
 import { NonMemberHeader } from "./components/Header/Header";
 import { MemberHeader } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
-import { JoinMembershipPage } from "./pages/JoinMembership/JoinMembershipPage";
-import { Profile } from "./components/Profile/Profile";
-import { CertificationCreatePage } from "./pages/Certification/CertificationCreatePage";
 
+import {CertificationCreatePage, CertificationListPage,LoginPage, MainPage ,MatchingDetailPage ,
+  MatchingListPage ,ProfilePage ,SignUpPage } from "./pages";
 
 function App() {
   // acceptToken 값 받으면 여기서 분기처리 하면 될 것 같습니다.
@@ -35,14 +29,14 @@ function App() {
                 <Route path="/" element={<MainPage />} />
                 <Route path="/certification" element={<CertificationListPage />} />
                 <Route path="/certification/write" element={<CertificationCreatePage />} />
-
+                
                 <Route path="/matching" element={<MatchingListPage />} />
                 <Route path="/matching/detail" element={<MatchingDetailPage />} />
                 <Route path="/matching/write" element={<MatchingListPage />} />
 
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/joinmembership" element={<JoinMembershipPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/SignUp" element={<SignUpPage />} />
               </Routes>
               </DivForFixedHeader>
               <Footer />

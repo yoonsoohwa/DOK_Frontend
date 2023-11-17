@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { AccessTime } from "@mui/icons-material";
-import { Profile } from "../Common/Profile/Profile";
+import { Profile } from "../Common/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
 
 export function CertifiPostCard({ onclick }: { onclick: (e: any) => void }) {

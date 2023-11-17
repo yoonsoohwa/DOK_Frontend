@@ -4,9 +4,9 @@ import { styled } from "styled-components";
 export function MainPetBox({ petData, className }: { petData: string; className: string }) {
   return (
     <Pet className={className}>
-      <img className="pet-img" src="../../../public/temp/뽀삐.png" />
+      <img className="pet-img" src="/temp/뽀삐.png" />
       <div className="gender-name">
-        <img src="../../../public/svg/gender-female.svg" />
+        <img src="/svg/gender-female.svg" />
         <span>이뽀삐</span>
       </div>
     </Pet>

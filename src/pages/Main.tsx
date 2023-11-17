@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import React from "react";
-import { MainInfo } from "../../components/Main/MainInfo";
-import { MainSection1 } from "../../components/Main/MainSection1";
-import { MainSection2 } from "../../components/Main/MainSection2";
+import { MainInfo } from "../components/Main/MainInfo";
+import { MainSection1 } from "../components/Main/MainSection1";
+import { MainSection2 } from "../components/Main/MainSection2";
 
 export function MainPage() {
   return (
