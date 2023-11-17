@@ -11,3 +11,21 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 11px; /* 스크롤바의 너비 */
+  padding: 0 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d9d9d9; /* 스크롤바의 색상 */
+  border-radius: 20px;
+
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f4f4f4; /*스크롤바 뒷 배경 색상*/
+  border-radius: 20px;
+}
