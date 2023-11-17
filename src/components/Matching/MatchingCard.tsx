@@ -11,8 +11,8 @@ export function MatchingCard() {
           <span>45분 전</span>
         </PostInfo>
       </PostUser>
-        <img src="/temp/리버.png" />
-      
+      <img src="/temp/리버.png" />
+
       <WalkInfo>
         <div>
           <DogIcon src="/svg/card-dog-icon.svg" />
@@ -115,5 +115,5 @@ const MatchingStatus = styled.div`
 `;
 
 const DogIcon = styled.img`
-    width: 8%;
-`
+  width: 8%;
+`;

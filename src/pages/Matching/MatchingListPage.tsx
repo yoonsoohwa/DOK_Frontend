@@ -24,8 +24,7 @@ export function MatchingListPage() {
 
   return (
     <MatchingList>
-      <NonMemberHeader />
-      <ListPageBanner title={"매칭 요청"} desc={desc}>
+      <ListPageBanner title={"산책 매칭"} desc={desc}>
         <RightBox>
           <img className="banner-image" src={BannerImage} />
           {MyButton}
@@ -36,7 +35,6 @@ export function MatchingListPage() {
         <MatchingCardList posts={["1", "2", "3", "4", "5", "6", "7", "8"]} />
       </Section>
       <ScrollToTopButton />
-      <Footer />
     </MatchingList>
   );
 }
