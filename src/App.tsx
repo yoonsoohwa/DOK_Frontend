@@ -28,14 +28,16 @@ function App() {
             <DivForHeaderFooter>
               {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
             {test ? <NonMemberHeader /> : <MemberHeader />}
-            <Routes>
-              <Route path="/" element={<MainPage />} />
-              <Route path="/certification" element={<CertificationListPage />} />
-              <Route path="/matching" element={<MatchingListPage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/joinmembership" element={<JoinMembershipPage />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
+            <Test>
+                <Routes>
+                  <Route path="/" element={<MainPage />} />
+                  <Route path="/certification" element={<CertificationListPage />} />
+                  <Route path="/matching" element={<MatchingListPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/joinmembership" element={<JoinMembershipPage />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Routes>
+              </Test>
             <Footer/>
             </DivForHeaderFooter>
           </BrowserRouter>
@@ -51,4 +53,9 @@ const DivForHeaderFooter = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  margin: 0 auto;
+`
+
+const Test = styled.div`
+  padding-top: 70px;
 `
