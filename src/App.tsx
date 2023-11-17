@@ -16,6 +16,7 @@ import { JoinMembershipPage } from "./pages/JoinMembership/JoinMembershipPage";
 import { Profile } from "./components/Profile/Profile";
 import { CertificationCreatePage } from "./pages/Certification/CertificationCreatePage";
 
+
 function App() {
   // acceptToken 값 받으면 여기서 분기처리 하면 될 것 같습니다.
   const test = true;
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/certification/write" element={<CertificationCreatePage />} />
 
                 <Route path="/matching" element={<MatchingListPage />} />
+                <Route path="/matching/detail" element={<MatchingDetailPage />} />
                 <Route path="/matching/write" element={<MatchingListPage />} />
 
                 <Route path="/login" element={<LoginPage />} />
