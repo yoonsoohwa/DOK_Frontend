@@ -4,9 +4,9 @@ import footprintImg from "/image/발자국6개.png";
 import dogwalkImg from "/svg/산책하는강아지와사람.svg";
 import React from "react";
 
-export function ListPageBanner({ title, desc, children }: { title: string; desc: JSX.Element; children: React.ReactNode }) {
+export function ListPageBanner({ title, desc, children, color }: { title: string; desc: JSX.Element; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {
   return (
-    <Section>
+    <Section color={color}>
       <InnerBox>
         <img className="pet-image" src={petIcon} />
         <TitleBox>
@@ -25,7 +25,7 @@ const Section = styled.div`
   height: 315px;
   box-sizing: border-box;
   padding-bottom: 30px;
-  background-color: ${({ theme }) => theme.main2};
+  background-color: ${({ theme, color }) => (color ? theme[color] : theme.main2)};
 `;
 
 const InnerBox = styled.div`
@@ -51,7 +51,7 @@ const InnerBox = styled.div`
     width: 50%;
     min-width: 0px;
     padding: 0 20px 5px 2px;
-    @media screen and (max-width: 748px) {
+    @media screen and (max-width: 950px) {
       display: none;
     }
   }
@@ -66,12 +66,19 @@ const TitleBox = styled.div`
   h1 {
     font-size: 50px;
     font-weight: 700;
+    padding: 30px 0;
   }
 
   div {
     font-size: 19px;
     font-weight: 400;
     color: #3e3e3e;
+  }
+
+  @media screen and (max-width: 768px) {
+    & {
+      padding-left: 60px;
+    }
   }
 `;
 
@@ -81,7 +88,7 @@ const RightBox = styled.div`
   flex-shrink: 0;
   padding: 50px 60px 30px 0;
 
-  @media screen and (max-width: 748px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;

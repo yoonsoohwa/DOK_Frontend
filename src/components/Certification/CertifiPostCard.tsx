@@ -2,50 +2,33 @@ import React from "react";
 import { styled } from "styled-components";
 import { AccessTime } from "@mui/icons-material";
 import { Profile } from "../Common/Profile/Profile";
-import { Rating } from "@mui/material";
+import { Rating, Tooltip } from "@mui/material";
 
-export function CertifiPostCard() {
+export function CertifiPostCard({ onclick }: { onclick: (e: any) => void }) {
   const review = true;
   return (
-    <>
-      <CardContainer>
-        <Profile size="small" />
-        <img src="/temp/리버.png" />
+    <CardContainer className="certifiCard">
+      <Profile size="small" />
+      <Tooltip title="리버" placement="top" followCursor arrow>
+        <img className="dog-img" src="/temp/리버.png" onClick={onclick} />
+      </Tooltip>
 
-        <Contents>
-          <div>
-            <AccessTime sx={{ fontSize: "22px" }} />
-            <span>
-              2023-11-10 <span className="time">13:00~14:00</span>
-            </span>
-          </div>
-          <div className="detail">
-            뽀삐가 너무 귀여워서 산책하는 내내 행복했습니다. 20분에 한 번씩 휴식했고, 10분 정도는 친구들하고 뛰어 놀았습니다! 물은 여섯번 나눠서 먹였어요 20분에 한 번씩 휴식했고,
-            10분 정도는 친구들하고 뛰어 놀았습니다!
-          </div>
-        </Contents>
-      </CardContainer>
-      <CardContainer>
-        <Profile size="small" />
-        <img src="/temp/리버.png" />
-
-        <Contents>
-          <div>
-            <AccessTime sx={{ fontSize: "20px" }} />
-            <span>
-              2023-11-10 <span className="time">13:00~14:00</span>
-            </span>
-          </div>
-          <div className={`detail ${review && "review"}`}>
-            뽀삐가 너무 귀여워서 산책하는 내내 행복했습니다. 20분에 한 번씩 휴식했고, 10분 정도는 친구들하고 뛰어 놀았습니다! 물은 여섯번 나눠서 먹였어요 20분에 한 번씩 휴식했고,
-            10분 정도는 친구들하고 뛰어 놀았습니다!
-            <Review>
-              견주의 후기: <Rating readOnly></Rating>
-            </Review>
-          </div>
-        </Contents>
-      </CardContainer>
-    </>
+      <Contents onClick={onclick} className="pointer">
+        <div>
+          <AccessTime sx={{ fontSize: "20px" }} />
+          <span>
+            2023-11-10 <span className="time">13:00~14:00</span>
+          </span>
+        </div>
+        <div className={`detail ${review && "review"}`}>
+          뽀삐가 너무 귀여워서 산책하는 내내 행복했습니다. 20분에 한 번씩 휴식했고, 10분 정도는 친구들하고 뛰어 놀았습니다! 물은 여섯번 나눠서 먹였어요 20분에 한 번씩 휴식했고,
+          10분 정도는 친구들하고 뛰어 놀았습니다!
+          <Review>
+            견주의 후기: <Rating value={3.5} precision={0.5} readOnly></Rating>
+          </Review>
+        </div>
+      </Contents>
+    </CardContainer>
   );
 }
 
@@ -56,15 +39,21 @@ export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${({ theme }) => theme.main4};
+  margin: 0 6px 4px 0;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   position: relative;
   box-sizing: border-box;
 
-  @media screen and (max-width: 768px) {
-    max-width: 43%;
+  @media screen and (max-width: 784px) {
+    max-width: 43vw;
     font-size: 14px;
+  }
+  &.hidden {
+    display: none;
+  }
+  .dog-img:hover {
   }
 `;
 

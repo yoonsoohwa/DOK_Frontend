@@ -1,17 +1,12 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../Certification/CertifiPostCard";
+import { Profile } from "../Common/Profile/Profile";
 
 export function MatchingCard() {
   return (
     <CardContainer>
-      <PostUser>
-        <AccountCircle sx={{ fontSize: "200%" }} />
-        <PostInfo>
-          I am 진이에요
-          <span>45분 전</span>
-        </PostInfo>
-      </PostUser>
+      <Profile size="small" />
       <img src="/temp/리버.png" />
 
       <WalkInfo>
@@ -63,7 +58,7 @@ const PostInfo = styled.div`
   flex-direction: column;
   padding-left: 5px;
 
-  & > span {
+  > span {
     color: #8e8e8e;
     font-size: 10px;
   }
