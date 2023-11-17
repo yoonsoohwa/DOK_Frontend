@@ -2,21 +2,12 @@ import { styled } from "styled-components";
 import { MatchingCard } from "../../components/Matching/MatchingCard";
 import { CardListContainer } from "../Certification/CertifiPostList";
 
-export function MatchingCardList() {
+export function MatchingCardList({ posts }: { posts: string[] }) {
   return (
     <CardListContainer>
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
-      <MatchingCard />
+      {posts.map((post) => (
+        <MatchingCard />
+      ))}
     </CardListContainer>
   );
 }
