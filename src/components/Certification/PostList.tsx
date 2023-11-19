@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import { CertifiPostCard } from "./CertifiPostCard";
-import { ListPageTopBar } from "../Common/Bar/ListPageTopBar";
-import { CertificationPostDetail } from "./CertifiPostDetail";
+import { CertifiPostCard } from "./PostCard";
+import { ListPageTopBar } from "../Common/ListPageTopBar";
+import { CertificationPostDetail } from "./PostDetail";
 
 export function CertifiPostList() {
   const handleShowDetail = (e: any): void => {

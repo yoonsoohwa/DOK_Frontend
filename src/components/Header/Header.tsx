@@ -103,6 +103,10 @@ export const MemberHeader = () => {
 
 const BorderDiv = styled.div`
     border-bottom: #dedede solid 1px;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    background-color: #ffffff;
 `
 
 const MainDiv = styled.div`
@@ -123,9 +127,9 @@ const CatagoryDiv = styled.div`
     & > div {
         margin: 0 5% 0 5%;
         & > img {
-            position: absolute;
+            position: fixed;
             transform: translateX(-50%);
-            top:-15px;
+            top:15px;
             z-index: -1;
         }
     }

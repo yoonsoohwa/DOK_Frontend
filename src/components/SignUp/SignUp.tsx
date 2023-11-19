@@ -11,7 +11,7 @@ import { TrilateralAgreement } from "./Agreement";
 import { margin } from "@mui/system";
 
 
-export function JoinMembership() {
+export function SignUp() {
     const [checked, setChecked] = React.useState([true, false]);
 
   const handleChange1 = (event : React.ChangeEvent<HTMLInputElement>) => {

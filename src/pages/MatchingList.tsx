@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { MatchingCardList } from "../../components/Matching/MatchingCardList";
-import { ScrollToTopButton } from "../../components/Common/Scroll/ScrollToTopButton";
-import { ListPageTopBar } from "../../components/Common/Bar/ListPageTopBar";
-import { MatchingBanner } from "../../components/Matching/MatchingBanner";
+import { MatchingCardList } from "../components/Matching/MatchingCardList";
+import { ScrollToTopButton } from "../components/Common/ScrollTopButton";
+import { ListPageTopBar } from "../components/Common/ListPageTopBar";
+import { MatchingBanner } from "../components/Matching/MatchingBanner";
 
 export function MatchingListPage() {
   return (
@@ -10,7 +10,7 @@ export function MatchingListPage() {
       <MatchingBanner />
       <Section>
         <ListPageTopBar text={["132", "개의 산책 인증이 있습니다."]} />
-        <MatchingCardList posts={[]} />
+        <MatchingCardList posts={new Array(16).fill(0)} />
       </Section>
       <ScrollToTopButton />
     </MatchingList>
