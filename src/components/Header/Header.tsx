@@ -107,6 +107,7 @@ const BorderDiv = styled.div`
     width: 100%;
     z-index: 999;
     background-color: #ffffff;
+    
 `
 
 const MainDiv = styled.div`
@@ -114,7 +115,6 @@ const MainDiv = styled.div`
     justify-content: space-between;
     max-width: 1024px;
     margin: 0 auto;
-    
 `
 const CatagoryDiv = styled.div`
     display: flex;
@@ -140,10 +140,11 @@ const SubCatagoryDiv = styled.div`
 display: flex;
 justify-content: flex-end;
 flex : 2;
-    margin: 32px 50px 0 0;
+    margin: 32px 0 0 0;
     font-size: 18px;
+    
     & > div {
-        margin: 0 5% 0 5%;
+        margin: 0 0 0 5%;
     }
 
 `
@@ -159,7 +160,6 @@ const SubCatagoryImg = styled.div`
     }
     & > div:first-child > img {
         width: 40%;
-        margin: 0 0 0 45%;
-
+        margin: 0 0 0 45%;        
     }
 `

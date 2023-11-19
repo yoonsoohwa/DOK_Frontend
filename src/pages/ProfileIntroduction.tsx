@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 import React from "react";
 // import { Profile } from "../components/Profile/Profile";
-import { Profile } from "../components/Profile/Profile";
+import { ProfileInfo } from "../components/Profile/ProfileInfo";
 
 
-export function ProfilePage() {
+export function ProfileIntroduction() {
   return (
-    <Profile />
+    <ProfileInfo />
   );
 }

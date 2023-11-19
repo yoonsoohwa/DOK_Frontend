@@ -9,7 +9,7 @@ import { MemberHeader } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 
 import {CertificationCreatePage, CertificationListPage,LoginPage, MainPage ,MatchingDetailPage ,
-  MatchingListPage ,ProfilePage ,SignUpPage } from "./pages";
+  MatchingListPage ,ProfileIntroduction ,SignUpPage } from "./pages";
 
 function App() {
   // acceptToken 값 받으면 여기서 분기처리 하면 될 것 같습니다.
@@ -35,7 +35,7 @@ function App() {
                 <Route path="/matching/write" element={<MatchingListPage />} />
 
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profileintroduction" element={<ProfileIntroduction />} />
                 <Route path="/SignUp" element={<SignUpPage />} />
               </Routes>
               </DivForFixedHeader>
