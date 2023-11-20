@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import petIcon from "/svg/Pets.svg";
 import footprintImg from "/image/발자국6개.png";
+import dogwalkImg from "/svg/산책하는강아지와사람.svg";
 import React from "react";
 
 export function ListPageBanner({ title, desc, children, color }: { title: string; desc: JSX.Element; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {
@@ -57,7 +58,7 @@ const InnerBox = styled.div`
 `;
 
 const TitleBox = styled.div`
-  z-index: 1;
+  z-index: 999;
   width: fit-content;
   flex-shrink: 0;
   padding: 0 0 40px 80px;
