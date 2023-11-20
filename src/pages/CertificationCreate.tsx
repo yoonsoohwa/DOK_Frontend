@@ -5,7 +5,6 @@ import { AddAPhoto, AddPhotoAlternate, AddPhotoAlternateOutlined, ChatOutlined, 
 import { TextField } from "@mui/material";
 
 export function CertificationCreatePage() {
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [address, setAddress] = useState("ㅋㅋㅋ");
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
