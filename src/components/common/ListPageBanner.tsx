@@ -1,17 +1,17 @@
 import { styled } from "styled-components";
-import petIcon from "/svg/Pets.svg";
+import petIcon from "/svg/pets.svg";
 import footprintImg from "/image/six_footprint.png";
 import dogwalkImg from "/svg/walking_dog.svg";
 import React from "react";
 
-export function ListPageBanner({ title, desc, children, color }: { title: string; desc: JSX.Element; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {
+export function ListPageBanner({ title, desc, children, color }: { title: string; desc: string; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {
   return (
     <Section color={color}>
       <InnerBox>
         <img className="pet-image" src={petIcon} />
         <TitleBox>
           <h1>{title}</h1>
-          <div>{desc}</div>
+          <div className="desc">{desc}</div>
         </TitleBox>
         <img className="footprint" src={footprintImg} />
         <RightBox>{children}</RightBox>
@@ -69,10 +69,11 @@ const TitleBox = styled.div`
     padding: 30px 0;
   }
 
-  div {
+  .desc {
     font-size: 19px;
     font-weight: 400;
     color: #3e3e3e;
+    white-space: pre-wrap;
   }
 
   @media screen and (max-width: 768px) {

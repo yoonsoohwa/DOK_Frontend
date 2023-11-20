@@ -1,26 +1,28 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import { styled } from "styled-components";
 import { CertifiPostCard } from "./PostCard";
 import { ListPageTopBar } from "common/ListPageTopBar";
 import { CertificationPostDetail } from "./PostDetail";
 
 export function CertifiPostList() {
-  const handleShowDetail = (e: any): void => {
-    const postCard = e.target.closest(".certifiCard");
-    const postDetail = postCard.nextSibling;
-    console.log(postDetail);
-    postCard.classList.add("hidden");
-    postDetail.classList.remove("hidden");
+  const handleShowDetail = (e: React.MouseEvent): void => {
+    // const postCard = e.target.closest(".certifiCard");
+    // const postDetail = postCard.nextSibling;
+    // console.log(postDetail);
+    // postCard.classList.add("hidden");
+    // postDetail.classList.remove("hidden");
   };
 
   return (
     <GridContainer>
-      {new Array(30).fill(0).map((tmp) => (
-        <>
-          <CertifiPostCard onclick={handleShowDetail} />
-          <CertificationPostDetail />
-        </>
-      ))}
+      {Children.toArray(
+        new Array(30).fill(0).map((tmp) => (
+          <>
+            <CertifiPostCard onclick={handleShowDetail} />
+            <CertificationPostDetail />
+          </>
+        ))
+      )}
     </GridContainer>
   );
 }
