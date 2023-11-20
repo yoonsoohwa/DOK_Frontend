@@ -1,42 +1,31 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@300;700&display=swap");
+@import url("https://font.elice.io/css?family=Elice+DX+Neolli");
+
+.pointer {
+  cursor: pointer;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.custom-scrollbar::-webkit-scrollbar {
+  width: 11px; /* 스크롤바의 너비 */
+  padding: 0 2px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d9d9d9; /* 스크롤바의 색상 */
+  border-radius: 20px;
+
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f4f4f4; /*스크롤바 뒷 배경 색상*/
+  border-radius: 20px;
 }
