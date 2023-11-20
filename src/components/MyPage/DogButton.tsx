@@ -6,6 +6,8 @@ export const DogButton = () => {
     const [clicked, setClicked] = useState(false);
     return (
         <>
+        <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>
+        <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>
             {clicked ? <DogDetail /> : <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
             {/* <AddButton onClick={() => setClicked(!clicked)}>+</AddButton> */}
         </>

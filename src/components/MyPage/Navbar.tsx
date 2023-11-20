@@ -6,7 +6,7 @@ import {Tab, Box} from '@mui/material';
 import { Introduce } from './Introduce';
 import { Matching } from './Matching';
 import { Certification } from './Certification';
-import { Modify } from './Modify';
+import { Modify } from './InformationModify/Modify';
 
 export const Navbar = () => {
 
