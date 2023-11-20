@@ -1,19 +1,15 @@
-import React from "react";
+import React, { Children } from "react";
 import { styled } from "styled-components";
 
 export function MainSection2({ title, contents, isRightTitle, color }: { title: string; contents: string[]; isRightTitle?: boolean; color: string }) {
   return (
     <Section>
-      <InnerBox isRightTitle={isRightTitle ? true : false}>
+      <InnerBox $isRightTitle={isRightTitle ? true : false}>
         <Title color={color}>
           <h2>{title}</h2>
           <div className="send-text">자세히 보러가기</div>
         </Title>
-        <Contents>
-          {contents.map((data) => (
-            <div className="content">{data}</div>
-          ))}
-        </Contents>
+        <Contents>{Children.toArray(contents.map((data) => <div className="content">{data}</div>))}</Contents>
       </InnerBox>
       <BackgroundBox color={color}></BackgroundBox>
     </Section>
@@ -33,10 +29,10 @@ const Section = styled.div`
   align-items: end;
 `;
 
-const InnerBox = styled.div<{ isRightTitle: boolean }>`
+const InnerBox = styled.div<{ $isRightTitle: boolean }>`
   height: fit-content;
   display: flex;
-  flex-direction: ${({ isRightTitle }) => (isRightTitle ? "row-reverse" : "row")};
+  flex-direction: ${({ $isRightTitle }) => ($isRightTitle ? "row-reverse" : "row")};
   justify-content: center;
   align-items: end;
   flex-wrap: wrap;

@@ -1,15 +1,11 @@
-import React from "react";
+import React, { Children } from "react";
 import { styled } from "styled-components";
 import { MainPetBox } from "./MainPetBox";
 
 export function MainSection1({ pets }: { pets: string[] }) {
   return (
     <Section>
-      <PetsScrollBox>
-        {pets.map((data, idx) => (
-          <MainPetBox className={idx % 2 ? "right" : "left"} petData={data} />
-        ))}
-      </PetsScrollBox>
+      <PetsScrollBox>{Children.toArray(pets.map((data, idx) => <MainPetBox className={idx % 2 ? "right" : "left"} petData={data} />))}</PetsScrollBox>
       <TitleBox>
         <div>
           도크와
