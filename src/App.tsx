@@ -3,10 +3,10 @@ import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import { theme, defaultTheme } from "./components/styles/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./components/Common/ScrollTopRendering";
-import { NonMemberHeader } from "./components/Header/Header";
-import { MemberHeader } from "./components/Header/Header";
-import { Footer } from "./components/Footer/Footer";
+import ScrollToTop from "./components/common/ScrollTopRendering";
+import { NonMemberHeader } from "./components/header/Header";
+import { MemberHeader } from "./components/header/Header";
+import { Footer } from "./components/footer/Footer";
 
 import {CertificationCreatePage, CertificationListPage,LoginPage, MainPage ,MatchingDetailPage ,
   MatchingListPage ,ProfilePage ,SignUpPage } from "./pages";
