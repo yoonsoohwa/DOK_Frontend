@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/Common/PostCreateForm";
+import { PostCreateFormLayout } from "../components/common/PostCreateForm";
 import { ChatOutlined, LocationOn, MonetizationOn, MonetizationOnOutlined, Money, Pets } from "@mui/icons-material";
 import { FormControl, FormControlLabel, FormLabel, Input, InputAdornment, InputLabel, MenuItem, Radio, RadioGroup, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { CalendarIcon, ClockIcon, DesktopDatePicker, DesktopDateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
