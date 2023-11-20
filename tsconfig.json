@@ -24,7 +24,7 @@
       "image/*": ["public/image/*"],
       "temp/*": ["public/temp/*"]
     },
-    "types": ["kakao.maps.d.ts"]
+    // "types": ["kakao.maps.d.ts"]
   },
   "include": ["src"]
 }
