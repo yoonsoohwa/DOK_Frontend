@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import React from "react";
-import mainTopImage from "/svg/main-header-image.svg";
-import logoImage from "/DOK LOGO.png";
+import mainTopImage from "/svg/main_header_image.svg";
+import logoImage from "/dok_logo.png";
 import { Pets } from "@mui/icons-material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import MouseOutlinedIcon from "@mui/icons-material/MouseOutlined";

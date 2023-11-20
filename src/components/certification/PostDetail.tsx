@@ -3,7 +3,7 @@ import React from "react";
 import userImage from "/temp/뽀삐.png";
 import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { Profile } from "../Common/ProfileInfo";
+import { Profile } from "common/ProfileInfo";
 
 const images = [
   {
@@ -102,7 +102,7 @@ export function CertificationPostDetail() {
 
         <Contents>
           <div>
-            <img className="icon" src="/svg/card-dog-icon.svg" />
+            <img className="icon" src="/svg/card_dog_icon.svg" />
             <div className="title">강아지</div>
             <div className="text">이뽀삐</div>
           </div>
