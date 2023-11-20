@@ -1,15 +1,10 @@
 import { styled } from "styled-components";
 import { MatchingCard } from "../../components/matching/MatchingCard";
 import { CardListContainer } from "../certification/PostList";
+import { Children } from "react";
 
 export function MatchingCardList({ posts }: { posts: string[] }) {
-  return (
-    <CardListContainer>
-      {posts.map((post) => (
-        <MatchingCard />
-      ))}
-    </CardListContainer>
-  );
+  return <CardListContainer>{Children.toArray(posts.map((post) => <MatchingCard />))}</CardListContainer>;
 }
 
 // const CardListContainer = styled.div`

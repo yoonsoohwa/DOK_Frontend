@@ -4,7 +4,7 @@ import { AccessTime } from "@mui/icons-material";
 import { Profile } from "common/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
 
-export function CertifiPostCard({ onclick }: { onclick: (e: any) => void }) {
+export function CertifiPostCard({ onclick }: { onclick: (e: React.MouseEvent) => void }) {
   const review = true;
   return (
     <CardContainer className="certifiCard">

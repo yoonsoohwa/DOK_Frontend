@@ -1,11 +1,16 @@
 import React from "react";
 import { styled } from "styled-components";
 
-export function TopBarTitle({ text }: { text: [string, string] }) {
+interface type {
+  yellow?: string;
+  black?: string;
+}
+
+export function TopBarTitle({ yellow, black }: type) {
   return (
     <Section>
-      <span className="point">{text[0]}</span>
-      <span className="text">{text[1]}</span>
+      <span className="point">{yellow}</span>
+      <span className="text">{black}</span>
     </Section>
   );
 }

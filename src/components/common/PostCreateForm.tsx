@@ -1,6 +1,8 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { styled } from "styled-components";
+import { ButtonMain } from "common/ButtonMain";
+import { ButtonGray } from "common/ButtonGray";
 
 export function PostCreateFormLayout({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -8,12 +10,8 @@ export function PostCreateFormLayout({ title, children }: { title: string; child
       <h2>{title}</h2>
       <div className="contents">{children}</div>
       <Buttons>
-        <Button variant="contained" color="mainB" sx={{ borderRadius: "50px" }}>
-          작성하기
-        </Button>
-        <Button variant="contained" color="grayB" sx={{ borderRadius: "50px" }}>
-          취소
-        </Button>
+        <ButtonMain text="작성하기" />
+        <ButtonGray text="취소" />
       </Buttons>
     </FormLayout>
   );
