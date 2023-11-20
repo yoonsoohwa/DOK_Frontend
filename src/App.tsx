@@ -1,7 +1,7 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
-import { theme, defaultTheme } from "./assets/themes/theme";
+import { theme, defaultTheme } from "./components/styles/theme";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/Common/ScrollTopRendering";
 import { NonMemberHeader } from "./components/Header/Header";
