@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { MatchingCard } from "./MatchingCard";
+import { MatchingCard } from "../../components/matching/MatchingCard";
 import { CardListContainer } from "../certification/PostList";
 
 export function MatchingCardList({ posts }: { posts: string[] }) {

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import React, { useState } from "react";
-import DOKLOGO from "/DOK LOGO.svg"
+import DOKLOGO from "/dok_logo.svg"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';

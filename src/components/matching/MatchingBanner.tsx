@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
-import BannerImage from "/svg/matchingBannerImage.svg";
+import BannerImage from "/svg/matching_banner_image.svg";
 import { Button } from "@mui/material";
-import { ListPageBanner } from "../common/ListPageBanner";
+import { ListPageBanner } from "common/ListPageBanner";
 
 export function MatchingBanner() {
   const desc = (
