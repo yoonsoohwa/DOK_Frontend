@@ -73,6 +73,8 @@ const TextAlignLayout = styled.div`
 
   > span {
     display: block;
+    flex-shrink: 0;
+    align-self: flex-start;
   }
   > p {
     padding-left: 10px;
