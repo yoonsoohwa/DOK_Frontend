@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import { DogProfile } from "../components/Matching/DogProfile";
-import { WalkDetailInfo } from "../components/Matching/WalkDetailInfo";
+import { DogProfile } from "../components/matching/DogProfile";
+import { WalkDetailInfo } from "../components/matching/WalkDetailInfo";
 
 export function MatchingDetailPage() {
   return (
