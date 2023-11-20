@@ -58,7 +58,7 @@ const InnerBox = styled.div`
 `;
 
 const TitleBox = styled.div`
-  z-index: 999;
+  z-index: 1;
   width: fit-content;
   flex-shrink: 0;
   padding: 0 0 40px 80px;
