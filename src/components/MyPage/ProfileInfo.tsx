@@ -46,9 +46,8 @@ const Name = styled.div`
     }
 
     div:nth-child(2) img{        
-        object-fit: cover;                
-        width: 35px;
-        height: 35px;
+        object-fit: contain;
+        width: 35%;
     }
 `
 
@@ -63,5 +62,3 @@ const WalkInfo = styled.div`
         margin-right: 5%;
     }
 `
-
-// border: 1px solid black;

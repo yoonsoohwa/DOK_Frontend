@@ -1,6 +1,4 @@
 import { styled } from "styled-components";
-import React from "react";
-import DOKLOGO from "/DOK LOGO.svg"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
