@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
-import { CardContainer } from "../Certification/PostCard";
-import { Profile } from "../Common/ProfileInfo";
+import { CardContainer } from "../certification/PostCard";
+import { Profile } from "common/ProfileInfo";
 
 export function MatchingCard() {
   return (
@@ -11,7 +11,7 @@ export function MatchingCard() {
 
       <WalkInfo>
         <div>
-          <DogIcon src="/svg/card-dog-icon.svg" />
+          <DogIcon src="/svg/card_dog_icon.svg" />
           <span>라떼</span>
         </div>
         <div>
@@ -24,7 +24,7 @@ export function MatchingCard() {
         </div>
       </WalkInfo>
       <MatchingStatus>
-        <img src="/svg/matching-completed.svg" />
+        <img src="/svg/matching_completed.svg" />
       </MatchingStatus>
     </CardContainer>
   );
