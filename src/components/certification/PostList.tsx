@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
 import { CertifiPostCard } from "./PostCard";
-import { ListPageTopBar } from "../Common/ListPageTopBar";
+import { ListPageTopBar } from "../common/ListPageTopBar";
 import { CertificationPostDetail } from "./PostDetail";
 
 export function CertifiPostList() {

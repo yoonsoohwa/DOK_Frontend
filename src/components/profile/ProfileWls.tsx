@@ -5,13 +5,13 @@ export const Profile = () => {
             <ProfileDiv>            
                 <ProfileSubDiv>
                     <div className='profileImg'>
-                        <img src="/svg/PersonImg.svg" className='user-img'/>
+                        <img src="/svg/person_img.svg" className='user-img'/>
                     </div>
                 </ProfileSubDiv>
                 <ProfileSubDiv>
                     <div className='name'>
                         <p>뽀삐엄마</p>                        
-                        <img src="/svg/PersonImg.svg" className='user-img' style={{width:"20%", height:"5%"}}/>
+                        <img src="/svg/person_img.svg" className='user-img' style={{width:"20%", height:"5%"}}/>
                     </div>
                     <p>어디사는지</p>
                     <div className='walk'>

@@ -6,7 +6,7 @@ export function MainPetBox({ petData, className }: { petData: string; className:
     <Pet className={className}>
       <img className="pet-img" src="/temp/뽀삐.png" />
       <div className="gender-name">
-        <img src="/svg/gender-female.svg" />
+        <img src="/svg/gender_female.svg" />
         <span>이뽀삐</span>
       </div>
     </Pet>

@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import petIcon from "/svg/Pets.svg";
-import footprintImg from "/image/발자국6개.png";
-import dogwalkImg from "/svg/산책하는강아지와사람.svg";
+import footprintImg from "/image/six_footprint.png";
+import dogwalkImg from "/svg/walking_dog.svg";
 import React from "react";
 
 export function ListPageBanner({ title, desc, children, color }: { title: string; desc: JSX.Element; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {

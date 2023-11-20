@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import HeaderLogo from '/svg/HeaderLogo.svg'
+import header_logo from '/svg/header_logo.svg'
 import { styled } from 'styled-components';
 
 export const NonMemberHeader = () => {        
@@ -7,12 +7,12 @@ export const NonMemberHeader = () => {
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
     const [isMypageClicked, setMypageClicked] = useState(false);
 
-    const headerHover = "/svg/HeaderHover.svg";
+    const headerHover = "/svg/header_hover.svg";
 
     return <>
         <BorderDiv>
             <MainDiv>
-                <img src={HeaderLogo} />
+                <img src={header_logo} />
                 <CatagoryDiv>
                 <div onClick={() => {
                         setIsMachingClicked(!isMachingClicked); 
@@ -45,20 +45,20 @@ export const NonMemberHeader = () => {
 }
 
 export const MemberHeader = () => {
-    const [bookmarkClicked , setBookmarkClicked] = useState("/svg/HeaderBookmarkOff.svg");
+    const [bookmarkClicked , setBookmarkClicked] = useState("/svg/header_bookmark_off.svg");
     const [isClicked, setIsClicked] = useState(false);
     const [isMachingClicked, setIsMachingClicked] = useState(false);
     const [isCertifiedClicked, setIsCertifiedClicked] = useState(false);
     const [isMypageClicked, setMypageClicked] = useState(false);
 
-    const headerHover = "/svg/HeaderHover.svg";
+    const headerHover = "/svg/header_hover.svg";
 
     const handleBookmarkClick = () => {
         if(isClicked){
-            setBookmarkClicked("/svg/HeaderBookmarkOff.svg");
+            setBookmarkClicked("/svg/header_bookmark_off.svg");
             setIsClicked(false);
         } else {
-            setBookmarkClicked("/svg/HeaderBookmarkOn.svg");
+            setBookmarkClicked("/svg/header_bookmark_on.svg");
             setIsClicked(true);
         }
     };
@@ -66,7 +66,7 @@ export const MemberHeader = () => {
     return <>
     <BorderDiv>
         <MainDiv>
-            <img src={HeaderLogo} />
+            <img src={header_logo} />
             <CatagoryDiv>
                 <div onClick={() => {
                     setIsMachingClicked(!isMachingClicked); 

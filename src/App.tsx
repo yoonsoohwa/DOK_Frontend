@@ -36,7 +36,7 @@ function App() {
 
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/SignUp" element={<SignUpPage />} />
+                <Route path="/sign-up" element={<SignUpPage />} />
               </Routes>
               </DivForFixedHeader>
               <Footer />
