@@ -3,7 +3,7 @@ import React from "react";
 import userImage from "/temp/뽀삐.png";
 import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { Profile } from "../common/ProfileInfo";
+import { Profile } from "common/ProfileInfo";
 
 const images = [
   {

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import BannerImage from "/svg/walking_dog.svg";
-import { ListPageBanner } from "../common/ListPageBanner";
+import { ListPageBanner } from "common/ListPageBanner";
 
 export function CertifiBanner() {
   const style: {} = {

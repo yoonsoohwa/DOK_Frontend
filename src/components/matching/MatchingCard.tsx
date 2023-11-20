@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../certification/PostCard";
-import { Profile } from "../common/ProfileInfo";
+import { Profile } from "common/ProfileInfo";
 
 export function MatchingCard() {
   return (
