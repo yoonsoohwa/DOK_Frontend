@@ -22,9 +22,9 @@
       "common/*": ["src/components/common/*"],
       "svg/*": ["public/svg/*"],
       "image/*": ["public/image/*"],
-      "temp/*": ["public/temp/*"],
+      "temp/*": ["public/temp/*"]
     },
-    // "types": ["kakao.maps.d.ts"]
+    "types": ["kakao.maps.d.ts"]
   },
   "include": ["src"]
 }
