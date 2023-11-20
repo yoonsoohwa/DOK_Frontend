@@ -15,7 +15,7 @@ export const Introduce = () => {
                 <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div>
             </Writing>
             <License>
-                <div><img src="/svg/ProfileBadge.svg"/></div>
+                <div><img src="/svg/profile_badge.svg"/></div>
                 <div>자격증을 등록하면 뱃지를 획득할 수 있습니다 !</div>
                 <div><Button variant="contained" color="mainB" sx={{}}>자격증 등록</Button></div>
             </License>

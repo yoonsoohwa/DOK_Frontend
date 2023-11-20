@@ -11,12 +11,12 @@ export const DogDetail = () => {
             {clicked ? <DogButton /> 
             : <TotalFrame>
                 <div className="image">
-                    <img src="/DOK LOGO.png" alt="로고" />
+                    <img src="/dok_logo.png" alt="로고" />
                 </div>
                 <InfoFrame>
                     <div className="name">
                         <div>
-                            <img src="/svg/DogDefault.svg" alt="강아지아이콘" />
+                            <img src="/svg/dog_default.svg" alt="강아지아이콘" />
                         </div>
                         <div>
                             <TextField placeholder="반려견의 이름을 작성해주세요" />

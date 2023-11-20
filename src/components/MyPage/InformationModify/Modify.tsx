@@ -4,7 +4,7 @@ import {ChangeTextfiled} from "./ChangeTextfiled"
 export const Modify = () => {
     return (
         <MainFrame>
-            <ChangeTextfiled id="pwd" label="비밀번호" placeholder="비밀번호를 작성해주세요" />
+            {/* <ChangeTextfiled id="pwd" label="비밀번호" placeholder="비밀번호를 작성해주세요" /> */}
         </MainFrame>
     )
 }

@@ -6,12 +6,12 @@ export const ProfileInfo = () => {
     return <>
             <TotalFrame>
                 <Img>
-                    <img src="/svg/PersonImg.svg"/>
+                    <img src="/svg/person_img.svg"/>
                 </Img>
                 <div>
                     <Name>
                         <div>뽀삐엄마</div>
-                        <div><img src="/svg/ProfileBadge.svg"/></div>
+                        <div><img src="/svg/profile_badge.svg"/></div>
                     </Name>
                     <Adress>
                         서울특별시/노원구/누원로18/어디선가살아요
