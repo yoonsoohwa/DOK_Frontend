@@ -25,17 +25,17 @@ function App() {
               {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
               {test ? <NonMemberHeader /> : <MemberHeader />}
               <DivForFixedHeader>
-              <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/certification" element={<CertificationListPage />} />
-                <Route path="/certification/write" element={<CertificationCreatePage />} />
-                
-                <Route path="/matching" element={<MatchingListPage />} />
-                <Route path="/matching/detail" element={<MatchingDetailPage />} />
-                <Route path="/matching/write" element={<MatchingListPage />} />
+                <Routes>
+                  <Route path="/" element={<MainPage />} />
+                  <Route path="/certification" element={<CertificationListPage />} />
+                  <Route path="/certification/write" element={<CertificationCreatePage />} />
+
+                  <Route path="/matching" element={<MatchingListPage />} />
+                  <Route path="/matching/detail" element={<MatchingDetailPage />} />
+                  <Route path="/matching/write" element={<MatchingCreatePage />} />
 
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/mypage" element={<MyPage />} />
+                <Route path="/my-page" element={<MyPage />} />
                 <Route path="/sign-up" element={<SignUpPage />} />
               </Routes>
               </DivForFixedHeader>
@@ -45,7 +45,6 @@ function App() {
         </MuiThemeProvider>
       </ThemeProvider>
     </div>
-    
   );
 }
 
@@ -56,8 +55,8 @@ const DivForHeaderFooter = styled.div`
   flex-direction: column;
   min-height: 100vh;
   margin: 0 auto;
-`
+`;
 
 const DivForFixedHeader = styled.div`
   padding-top: 70px;
-`
+`;
