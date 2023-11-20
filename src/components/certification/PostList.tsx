@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import { styled } from "styled-components";
 import { CertifiPostCard } from "./PostCard";
 import { ListPageTopBar } from "common/ListPageTopBar";
@@ -15,12 +15,14 @@ export function CertifiPostList() {
 
   return (
     <GridContainer>
-      {new Array(30).fill(0).map((tmp) => (
-        <>
-          <CertifiPostCard onclick={handleShowDetail} />
-          <CertificationPostDetail />
-        </>
-      ))}
+      {Children.toArray(
+        new Array(30).fill(0).map((tmp) => (
+          <>
+            <CertifiPostCard onclick={handleShowDetail} />
+            <CertificationPostDetail />
+          </>
+        ))
+      )}
     </GridContainer>
   );
 }

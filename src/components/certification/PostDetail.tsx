@@ -26,23 +26,14 @@ const images = [
 
 export function CertificationPostDetail() {
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
-  const [style, setStyle] = React.useState({
-    transform: `translateX(-${currentImgIndex}00%)`,
-  });
   const maxSteps = images.length;
 
   const handleNext = () => {
     setCurrentImgIndex((cur) => cur + 1);
-    setStyle({
-      transform: `translateX(-${currentImgIndex + 1}00%)`,
-    });
   };
 
   const handleBack = () => {
     setCurrentImgIndex((cur) => cur - 1);
-    setStyle({
-      transform: `translateX(-${currentImgIndex - 1}00%)`,
-    });
   };
 
   const handleCloseDetail = (e: any): void => {
@@ -58,7 +49,7 @@ export function CertificationPostDetail() {
       <Left className="detail-left">
         <div className="image-box">
           {images.map((step, index) => (
-            <div className="image" key={step.label} style={style}>
+            <div className="image" key={step.label} style={{ transform: `translateX(-${currentImgIndex}00%)` }}>
               <Box
                 component="img"
                 sx={{

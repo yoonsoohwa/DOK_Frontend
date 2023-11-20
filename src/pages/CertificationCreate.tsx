@@ -1,7 +1,7 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 import { PostCreateFormLayout } from "../components/common/PostCreateForm";
-import { AddAPhoto, AddPhotoAlternate, AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
+import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
 import { TextField } from "@mui/material";
 
 export function CertificationCreatePage() {

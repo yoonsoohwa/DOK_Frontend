@@ -3,10 +3,15 @@ import { styled } from "styled-components";
 import { TopBarTitle } from "./TopBarTitle";
 import { TopBarFilter } from "./TopBarFilter";
 
-export function ListPageTopBar({ text }: { text: [string, string] }) {
+interface type {
+  yellow?: string;
+  black?: string;
+}
+
+export function ListPageTopBar({ yellow, black }: type) {
   return (
     <Section>
-      <TopBarTitle text={text} />
+      <TopBarTitle yellow="132" black="개의 산책 인증이 있습니다." />
       <TopBarFilter />
     </Section>
   );
