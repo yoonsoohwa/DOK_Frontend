@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { MatchingCardList } from "../components/Matching/MatchingCardList";
-import { ScrollToTopButton } from "../components/Common/ScrollTopButton";
-import { ListPageTopBar } from "../components/Common/ListPageTopBar";
-import { MatchingBanner } from "../components/Matching/MatchingBanner";
+import { MatchingCardList } from "../components/matching/MatchingCardList";
+import { ScrollToTopButton } from "../components/common/ScrollTopButton";
+import { ListPageTopBar } from "../components/common/ListPageTopBar";
+import { MatchingBanner } from "../components/matching/MatchingBanner";
 
 export function MatchingListPage() {
   return (

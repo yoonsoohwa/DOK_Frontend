@@ -16,9 +16,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "allowImportingTsExtensions": true,
+    "baseUrl": "src",
     "paths": {
-      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
-    }
+      "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"],
+      "common/*": ["components/common/*"]
+    },
+    "types": ["kakao.maps.d.ts"]
   },
   "include": ["src"]
 }
