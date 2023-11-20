@@ -1,14 +1,14 @@
 import { styled } from "styled-components";
 import React from "react";
 import { Box, Button, IconButton, MobileStepper, Rating } from "@mui/material";
-import { ListPageBanner } from "../components/Common/ListPageBanner";
+import { ListPageBanner } from "../components/common/ListPageBanner";
 import BannerImage from "/svg/matchingBannerImage.svg";
-import { ListPageTopBar } from "../components/Common/ListPageTopBar";
-import { CertificationPostDetail } from "../components/Certification/PostDetail";
-import { CertifiPostCard } from "../components/Certification/PostCard";
-import { MatchingCard } from "../components/Matching/MatchingCard";
-import { CertifiPostList } from "../components/Certification/PostList";
-import { CertifiBanner } from "../components/Certification/Banner";
+import { ListPageTopBar } from "../components/common/ListPageTopBar";
+import { CertificationPostDetail } from "../components/certification/PostDetail";
+import { CertifiPostCard } from "../components/certification/PostCard";
+import { MatchingCard } from "../components/matching/MatchingCard";
+import { CertifiPostList } from "../components/certification/PostList";
+import { CertifiBanner } from "../components/certification/Banner";
 
 export function CertificationListPage() {
   return (
