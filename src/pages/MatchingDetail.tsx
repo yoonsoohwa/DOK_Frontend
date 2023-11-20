@@ -20,7 +20,7 @@ export function MatchingDetailPage() {
               <ul>
                 <li>
                   <div>
-                    <DogIcon src="/svg/card-dog-icon.svg" />
+                    <DogIcon src="/svg/card_dog_icon.svg" />
                     <span>이뽀삐</span>
                   </div>
                 </li>

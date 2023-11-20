@@ -4,7 +4,7 @@ export const Profile = () => {
     return <>
         <MainDiv>
             <ProfileDiv>
-                <img src="/svg/PersonImg.svg" className='user-img'/>
+                <img src="/svg/person_img.svg" className='user-img'/>
                 <div>test1</div>
                 <div>test2</div>
                 <div>test3</div>

@@ -18,7 +18,7 @@ export function MainSection1({ pets }: { pets: string[] }) {
           <br />
           강아지들
           <br />
-          <img src="/image/몰티즈와리트리버.png" />
+          <img src="/image/maltiz_retriever.png" />
         </div>
       </TitleBox>
     </Section>
