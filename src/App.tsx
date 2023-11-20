@@ -33,10 +33,9 @@ function App() {
                   <Route path="/matching" element={<MatchingListPage />} />
                   <Route path="/matching/detail" element={<MatchingDetailPage />} />
                   <Route path="/matching/write" element={<MatchingCreatePage />} />
-
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/my-page" element={<MyPage />} />
-                <Route path="/sign-up" element={<SignUpPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/my-page" element={<MyPage />} />
+                  <Route path="/sign-up" element={<SignUpPage />} />
               </Routes>
               </DivForFixedHeader>
               <Footer />
