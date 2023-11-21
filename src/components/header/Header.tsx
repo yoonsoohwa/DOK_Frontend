@@ -105,6 +105,7 @@ const BorderDiv = styled.div`
     border-bottom: #dedede solid 1px;
     position: fixed;
     width: 100%;
+    height: 80px;
     z-index: 999;
     background-color: #ffffff;
     
@@ -115,6 +116,7 @@ const MainDiv = styled.div`
     justify-content: space-between;
     max-width: 1024px;
     margin: 0 auto;
+    
 `
 const CatagoryDiv = styled.div`
     display: flex;
@@ -123,9 +125,11 @@ const CatagoryDiv = styled.div`
     flex : 2;
     margin: 27px 0 0 50px;
     font-size: 24px;
-    
+    font-weight: 700;
+
     & > div {
         margin: 0 5% 0 5%;
+        
         & > img {
             position: fixed;
             transform: translateX(-50%);
@@ -137,9 +141,9 @@ const CatagoryDiv = styled.div`
     
 `
 const SubCatagoryDiv = styled.div`
-display: flex;
-justify-content: flex-end;
-flex : 2;
+    display: flex;
+    justify-content: flex-end;
+    flex : 2;
     margin: 32px 0 0 0;
     font-size: 18px;
     
