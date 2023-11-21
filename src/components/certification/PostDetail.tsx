@@ -154,9 +154,9 @@ export function CertificationPostDetail({ handleClose }: type) {
 }
 
 const DetailBox = styled.div`
-  width: 90vw;
-  max-width: 1140px;
-  height: calc(100vh - 64px);
+  width: 80vw;
+  max-width: 180vh;
+  height: calc(100vh - 100px);
   display: flex;
 
   &.hidden {
