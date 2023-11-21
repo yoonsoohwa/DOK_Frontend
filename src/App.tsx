@@ -19,26 +19,29 @@ function App() {
       <ThemeProvider theme={defaultTheme}>
         <MuiThemeProvider theme={theme}>
           <BrowserRouter>
+          
             <ScrollToTop />
-            <DivForHeaderFooter>
-              {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
-              {test ? <NonMemberHeader /> : <MemberHeader />}
-              <DivForFixedHeader>
-                <Routes>
-                  <Route path="/" element={<MainPage />} />
-                  <Route path="/certification" element={<CertificationListPage />} />
-                  <Route path="/certification/write" element={<CertificationCreatePage />} />
+              <DivForHeaderFooter>
+                {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
+                {test ? <NonMemberHeader /> : <MemberHeader />}
+                <DivForFixedHeader>
+                  <Routes>
+                    <Route path="/" element={<MainPage />} />
 
-                  <Route path="/matching" element={<MatchingListPage />} />
-                  <Route path="/matching/detail" element={<MatchingDetailPage />} />
-                  <Route path="/matching/write" element={<MatchingCreatePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/mypage" element={<MyPage />} />
-                  <Route path="/signup" element={<SignUpPage />} />
-                </Routes>
-              </DivForFixedHeader>
-              <Footer />
-            </DivForHeaderFooter>
+                    <Route path="/certification" element={<CertificationListPage />} />
+                    <Route path="/certification/write" element={<CertificationCreatePage />} />
+
+                    <Route path="/matching" element={<MatchingListPage />} />
+                    <Route path="/matching/detail" element={<MatchingDetailPage />} />
+                    <Route path="/matching/write" element={<MatchingCreatePage />} />
+
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/mypage" element={<MyPage />} />
+                  </Routes>
+                </DivForFixedHeader>
+                <Footer />
+              </DivForHeaderFooter>            
           </BrowserRouter>
         </MuiThemeProvider>
       </ThemeProvider>
