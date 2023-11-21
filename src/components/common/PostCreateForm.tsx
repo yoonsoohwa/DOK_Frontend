@@ -4,7 +4,11 @@ import { styled } from "styled-components";
 import { ButtonMain } from "common/ButtonMain";
 import { ButtonGray } from "common/ButtonGray";
 
-export function PostCreateFormLayout({ title, children }: { title: string; children: React.ReactNode }) {
+interface type {
+  title: string;
+  children: React.ReactNode;
+}
+export function PostCreateFormLayout({ title, children }: type) {
   return (
     <FormLayout>
       <h2>{title}</h2>

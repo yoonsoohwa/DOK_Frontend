@@ -4,7 +4,14 @@ import footprintImg from "/image/six_footprint.png";
 import dogwalkImg from "/svg/walking_dog.svg";
 import React from "react";
 
-export function ListPageBanner({ title, desc, children, color }: { title: string; desc: string; children: React.ReactNode; color?: "sub" | "sub2" | "sub3" }) {
+interface type {
+  title: string;
+  desc: string;
+  children: React.ReactNode;
+  color?: "sub" | "sub2" | "sub3";
+}
+
+export function ListPageBanner({ title, desc, children, color }: type) {
   return (
     <Section color={color}>
       <InnerBox>

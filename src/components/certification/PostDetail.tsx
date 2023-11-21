@@ -24,7 +24,11 @@ const images = [
   },
 ];
 
-export function CertificationPostDetail() {
+interface type {
+  handleClose: () => void;
+}
+
+export function CertificationPostDetail({ handleClose }: type) {
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
   const maxSteps = images.length;
 
@@ -36,16 +40,8 @@ export function CertificationPostDetail() {
     setCurrentImgIndex((cur) => cur - 1);
   };
 
-  const handleCloseDetail = (e: any): void => {
-    const postDetail = e.target.closest(".certifiDetail");
-    const postCard = postDetail.previousSibling;
-    console.log(postCard);
-    postDetail.classList.add("hidden");
-    postCard.classList.remove("hidden");
-  };
-
   return (
-    <DetailBox className="certifiDetail hidden">
+    <DetailBox className="certifiDetail">
       <Left className="detail-left">
         <div className="image-box">
           {images.map((step, index) => (
@@ -86,7 +82,7 @@ export function CertificationPostDetail() {
       <Right className="custom-scrollbar">
         <Top>
           <Profile />
-          <IconButton onClick={handleCloseDetail}>
+          <IconButton onClick={handleClose}>
             <Clear />
           </IconButton>
         </Top>
@@ -158,10 +154,9 @@ export function CertificationPostDetail() {
 }
 
 const DetailBox = styled.div`
-  width: 98%;
-  height: 560px;
-  border-top: 4px #bdbdbd solid;
-  border-bottom: 4px #bdbdbd solid;
+  width: 90vw;
+  max-width: 1140px;
+  height: calc(100vh - 64px);
   display: flex;
 
   &.hidden {
@@ -230,7 +225,7 @@ const Right = styled.div`
 `;
 
 const Top = styled.div`
-  margin: 20px;
+  margin: 30px 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
