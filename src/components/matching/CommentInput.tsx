@@ -18,6 +18,7 @@ const InputLayout = styled.div`
   align-items: center;
   width: 100%;
   gap: 10px;
+  padding-bottom: 20px;
 `;
 
 const UserImg = styled.img`

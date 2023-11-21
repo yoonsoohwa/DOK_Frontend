@@ -1,10 +1,12 @@
 import {styled} from 'styled-components';
 import { CommentInput } from './CommentInput';
+import { CommentItem } from './CommentItem';
 
-export function Comment() {
+export function CommentContainer() {
     return (
         <CommentLayout>
             <CommentInput />
+            <CommentItem />
         </CommentLayout>
     )
 }

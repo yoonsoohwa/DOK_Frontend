@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { DogProfile } from "../components/matching/DogProfile";
 import { WalkDetailInfo } from "../components/matching/WalkDetailInfo";
-import { Comment } from "../components/matching/Comment";
+import { CommentContainer } from "../components/matching/CommentContainer";
 
 export function MatchingDetailPage() {
   return (
@@ -11,7 +11,7 @@ export function MatchingDetailPage() {
           <DogProfile />
           <WalkDetailInfo />
         </WalkContainer>
-        <Comment />
+        <CommentContainer />
       </ContentBox>
     </MatchingDetailLayout>
   );
