@@ -49,6 +49,6 @@ const TotalFrame = styled.div`
   /* display: flex; */
   /* justify-content: flex-start; */
   max-width: 900px;
-  margin: 0% auto 0 auto;
-  border: black solid 1px;
+  margin: 0% auto 5% auto;
+  /* border: black solid 1px; */
 `;
