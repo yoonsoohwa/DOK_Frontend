@@ -15,7 +15,7 @@ export function CertifiPostList() {
   return (
     <GridContainer>
       {Children.toArray(new Array(30).fill(0).map((tmp) => <CertifiPostCard onclick={() => setOpen(true)} />))}
-      <MyDialog onClose={handleClose} open={open} maxWidth={false}>
+      <MyDialog onClose={handleClose} open={open} maxWidth={false} scroll="body">
         <CertificationPostDetail handleClose={handleClose} />
       </MyDialog>
     </GridContainer>
