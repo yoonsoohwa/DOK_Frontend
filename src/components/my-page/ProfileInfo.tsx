@@ -29,8 +29,8 @@ const TotalFrame = styled.div`
     display: flex;    
     justify-content: flex-start;
     max-width: 900px;
-    margin: 7% auto 0 auto;
-    border: black solid 1px;
+    margin: 5% auto 0 auto;
+    /* border: black solid 1px; */
 `
 
 const Img = styled.div`
