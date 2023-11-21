@@ -1,7 +1,14 @@
 import React, { Children } from "react";
 import { styled } from "styled-components";
 
-export function MainSection2({ title, contents, isRightTitle, color }: { title: string; contents: string[]; isRightTitle?: boolean; color: string }) {
+interface type {
+  title: string;
+  contents: string[];
+  isRightTitle?: boolean;
+  color: string;
+}
+
+export function MainSection2({ title, contents, isRightTitle, color }: type) {
   return (
     <Section>
       <InnerBox $isRightTitle={isRightTitle ? true : false}>

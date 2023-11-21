@@ -13,7 +13,8 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 11px; /* 스크롤바의 너비 */
+  width: 12px; /* 스크롤바의 너비 */
+  height: 12px;
   padding: 0 2px;
 }
 

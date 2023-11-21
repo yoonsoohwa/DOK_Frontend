@@ -3,26 +3,21 @@ import { styled } from "styled-components";
 import { CertifiPostCard } from "./PostCard";
 import { ListPageTopBar } from "common/ListPageTopBar";
 import { CertificationPostDetail } from "./PostDetail";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 
 export function CertifiPostList() {
-  const handleShowDetail = (e: React.MouseEvent): void => {
-    // const postCard = e.target.closest(".certifiCard");
-    // const postDetail = postCard.nextSibling;
-    // console.log(postDetail);
-    // postCard.classList.add("hidden");
-    // postDetail.classList.remove("hidden");
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <GridContainer>
-      {Children.toArray(
-        new Array(30).fill(0).map((tmp) => (
-          <>
-            <CertifiPostCard onclick={handleShowDetail} />
-            <CertificationPostDetail />
-          </>
-        ))
-      )}
+      {Children.toArray(new Array(30).fill(0).map((tmp) => <CertifiPostCard onclick={() => setOpen(true)} />))}
+      <MyDialog onClose={handleClose} open={open} maxWidth={false}>
+        <CertificationPostDetail handleClose={handleClose} />
+      </MyDialog>
     </GridContainer>
   );
 }
@@ -68,4 +63,9 @@ const GridContainer = styled.div`
       grid-column: 1 / 3;
     }
   }
+`;
+
+const MyDialog = styled(Dialog)`
+  max-width: none;
+  margin: 0 auto;
 `;

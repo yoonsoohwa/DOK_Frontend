@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import styled from "styled-components";
 
 interface textType {
   text: string;
