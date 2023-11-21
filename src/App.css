@@ -30,3 +30,7 @@
   background: #f4f4f4; /*스크롤바 뒷 배경 색상*/
   border-radius: 20px;
 }
+
+.pre-wrap {
+  white-space: pre-wrap;
+}

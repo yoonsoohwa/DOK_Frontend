@@ -127,7 +127,7 @@ export const MemberHeader = () => {
 const BorderDiv = styled.div`
   border-bottom: #dedede solid 1px;
   position: fixed;
-  width: 100em;
+  width: 100%;
   height: 80px;
   z-index: 999;
   background-color: #ffffff;
