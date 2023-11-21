@@ -5,6 +5,7 @@ import logoImage from "/dok_logo.png";
 import { Pets } from "@mui/icons-material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import MouseOutlinedIcon from "@mui/icons-material/MouseOutlined";
+import { Link } from "react-router-dom";
 
 export function MainInfo() {
   return (
@@ -27,16 +28,20 @@ export function MainInfo() {
             <div>현재 매칭 신청 수</div>
           </div>
           <div>
-            <button className="pointer">
-              <Pets className="pet" />
-              <span>핸들러 구하러 가기</span>
-              <KeyboardArrowRightIcon />
-            </button>
-            <button className="pointer">
-              <Pets className="pet" />
-              <span>산책 인증 보러 가기</span>
-              <KeyboardArrowRightIcon />
-            </button>
+            <Link to={"/matching"} className="link">
+              <button className="pointer">
+                <Pets className="pet" />
+                <span>핸들러 구하러 가기</span>
+                <KeyboardArrowRightIcon />
+              </button>
+            </Link>
+            <Link to={"/certification"} className="link">
+              <button className="pointer">
+                <Pets className="pet" />
+                <span>산책 인증 보러 가기</span>
+                <KeyboardArrowRightIcon />
+              </button>
+            </Link>
           </div>
         </LeftBox>
         <img src={logoImage} />
@@ -167,17 +172,17 @@ const LeftBox = styled.div`
       justify-content: center;
     }
 
-    button:nth-child(1):hover {
+    .link:nth-child(1):hover {
       * {
         color: ${({ theme }) => theme.main};
       }
     }
 
-    button:nth-child(2) {
+    .link:nth-child(2) button {
       background-color: #fafcff;
     }
 
-    button:nth-child(2):hover {
+    .link:nth-child(2):hover {
       * {
         color: ${({ theme }) => theme.sub3};
       }
