@@ -7,6 +7,7 @@ export function CommentContainer() {
         <CommentLayout>
             <CommentInput />
             <CommentItem />
+            <CommentItem commentType='reply'/>
         </CommentLayout>
     )
 }

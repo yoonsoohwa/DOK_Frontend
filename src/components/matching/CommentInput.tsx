@@ -8,7 +8,7 @@ export function CommentInput() {
     <InputLayout>
       <UserImg src={personImg} />
       <Input placeholder="댓글 추가" sx={{ width: "100%" }} />
-      <Send fontSize="large" sx={{transform: "rotate(-15deg)"}} />
+      <Send className="pointer" fontSize="large" sx={{transform: "rotate(-15deg)"}} />
     </InputLayout>
   );
 }

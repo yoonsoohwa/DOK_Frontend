@@ -2,24 +2,33 @@ import { styled } from "styled-components";
 import personImg from "/svg/person_img.svg";
 import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
 
-export function CommentItem() {
+interface type {
+    commentType?: "reply", 
+}
+
+export function CommentItem({commentType} : type) {
   return (
-    <CommnetItemLayout>
-      <UserImg src={personImg} />
-      <div>
-        <TextLayout>
-          <span>쿵치팍치</span>
-          <span>25분 전</span>
-        </TextLayout>
-        <p>신청 많이 해주세요~!</p>
-      </div>
-    </CommnetItemLayout>
+      <CommnetItemLayout className={commentType}>
+        <UserImg src={personImg} />
+        <div>
+          <TextLayout>
+            <span>쿵치팍치</span>
+            <span>25분 전</span>
+          </TextLayout>
+          <p>신청 많이 해주세요~!</p>
+        </div>
+      </CommnetItemLayout>
   );
 }
 
 const CommnetItemLayout = styled.div`
   display: flex;
   gap: 7px;
+  padding: 5px 0;
+
+  &.reply {
+    padding-left: 40px;
+  }
 `;
 
 const UserImg = styled.img`
@@ -28,7 +37,7 @@ const UserImg = styled.img`
 `;
 
 const TextLayout = styled(CommnetItemLayout)`
-align-items: center;
+  align-items: center;
   > span:first-of-type {
     font-weight: 600;
   }
