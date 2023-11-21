@@ -2,11 +2,15 @@ import { styled } from "styled-components";
 import { ListPageTopBar } from "../components/common/ListPageTopBar";
 import { CertifiPostList } from "../components/certification/PostList";
 import { CertifiBanner } from "../components/certification/Banner";
+import { AlertError } from "common/AlertError";
+import { AlertSuccess } from "common/AlertSuccess";
 
 export function CertificationListPage() {
   return (
     <CertificationList>
       <CertifiBanner />
+      <AlertError handleClick={() => {}} />
+      <AlertSuccess handleClick={() => {}} />
       <Section>
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CertifiPostList />
