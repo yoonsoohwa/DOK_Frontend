@@ -12,7 +12,7 @@ import dog from "/temp/코기.png";
 
 export function MatchingCreatePage() {
   const [age, setAge] = useState("");
-  const [area, setArea] = useState("집");
+  const [time, setTime] = useState(30);
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [error, setError] = useState(false);
   const [values, setValues] = useState(0);
@@ -111,11 +111,19 @@ export function MatchingCreatePage() {
             <ClockIcon className="icon" />
             <div className="title">산책 시간</div>
             <FormControl>
-              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group" defaultValue="30">
-                <FormControlLabel value="30" control={<Radio />} label="30분" />
-                <FormControlLabel value="60" control={<Radio />} label="1시간" />
-                <FormControlLabel value="90" control={<Radio />} label="1시간 30분" />
-                <FormControlLabel value="120" control={<Radio />} label="2시간" />
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={time}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setTime(Number(event.target.value));
+                }}
+              >
+                <FormControlLabel value={30} control={<Radio />} label="30분" />
+                <FormControlLabel value={60} control={<Radio />} label="1시간" />
+                <FormControlLabel value={90} control={<Radio />} label="1시간 30분" />
+                <FormControlLabel value={120} control={<Radio />} label="2시간" />
               </RadioGroup>
             </FormControl>
           </Contents>
@@ -131,7 +139,6 @@ export function MatchingCreatePage() {
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 setValues(Number(event.target.value));
               }}
-              defaultValue="Hello World"
               helperText={error && "Incorrect entry."}
               InputProps={{
                 endAdornment: <InputAdornment position="end">원</InputAdornment>,

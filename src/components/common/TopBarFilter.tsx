@@ -23,9 +23,9 @@ import { styled } from "styled-components";
 import { Clear, Search } from "@mui/icons-material";
 
 export function TopBarFilter() {
-  const [area, setArea] = React.useState("집");
-  const [date, setDate] = React.useState<Dayjs | null>(dayjs());
-  const [open, setOpen] = React.useState(false);
+  const [area, setArea] = useState("집");
+  const [date, setDate] = useState<Dayjs | null>(dayjs());
+  const [open, setOpen] = useState(false);
 
   const handleChangeArea = (event: SelectChangeEvent) => {
     setArea(event.target.value);

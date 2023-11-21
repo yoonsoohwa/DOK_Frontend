@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { ListPageTopBar } from "../components/common/ListPageTopBar";
-import { CertificationPostDetail } from "../components/certification/PostDetail";
 import { CertifiPostList } from "../components/certification/PostList";
 import { CertifiBanner } from "../components/certification/Banner";
 
@@ -11,7 +10,6 @@ export function CertificationListPage() {
       <Section>
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CertifiPostList />
-        <CertificationPostDetail />
       </Section>
     </CertificationList>
   );

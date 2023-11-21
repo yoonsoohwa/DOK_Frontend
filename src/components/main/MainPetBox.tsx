@@ -1,7 +1,12 @@
 import React from "react";
 import { styled } from "styled-components";
 
-export function MainPetBox({ petData, className }: { petData: string; className: string }) {
+interface type {
+  petData: string;
+  className: string;
+}
+
+export function MainPetBox({ petData, className }: type) {
   return (
     <Pet className={className}>
       <img className="pet-img" src="/temp/뽀삐.png" />
