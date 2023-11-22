@@ -4,15 +4,19 @@ import "./App.css";
 import { theme, defaultTheme } from "./components/styles/theme";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={defaultTheme}>
         <MuiThemeProvider theme={theme}>
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
+          <Provider store={store}>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </Provider>
         </MuiThemeProvider>
       </ThemeProvider>
     </div>
