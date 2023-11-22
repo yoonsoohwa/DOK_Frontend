@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Profile } from "../Common/ProfileInfo";
+import { Profile } from "common/ProfileInfo";
 
 export function DogProfile() {
   return (
@@ -7,7 +7,7 @@ export function DogProfile() {
       <Profile />
       <DogImage src="/temp/리버.png" />
       <DogNameBox>
-        <DogIcon src="/svg/card-dog-icon.svg" />
+        <DogIcon src="/svg/card_dog_icon.svg" />
         <p>이뽀삐</p>
       </DogNameBox>
       <ul>
