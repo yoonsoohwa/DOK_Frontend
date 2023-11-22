@@ -90,7 +90,7 @@ const WalkInfoItem = styled(TextAlignLayout)`
     font-size: 18px;
   }
   p {
-    font-weight: 500;
+    font-weight: 400;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   }
 `;
