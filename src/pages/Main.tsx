@@ -4,7 +4,7 @@ import { MainInfo } from "../components/main/MainInfo";
 import { MainSection1 } from "../components/main/MainSection1";
 import { MainSection2 } from "../components/main/MainSection2";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setCertificationPosts, setMatchingPosts, setPets } from "src/store";
+import { AppDispatch, RootState, setCertificationPosts, setMatchingPosts, setPets } from "../store";
 
 export function MainPage() {
   const { pets, matchingPosts, certificationPosts } = useSelector((state: RootState) => state.main);
