@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { DogProfile } from "../components/matching/DogProfile";
-import { WalkDetailInfo } from "../components/matching/WalkDetailInfo";
-import { CommentContainer } from "../components/matching/CommentContainer";
+import { WalkDetailInfo } from "../components/matching-detail/WalkDetailInfo";
+import { CommentContainer } from "../components/matching-detail/CommentContainer";
 
 export function MatchingDetailPage() {
   return (
