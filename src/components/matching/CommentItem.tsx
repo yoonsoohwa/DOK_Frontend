@@ -8,7 +8,7 @@ interface type {
 
 export function CommentItem({commentType} : type) {
   return (
-      <CommnetItemLayout className={commentType}>
+      <CommentItemLayout className={commentType}>
         <UserImg src={personImg} />
         <div>
           <TextLayout>
@@ -17,11 +17,11 @@ export function CommentItem({commentType} : type) {
           </TextLayout>
           <p>신청 많이 해주세요~!</p>
         </div>
-      </CommnetItemLayout>
+      </CommentItemLayout>
   );
 }
 
-const CommnetItemLayout = styled.div`
+const CommentItemLayout = styled.div`
   display: flex;
   gap: 7px;
   padding: 5px 0;
@@ -36,7 +36,7 @@ const UserImg = styled.img`
   height: 40px;
 `;
 
-const TextLayout = styled(CommnetItemLayout)`
+const TextLayout = styled(CommentItemLayout)`
   align-items: center;
   > span:first-of-type {
     font-weight: 600;
