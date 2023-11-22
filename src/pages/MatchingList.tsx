@@ -11,7 +11,6 @@ export function MatchingListPage() {
       <MatchingBanner />
       <Section>
         <ListPageTopBar yellow="132" black="개의 매칭 요청이 있습니다." />
-        <MatchingStatusRadio />
         <MatchingCardList posts={new Array(16).fill(0)} />
       </Section>
       <ScrollToTopButton />

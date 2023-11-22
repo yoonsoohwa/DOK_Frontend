@@ -1,14 +1,12 @@
 import { styled } from "styled-components";
 import { HandlerSelector } from "./HandlerSelector";
-import { Button } from "@mui/material";
+import { ButtonMain } from "common/ButtonMain";
 
 export function HandlerSelectContainer() {
   return (
     <HandlerSelectLayout>
       <HandlerSelector />
-      <Button variant="contained" color="mainB">
-        매칭하기
-      </Button>
+      <ButtonMain text="매칭하기" />
     </HandlerSelectLayout>
   );
 }

@@ -1,9 +1,15 @@
-import { Button } from "@mui/material";
+import { ButtonMain } from "common/ButtonMain";
+import {styled} from 'styled-components'
 
 export function HandlerRequestButton() {
   return (
-    <Button variant="contained" color="mainB" size="large" sx={{ width: "200px", borderRadius: "50px", fontWeight: 600, margin: "30px 0" }}>
-      핸들러 신청하기
-    </Button>
+      <ButtonContainer>
+        <ButtonMain text="핸들러 신청하기" fill={true} />
+      </ButtonContainer>
   );
 }
+
+const ButtonContainer = styled.div`
+    width: 200px;
+    margin-top: 30px;
+`;

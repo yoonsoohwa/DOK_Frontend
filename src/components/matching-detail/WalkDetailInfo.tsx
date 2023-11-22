@@ -47,6 +47,7 @@ export function WalkDetailInfo() {
         </WalkInfoItem>
       </WalkInfoBox>
       <HandlerSelectContainer />
+      {/* <HandlerRequestButton /> */}
     </WalkDetailLayout>
   );
 }
