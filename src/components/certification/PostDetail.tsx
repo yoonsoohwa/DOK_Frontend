@@ -4,33 +4,21 @@ import userImage from "/temp/뽀삐.png";
 import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
 import { Profile } from "common/ProfileInfo";
-
-const images = [
-  {
-    label: "San Francisco – Oakland Bay Bridge, United States",
-    imgPath: "https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    label: "Bird",
-    imgPath: "https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60",
-  },
-  {
-    label: "Bali, Indonesia",
-    imgPath: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250",
-  },
-  {
-    label: "Goč, Serbia",
-    imgPath: "https://i.pinimg.com/564x/2a/df/88/2adf882cc022621524a0d116c5775723.jpg",
-  },
-];
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import dayjs from "dayjs";
 
 interface type {
   handleClose: () => void;
 }
 
 export function CertificationPostDetail({ handleClose }: type) {
+  const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
+  if (!certificationDetailPost) return <></>;
+  const { user, matchingPost, certificationImg, sublocation, review, createdAt } = certificationDetailPost;
+
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
-  const maxSteps = images.length;
+  const maxSteps = certificationImg.length;
 
   const handleNext = () => {
     setCurrentImgIndex((cur) => cur + 1);
@@ -43,9 +31,9 @@ export function CertificationPostDetail({ handleClose }: type) {
   return (
     <DetailBox className="certifiDetail">
       <Left className="detail-left">
-        <div className="image-box">
-          {images.map((step, index) => (
-            <div className="image" key={step.label} style={{ transform: `translateX(-${currentImgIndex}00%)` }}>
+        <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
+          {certificationImg.map((step, index) => (
+            <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
               <Box
                 component="img"
                 sx={{
@@ -54,8 +42,8 @@ export function CertificationPostDetail({ handleClose }: type) {
                   width: "100%",
                   objectFit: "contain",
                 }}
-                src={step.imgPath}
-                alt={step.label}
+                src={step}
+                alt={step}
               />
             </div>
           ))}
@@ -81,7 +69,7 @@ export function CertificationPostDetail({ handleClose }: type) {
 
       <Right className="custom-scrollbar">
         <Top>
-          <Profile />
+          <Profile nickname={user.nickname} time={createdAt} />
           <IconButton onClick={handleClose}>
             <Clear />
           </IconButton>
@@ -91,20 +79,21 @@ export function CertificationPostDetail({ handleClose }: type) {
           <div>
             <img className="icon" src="/svg/card_dog_icon.svg" />
             <div className="title">강아지</div>
-            <div className="text">이뽀삐</div>
+            <div className="text">{matchingPost.user_dog.dogName}</div>
           </div>
 
           <div>
             <AccessTime className="icon" />
             <div className="title">산책 시간</div>
-            <div className="text">2023-11-08 14:00 ~ 14:30(30m)</div>
+            <div className="text">{dayjs(matchingPost.walking_date).format("YYYY년 MM월 DD일 hh:mma")}</div>
           </div>
-
-          <div>
-            <LocationOn className="icon" />
-            <div className="title">산책 위치</div>
-            <div className="text">송파 근린 공원</div>
-          </div>
+          {sublocation && (
+            <div>
+              <LocationOn className="icon" />
+              <div className="title">산책 위치</div>
+              <div className="text">{sublocation}</div>
+            </div>
+          )}
 
           <div>
             <ChatOutlined className="icon" />
@@ -129,25 +118,27 @@ export function CertificationPostDetail({ handleClose }: type) {
           </div>
         </Contents>
 
-        <Review>
-          <div className="top">
-            <div className="label">견주의 후기</div>
-            <div className="left">
-              <img src={userImage} className="user-img" />
-              <div>뽀삐엄마</div>
-              <Rating readOnly={true}></Rating>
-              <IconButton size="small">
-                <Edit fontSize="small" />
-              </IconButton>
+        {review && (
+          <Review>
+            <div className="top">
+              <div className="label">견주의 후기</div>
+              <div className="left">
+                <img src={userImage} className="user-img" />
+                <div>뽀삐엄마</div>
+                <Rating readOnly={true}></Rating>
+                <IconButton size="small">
+                  <Edit fontSize="small" />
+                </IconButton>
+              </div>
+              <div className="right">30분 전</div>
             </div>
-            <div className="right">30분 전</div>
-          </div>
-          <div>
-            뽀삐 표정 보니 산책 신나게 잘 한 것 같습니다 <br />
-            ^^근데 사진 조금 더 많이 찍어주셨으면 좋았을 것 같아요~ <br />
-            확실히 전문가다 보니 제가 산책시킨 것보다 낫네요
-          </div>
-        </Review>
+            <div>
+              뽀삐 표정 보니 산책 신나게 잘 한 것 같습니다 <br />
+              ^^근데 사진 조금 더 많이 찍어주셨으면 좋았을 것 같아요~ <br />
+              확실히 전문가다 보니 제가 산책시킨 것보다 낫네요
+            </div>
+          </Review>
+        )}
       </Right>
     </DetailBox>
   );
@@ -174,14 +165,12 @@ const Left = styled.div`
   align-items: end;
 
   .image-box {
-    width: ${images.length * 100}%;
     height: 100%;
     position: absolute;
   }
 
   .image {
     float: left;
-    width: ${100 / images.length}%;
     height: 100%;
     transition: all 0.4s ease-in-out;
   }
@@ -234,7 +223,7 @@ const Top = styled.div`
 
 const Contents = styled.div`
   font-size: 16px;
-  margin: 0 30px;
+  margin: 0 30px 40px;
   line-height: 26px;
   font-weight: 500;
   box-sizing: border-box;

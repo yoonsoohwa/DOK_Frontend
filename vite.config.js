@@ -1,11 +1,14 @@
-import React from 'react';
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import React from "react";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: "common", replacement: "/src/components/common" }],
+    alias: [
+      { find: "common", replacement: "/src/components/common" },
+      { find: "api", replacement: "/src/api" },
+    ],
   },
 });

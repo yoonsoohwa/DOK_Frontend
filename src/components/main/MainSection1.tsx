@@ -1,15 +1,17 @@
 import React, { Children } from "react";
 import { styled } from "styled-components";
 import { MainPetBox } from "./MainPetBox";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-interface type {
-  pets: string[];
-}
+export function MainSection1() {
+  const { dogs } = useSelector((state: RootState) => state.main);
 
-export function MainSection1({ pets }: type) {
   return (
     <Section>
-      <PetsScrollBox>{Children.toArray(pets.map((data, idx) => <MainPetBox className={idx % 2 ? "right" : "left"} petData={data} />))}</PetsScrollBox>
+      <PetsScrollBox>
+        {Children.toArray(dogs.map(({ dogImg, dogName, gender }, idx) => <MainPetBox className={idx % 2 ? "right" : "left"} petData={{ dogImg, dogName, gender }} />))}
+      </PetsScrollBox>
       <TitleBox>
         <div>
           도크와
