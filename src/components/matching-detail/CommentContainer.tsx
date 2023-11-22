@@ -13,8 +13,9 @@ export function CommentContainer() {
 }
 
 const CommentLayout = styled.div`
-    padding: 20px 65px;
-    margin: 0 80px;
+    max-width: 900px;
+    padding: 2vw 4vw;
+    margin: 0 auto;
     box-sizing: border-box;
     border-top: solid #c0c0c0 1px;
     border-bottom: solid #c0c0c0 1px;

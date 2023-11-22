@@ -6,7 +6,9 @@ export function HandlerSelectContainer() {
   return (
     <HandlerSelectLayout>
       <HandlerSelector />
-      <ButtonMain text="매칭하기" />
+      <ButtonContainer>
+        <ButtonMain text="매칭하기" />
+      </ButtonContainer>
     </HandlerSelectLayout>
   );
 }
@@ -17,4 +19,9 @@ const HandlerSelectLayout = styled.div`
   align-items: center;
   width: 100%;
   justify-content: space-between;
+  gap: 10px;
+`;
+
+const ButtonContainer = styled.div`
+    flex-shrink: 0;
 `;

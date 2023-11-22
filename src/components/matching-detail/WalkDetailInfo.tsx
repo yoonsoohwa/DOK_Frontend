@@ -54,12 +54,12 @@ export function WalkDetailInfo() {
 
 const WalkDetailLayout = styled.div`
   width: 100%;
-  max-width: 540px;
-  padding-left: 15px;
+  max-width: 525px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 `;
 
 const WalkInfoBox = styled.div`
@@ -71,6 +71,8 @@ const WalkInfoBox = styled.div`
   flex-direction: column;
   padding: 30px 19px;
   justify-content: space-between;
+  box-sizing: border-box;
+  gap: 10px;
 `;
 
 const TextAlignLayout = styled.div`
@@ -89,10 +91,21 @@ const WalkInfoItem = styled(TextAlignLayout)`
     padding-left: 5px;
     font-weight: 700;
     font-size: 18px;
+    color: #5e5e5e
   }
   p {
     font-weight: 400;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+  }
+
+  @media screen and (max-width: 480px){
+    > div > span {
+        font-size: 16px;
+    }
+
+    p {
+        font-size: 14px;
+    }
   }
 `;
 

@@ -49,7 +49,6 @@ export function DogProfile() {
 const DogProfileContainer = styled.div`
   width: 100%;
   max-width: 460px;
-  min-width: 300px;
   padding: 10px 20px;
   background-color: ${({ theme }) => theme.main4};
   box-sizing: border-box;
@@ -57,6 +56,10 @@ const DogProfileContainer = styled.div`
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
+
+  @media screen and (min-width: 480px) and (max-width: 1023px){
+    max-width: 525px;
+  }
 `;
 
 const DogImage = styled.img`

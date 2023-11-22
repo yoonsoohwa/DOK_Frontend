@@ -34,8 +34,9 @@ export function HandlerSelector() {
 
 const SelectorLayout = styled.div`
   position: relative;
-  width: 80%;
+  width: 100%;
   height: 3rem;
+
 `;
 
 const SelectButtonContainer = styled.button`
