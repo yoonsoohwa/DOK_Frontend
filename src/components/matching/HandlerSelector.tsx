@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import { ClickAwayListener } from "@mui/base/ClickAwayListener";
-import Box from "@mui/material/Box";
-import { SxProps } from "@mui/system";
 import { HandlerListItem } from "./HandlerLIstItem";
 
 export function HandlerSelector() {
@@ -21,7 +19,11 @@ export function HandlerSelector() {
       <SelectorLayout>
         <SelectButtonContainer onClick={handleClick}>핸들러를 선택해주세요.</SelectButtonContainer>
         {open ? (
-          <HandlerListContainer>
+          <HandlerListContainer className="custom-scrollbar">
+            <HandlerListItem />
+            <HandlerListItem />
+            <HandlerListItem />
+            <HandlerListItem />
             <HandlerListItem />
           </HandlerListContainer>
         ) : null}
@@ -45,9 +47,12 @@ const SelectButtonContainer = styled.button`
 `;
 
 const HandlerListContainer = styled.div`
+  max-height: 170px;
   position: absolute;
   right: 0;
   left: 0;
   z-index: 1;
   border: 1.5px solid ${({ theme }) => theme.sub3};
+  overflow: scroll;
+  overflow-x: hidden;
 `;

@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import personImg from "/svg/person_img.svg";
-import { Input } from "@mui/material";
+import { Input, IconButton } from "@mui/material";
 import { Send } from "@mui/icons-material";
 
 export function CommentInput() {
@@ -8,7 +8,9 @@ export function CommentInput() {
     <InputLayout>
       <UserImg src={personImg} />
       <Input placeholder="댓글 추가" sx={{ width: "100%" }} />
-      <Send className="pointer" fontSize="large" sx={{transform: "rotate(-15deg)"}} />
+      <IconButton size="small">
+        <Send sx={{ transform: "rotate(-15deg)" }} />
+      </IconButton>
     </InputLayout>
   );
 }
