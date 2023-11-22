@@ -22,7 +22,8 @@ export function DogProfile() {
             <span>견종:</span>
             <p>말티즈</p>
           </DogInfoListItem>
-        </li><li>
+        </li>
+        <li>
           <DogInfoListItem>
             <span>성별:</span>
             <p>여자</p>
@@ -37,8 +38,7 @@ export function DogProfile() {
         <li>
           <DogInfoListItem>
             <span>특이사항:</span>
-            <p>호기심이 많고, 냄새 맡는 거 좋아합니다.
-산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</p>
+            <p>호기심이 많고, 냄새 맡는 거 좋아합니다. 산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</p>
           </DogInfoListItem>
         </li>
       </ul>
@@ -57,7 +57,7 @@ const DogProfileContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media screen and (min-width: 480px) and (max-width: 1023px){
+  @media screen and (min-width: 480px) and (max-width: 1023px) {
     max-width: 525px;
   }
 `;
@@ -85,7 +85,7 @@ const TextAlignLayout = styled.div`
 `;
 
 const DogNameBox = styled(TextAlignLayout)`
-padding: 5px 0;
+  padding: 5px 0;
   > p {
     font-weight: 600;
     font-size: 24px;

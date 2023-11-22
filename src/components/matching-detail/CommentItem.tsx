@@ -1,7 +1,5 @@
 import { styled } from "styled-components";
 import personImg from "/svg/person_img.svg";
-import { MoreVert } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 
 interface type {
   commentType?: "reply";

@@ -52,32 +52,33 @@ export function WalkDetailInfo() {
   );
 }
 
-const WalkDetailLayout = styled.div`
-  width: 100%;
-  max-width: 525px;
+const FlexLayout = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+`;
+
+const WalkDetailLayout = styled(FlexLayout)`
+  width: 100%;
+  max-width: 525px;
+  justify-content: space-between;
   box-sizing: border-box;
 `;
 
-const WalkInfoBox = styled.div`
+const WalkInfoBox = styled(FlexLayout)`
   height: 100%;
   background-color: ${({ theme }) => theme.main4};
   border-radius: 8px;
   border: 1px dashed #fcd11e;
-  display: flex;
-  flex-direction: column;
   padding: 30px 19px;
   justify-content: space-between;
+  align-items: normal;
   box-sizing: border-box;
   gap: 10px;
 `;
 
-const TextAlignLayout = styled.div`
-  display: flex;
-  align-items: center;
+const TextAlignLayout = styled(FlexLayout)`
+  flex-direction: row;
 `;
 
 const WalkInfoItem = styled(TextAlignLayout)`
@@ -91,27 +92,26 @@ const WalkInfoItem = styled(TextAlignLayout)`
     padding-left: 5px;
     font-weight: 700;
     font-size: 18px;
-    color: #5e5e5e
+    color: #5e5e5e;
   }
   p {
     font-weight: 400;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   }
 
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     > div > span {
-        font-size: 16px;
+      font-size: 16px;
     }
 
     p {
-        font-size: 14px;
+      font-size: 14px;
     }
   }
 `;
 
-const MapLayout = styled.div`
-  display: flex;
-  flex-direction: column;
+const MapLayout = styled(FlexLayout)`
+  align-items: normal;
   flex: 1;
 
   > p {
