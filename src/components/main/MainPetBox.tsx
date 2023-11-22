@@ -2,17 +2,17 @@ import React from "react";
 import { styled } from "styled-components";
 
 interface type {
-  petData: string;
+  petData: { dogImg: string; dogName: string; gender: string };
   className: string;
 }
 
 export function MainPetBox({ petData, className }: type) {
   return (
     <Pet className={className}>
-      <img className="pet-img" src="/temp/뽀삐.png" />
+      <img className="pet-img" src={petData.dogImg} />
       <div className="gender-name">
         <img src="/svg/gender_female.svg" />
-        <div>{petData}</div>
+        <div>{petData.dogName}</div>
       </div>
     </Pet>
   );
@@ -58,7 +58,8 @@ const Pet = styled.div`
 
   .pet-img {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     display: block;
     border-radius: 50%;
   }

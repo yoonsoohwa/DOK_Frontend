@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import mainSlice from "./mainSlice";
+import certificationSlice from "./certificationSlice";
 
 const store = configureStore({
   reducer: {
     main: mainSlice.reducer,
+    certification: certificationSlice.reducer,
   },
 });
 

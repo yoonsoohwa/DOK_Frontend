@@ -2,15 +2,15 @@ import React, { Children } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { styled } from "styled-components";
-import { MatchingCard } from "../matching/MatchingCard";
+import { CertifiPostCard } from "../certification/PostCard";
 
 interface type {
   title: string;
   color: string;
 }
 
-export function MainSection2({ title, color }: type) {
-  const { matchingPosts } = useSelector((state: RootState) => state.main);
+export function MainSection3({ title, color }: type) {
+  const { certificationPosts } = useSelector((state: RootState) => state.main);
 
   return (
     <Section>
@@ -19,7 +19,7 @@ export function MainSection2({ title, color }: type) {
           <h2>{title}</h2>
           <div className="send-text">자세히 보러가기</div>
         </Title>
-        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard />))}</Contents>
+        <Contents>{Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}</Contents>
       </InnerBox>
       <BackgroundBox color={color}></BackgroundBox>
     </Section>
@@ -42,6 +42,7 @@ const Section = styled.div`
 const InnerBox = styled.div`
   height: fit-content;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
   align-items: end;
   flex-wrap: wrap;

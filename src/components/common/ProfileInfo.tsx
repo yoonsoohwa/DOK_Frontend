@@ -1,22 +1,22 @@
 import { styled } from "styled-components";
-import React from "react";
 import userImage from "/temp/뽀삐.png";
-import badge from "/svg/profile_badge.svg";
+import { UserNickname } from "./UserNickname";
+import timeDiff from "../../utils/timeDiff";
 
 interface type {
+  image?: string;
+  nickname: string;
+  time: string;
   size?: "small";
 }
 
-export function Profile({ size }: type) {
+export function Profile({ image, nickname, time, size }: type) {
   return (
     <PostUser className={size}>
-      <img className="user-img" src={userImage} />
+      <img className="user-img" src={image || userImage} />
       <UserInfo>
-        <div>
-          <span>I am 진이에요d</span>
-          <img src={badge} />
-        </div>
-        <span>45분 전</span>
+        <UserNickname nickname={nickname} />
+        <span>{timeDiff(time)}</span>
       </UserInfo>
     </PostUser>
   );
@@ -58,16 +58,6 @@ const UserInfo = styled.div`
   line-height: 26px;
   width: 100%;
   overflow: hidden;
-
-  div {
-    width: 90%;
-    display: flex;
-    align-items: center;
-
-    img {
-      height: 1.1em;
-    }
-  }
 
   > span {
     color: #8e8e8e;
