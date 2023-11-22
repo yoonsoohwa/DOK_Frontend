@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from "@mui/icons-material";
 import { HandlerRequestButton } from "./HandlerRequestButton";
+import { HandlerSelectContainer } from "./HandlerSelectContainer";
 
 export function WalkDetailInfo() {
   return (
@@ -45,7 +46,8 @@ export function WalkDetailInfo() {
           <p>코스는 시그니엘 1차 -&gt; 서울숲 2바퀴 -&gt; 시그니엘 2차 놀이터 -&gt; 시그니엘 1차로 다시 다녀오시면 됩니다! 뽀삐 칭찬 많이 해주실 분 구합니다^^</p>
         </WalkInfoItem>
       </WalkInfoBox>
-      <HandlerRequestButton />
+      <HandlerSelectContainer />
+      {/* <HandlerRequestButton /> */}
     </WalkDetailLayout>
   );
 }
@@ -89,7 +91,7 @@ const WalkInfoItem = styled(TextAlignLayout)`
     font-size: 18px;
   }
   p {
-    font-weight: 500;
+    font-weight: 400;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   }
 `;

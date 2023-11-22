@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { DogProfile } from "../components/matching/DogProfile";
-import { WalkDetailInfo } from "../components/matching/WalkDetailInfo";
+import { WalkDetailInfo } from "../components/matching-detail/WalkDetailInfo";
+import { CommentContainer } from "../components/matching-detail/CommentContainer";
 
 export function MatchingDetailPage() {
   return (
@@ -10,6 +11,7 @@ export function MatchingDetailPage() {
           <DogProfile />
           <WalkDetailInfo />
         </WalkContainer>
+        <CommentContainer />
       </ContentBox>
     </MatchingDetailLayout>
   );
@@ -31,4 +33,5 @@ const ContentBox = styled.div`
 const WalkContainer = styled.div`
   width: 100%;
   display: flex;
+  margin-bottom: 70px;
 `;
