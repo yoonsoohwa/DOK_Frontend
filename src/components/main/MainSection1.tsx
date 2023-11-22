@@ -28,7 +28,7 @@ export function MainSection1({ pets }: type) {
 const Section = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 300vh;
+  height: 166vw;
   background-color: ${({ theme }) => theme.main3};
 `;
 

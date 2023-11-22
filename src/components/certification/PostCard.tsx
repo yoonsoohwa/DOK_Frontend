@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "styled-components";
-import { AccessTime } from "@mui/icons-material";
+import { AccessTime, Pets } from "@mui/icons-material";
 import { Profile } from "common/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
 
@@ -13,7 +13,17 @@ export function CertifiPostCard({ onclick }: type) {
   return (
     <CardContainer className="certifiCard">
       <Profile size="small" />
-      <Tooltip title="리버" placement="top" followCursor arrow>
+      <Tooltip
+        title={
+          <div style={{ fontSize: "14px" }}>
+            <Pets fontSize="inherit" />
+            {" 리버"}
+          </div>
+        }
+        placement="top"
+        followCursor
+        arrow
+      >
         <img className="dog-img" src="/temp/리버.png" onClick={onclick} />
       </Tooltip>
 
