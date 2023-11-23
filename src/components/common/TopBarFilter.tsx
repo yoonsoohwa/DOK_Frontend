@@ -26,7 +26,7 @@ export function TopBarFilter() {
   const [sido, setSido] = useState("");
   const [sigugun, setSigugun] = useState("");
   const [dong, setDong] = useState("");
-  const [date, setDate] = useState<Dayjs | null>(dayjs());
+  const [date, setDate] = useState<Dayjs | null>();
   const [open, setOpen] = useState(false);
 
   const handleChangeArea = (event: SelectChangeEvent) => {
@@ -130,7 +130,14 @@ export function TopBarFilter() {
       <DateSection>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]} sx={{ width: "200px" }}>
-            <DesktopDatePicker format="YYYY-MM-DD" label="날짜 선택" value={date} onChange={(newValue) => setDate(newValue)} slotProps={{ textField: { size: "small" } }} />
+            <DesktopDatePicker
+              format="YYYY-MM-DD"
+              label="날짜 선택"
+              value={date}
+              onChange={(newValue) => setDate(newValue)}
+              maxDate={dayjs().add(7, "day")}
+              slotProps={{ textField: { size: "small" } }}
+            />
           </DemoContainer>
         </LocalizationProvider>
         {date && (
