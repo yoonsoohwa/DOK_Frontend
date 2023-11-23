@@ -18,17 +18,19 @@ import dayjs, { Dayjs } from "dayjs";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { Clear, Search } from "@mui/icons-material";
 
 export function TopBarFilter() {
-  const [area, setArea] = useState("집");
+  const [hangjungdong, setHangjungdong] = useState("");
+  const [sigugun, setSigugun] = useState("");
+  const [dong, setDong] = useState("");
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [open, setOpen] = useState(false);
 
   const handleChangeArea = (event: SelectChangeEvent) => {
-    setArea(event.target.value);
+    setHangjungdong(event.target.value);
   };
 
   const handleClickOpen = () => {
@@ -43,7 +45,7 @@ export function TopBarFilter() {
 
   return (
     <Section>
-      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={area} InputProps={{ readOnly: true }} size="small" />
+      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={hangjungdong} InputProps={{ readOnly: true }} size="small" />
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
         <DialogContent>
@@ -51,9 +53,9 @@ export function TopBarFilter() {
             <FormControl sx={{ m: 1, minWidth: 180 }}>
               <InputLabel htmlFor="demo-dialog-native">도/시</InputLabel>
               <Select
-                value={area}
+                value={hangjungdong}
                 onChange={handleChangeArea}
-                input={<OutlinedInput label="도/시" id="demo-dialog-native" />}
+                input={<OutlinedInput label="시/도" id="demo-dialog-native" />}
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -69,12 +71,12 @@ export function TopBarFilter() {
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">구</InputLabel>
+              <InputLabel id="demo-dialog-select-label">시/군/구</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
-                value={area}
-                input={<OutlinedInput label="구" />}
+                value={sigugun}
+                input={<OutlinedInput label="시/군/구" />}
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -93,12 +95,12 @@ export function TopBarFilter() {
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
-              <InputLabel id="demo-dialog-select-label">동</InputLabel>
+              <InputLabel id="demo-dialog-select-label">읍/면/동</InputLabel>
               <Select
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
-                value={area}
-                input={<OutlinedInput label="동" />}
+                value={dong}
+                input={<OutlinedInput label="읍/면/동" />}
                 MenuProps={{
                   PaperProps: {
                     style: {
