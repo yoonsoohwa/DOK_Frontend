@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { certificationPostType } from "../types";
+import { CertificationPostType } from "../types";
 
 type type = {
-  certificationPosts: certificationPostType[];
-  certificationDetailPost: certificationPostType | null;
+  certificationPosts: CertificationPostType[];
+  certificationDetailPost: CertificationPostType | null;
 };
 
 const initialState: type = {

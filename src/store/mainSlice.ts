@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { certificationPostType, dogType, matchingPostType } from "../types";
+import { CertificationPostType, DogType, MatchingPostType } from "../types";
 
 interface type {
-  dogs: dogType[];
-  matchingPosts: matchingPostType[];
-  certificationPosts: certificationPostType[];
+  dogs: DogType[];
+  matchingPosts: MatchingPostType[];
+  certificationPosts: CertificationPostType[];
 }
 
 const initialState: type = {

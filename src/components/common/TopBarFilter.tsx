@@ -23,14 +23,14 @@ import { styled } from "styled-components";
 import { Clear, Search } from "@mui/icons-material";
 
 export function TopBarFilter() {
-  const [hangjungdong, setHangjungdong] = useState("");
+  const [sido, setSido] = useState("");
   const [sigugun, setSigugun] = useState("");
   const [dong, setDong] = useState("");
   const [date, setDate] = useState<Dayjs | null>(dayjs());
   const [open, setOpen] = useState(false);
 
   const handleChangeArea = (event: SelectChangeEvent) => {
-    setHangjungdong(event.target.value);
+    setSido(event.target.value);
   };
 
   const handleClickOpen = () => {
@@ -45,7 +45,7 @@ export function TopBarFilter() {
 
   return (
     <Section>
-      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={hangjungdong} InputProps={{ readOnly: true }} size="small" />
+      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={sido} InputProps={{ readOnly: true }} size="small" />
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
         <DialogContent>
@@ -53,7 +53,7 @@ export function TopBarFilter() {
             <FormControl sx={{ m: 1, minWidth: 180 }}>
               <InputLabel htmlFor="demo-dialog-native">도/시</InputLabel>
               <Select
-                value={hangjungdong}
+                value={sido}
                 onChange={handleChangeArea}
                 input={<OutlinedInput label="시/도" id="demo-dialog-native" />}
                 MenuProps={{
