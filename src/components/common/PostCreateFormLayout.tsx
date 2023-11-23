@@ -7,15 +7,18 @@ import { ButtonGray } from "common/ButtonGray";
 interface type {
   title: string;
   children: React.ReactNode;
+  onSubmit: () => void;
+  onReset: () => void;
 }
-export function PostCreateFormLayout({ title, children }: type) {
+
+export function PostCreateFormLayout({ title, children, onSubmit, onReset }: type) {
   return (
     <FormLayout>
       <h2>{title}</h2>
       <div className="contents">{children}</div>
       <Buttons>
-        <ButtonMain text="작성하기" />
-        <ButtonGray text="취소" />
+        <ButtonMain text="작성하기" onClick={onSubmit} />
+        <ButtonGray text="취소" onClick={onReset} />
       </Buttons>
     </FormLayout>
   );
@@ -41,7 +44,7 @@ const FormLayout = styled.div`
     width: 100%;
     box-sizing: border-box;
     border-radius: 10px;
-    padding: 40px 60px;
+    padding: 50px 80px;
   }
 `;
 

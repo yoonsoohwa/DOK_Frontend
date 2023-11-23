@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/common/PostCreateForm";
+import { PostCreateFormLayout } from "../components/common/PostCreateFormLayout";
 import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
 import { TextField } from "@mui/material";
 
@@ -30,7 +30,7 @@ export function CertificationCreatePage() {
   return (
     <CertifiCreate>
       <div className="body">
-        <PostCreateFormLayout title="인증 등록하기">
+        <PostCreateFormLayout onSubmit={() => {}} onReset={() => {}} title="인증 등록하기">
           <Contents>
             <Pets className="icon" />
             <h3>이뽀삐 | 2023-11-19 | 2:00~3:00</h3>
