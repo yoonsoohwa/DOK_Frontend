@@ -41,7 +41,7 @@
       "updatedAt": "2023-11-20T06:26:14.699+00:00"
     },
     "certificationImg": ["https://i.pinimg.com/564x/9d/b8/86/9db886bb5475cc35a7f450831f4125bc.jpg", "https://i.pinimg.com/564x/7c/1d/65/7c1d65e17df5c48b98aadbc574ba41c1.jpg"],
-    "sublocation": "캔디 어린이 공원",
+    "sublocation": "",
     "review": "sadas",
     "deletedAt": null,
     "createdAt": "2023-11-22T18:13:09.020",
@@ -145,7 +145,7 @@
     "sublocation": "캔디 어린이 공원",
     "review": "655774f52aaed92f196f1as1",
     "deletedAt": null,
-    "createdAt": "2023-11-17T14:13:09.020",
+    "createdAt": "2023-11-22T19:13:09.020",
     "updatedAt": "2023-11-17T14:13:09.020"
   },
   {
