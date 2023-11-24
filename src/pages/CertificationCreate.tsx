@@ -62,7 +62,7 @@ export function CertificationCreatePage() {
                 사진
               </FormLabel>
               <div>
-                <label htmlFor="photo" className="css-1si3apa-MuiInputBase-root-MuiOutlinedInput-root">
+                <label htmlFor="photo" className=" MuiInputBase-sizeSmall">
                   <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : "") : ""}</span>
                   <AddPhotoAlternateOutlined className="pointer" />
                 </label>
@@ -148,13 +148,17 @@ const Contents = styled.div`
     }
 
     label {
-      width: 300px;
-      height: 40px;
+      min-width: 300px;
       border: solid 1px rgba(0, 0, 0, 0.23);
       border-radius: 4px;
       padding: 8.5px 14px;
-      display: flex;
       justify-content: space-between;
+
+      font-size: 1rem;
+      line-height: 1.4375em;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
 
       span {
         overflow: hidden;
