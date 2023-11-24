@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { HandlerSelector } from "./HandlerSelector";
-import { ButtonMain } from "common/ButtonMain";
+import { ButtonMain } from "common/button/ButtonMain";
 
 export function HandlerSelectContainer() {
   return (

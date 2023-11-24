@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import userImage from "/temp/뽀삐.png";
 import { UserNickname } from "./UserNickname";
-import timeDiff from "../../utils/timeDiff";
+import timeDiff from "../../../utils/timeDiff";
 
 interface type {
   image?: string;

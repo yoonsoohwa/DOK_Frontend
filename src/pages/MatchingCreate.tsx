@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { styled } from "styled-components";
 import { ChatOutlined, Info, AddBox, LocationOn, Event, AccessTime, MonetizationOnOutlined, Pets } from "@mui/icons-material";
-import { PostCreateFormLayout } from "common/PostCreateFormLayout";
-import { AlertSnackbar } from "common/AlertSnackbar";
-import { AlertSuccess } from "common/AlertSuccess";
+import { PostCreateFormLayout } from "common/create-page/PostCreateFormLayout";
+import { AlertSnackbar } from "common/alert/AlertSnackbar";
+import { AlertSuccess } from "common/alert/AlertSuccess";
 
 import { DogSelect } from "../components/matching-create/DogSelect";
 import { DateSelect } from "../components/matching-create/DateSelect";
@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { AppDispatch, RootState } from "../store";
 import { useNavigate } from "react-router";
-import { PostCreateGroup } from "common/PostCreateGroup";
+import { PostCreateGroup } from "common/create-page/PostCreateGroup";
 
 export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, location, locationDetail } = useSelector(

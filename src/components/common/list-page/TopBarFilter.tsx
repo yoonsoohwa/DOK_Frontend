@@ -65,9 +65,10 @@ export function TopBarFilter() {
                   },
                 }}
               >
+                // 주소 배열 데이터 넣을 부분
                 <MenuItem value={"서울특별시 강남구 오동통(집)"}>집</MenuItem>
-                <MenuItem value={"경기도 용인시 처인구 유림동"}>서울특별시</MenuItem>
-                <MenuItem value={"경기도 용인시 처인구 유림동"}>경기도 용인시</MenuItem>
+                <MenuItem value={"경기도 수원시 동대문구점"}>경기도</MenuItem>
+                <MenuItem value={"제주특별자치도"}>제주특별자치도</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -86,12 +87,10 @@ export function TopBarFilter() {
                   },
                 }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={""}>전체</MenuItem>
+                <MenuItem value={"종로구"}>종로구</MenuItem>
+                <MenuItem value={"중구"}>중구</MenuItem>
+                <MenuItem value={"용산구"}>용산구</MenuItem>
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -110,13 +109,10 @@ export function TopBarFilter() {
                   },
                 }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={"전체"}>전체</MenuItem>
+                <MenuItem value={"청운동"}>청운동</MenuItem>
+                <MenuItem value={"효자동"}>효자동</MenuItem>
+                <MenuItem value={"종로1가"}>종로1가</MenuItem>
               </Select>
             </FormControl>
           </Box>

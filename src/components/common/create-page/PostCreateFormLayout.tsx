@@ -1,8 +1,8 @@
 import { Button } from "@mui/material";
 import React from "react";
 import { styled } from "styled-components";
-import { ButtonMain } from "common/ButtonMain";
-import { ButtonGray } from "common/ButtonGray";
+import { ButtonMain } from "common/button/ButtonMain";
+import { ButtonGray } from "common/button/ButtonGray";
 
 interface type {
   title: string;

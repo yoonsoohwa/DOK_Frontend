@@ -1,7 +1,7 @@
 import { ThemeProvider as MuiThemeProvider } from "@mui/material";
 import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
-import { theme, defaultTheme } from "./components/styles/theme";
+import { theme, defaultTheme } from "./styles/theme";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 import { Provider } from "react-redux";
