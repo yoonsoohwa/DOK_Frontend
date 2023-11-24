@@ -1,4 +1,4 @@
-import { ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import styled, { ThemeProvider } from "styled-components";
 import "./App.css";
 import { theme, defaultTheme } from "./components/styles/theme";
