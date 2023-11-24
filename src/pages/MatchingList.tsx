@@ -15,6 +15,7 @@ export function MatchingListPage() {
   const addPostList = async () => {
     const res = await fetch("/src/api/mock/matching-posts.json");
     const data = await res.json();
+    console.log(data);
     dispatch(addMatchingPosts(data));
   };
   useEffect(() => {

@@ -12,7 +12,7 @@ export function MatchingCard({ post }: type) {
   const { user, userDog, location, walkingDate, matchingStatus, createdAt } = post;
   return (
     <CardContainer>
-      <Profile nickname={user.nickname} time={createdAt} size="small" />
+      <Profile nickname={user.nickname} time={createdAt.toString()} size="small" />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>

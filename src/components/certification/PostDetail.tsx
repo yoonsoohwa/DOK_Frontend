@@ -79,13 +79,13 @@ export function CertificationPostDetail({ handleClose }: type) {
           <div>
             <img className="icon" src="/svg/card_dog_icon.svg" />
             <div className="title">강아지</div>
-            <div className="text">{matchingPost.user_dog.dogName}</div>
+            <div className="text">{matchingPost.userDog.dogName}</div>
           </div>
 
           <div>
             <AccessTime className="icon" />
             <div className="title">산책 시간</div>
-            <div className="text">{dayjs(matchingPost.walking_date).format("YYYY년 MM월 DD일 hh:mma")}</div>
+            <div className="text">{dayjs(matchingPost.walkingDate).format("YYYY년 MM월 DD일 hh:mma")}</div>
           </div>
           {sublocation && (
             <div>

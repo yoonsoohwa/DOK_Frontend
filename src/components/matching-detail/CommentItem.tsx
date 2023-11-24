@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import personImg from "/svg/person_img.svg";
-import { UserNickname } from "common/UserNickname";
+import { UserNickname } from "common/user/UserNickname";
 
 interface type {
   commentType?: "reply";

@@ -19,7 +19,7 @@ export function MainSection2({ title, color }: type) {
           <h2>{title}</h2>
           <div className="send-text">자세히 보러가기</div>
         </Title>
-        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard />))}</Contents>
+        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard post={data} />))}</Contents>
       </InnerBox>
       <BackgroundBox color={color}></BackgroundBox>
     </Section>

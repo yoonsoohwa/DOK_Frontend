@@ -12,10 +12,10 @@ export const Matching = () => {
         <TopBarTitle yellow="7" black="개의 매칭 요청을 했습니다." />
       </TitleFrame>
       <CardFrame>
+        {/* <MatchingCard />
         <MatchingCard />
         <MatchingCard />
-        <MatchingCard />
-        <MatchingCard />
+        <MatchingCard /> */}
       </CardFrame>
     </MainFrame>
   );
