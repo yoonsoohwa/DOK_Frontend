@@ -1,80 +1,96 @@
-[
-  {
-    "_id": "655afb5beabe482f3b76ead5",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+[{
+  "_id": {
+    "$oid": "6560546b7084e707d9ac8705"
   },
-  {
-    "_id": "655afc069843cf40980dbe65",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+  "user": {
+    "$oid": "655774f52aaed92f196f1aa4"
   },
-  {
-    "_id": "655afb5beabe482f3b76ead6",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+  "userDog": {
+    "$oid": "655ac7ffcde2d52f83105c28"
   },
-  {
-    "_id": "655afc069843cf40980dbe67",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+  "price": 50000,
+  "location": {
+    "requestText": "서울 강동구 무슨동",
+    "code": "11220",
+    "_id": {
+      "$oid": "6560546b7084e707d9ac8706"
+    }
   },
-  {
-    "_id": "655afb5beabe482f3b76ead8",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+  "locationDetail": "123번지",
+  "walkingDate": "2023-11-20T02:40:00.000",
+  "walkingDuration": 1,
+  "text": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
+  "matchingStatus": "매칭중",
+  "matchingHandler": null,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
   },
-  {
-    "_id": "655afc069843cf40980dbe69",
-    "user": "655774f52aaed92f196f1aa4",
-    "user_dog": "655ac7ffcde2d52f83105c28",
-    "price": 5000,
-    "location": "서울시 강동구 키키동",
-    "location_detail": "1층 엘리베이터 입구",
-    "walking_date": "2023-11-20T06:26:14.699+00:00",
-    "walking_duration": 30,
-    "deletedAt": null,
-    "createdAt": "2023-11-20T06:26:14.699+00:00",
-    "updatedAt": "2023-11-20T06:26:14.699+00:00"
+  "updatedAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
   }
-]
+},
+{
+  "_id": {
+    "$oid": "6560546b7084e707d9ac8707"
+  },
+  "user": {
+    "$oid": "655774f52aaed92f196f1aa5"
+  },
+  "userDog": {
+    "$oid": "655ac7ffcde2d52f83105c29"
+  },
+  "price": 50000,
+  "location": {
+    "requestText": "서울 강동구 어쩌구동",
+    "code": "11220",
+    "_id": {
+      "$oid": "6560546b7084e707d9ac8708"
+    }
+  },
+  "locationDetail": "456번지",
+  "walkingDate": "2023-11-20T02:44:15.670",
+  "walkingDuration": 1,
+  "text": "우리집 강아지 개껌을 좋아해",
+  "matchingStatus": "매칭중",
+  "matchingHandler": null,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6560546b7084e707d9ac8709"
+  },
+  "user": {
+    "$oid": "655774f52aaed92f196f1aa6"
+  },
+  "userDog": {
+    "$oid": "655ac7ffcde2d52f83105c2a"
+  },
+  "price": 50000,
+  "location": {
+    "requestText": "서울 강동구 뭔동",
+    "code": "11220",
+    "_id": {
+      "$oid": "6560546b7084e707d9ac870a"
+    }
+  },
+  "locationDetail": "123번지",
+  "walkingDate": "2023-11-20T02:44:15.670",
+  "walkingDuration": 2,
+  "text": "강아지 산책시켜주실 분 구합니다(급구)",
+  "matchingStatus": "매칭중",
+  "matchingHandler": null,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-24T07:44:43.577Z"
+  }
+}]

@@ -3,9 +3,18 @@ import { MatchingCardList } from "../components/matching/MatchingCardList";
 import { ScrollToTopButton } from "../components/common/ScrollTopButton";
 import { ListPageTopBar } from "../components/common/ListPageTopBar";
 import { MatchingBanner } from "../components/matching/MatchingBanner";
-import { MatchingStatusRadio } from "../components/matching/MatchingStatusRadio";
+import { useState, useEffect } from "react";
 
 export function MatchingListPage() {
+  //   const addPostList = async () => {
+  //     const res = await fetch("/src/api/mock/matching-posts.json");
+  //     const data = await res.json();
+  //     console.log(data);
+  //   };
+  //   useEffect(() => {
+  //     addPostList();
+  //   }, []);
+
   return (
     <MatchingList>
       <MatchingBanner />
