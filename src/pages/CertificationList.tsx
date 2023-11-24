@@ -10,25 +10,32 @@ import { CertifiPostCard } from "../components/certification/PostCard";
 import { CertificationPostDetail } from "../components/certification/PostDetail";
 import { Dialog } from "@mui/material";
 import { CardListContainer } from "../components/styles/CardListContainer";
+import { ScrollToTopButton } from "common/ScrollTopButton";
+import { useInView } from "react-intersection-observer";
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { certificationPosts } = useSelector((state: RootState) => state.certification);
 
   const [open, setOpen] = useState(false);
+  const [scrollRef, inView] = useInView();
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const addPostList = async () => {
+    const res = await fetch("/src/api/mock/certification.json");
+    const data = await res.json();
+    dispatch(addCertificationPosts(data));
+    // console.log(certificationPosts);
+  };
+
   useEffect(() => {
-    (async () => {
-      const res = await fetch("/src/api/mock/certification.json");
-      const data = await res.json();
-      dispatch(addCertificationPosts(data));
-      console.log(certificationPosts);
-    })();
-  }, []);
+    if (inView) {
+      addPostList();
+    }
+  }, [inView]);
 
   return (
     <CertificationList>
@@ -44,6 +51,8 @@ export function CertificationListPage() {
           </MyDialog>
         </CardListContainer>
       </Section>
+      <div className="scroll-ref" ref={scrollRef}></div>
+      <ScrollToTopButton />
     </CertificationList>
   );
 }
@@ -51,6 +60,13 @@ export function CertificationListPage() {
 const CertificationList = styled.div`
   width: 100%;
   margin: 0 auto;
+  position: relative;
+
+  .scroll-ref {
+    height: 1px;
+    position: relative;
+    bottom: 100px;
+  }
 `;
 
 export const Section = styled.div`

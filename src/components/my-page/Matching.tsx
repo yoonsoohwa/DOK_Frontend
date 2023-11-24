@@ -16,9 +16,6 @@ export const Matching = () => {
                 <MatchingCard />
                 <MatchingCard />
                 <MatchingCard />
-                <MatchingCard />
-                <MatchingCard />
-                <MatchingCard />
             </CardFrame>
         </MainFrame>
     )

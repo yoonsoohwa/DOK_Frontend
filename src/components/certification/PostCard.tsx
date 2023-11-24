@@ -3,13 +3,13 @@ import { styled } from "styled-components";
 import { AccessTime, Pets } from "@mui/icons-material";
 import { Profile } from "common/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
-import { certificationPostType } from "../../types";
 import dayjs from "dayjs";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setCertificationDetail } from "../../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch, setCertificationDetail } from "../../store";
+import { CertificationPostType } from "../../types";
 
 interface type {
-  contents: certificationPostType;
+  contents: CertificationPostType;
   onclick?: () => void;
 }
 

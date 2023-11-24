@@ -4,8 +4,8 @@ import { MainInfo } from "../components/main/MainInfo";
 import { MainSection1 } from "../components/main/MainSection1";
 import { MainSection2 } from "../components/main/MainSection2";
 import { MainSection3 } from "../components/main/MainSection3";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setMainCertificationPosts, setMainMatchingPosts, setMainDogs } from "../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch, setMainCertificationPosts, setMainMatchingPosts, setMainDogs } from "../store";
 
 export function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
