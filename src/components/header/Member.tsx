@@ -43,7 +43,9 @@ export const MemberHeader = () => {
               <div>
                 <Bookmark />
               </div>
+              <StyledLink to={"/"}>
               <div>로그아웃</div>
+              </StyledLink>
             </SubCatagoryImg>
           </MainDiv>
         </BorderDiv>
@@ -123,12 +125,12 @@ const CatagoryDiv = styled.div`
 const SubCatagoryImg = styled.div`
   display: flex;
   justify-content: flex-end;
-  flex: 2;
+  flex: 1;
   margin: 32px 0 0 0;
   font-size: 18px;
 
   & > div {
-    margin: 0 0 0 5%;
+    margin: 0 5% 0 5%;
   }
   & > div:first-child > img {
     width: 40%;

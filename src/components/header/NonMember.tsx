@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export const NonMemberHeader = () => {
   const headerHover = "/svg/header_hover.svg";
-  
+  const { pathname } = useLocation();
   // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
   // header 로고에만 Link고 나머지는 StyledLink로 작성
   
@@ -21,25 +21,29 @@ export const NonMemberHeader = () => {
           <div>
             <StyledLink to={"/matching"}>
               매칭
-              <img src={headerHover} />
+              {pathname === "/matching" ? <img src={headerHover} style={{visibility:"visible"}}/>: <img src={headerHover} />}
               </StyledLink>
             </div>
             <div>
             <StyledLink to={"/certification"}>
               인증
-              <img src={headerHover}  />
+              {pathname === "/certification" ? <img src={headerHover} style={{visibility:"visible"}}/>: <img src={headerHover} />}
               </StyledLink>
             </div>
             <div>
             <StyledLink to={"/mypage"}>
               마이페이지
-              <img src={headerHover} />
+              {pathname === "/mypage" ? <img src={headerHover} style={{visibility:"visible"}}/>: <img src={headerHover} />}
               </StyledLink>
-            </div>   
+            </div>
           </CatagoryDiv>
           <SubCatagoryDiv>
-            <div>로그인</div>
-            <div>로그아웃</div>
+            <StyledLink to={"/login"}>
+              <div className="login">로그인</div>
+            </StyledLink>
+            <StyledLink to={"/"}>
+              <div className="logOut">로그아웃</div>
+            </StyledLink>
           </SubCatagoryDiv>
         </MainDiv>
       </BorderDiv>
@@ -112,13 +116,15 @@ const CatagoryDiv = styled.div`
 const SubCatagoryDiv = styled.div`
   display: flex;
   justify-content: flex-end;
-  flex: 2;
+  flex: 1;
+  
   margin: 32px 0 0 0;
   font-size: 18px;
 
-  & > div {
-    margin: 0 0 0 5%;
-  }
+    & > div{
+      margin: 0 0 0 5%;
+    }
+  
 `;
 
 const StyledLink = styled(Link)`
@@ -134,5 +140,9 @@ const StyledLink = styled(Link)`
       transform: translateX(-50%);
       top: 15px;
       z-index: -1;
+    }
+
+    & > div.login{
+      margin-right: 30px;
     }
 `;
