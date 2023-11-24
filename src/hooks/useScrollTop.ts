@@ -8,5 +8,5 @@ export function useScrollTop() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  console.log(pathname);
+  // console.log(pathname);
 }
