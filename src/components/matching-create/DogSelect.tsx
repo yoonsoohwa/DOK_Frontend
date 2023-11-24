@@ -1,18 +1,24 @@
-import { FormControl, InputAdornment, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { FormControl, FormLabel, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import dog from "/svg/dog_default.svg";
 import { useEffect, useState } from "react";
-import { AppDispatch, RootState, setDogSelect } from "../../store";
+import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { DogType } from "src/types";
+import { Pets } from "@mui/icons-material";
 
 export function DogSelect() {
-  const { dogSelect } = useSelector((state: RootState) => state.matchingCreate);
+  const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingCreate);
   const dispatch = useDispatch<AppDispatch>();
   const [dogs, setDogs] = useState<DogType[]>();
 
   const handleChange = (e: SelectChangeEvent) => {
     const selected = dogs ? dogs.filter(({ dogName }) => dogName === e.target.value)[0] : null;
+    if (!selected) {
+      return dispatch(setErrorDogSelect(true));
+    }
+
     dispatch(setDogSelect(selected));
+    dispatch(setErrorDogSelect(false));
     console.log(dogSelect);
   };
 
@@ -26,17 +32,25 @@ export function DogSelect() {
 
   return (
     <FormControl sx={{ minWidth: 120 }} fullWidth>
+      <FormLabel component="legend">
+        <Pets className="icon" />
+        강아지
+      </FormLabel>
       <Select
         startAdornment={
           <InputAdornment position="start">
             <img src={dogSelect?.dogImg || dog} style={{ height: "2em", aspectRatio: " 1 / 1", objectFit: "cover" }} />
           </InputAdornment>
         }
-        labelId="demo-select-small-label"
         id="demo-select-small"
-        value={dogSelect?.dogName || ""}
+        value={dogSelect?.dogName || "temp"}
         onChange={handleChange}
+        error={errorDogSelect && !dogSelect === undefined}
       >
+        <MenuItem disabled value="temp" sx={{ display: "none" }}>
+          <em style={{ color: "#bcbcbc" }}>강아지를 선택해주세요.</em>
+        </MenuItem>
+
         {dogs?.map(({ dogName }, idx) => [
           <MenuItem key={idx} value={dogName}>
             {dogName}

@@ -1,24 +1,29 @@
-import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
-import { time } from "console";
-import { useState } from "react";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, setDurationSelect, setPaySelect } from "../../store";
+import { AccessTime } from "@mui/icons-material";
 
 export function DurationSelect() {
-  const [time, setTime] = useState(30);
+  const { durationSelect } = useSelector((state: RootState) => state.matchingCreate);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const duration = Number(event.target.value);
+    dispatch(setDurationSelect(duration));
+    dispatch(setPaySelect(duration * 9860));
+  };
+
   return (
     <FormControl>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-        value={time}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          setTime(Number(event.target.value));
-        }}
-      >
-        <FormControlLabel value={30} control={<Radio />} label="30분" />
-        <FormControlLabel value={60} control={<Radio />} label="1시간" />
-        <FormControlLabel value={90} control={<Radio />} label="1시간 30분" />
-        <FormControlLabel value={120} control={<Radio />} label="2시간" />
+      <FormLabel component="legend">
+        <AccessTime className="icon" />
+        산책 시간
+      </FormLabel>
+      <RadioGroup row name="" value={durationSelect} onChange={handleChange}>
+        <FormControlLabel value={0.5} control={<Radio />} label="30분" />
+        <FormControlLabel value={1} control={<Radio />} label="1시간" />
+        <FormControlLabel value={1.5} control={<Radio />} label="1시간 30분" />
+        <FormControlLabel value={2} control={<Radio />} label="2시간" />
       </RadioGroup>
     </FormControl>
   );

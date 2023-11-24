@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/common/PostCreateForm";
+import { PostCreateFormLayout } from "../components/common/PostCreateFormLayout";
 import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
-import { TextField } from "@mui/material";
+import { FormLabel, TextField } from "@mui/material";
+import { PostCreateGroup } from "common/PostCreateGroup";
 
 export function CertificationCreatePage() {
   const [address, setAddress] = useState("ㅋㅋㅋ");
@@ -30,50 +31,61 @@ export function CertificationCreatePage() {
   return (
     <CertifiCreate>
       <div className="body">
-        <PostCreateFormLayout title="인증 등록하기">
-          <Contents>
-            <Pets className="icon" />
-            <h3>이뽀삐 | 2023-11-19 | 2:00~3:00</h3>
-          </Contents>
+        <PostCreateFormLayout onSubmit={() => {}} onReset={() => {}} title="인증 등록하기">
+          <PostCreateGroup title="Link">
+            <Contents>
+              <Pets className="icon" />
+              <span>이뽀삐 | 2023-11-19 | 2:00~3:00</span>
+            </Contents>
+          </PostCreateGroup>
 
-          <Contents className="file-input ">
-            <div>
-              <AddPhotoAlternateOutlined className="icon" />
-              <div className="title">사진</div>
-              <label htmlFor="photo" className="css-1si3apa-MuiInputBase-root-MuiOutlinedInput-root">
-                <span>{images ? images[0].name + (images.length > 1 && ` 외 ${images.length - 1}개`) : ""}</span>
-                <AddPhotoAlternateOutlined className="pointer" />
-              </label>
-              <input
-                id="photo"
-                type="file"
-                onChange={(e) => {
-                  setImages(e.target.files ? Array.from(e.target.files) : []);
-                  handleImageChange(e);
-                }}
-                multiple
-              />
-            </div>
-            {imagesURL && (
-              <div className="preview custom-scrollbar">
-                {imagesURL.map((url) => (
-                  <img src={url} />
-                ))}
+          <PostCreateGroup title="Contents">
+            <Contents>
+              <FormLabel component="legend">
+                <LocationOn className="icon" />
+                산책 장소
+              </FormLabel>
+              <TextField id="outlined-multiline-flexible" size="small" value={address} fullWidth />
+            </Contents>
+
+            <Contents>
+              <FormLabel component="legend">
+                <ChatOutlined className="icon" />
+                인증 내용
+              </FormLabel>
+              <TextField id="outlined-multiline-flexible" multiline rows={4} fullWidth />
+            </Contents>
+
+            <Contents className="file-input ">
+              <FormLabel component="legend">
+                <AddPhotoAlternateOutlined className="icon" />
+                사진
+              </FormLabel>
+              <div>
+                <label htmlFor="photo" className=" MuiInputBase-sizeSmall">
+                  <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : "") : ""}</span>
+                  <AddPhotoAlternateOutlined className="pointer" />
+                </label>
+                <input
+                  id="photo"
+                  type="file"
+                  onChange={(e) => {
+                    if (!e.target.files?.length) return;
+                    setImages(e.target.files ? Array.from(e.target.files) : []);
+                    handleImageChange(e);
+                  }}
+                  multiple
+                />
               </div>
-            )}
-          </Contents>
-
-          <Contents>
-            <LocationOn className="icon" />
-            <div className="title">만남 장소</div>
-            <TextField id="outlined-multiline-flexible" size="small" value={address} sx={{ width: "80%" }} />
-          </Contents>
-
-          <Contents>
-            <ChatOutlined className="icon" />
-            <div className="title">인증 내용</div>
-            <TextField id="outlined-multiline-flexible" label="Multiline" multiline rows={4} sx={{ width: "80%" }} />
-          </Contents>
+              {imagesURL && (
+                <div className="preview custom-scrollbar">
+                  {imagesURL.map((url) => (
+                    <img src={url} />
+                  ))}
+                </div>
+              )}
+            </Contents>
+          </PostCreateGroup>
         </PostCreateFormLayout>
       </div>
     </CertifiCreate>
@@ -87,42 +99,43 @@ const CertifiCreate = styled.div`
 
   .body {
     width: 90%;
-    max-width: 1024px;
+    max-width: 800px;
     margin: 0 auto;
   }
 
+  .half {
+    width: 48%;
+  }
+
+  .MuiFormLabel-root {
+    margin-bottom: 4px;
+    font-size: small;
+  }
+
   .preview {
-    height: 320px;
+    height: 200px;
     margin: 20px 0 40px;
     overflow: auto;
 
     img {
-      height: 100%;
-      margin-right: 20px;
+      height: calc(100% - 4px);
+      margin: 0 20px 4px 0;
     }
   }
 `;
 
 const Contents = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 40px;
+  padding-bottom: 36px;
+
+  legend {
+    display: flex;
+  }
 
   .icon {
-    color: #3e3e3e;
-    width: 48px;
-    height: 48px;
-  }
-
-  .title {
-    width: 100px;
-    font-size: 20px;
-    margin: 4px 10px;
-  }
-
-  > h3 {
-    font-size: 20px;
-    margin: 8px 12px;
+    color: #959595;
+    width: 18px;
+    height: auto;
+    margin-right: 4px;
   }
 
   &.file-input {
@@ -135,13 +148,17 @@ const Contents = styled.div`
     }
 
     label {
-      width: 300px;
-      height: 40px;
+      min-width: 300px;
       border: solid 1px rgba(0, 0, 0, 0.23);
       border-radius: 4px;
       padding: 8.5px 14px;
-      display: flex;
       justify-content: space-between;
+
+      font-size: 1rem;
+      line-height: 1.4375em;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
 
       span {
         overflow: hidden;
@@ -155,3 +172,39 @@ const Contents = styled.div`
     }
   }
 `;
+
+// const Contents = styled.div`
+//   display: flex;
+//   align-items: flex-start;
+//   margin-bottom: 40px;
+
+//   &.file-input {
+//     margin-bottom: 40px;
+//     display: block;
+
+//     > div {
+//       display: flex;
+//       align-items: flex-start;
+//     }
+
+//     label {
+//       width: 300px;
+//       height: 40px;
+//       border: solid 1px rgba(0, 0, 0, 0.23);
+//       border-radius: 4px;
+//       padding: 8.5px 14px;
+//       display: flex;
+//       justify-content: space-between;
+
+//       span {
+//         overflow: hidden;
+//         text-overflow: ellipsis;
+//         margin-right: 4px;
+//       }
+//     }
+
+//     input#photo {
+//       display: none;
+//     }
+//   }
+// `;
