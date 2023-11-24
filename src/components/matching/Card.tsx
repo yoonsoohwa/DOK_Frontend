@@ -9,9 +9,9 @@ interface type {
 }
 
 export function MatchingCard({ post }: type) {
-  const { user, userDog, location, walkingDate, matchingStatus, createdAt } = post;
+  const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   return (
-    <CardContainer>
+    <CardContainer className="pointer">
       <Profile nickname={user.nickname} time={createdAt.toString()} size="small" />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
@@ -25,7 +25,7 @@ export function MatchingCard({ post }: type) {
         </div>
         <div>
           <AccessTime sx={{ fontSize: "120%" }} />
-          <span>2023-11-10 (30m)</span>
+          <span>2023-11-12 <span style={{background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px"}}>1h 30m</span></span>
         </div>
       </WalkInfo>
       <MatchingStatus>

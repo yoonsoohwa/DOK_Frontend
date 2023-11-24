@@ -6,7 +6,10 @@ export interface MatchingPostType {
   user: UserType;
   userDog: DogType;
   price: Number;
-  location: string;
+  location: {
+    text: string,
+    code: string
+  };
   locationDetail: string;
   walkingDate: Date | string;
   walkingDuration: Number;
