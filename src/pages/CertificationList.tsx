@@ -46,7 +46,7 @@ export function CertificationListPage() {
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
           {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}
-          <MyDialog onClose={handleClose} open={open} maxWidth={false} scroll="body">
+          <MyDialog onClose={handleClose} open={open} maxWidth={false}>
             <CertificationPostDetail handleClose={handleClose} />
           </MyDialog>
         </CardListContainer>

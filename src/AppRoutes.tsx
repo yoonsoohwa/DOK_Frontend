@@ -11,8 +11,8 @@ export function AppRoutes() {
   useScrollTop();
 
   return (
-    <DivForHeaderFooter>      
-      {/* <NonMemberHeader /> */}
+    <DivForHeaderFooter>
+      {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
       <MemberHeader />
       <DivForFixedHeader>
         <Routes>
@@ -39,5 +39,5 @@ const DivForHeaderFooter = styled.div`
 `;
 
 const DivForFixedHeader = styled.div`
-  padding-top: 70px;  
+  padding-top: 70px;
 `;

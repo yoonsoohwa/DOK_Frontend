@@ -1,26 +1,44 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, setLocation, setLocationDetail } from "../../store";
+import styled from "styled-components";
+import { LocationOn, Search } from "@mui/icons-material";
+import { SearchButton } from "common/SearchButton";
 
 export function LocationSelect() {
+  const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
+  const dispatch = useDispatch<AppDispatch>();
   const [address, setAddress] = useState("");
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
-  const [mapOpen, setMapOpen] = useState(true);
+  const [mapOpen, setMapOpen] = useState(false);
 
-  const handleClose = () => {
+  const handleOpen = (event: React.MouseEvent) => {
+    setMapOpen(true);
+  };
+
+  const handleSubmit = (event: React.MouseEvent) => {
+    dispatch(setLocation(address));
     setMapOpen(false);
   };
 
+  const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
+    if (reason !== "backdropClick") {
+      setMapOpen(false);
+    }
+  };
+
   var geocoder = new kakao.maps.services.Geocoder();
-  const ps = new kakao.maps.services.Places();
+  const ps = new kakao.maps.services.Places(); // 키워드 검색
 
   useEffect(() => {
     geocoder.coord2Address(position.lng, position.lat, function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         console.log(result[0]);
-        var detailAddr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
-
-        setAddress(detailAddr);
+        var addr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
+        setAddress(addr);
+        // dispatch(setLocation(detailAddr));
 
         // 마커를 클릭한 위치에 표시합니다
         // marker.setPosition(mouseEvent.latLng);
@@ -48,14 +66,26 @@ export function LocationSelect() {
       }
     });
   }, []);
+
   return (
-    <>
-      <TextField id="outlined-multiline-flexible" size="small" helperText="*카카오맵에서 마커를 옮겨 주소를 선택해주세요." disabled value={address} fullWidth />
-      <TextField id="outlined-multiline-flexible" size="small" placeholder="상세 주소" fullWidth />
+    <LocationLayout>
+      <FormLabel component="legend">
+        <LocationOn className="icon" />
+        만남 위치
+      </FormLabel>
+      <div className="flex">
+        <TextField id="" size="small" InputProps={{ readOnly: true }} value={location} fullWidth />
+        <SearchButton onClick={handleOpen} />
+      </div>
+      <TextField id="" size="small" value={locationDetail} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 주소" fullWidth />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
-        <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
-        <DialogContent>
+        <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>
+        <DialogContentBox dividers>
+          <div className="location-text">
+            <LocationOn className="icon" color="primary" />
+            <span>{address}</span>
+          </div>
           <Map // 지도를 표시할 Container
             id="map"
             center={{ lat: position.lat, lng: position.lng }}
@@ -74,31 +104,60 @@ export function LocationSelect() {
               })
             }
           >
-            {position && (
-              <MapMarker
-                position={position}
-                draggable={true}
-                onDragEnd={(e) =>
-                  setPosition({
-                    lat: e.getPosition().getLat(),
-                    lng: e.getPosition().getLng(),
-                  })
-                }
-              />
-            )}
+            <MapMarker
+              position={position}
+              draggable={true}
+              onDragEnd={(mouseEvent) =>
+                setPosition({
+                  lat: mouseEvent.getPosition().getLat(),
+                  lng: mouseEvent.getPosition().getLng(),
+                })
+              }
+            />
           </Map>
-          {position && (
-            <p>
-              {"클릭한 위치의 위도는 " + position.lat + " 이고, 경도는 " + position.lng + " 입니다"}
-              <br /> {address}
-            </p>
-          )}
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Ok</Button>
+            <Button variant="outlined" onClick={handleClose}>
+              취소
+            </Button>
+            <Button variant="contained" onClick={handleSubmit}>
+              확인
+            </Button>
           </DialogActions>
-        </DialogContent>
+        </DialogContentBox>
       </Dialog>
-    </>
+    </LocationLayout>
   );
 }
+
+const LocationLayout = styled.div`
+  .flex {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .location-text {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const DialogTitleBox = styled(DialogTitle)`
+  /* background-color: ${({ theme }) => theme.sub}; */
+  color: #5e5e5e;
+`;
+
+const DialogContentBox = styled(DialogContent)`
+  .location-text {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    font-size: 28px;
+    font-weight: 500;
+    margin: 10px 0 30px;
+
+    .icon {
+      width: inherit;
+      height: inherit;
+    }
+  }
+`;
