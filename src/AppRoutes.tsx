@@ -39,5 +39,5 @@ const DivForHeaderFooter = styled.div`
 `;
 
 const DivForFixedHeader = styled.div`
-  padding-top: 70px;
+  padding-top: 70px;  
 `;
