@@ -1,18 +1,14 @@
+import React, { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import React, { useState } from "react";
-import DOKLOGO from "/dok_logo.svg"
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
-import { PersonInformation } from "./Agreement";
-import { TrilateralAgreement } from "./Agreement";
-import { margin } from "@mui/system";
-
+import {Box, Button, TextField, FormControlLabel, Checkbox} from '@mui/material';
+import { PersonInformation, TrilateralAgreement } from "./Agreement";
+import { AddressAPI } from "./AddressAPI";
+import { TestData } from "./testData";
 
 export function SignUp() {
+    
     const [checked, setChecked] = React.useState([true, false]);
+    const address = useContext(TestData);
 
   const handleChange1 = (event : React.ChangeEvent<HTMLInputElement>) => {
     setChecked([event.target.checked, event.target.checked]);
@@ -42,6 +38,7 @@ export function SignUp() {
     
   );
 
+
   return (
     <MainDiv>
         <LoginDiv>
@@ -55,7 +52,7 @@ export function SignUp() {
                     // helperText="Some important text"
                     sx={{width:"60%", margin:"10% 0 5% 0"}}
                 />                
-                <Button variant="contained" color="mainB" sx={{margin: "4.4% 0% 0% 2.5%"}}>중복확인</Button>
+                <Button variant="contained" color="mainB" sx={{margin: "4.4% 0% 0% 2.5%"} }>중복확인</Button>
             </ButtonDiv>
             <TextField
                 id="loginID"
@@ -83,14 +80,15 @@ export function SignUp() {
             <ButtonDiv>                
                 <TextField
                     id="loginID"
-                    label="주소"
+                    label={address}
                     placeholder="주소를 작성해주세요"
                     disabled
-                    // defaultValue=""
+                    // defaultValue={address}
                     // helperText="Some important text"
                     sx={{width:"60%", margin:"0 0 5% 0"}}
                 />                
-                <Button variant="contained" color="mainB" sx={{margin: "0% 0% 5% 2.5%"}}>주소검색</Button>
+                {/* <Button variant="contained" color="mainB" sx={{margin: "0% 0% 5% 2.5%"}} >주소검색</Button> */}
+                <AddressAPI />
             </ButtonDiv>
             <ButtonDiv>                
                 <TextField
@@ -137,8 +135,8 @@ export function SignUp() {
 
 const MainDiv = styled.div`
     
-    margin: 10% 0 10% 28% ;
-    width: 45%;
+    margin: 10% auto ;
+    width: 600px;
     height: 100%;
     border: black solid 1px;
     border-radius: 16px;
@@ -153,7 +151,7 @@ const LoginDiv = styled.div`
     justify-content: center;
 
     & > p {
-        margin-top: 10%;
+        margin-top: 11.5%;
         font-size: 24px;
     }
 
