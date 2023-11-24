@@ -1,22 +1,27 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../certification/PostCard";
+import { MatchingPostType } from "../../types";
 import { Profile } from "common/user/ProfileInfo";
 
-export function MatchingCard() {
+interface type {
+  post: MatchingPostType;
+}
+
+export function MatchingCard({ post }: type) {
+  const { user, userDog, location, walkingDate, matchingStatus, createdAt } = post;
   return (
     <CardContainer>
-      <Profile size="small" />
-      <img src="/temp/리버.png" />
-
+      <Profile nickname={user.nickname} time={createdAt.toString()} size="small" />
+      <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>
           <DogIcon src="/svg/card_dog_icon.svg" />
-          <span>라떼</span>
+          <span>{userDog.dogName}</span>
         </div>
         <div>
           <LocationOn sx={{ fontSize: "120%" }} />
-          <span>서울특별시 종로구 효자동</span>
+          <span>{location.text}</span>
         </div>
         <div>
           <AccessTime sx={{ fontSize: "120%" }} />
@@ -29,46 +34,6 @@ export function MatchingCard() {
     </CardContainer>
   );
 }
-
-// const CardContainer = styled.div`
-//   width: 220px;
-//   height: fit-content;
-//   display: flex;
-//   flex-direction: column;
-//   background-color: ${({ theme }) => theme.main4};
-//   padding: 10px;
-//   border-radius: 8px;
-//   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
-//   position: relative;
-//   box-sizing: border-box;
-
-//   @media screen and (max-width: 768px) {
-//     width: 170px;
-//     font-size: 13px;
-//   }
-// `;
-
-const PostUser = styled.div`
-  display: flex;
-  padding-bottom: 10px;
-`;
-
-const PostInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-left: 5px;
-
-  > span {
-    color: #8e8e8e;
-    font-size: 10px;
-  }
-
-  @media screen and (max-width: 768px) {
-    & > span {
-      font-size: 9px;
-    }
-  }
-`;
 
 const WalkInfo = styled.div`
   display: flex;
@@ -101,16 +66,11 @@ const MatchingStatus = styled.div`
   right: -4px;
 
   > img {
-    width: 105px;
-  }
-
-  @media screen and (max-width: 768px) {
-    > img {
-      width: 90px;
-    }
+    width: 7em;
   }
 `;
 
 const DogIcon = styled.img`
   width: 8%;
 `;
+

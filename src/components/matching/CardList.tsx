@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { MatchingCard } from "../../components/matching/MatchingCard";
+import { MatchingCard } from "./Card";
 import { Children } from "react";
 import { CardListContainer } from "../../styles/CardListContainer";
 
