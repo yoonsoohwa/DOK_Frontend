@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Profile } from "common/ProfileInfo";
+import { Profile } from "common/user/ProfileInfo";
 
 export function DogProfile() {
   return (

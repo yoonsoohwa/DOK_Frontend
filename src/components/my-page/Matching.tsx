@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
-import { TopBarTitle } from "common/TopBarTitle";
 import { MatchingCard } from "../matching/Card";
+import { TopBarTitle } from "common/list-page/TopBarTitle";
+
 
 export const Matching = () => {
   const matchingData = 8;

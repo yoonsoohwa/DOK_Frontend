@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { AccessTime, Pets } from "@mui/icons-material";
-import { Profile } from "common/ProfileInfo";
+import { Profile } from "common/user/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
@@ -23,7 +23,7 @@ export function CertifiPostCard({ contents, onclick }: type) {
   };
 
   return (
-    <CardContainer className="certifiCard">
+    <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <Profile nickname={user.nickname} time={createdAt} size="small" />
       <Tooltip
         title={
@@ -36,10 +36,10 @@ export function CertifiPostCard({ contents, onclick }: type) {
         followCursor
         arrow
       >
-        <img className="main-img" src={certificationImg[0]} onClick={handleOpenDetail} />
+        <img className="main-img" src={certificationImg[0]} />
       </Tooltip>
 
-      <Contents onClick={handleOpenDetail} className="pointer">
+      <Contents>
         <div>
           <AccessTime sx={{ fontSize: "20px" }} />
           <span>
@@ -73,6 +73,7 @@ export const CardContainer = styled.div`
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   position: relative;
   box-sizing: border-box;
+  transition: all 0.3s ease-in-out 0s;
 
   .main-img {
     width: 100%;
@@ -84,6 +85,11 @@ export const CardContainer = styled.div`
   @media screen and (max-width: 784px) {
     max-width: 43vw;
     font-size: 14px;
+  }
+
+  &:hover {
+    transform: translate(0px, -5px);
+    box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 12px;
   }
 `;
 

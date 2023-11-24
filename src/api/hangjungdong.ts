@@ -1,3 +1,4 @@
+//법정동 데이터로 업데이트 할 예정
 const HANGJUNGDONG = {
   sido: [
     { sido: "11", codeNm: "서울특별시" },

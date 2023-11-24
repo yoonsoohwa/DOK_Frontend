@@ -9,6 +9,7 @@ export function PaySelect() {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleError = (pay: number) => {
+    // 최저시급은 상수로 따로 빼기 !!!
     if (pay < 9860 * durationSelect || Number.isNaN(pay)) {
       dispatch(setErrorPaySelect(true));
     } else {

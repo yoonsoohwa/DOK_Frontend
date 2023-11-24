@@ -1,12 +1,12 @@
 import { styled } from "styled-components";
-import { ScrollToTopButton } from "../components/common/ScrollTopButton";
-import { ListPageTopBar } from "../components/common/ListPageTopBar";
 import { MatchingBanner } from "../components/matching/Banner";
 import { useState, useEffect, Children } from "react";
 import { AppDispatch, RootState, addMatchingPosts } from "../store";
 import { useDispatch, useSelector } from "react-redux";
-import { CardListContainer } from "../components/styles/CardListContainer";
 import { MatchingCard } from "../components/matching/Card";
+import { ScrollToTopButton } from "../components/common/button/ScrollTopButton";
+import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
+import { CardListContainer } from "../styles/CardListContainer";
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();

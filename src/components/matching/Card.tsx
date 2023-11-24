@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../certification/PostCard";
-import { Profile } from "common/ProfileInfo";
 import { MatchingPostType } from "../../types";
+import { Profile } from "common/user/ProfileInfo";
 
 interface type {
   post: MatchingPostType;

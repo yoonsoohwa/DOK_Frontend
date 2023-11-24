@@ -1,16 +1,16 @@
 import { styled } from "styled-components";
-import { ListPageTopBar } from "../components/common/ListPageTopBar";
+import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
 import { CertifiBanner } from "../components/certification/Banner";
-import { AlertError } from "common/AlertError";
-import { AlertSuccess } from "common/AlertSuccess";
+import { AlertError } from "common/alert/AlertError";
+import { AlertSuccess } from "common/alert/AlertSuccess";
 import { Children, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, addCertificationPosts } from "../store";
 import { CertifiPostCard } from "../components/certification/PostCard";
 import { CertificationPostDetail } from "../components/certification/PostDetail";
 import { Dialog } from "@mui/material";
-import { CardListContainer } from "../components/styles/CardListContainer";
-import { ScrollToTopButton } from "common/ScrollTopButton";
+import { CardListContainer } from "../styles/CardListContainer";
+import { ScrollToTopButton } from "common/button/ScrollTopButton";
 import { useInView } from "react-intersection-observer";
 
 export function CertificationListPage() {
@@ -40,8 +40,6 @@ export function CertificationListPage() {
   return (
     <CertificationList>
       <CertifiBanner />
-      {/* <AlertError title={"등록된 강아지가 없습니다."} desc={"프로필에서 강아지를 등록한 후 이용해주세요."} handleClick={() => {}} />
-      <AlertSuccess desc={"인증 글 작성이\n완료되었습니다."} handleClick={() => {}} /> */}
       <Section>
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
