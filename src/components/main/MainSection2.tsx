@@ -2,7 +2,7 @@ import React, { Children } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { styled } from "styled-components";
-import { MatchingCard } from "../matching/MatchingCard";
+import { MatchingCard } from "../matching/Card";
 
 interface type {
   title: string;

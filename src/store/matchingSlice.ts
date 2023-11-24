@@ -12,8 +12,12 @@ const initialState: type = {
 const matchingSlice = createSlice({
   name: "matching",
   initialState,
-  reducers: {},
+  reducers: {
+    addMatchingPosts: (state, action) => {
+      state.matchingPosts.push(...action.payload);
+    },
+  },
 });
 
-
+export const { addMatchingPosts } = matchingSlice.actions;
 export default matchingSlice;

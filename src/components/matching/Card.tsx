@@ -2,20 +2,26 @@ import { styled } from "styled-components";
 import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../certification/PostCard";
 import { Profile } from "common/ProfileInfo";
+import { MatchingPostType } from "../../types";
 
-export function MatchingCard() {
+interface type {
+  post: MatchingPostType;
+}
+
+export function MatchingCard({ post }: type) {
+  const { user, userDog, location, walkingDate, matchingStatus, createdAt } = post;
   return (
     <CardContainer>
-      <Profile size="small" />
-      <img src="/temp/리버.png" />
+      <Profile nickname={user.nickname} time={createdAt} size="small" />
+      <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>
           <DogIcon src="/svg/card_dog_icon.svg" />
-          <span>라떼</span>
+          <span>{userDog.dogName}</span>
         </div>
         <div>
           <LocationOn sx={{ fontSize: "120%" }} />
-          <span>서울특별시 종로구 효자동</span>
+          <span>{location.text}</span>
         </div>
         <div>
           <AccessTime sx={{ fontSize: "120%" }} />
@@ -67,3 +73,4 @@ const MatchingStatus = styled.div`
 const DogIcon = styled.img`
   width: 8%;
 `;
+

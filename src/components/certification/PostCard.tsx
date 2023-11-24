@@ -29,7 +29,7 @@ export function CertifiPostCard({ contents, onclick }: type) {
         title={
           <div style={{ fontSize: "14px" }}>
             <Pets fontSize="inherit" />
-            {" " + matchingPost.user_dog.dogName}
+            {" " + matchingPost.userDog.dogName}
           </div>
         }
         placement="top"
@@ -43,7 +43,7 @@ export function CertifiPostCard({ contents, onclick }: type) {
         <div>
           <AccessTime sx={{ fontSize: "20px" }} />
           <span>
-            {dayjs(matchingPost.walking_date).format("YYYY-MM-DD | ")} <span className="time">{dayjs(matchingPost.walking_date).format("hh:mmA")}</span>
+            {dayjs(matchingPost.walkingDate).format("YYYY-MM-DD | ")} <span className="time">{dayjs(matchingPost.walkingDate).format("hh:mmA")}</span>
           </span>
         </div>
         <div className={`detail ${review && "review"}`}>

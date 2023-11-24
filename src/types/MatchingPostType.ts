@@ -4,13 +4,14 @@ import { UserType } from "./UserType";
 export interface MatchingPostType {
   _id: string;
   user: UserType;
-  user_dog: DogType;
+  userDog: DogType;
   price: Number;
   location: string;
-  location_detail: string;
-  walking_date: Date | string;
-  walking_duration: Number;
+  locationDetail: string;
+  walkingDate: Date | string;
+  walkingDuration: Number;
   deletedAt: Date | string | null;
   createdAt: Date | string;
   updatedAt: Date | string;
+  matchingStatus: string;
 }
