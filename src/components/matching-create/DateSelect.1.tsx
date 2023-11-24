@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, setDateSelect, setErrorDateSelect } from "../../store";
 import { FormLabel } from "@mui/material";
-import { Event } from "@mui/icons-material";
 
 export function DateSelect() {
   const { dateSelect, errorDateSelect } = useSelector((state: RootState) => state.matchingCreate);

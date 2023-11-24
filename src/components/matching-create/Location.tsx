@@ -1,19 +1,26 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setLocation } from "../../store";
+import { AppDispatch, RootState, setLocation, setLocationDetail } from "../../store";
 import styled from "styled-components";
-import { LocationOn } from "@mui/icons-material";
+import { LocationOn, Search } from "@mui/icons-material";
+import { SearchButton } from "common/SearchButton";
 
 export function LocationSelect() {
   const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
   const dispatch = useDispatch<AppDispatch>();
+  const [address, setAddress] = useState("");
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [mapOpen, setMapOpen] = useState(false);
 
   const handleOpen = (event: React.MouseEvent) => {
     setMapOpen(true);
+  };
+
+  const handleSubmit = (event: React.MouseEvent) => {
+    dispatch(setLocation(address));
+    setMapOpen(false);
   };
 
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
@@ -29,9 +36,9 @@ export function LocationSelect() {
     geocoder.coord2Address(position.lng, position.lat, function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
         console.log(result[0]);
-        var detailAddr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
-
-        dispatch(setLocation(detailAddr));
+        var addr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
+        setAddress(addr);
+        // dispatch(setLocation(detailAddr));
 
         // 마커를 클릭한 위치에 표시합니다
         // marker.setPosition(mouseEvent.latLng);
@@ -62,20 +69,22 @@ export function LocationSelect() {
 
   return (
     <LocationLayout>
+      <FormLabel component="legend">
+        <LocationOn className="icon" />
+        만남 위치
+      </FormLabel>
       <div className="flex">
         <TextField id="" size="small" InputProps={{ readOnly: true }} value={location} fullWidth />
-        <SearchButton color="grayB" variant="contained" onClick={handleOpen}>
-          장소찾기
-        </SearchButton>
+        <SearchButton onClick={handleOpen} />
       </div>
-      <TextField id="" size="small" value={locationDetail} placeholder="상세 주소" fullWidth />
+      <TextField id="" size="small" value={locationDetail} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 주소" fullWidth />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
         <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>
         <DialogContentBox dividers>
           <div className="location-text">
             <LocationOn className="icon" color="primary" />
-            <span>{location}</span>
+            <span>{address}</span>
           </div>
           <Map // 지도를 표시할 Container
             id="map"
@@ -110,7 +119,7 @@ export function LocationSelect() {
             <Button variant="outlined" onClick={handleClose}>
               취소
             </Button>
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="contained" onClick={handleSubmit}>
               확인
             </Button>
           </DialogActions>
@@ -129,18 +138,6 @@ const LocationLayout = styled.div`
   .location-text {
     display: flex;
     align-items: center;
-  }
-`;
-
-const SearchButton = styled(Button)`
-  &.MuiButtonBase-root {
-    box-shadow: none;
-    flex-shrink: 0;
-    margin-left: 4px;
-  }
-  &.MuiButtonBase-root:hover {
-    box-shadow: none;
-    background-color: #cdcdcd;
   }
 `;
 

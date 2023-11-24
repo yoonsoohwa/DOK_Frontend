@@ -32,7 +32,7 @@ const FormLayout = styled.div`
   flex-direction: column;
   align-items: center;
 
-  h2 {
+  > h2 {
     font-size: 40px;
     font-weight: 00;
     margin: 60px 0 40px;
@@ -40,7 +40,7 @@ const FormLayout = styled.div`
 
   .contents {
     background: white;
-    border: 5px solid ${({ theme }) => theme.main2};
+    border: 3px solid ${({ theme }) => theme.main2};
     width: 100%;
     box-sizing: border-box;
     border-radius: 10px;

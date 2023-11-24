@@ -1,6 +1,7 @@
-import { FormControl, FormControlLabel, Radio, RadioGroup } from "@mui/material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, setDurationSelect, setPaySelect } from "../../store";
+import { AccessTime } from "@mui/icons-material";
 
 export function DurationSelect() {
   const { durationSelect } = useSelector((state: RootState) => state.matchingCreate);
@@ -14,6 +15,10 @@ export function DurationSelect() {
 
   return (
     <FormControl>
+      <FormLabel component="legend">
+        <AccessTime className="icon" />
+        산책 시간
+      </FormLabel>
       <RadioGroup row name="" value={durationSelect} onChange={handleChange}>
         <FormControlLabel value={0.5} control={<Radio />} label="30분" />
         <FormControlLabel value={1} control={<Radio />} label="1시간" />

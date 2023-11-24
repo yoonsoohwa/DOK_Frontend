@@ -1,9 +1,10 @@
-import { FormControl, InputAdornment, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { FormControl, FormLabel, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import dog from "/svg/dog_default.svg";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { DogType } from "src/types";
+import { Pets } from "@mui/icons-material";
 
 export function DogSelect() {
   const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingCreate);
@@ -31,6 +32,10 @@ export function DogSelect() {
 
   return (
     <FormControl sx={{ minWidth: 120 }} fullWidth>
+      <FormLabel component="legend">
+        <Pets className="icon" />
+        강아지
+      </FormLabel>
       <Select
         startAdornment={
           <InputAdornment position="start">

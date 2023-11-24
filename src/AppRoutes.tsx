@@ -42,4 +42,5 @@ const DivForHeaderFooter = styled.div`
 
 const DivForFixedHeader = styled.div`
   padding-top: 70px;
+  position: static;
 `;
