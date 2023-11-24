@@ -1,21 +1,23 @@
 import React, { useState } from "react";
 import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/common/PostCreateFormLayout";
+import { PostCreateFormLayout } from "../components/common/create-page/PostCreateFormLayout";
 import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
 import { FormLabel, TextField } from "@mui/material";
-import { PostCreateGroup } from "common/PostCreateGroup";
+import { PostCreateGroup } from "common/create-page/PostCreateGroup";
 
 export function CertificationCreatePage() {
-  const [address, setAddress] = useState("ㅋㅋㅋ");
+  // 인증 글 작성은 리덕스 사용 X
+  // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
+
+  const [address, setAddress] = useState("");
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
-  const [errorImage, setErrorImage] = useState("사진을 선택해주세요.");
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) {
       setImages(null);
       setImagesURL(null);
-      return setErrorImage("사진을 선택해주세요.");
+      return;
     }
 
     const arrayImg = Array.from(e.target.files);

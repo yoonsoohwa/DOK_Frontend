@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, setLocation, setLocationDetail } from "../../store";
 import styled from "styled-components";
 import { LocationOn, Search } from "@mui/icons-material";
-import { SearchButton } from "common/SearchButton";
+import { SearchButton } from "common/button/SearchButton";
 
 export function LocationSelect() {
   const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
@@ -30,7 +30,8 @@ export function LocationSelect() {
   };
 
   var geocoder = new kakao.maps.services.Geocoder();
-  const ps = new kakao.maps.services.Places(); // 키워드 검색
+  // 키워드 검색
+  // const ps = new kakao.maps.services.Places();
 
   useEffect(() => {
     geocoder.coord2Address(position.lng, position.lat, function (result, status) {
@@ -38,15 +39,19 @@ export function LocationSelect() {
         console.log(result[0]);
         var addr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
         setAddress(addr);
-        // dispatch(setLocation(detailAddr));
+        /*
+        검색 기능(추가기능) 구현 시 필요한 부분
 
-        // 마커를 클릭한 위치에 표시합니다
-        // marker.setPosition(mouseEvent.latLng);
-        // marker.setMap(map);
+        dispatch(setLocation(addr));
 
-        // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
-        // infowindow.setContent(content);
-        // infowindow.open(map, marker);
+        마커를 클릭한 위치에 표시
+        marker.setPosition(mouseEvent.latLng);
+        marker.setMap(map);
+
+        인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보 표시
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
+         */
       }
     });
   }, [position]);
@@ -77,7 +82,7 @@ export function LocationSelect() {
         <TextField id="" size="small" InputProps={{ readOnly: true }} value={location} fullWidth />
         <SearchButton onClick={handleOpen} />
       </div>
-      <TextField id="" size="small" value={locationDetail} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 주소" fullWidth />
+      <TextField id="" size="small" value={locationDetail} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 위치" fullWidth />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
         <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>

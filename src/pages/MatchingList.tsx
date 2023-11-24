@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 import { MatchingCardList } from "../components/matching/MatchingCardList";
-import { ScrollToTopButton } from "../components/common/ScrollTopButton";
-import { ListPageTopBar } from "../components/common/ListPageTopBar";
+import { ScrollToTopButton } from "../components/common/button/ScrollTopButton";
+import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
 import { MatchingBanner } from "../components/matching/MatchingBanner";
 import { MatchingStatusRadio } from "../components/matching/MatchingStatusRadio";
 
