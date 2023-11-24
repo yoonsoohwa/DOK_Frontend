@@ -1,21 +1,19 @@
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NonMemberHeader } from "./components/header/Header";
-import { MemberHeader } from "./components/header/Header";
+import { NonMemberHeader } from "./components/header/NonMember";
+import { MemberHeader } from "./components/header/Member";
 import { Footer } from "./components/footer/Footer";
 
 import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from "./pages";
 import { useScrollTop } from "./hooks/useScrollTop";
 
 export function AppRoutes() {
-  // acceptToken 값 받으면 여기서 분기처리 하면 될 것 같습니다.
-  const test = true;
   useScrollTop();
 
   return (
-    <DivForHeaderFooter>
-      {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
-      {test ? <NonMemberHeader /> : <MemberHeader />}
+    <DivForHeaderFooter>      
+      {/* <NonMemberHeader /> */}
+      <MemberHeader />
       <DivForFixedHeader>
         <Routes>
           <Route path="/" element={<MainPage />} />

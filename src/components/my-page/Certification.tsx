@@ -1,22 +1,26 @@
 import {styled} from "styled-components";
 import { TopBarTitle } from "common/TopBarTitle";
 import { CertifiPostCard } from "../certification/PostCard";
+import { Children } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "src/store";
 
 export const Certification = () => {
     
     const matchingData = 8;
-    
+    const { certificationPosts } = useSelector((state: RootState) => state.main);
     return (
         <MainFrame>
             <TitleFrame>
                 <TopBarTitle yellow="5" black="개의 산책 인증을 했습니다." />    
             </TitleFrame>       
             <CardFrame>
-                <CertifiPostCard onclick={(e: React.MouseEvent): void => {}}/>
-                <CertifiPostCard onclick={(e: React.MouseEvent): void => {}}/>
-                <CertifiPostCard onclick={(e: React.MouseEvent): void => {}}/>
-                <CertifiPostCard onclick={(e: React.MouseEvent): void => {}}/>
-                <CertifiPostCard onclick={(e: React.MouseEvent): void => {}}/>
+                {/* <CertifiPostCard contents={null}/> */}
+                {Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}
+                {Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}
+                {Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}
+                {Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}
+                {Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}
             </CardFrame>
         </MainFrame>
     )

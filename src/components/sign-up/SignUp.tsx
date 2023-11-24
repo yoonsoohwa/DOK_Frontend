@@ -1,15 +1,9 @@
-import { styled } from "styled-components";
 import React, { useState } from "react";
-import DOKLOGO from "/dok_logo.svg"
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Box from '@mui/material/Box';
-import { PersonInformation } from "./Agreement";
-import { TrilateralAgreement } from "./Agreement";
+import { styled } from "styled-components";
 import { margin } from "@mui/system";
-
+import {Box, Button, TextField, FormControlLabel, Checkbox} from '@mui/material';
+import DOKLOGO from "/dok_logo.svg"
+import { PersonInformation, TrilateralAgreement } from "./Agreement";
 
 export function SignUp() {
     const [checked, setChecked] = React.useState([true, false]);
