@@ -4,14 +4,14 @@ import { styled } from "styled-components";
 import { ButtonMain } from "common/button/ButtonMain";
 import { ButtonGray } from "common/button/ButtonGray";
 
-interface type {
+interface PostCreateFormLayoutProps {
   title: string;
   children: React.ReactNode;
   onSubmit: () => void;
   onReset: () => void;
 }
 
-export function PostCreateFormLayout({ title, children, onSubmit, onReset }: type) {
+export function PostCreateFormLayout({ title, children, onSubmit, onReset }: PostCreateFormLayoutProps) {
   return (
     <FormLayout>
       <h2>{title}</h2>
