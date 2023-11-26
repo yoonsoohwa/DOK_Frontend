@@ -37,7 +37,7 @@
     "deletedAt": null,
     "createdAt": "2023-11-20T06:26:14.699+00:00",
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
     "user": {
@@ -80,7 +80,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -117,7 +117,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -157,7 +157,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -200,7 +200,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
     "user": {
@@ -237,7 +237,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -277,7 +277,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -320,7 +320,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -357,7 +357,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
     "user": {
@@ -397,7 +397,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -440,7 +440,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -477,7 +477,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -517,7 +517,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "failed"
   },
   {
     "user": {
@@ -560,7 +560,7 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
     "user": {
@@ -597,6 +597,6 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "failed"
   }
 ]

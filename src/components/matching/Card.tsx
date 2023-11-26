@@ -11,7 +11,7 @@ interface type {
 export function MatchingCard({ post }: type) {
   const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   return (
-    <CardContainer className="pointer">
+    <CardContainer className={`pointer ${matchingStatus !== "progress" && "ended"}`}>
       <Profile nickname={user.nickname} time={createdAt.toString()} size="small" />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
@@ -25,12 +25,12 @@ export function MatchingCard({ post }: type) {
         </div>
         <div>
           <AccessTime sx={{ fontSize: "120%" }} />
-          <span>2023-11-12 <span style={{background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px"}}>1h 30m</span></span>
+          <span>
+            2023-11-12 <span style={{ background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px" }}>1h 30m</span>
+          </span>
         </div>
       </WalkInfo>
-      <MatchingStatus>
-        <img src="/svg/matching_completed.svg" />
-      </MatchingStatus>
+      {matchingStatus !== "progress" && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
     </CardContainer>
   );
 }
@@ -60,17 +60,13 @@ const WalkInfo = styled.div`
   }
 `;
 
-const MatchingStatus = styled.div`
+const MatchingStatusImage = styled.img`
   position: absolute;
   top: -1px;
   right: -4px;
-
-  > img {
-    width: 7em;
-  }
+  width: 7em;
 `;
 
 const DogIcon = styled.img`
   width: 8%;
 `;
-

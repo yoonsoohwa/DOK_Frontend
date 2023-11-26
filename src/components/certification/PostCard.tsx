@@ -82,6 +82,10 @@ export const CardContainer = styled.div`
     object-fit: cover;
   }
 
+  &.ended {
+    background-color: #eeeeee;
+  }
+
   @media screen and (max-width: 784px) {
     max-width: 43vw;
     font-size: 14px;
