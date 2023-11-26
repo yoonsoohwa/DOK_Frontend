@@ -1,10 +1,10 @@
 import { styled } from "styled-components";
-import { Profile } from "common/user/ProfileInfo";
+import { ProfileInfo } from "common/user/ProfileInfo";
 
 export function DogProfile() {
   return (
     <DogProfileContainer>
-      <Profile />
+      <ProfileInfo />
       <DogImage src="/temp/리버.png" />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />

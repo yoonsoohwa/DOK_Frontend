@@ -3,14 +3,14 @@ import userImage from "/temp/뽀삐.png";
 import { UserNickname } from "./UserNickname";
 import timeDiff from "../../../utils/timeDiff";
 
-interface type {
+interface ProfileProps {
   image?: string;
   nickname: string;
   time: string;
   size?: "small";
 }
 
-export function Profile({ image, nickname, time, size }: type) {
+export function ProfileInfo({ image, nickname, time, size }: ProfileProps) {
   return (
     <PostUser className={size}>
       <img className="user-img" src={image || userImage} />

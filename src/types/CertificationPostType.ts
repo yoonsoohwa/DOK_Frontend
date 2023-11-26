@@ -3,8 +3,8 @@ import { UserType } from "./UserType";
 
 export interface CertificationPostType {
   _id: string;
-  user: UserType;
-  matchingPost: MatchingPostType;
+  user: UserType | string;
+  matchingPost: MatchingPostType | string;
   certificationImg: string[];
   sublocation: string;
   review: string | null;

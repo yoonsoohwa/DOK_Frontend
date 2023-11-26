@@ -18,9 +18,11 @@ import dayjs, { Dayjs } from "dayjs";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import React, { Children, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { Clear, Search } from "@mui/icons-material";
+import { Clear, SimCardDownload } from "@mui/icons-material";
+import { SearchButton } from "common/button/SearchButton";
+import beobjeongdong from "api/beobjeongdong";
 
 export function TopBarFilter() {
   const [sido, setSido] = useState("");
@@ -29,8 +31,10 @@ export function TopBarFilter() {
   const [date, setDate] = useState<Dayjs | null>();
   const [open, setOpen] = useState(false);
 
-  const handleChangeArea = (event: SelectChangeEvent) => {
+  const handleChangeSido = (event: SelectChangeEvent) => {
+    // const sido = beobjeongdong.sido.filter(({ codeNm }) => codeNm === event.target.value)[0];
     setSido(event.target.value);
+    console.log(event.target.value);
   };
 
   const handleClickOpen = () => {
@@ -54,7 +58,8 @@ export function TopBarFilter() {
               <InputLabel htmlFor="demo-dialog-native">도/시</InputLabel>
               <Select
                 value={sido}
-                onChange={handleChangeArea}
+                renderValue={(value) => beobjeongdong.sido.filter(({ sido }) => sido === value)[0].codeNm}
+                onChange={handleChangeSido}
                 input={<OutlinedInput label="시/도" id="demo-dialog-native" />}
                 MenuProps={{
                   PaperProps: {
@@ -66,9 +71,11 @@ export function TopBarFilter() {
                 }}
               >
                 // 주소 배열 데이터 넣을 부분
-                <MenuItem value={"서울특별시 강남구 오동통(집)"}>집</MenuItem>
-                <MenuItem value={"경기도 수원시 동대문구점"}>경기도</MenuItem>
-                <MenuItem value={"제주특별자치도"}>제주특별자치도</MenuItem>
+                {beobjeongdong.sido.map((data) => (
+                  <MenuItem key={data.sido} value={data.sido}>
+                    {data.codeNm}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -87,10 +94,11 @@ export function TopBarFilter() {
                   },
                 }}
               >
-                <MenuItem value={""}>전체</MenuItem>
-                <MenuItem value={"종로구"}>종로구</MenuItem>
-                <MenuItem value={"중구"}>중구</MenuItem>
-                <MenuItem value={"용산구"}>용산구</MenuItem>
+                {beobjeongdong.sigugun[11].map((data) => (
+                  <MenuItem key={data.sigugun} value={data.sigugun}>
+                    {data.codeNm}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -143,7 +151,8 @@ export function TopBarFilter() {
         )}
       </DateSection>
 
-      <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton>
+      {/* <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton> */}
+      <SearchButton onClick={() => {}} />
     </Section>
   );
 }

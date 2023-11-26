@@ -1,6 +1,6 @@
 import { FormControl, FormLabel, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import dog from "/svg/dog_default.svg";
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { DogType } from "src/types";
@@ -12,7 +12,7 @@ export function DogSelect() {
   const [dogs, setDogs] = useState<DogType[]>();
 
   const handleChange = (e: SelectChangeEvent) => {
-    const selected = dogs ? dogs.filter(({ dogName }) => dogName === e.target.value)[0] : null;
+    const selected = dogs?.filter(({ dogName }) => dogName === e.target.value)[0];
     if (!selected) {
       return dispatch(setErrorDogSelect(true));
     }
@@ -51,11 +51,7 @@ export function DogSelect() {
           <em style={{ color: "#bcbcbc" }}>강아지를 선택해주세요.</em>
         </MenuItem>
 
-        {dogs?.map(({ dogName }, idx) => [
-          <MenuItem key={idx} value={dogName}>
-            {dogName}
-          </MenuItem>,
-        ])}
+        {Children.toArray(dogs?.map(({ dogName }, idx) => [<MenuItem value={dogName}>{dogName}</MenuItem>]))}
       </Select>
     </FormControl>
   );

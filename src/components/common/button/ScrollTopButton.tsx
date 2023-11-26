@@ -13,7 +13,7 @@ export function ScrollToTopButton() {
 
   useEffect(() => {
     const handleShowButton = () => {
-      if (window.scrollY > 1500) {
+      if (window.scrollY > 80) {
         setShowButton(true);
       } else {
         setShowButton(false);
@@ -34,4 +34,8 @@ const TopButton = styled.img`
   bottom: 70px;
   right: 40px;
   width: 48px;
+
+  &.hidden {
+    display: none;
+  }
 `;

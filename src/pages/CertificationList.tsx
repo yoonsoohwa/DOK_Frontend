@@ -1,8 +1,6 @@
 import { styled } from "styled-components";
 import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
 import { CertifiBanner } from "../components/certification/Banner";
-import { AlertError } from "common/alert/AlertError";
-import { AlertSuccess } from "common/alert/AlertSuccess";
 import { Children, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, addCertificationPosts } from "../store";
@@ -27,7 +25,7 @@ export function CertificationListPage() {
   const addPostList = async () => {
     const res = await fetch("/src/api/mock/certification.json");
     const data = await res.json();
-    dispatch(addCertificationPosts(data));
+    dispatch(addCertificationPosts(data.data));
     // console.log(certificationPosts);
   };
 

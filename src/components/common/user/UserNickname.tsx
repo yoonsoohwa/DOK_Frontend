@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import profile_badge from "/svg/profile_badge.svg";
 
-interface type {
+interface UserNicknameProps {
   nickname: string;
   badge?: true;
 }
 
-export function UserNickname({ nickname, badge }: type) {
+export function UserNickname({ nickname, badge }: UserNicknameProps) {
   return (
     <NicknameBox>
       <span>{nickname || "user"}</span>

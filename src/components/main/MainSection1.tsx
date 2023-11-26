@@ -30,7 +30,7 @@ export function MainSection1() {
 const Section = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 166vw;
+  height: 174vw;
   background-color: ${({ theme }) => theme.main3};
 `;
 
@@ -38,7 +38,7 @@ const PetsScrollBox = styled.div`
   width: 65%;
   height: 100vh;
   box-sizing: border-box;
-  padding: 50px 0 0 50px;
+  padding: 100px 0 0 50px;
   position: relative;
 `;
 
@@ -53,6 +53,7 @@ const TitleBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
+  padding-top: 80px;
   padding-right: 40px;
   box-sizing: border-box;
 

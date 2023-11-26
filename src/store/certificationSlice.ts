@@ -3,12 +3,22 @@ import { CertificationPostType } from "../types";
 
 type type = {
   certificationPosts: CertificationPostType[];
-  certificationDetailPost: CertificationPostType | null;
+  certificationDetailPost: CertificationPostType;
 };
 
 const initialState: type = {
   certificationPosts: [],
-  certificationDetailPost: null,
+  certificationDetailPost: {
+    _id: "",
+    user: "",
+    matchingPost: "",
+    certificationImg: [],
+    sublocation: "",
+    review: "",
+    deletedAt: null,
+    createdAt: "",
+    updatedAt: "",
+  },
 };
 
 const certificationSlice = createSlice({

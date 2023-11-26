@@ -1,35 +1,37 @@
 import React from "react";
 import { styled } from "styled-components";
 import { AccessTime, Pets } from "@mui/icons-material";
-import { Profile } from "common/user/ProfileInfo";
+import { ProfileInfo } from "common/user/ProfileInfo";
 import { Rating, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { AppDispatch, setCertificationDetail } from "../../store";
 import { CertificationPostType } from "../../types";
 
-interface type {
+interface CertifiPostCardProps {
   contents: CertificationPostType;
   onclick?: () => void;
 }
 
-export function CertifiPostCard({ contents, onclick }: type) {
+export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
   const { user, matchingPost, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
     dispatch(setCertificationDetail(contents));
-    onclick && onclick();
+    onclick?.();
   };
 
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
-      <Profile nickname={user.nickname} time={createdAt} size="small" />
+      <ProfileInfo nickname={""} time={createdAt} size="small" />
+      {/* user.nickname */}
       <Tooltip
         title={
           <div style={{ fontSize: "14px" }}>
             <Pets fontSize="inherit" />
-            {" " + matchingPost.userDog.dogName}
+            {/* matchingPost.userDog.dogName */}
+            {` ${""}`}
           </div>
         }
         placement="top"
@@ -38,12 +40,12 @@ export function CertifiPostCard({ contents, onclick }: type) {
       >
         <img className="main-img" src={certificationImg[0]} />
       </Tooltip>
-
       <Contents>
         <div>
           <AccessTime sx={{ fontSize: "20px" }} />
           <span>
-            {dayjs(matchingPost.walkingDate).format("YYYY-MM-DD | ")} <span className="time">{dayjs(matchingPost.walkingDate).format("hh:mmA")}</span>
+            {/* matchingPost.walkingDate */}
+            {dayjs("").format("YYYY-MM-DD | ")} <span className="time">{dayjs("").format("hh:mmA")}</span>
           </span>
         </div>
         <div className={`detail ${review && "review"}`}>

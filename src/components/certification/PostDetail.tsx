@@ -1,20 +1,19 @@
 import { styled } from "styled-components";
-import React from "react";
+import React, { Children } from "react";
 import userImage from "/temp/뽀삐.png";
 import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { Profile } from "common/user/ProfileInfo";
+import { ProfileInfo } from "common/user/ProfileInfo";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import dayjs from "dayjs";
 
-interface type {
+interface CertificationPostDetailProps {
   handleClose: () => void;
 }
 
-export function CertificationPostDetail({ handleClose }: type) {
+export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
-  if (!certificationDetailPost) return <></>;
   const { user, matchingPost, certificationImg, sublocation, review, createdAt } = certificationDetailPost;
 
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
@@ -32,21 +31,23 @@ export function CertificationPostDetail({ handleClose }: type) {
     <DetailBox className="certifiDetail">
       <Left className="detail-left">
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
-          {certificationImg.map((step, index) => (
-            <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
-              <Box
-                component="img"
-                sx={{
-                  height: "100%",
-                  display: "block",
-                  width: "100%",
-                  objectFit: "contain",
-                }}
-                src={step}
-                alt={step}
-              />
-            </div>
-          ))}
+          {Children.toArray(
+            certificationImg.map((step) => (
+              <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: "100%",
+                    display: "block",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                  src={step}
+                  alt={step}
+                />
+              </div>
+            ))
+          )}
         </div>
 
         <MobileStepper
@@ -69,7 +70,8 @@ export function CertificationPostDetail({ handleClose }: type) {
 
       <Right className="custom-scrollbar">
         <Top>
-          <Profile nickname={user.nickname} time={createdAt} />
+          <ProfileInfo nickname={""} time={createdAt} />
+          {/* user.nickname */}
           <IconButton onClick={handleClose}>
             <Clear />
           </IconButton>
@@ -79,13 +81,15 @@ export function CertificationPostDetail({ handleClose }: type) {
           <div>
             <img className="icon" src="/svg/card_dog_icon.svg" />
             <div className="title">강아지</div>
-            <div className="text">{matchingPost.userDog.dogName}</div>
+            <div className="text">{""}</div>
+            {/* matchingPost.userDog.dogName */}
           </div>
 
           <div>
             <AccessTime className="icon" />
             <div className="title">산책 시간</div>
-            <div className="text">{dayjs(matchingPost.walkingDate).format("YYYY년 MM월 DD일 hh:mma")}</div>
+            <div className="text">{dayjs("").format("YYYY년 MM월 DD일 hh:mma")}</div>
+            {/* matchingPost.walkingDate */}
           </div>
           {sublocation && (
             <div>
