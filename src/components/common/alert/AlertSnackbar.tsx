@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Box, Snackbar } from "@mui/material";
 
-interface type {
+interface AlertSnackbarProps {
   title?: string;
   desc?: string;
   open: boolean;
@@ -10,7 +10,7 @@ interface type {
   type?: "success" | "error";
 }
 
-export function AlertSnackbar({ title, desc, open, onClose, icon, duration, type }: type) {
+export function AlertSnackbar({ title, desc, open, onClose, icon, duration, type }: AlertSnackbarProps) {
   return (
     <Snackbar open={open} onClose={onClose} autoHideDuration={duration || 3000} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
       <Alert severity={type || "success"} color={type === "error" ? undefined : "info"} sx={{ width: 400, ".MuiAlert-message": { flexGrow: 1 } }} icon={icon}>

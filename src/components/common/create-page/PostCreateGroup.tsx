@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-interface type {
+interface PostCreateGroupProps {
   title: string;
   children: React.ReactNode;
 }
 
-export function PostCreateGroup({ title, children }: type) {
+export function PostCreateGroup({ title, children }: PostCreateGroupProps) {
   return (
     <Group>
       <TitleLayout>

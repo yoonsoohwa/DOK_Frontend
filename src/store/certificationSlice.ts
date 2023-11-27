@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CertificationPostType } from "../types";
 
-type type = {
+interface certificationSliceType {
   certificationPosts: CertificationPostType[];
   certificationDetailPost: CertificationPostType | null;
-};
+}
 
-const initialState: type = {
+const initialState: certificationSliceType = {
   certificationPosts: [],
   certificationDetailPost: null,
 };

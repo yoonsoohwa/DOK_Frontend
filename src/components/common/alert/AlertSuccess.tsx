@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Backdrop, Box, Button, Snackbar } from "@mui/material";
 
-interface type {
+interface AlertSuccessProps {
   title?: string;
   desc?: string;
   open: boolean;
@@ -10,7 +10,7 @@ interface type {
   buttonText?: string;
 }
 
-export function AlertSuccess({ title, desc, open, onClose, onClick, icon, buttonText }: type) {
+export function AlertSuccess({ title, desc, open, onClose, onClick, icon, buttonText }: AlertSuccessProps) {
   return (
     <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={open}>
       <Snackbar open={open} autoHideDuration={null} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
