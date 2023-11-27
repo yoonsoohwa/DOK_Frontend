@@ -1,12 +1,8 @@
-import React from "react";
-import { styled } from "styled-components";
+import React from 'react';
+import { styled } from 'styled-components';
 
 interface MainPetBoxProps {
-  petData: {
-    dogImg: string;
-    dogName: string;
-    gender: string;
-  };
+  petData: { dogImg: string; dogName: string; gender: string };
   className: string;
 }
 
@@ -52,7 +48,7 @@ const Pet = styled.div`
     }
 
     div {
-      font-family: "Gaegu";
+      font-family: 'Gaegu';
       font-weight: 900;
       font-size: 3vw;
       color: #3e3e3e;
