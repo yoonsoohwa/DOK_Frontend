@@ -2,8 +2,13 @@ import { styled } from "styled-components";
 import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from "@mui/icons-material";
 import { HandlerRequestButton } from "./HandlerRequestButton";
 import { HandlerSelectContainer } from "./HandlerSelectContainer";
+import { useSelector } from "react-redux";
+import { RootState } from "/src/store";
 
 export function WalkDetailInfo() {
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
+
   return (
     <WalkDetailLayout>
       <WalkInfoBox>
@@ -12,14 +17,14 @@ export function WalkDetailInfo() {
             <CalendarToday />
             <span>산책 날짜</span>
           </TextAlignLayout>
-          <p>2023-11-10</p>
+          <p>{walkingDate}</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>15:40 ~ 16:10 (30분)</p>
+          <p>15:40 ~ 16:10 ({walkingDuration})</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
@@ -27,7 +32,7 @@ export function WalkDetailInfo() {
             <span>만남 장소</span>
           </TextAlignLayout>
           <MapLayout>
-            <p>시그니엘 1차 입구</p>
+            <p>{`${location.text} (${locationDetail})`}</p>
             <div></div>
           </MapLayout>
         </WalkInfoItem>
@@ -36,14 +41,14 @@ export function WalkDetailInfo() {
             <MonetizationOn />
             <span>금액</span>
           </TextAlignLayout>
-          <p>5000원</p>
+          <p>{price.toLocaleString()}원</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <Chat />
             <span>요구사항</span>
           </TextAlignLayout>
-          <p>코스는 시그니엘 1차 -&gt; 서울숲 2바퀴 -&gt; 시그니엘 2차 놀이터 -&gt; 시그니엘 1차로 다시 다녀오시면 됩니다! 뽀삐 칭찬 많이 해주실 분 구합니다^^</p>
+          <p>{requestText}</p>
         </WalkInfoItem>
       </WalkInfoBox>
       <HandlerSelectContainer />
@@ -66,6 +71,7 @@ const WalkDetailLayout = styled(FlexLayout)`
 `;
 
 const WalkInfoBox = styled(FlexLayout)`
+  width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.main4};
   border-radius: 8px;

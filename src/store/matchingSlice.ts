@@ -3,10 +3,12 @@ import { MatchingPostType } from "../types";
 
 type type = {
   matchingPosts: MatchingPostType[];
+  matchingDetailPost: MatchingPostType | null;
 };
 
 const initialState: type = {
   matchingPosts: [],
+  matchingDetailPost: null,
 };
 
 const matchingSlice = createSlice({
@@ -16,8 +18,11 @@ const matchingSlice = createSlice({
     addMatchingPosts: (state, action) => {
       state.matchingPosts.push(...action.payload);
     },
+    setMatchingDetailPost: (state, action) => {
+        state.matchingDetailPost = action.payload;
+    }
   },
 });
 
-export const { addMatchingPosts } = matchingSlice.actions;
+export const { addMatchingPosts, setMatchingDetailPost } = matchingSlice.actions;
 export default matchingSlice;

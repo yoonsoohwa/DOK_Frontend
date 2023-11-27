@@ -1,44 +1,50 @@
 import { styled } from "styled-components";
 import { Profile } from "common/user/ProfileInfo";
+import { useSelector } from "react-redux";
+import { RootState } from "/src/store";
 
 export function DogProfile() {
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { _id: id, user, userDog, createdAt } = matchingDetailPost;
+  const { birth: dogBirth, dogImg, dogName, dogType, gender: dogGender, note: dogNote, personality: dogPersonality } = userDog;
+
   return (
     <DogProfileContainer>
-      <Profile />
-      <DogImage src="/temp/리버.png" />
+      <Profile nickname={user.nickname} time={createdAt} />
+      <DogImage src={dogImg} />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />
-        <p>이뽀삐</p>
+        <p>{dogName}</p>
       </DogNameBox>
       <ul>
         <li>
           <DogInfoListItem>
             <span>나이:</span>
-            <p>2살</p>
+            <p>{dogBirth}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>견종:</span>
-            <p>말티즈</p>
+            <p>{dogType}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>성별:</span>
-            <p>여자</p>
+            <p>{dogGender}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>성격:</span>
-            <p>매우 활발</p>
+            <p>{dogPersonality}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>특이사항:</span>
-            <p>호기심이 많고, 냄새 맡는 거 좋아합니다. 산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</p>
+            <p>{dogNote}</p>
           </DogInfoListItem>
         </li>
       </ul>
@@ -64,6 +70,9 @@ const DogProfileContainer = styled.div`
 
 const DogImage = styled.img`
   width: 100%;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 `;
 
 const DogIcon = styled.img`
