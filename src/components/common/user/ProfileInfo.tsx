@@ -38,9 +38,6 @@ const PostUser = styled.div`
       font-size: 16px;
       line-height: 18px;
       font-weight: 400;
-      @media screen and (max-width: 768px) {
-        font-size: 14px;
-      }
     }
 
     > span {

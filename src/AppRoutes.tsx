@@ -6,6 +6,7 @@ import { Footer } from "./components/footer/Footer";
 
 import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from "./pages";
 import { useScrollTop } from "./hooks/useScrollTop";
+import { NotFound } from "common/state/NotFoundPage";
 
 export function AppRoutes() {
   useScrollTop();
@@ -26,6 +27,8 @@ export function AppRoutes() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </DivForFixedHeader>
       <Footer />

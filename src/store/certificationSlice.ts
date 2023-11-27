@@ -3,22 +3,12 @@ import { CertificationPostType } from "../types";
 
 type type = {
   certificationPosts: CertificationPostType[];
-  certificationDetailPost: CertificationPostType;
+  certificationDetailPostId: string;
 };
 
 const initialState: type = {
   certificationPosts: [],
-  certificationDetailPost: {
-    _id: "",
-    user: "",
-    matchingPost: "",
-    certificationImg: [],
-    sublocation: "",
-    review: "",
-    deletedAt: null,
-    createdAt: "",
-    updatedAt: "",
-  },
+  certificationDetailPostId: "",
 };
 
 const certificationSlice = createSlice({
@@ -28,11 +18,11 @@ const certificationSlice = createSlice({
     addCertificationPosts: (state, action) => {
       state.certificationPosts.push(...action.payload);
     },
-    setCertificationDetail: (state, action) => {
-      state.certificationDetailPost = action.payload;
+    setCertificationDetailId: (state, action) => {
+      state.certificationDetailPostId = action.payload;
     },
   },
 });
 
-export const { addCertificationPosts, setCertificationDetail } = certificationSlice.actions;
+export const { addCertificationPosts, setCertificationDetailId } = certificationSlice.actions;
 export default certificationSlice;

@@ -10,6 +10,9 @@ import { Dialog } from "@mui/material";
 import { CardListContainer } from "../styles/CardListContainer";
 import { ScrollToTopButton } from "common/button/ScrollTopButton";
 import { useInView } from "react-intersection-observer";
+import { CreateAlert } from "../components/certification/CreateAlert";
+import { Loading } from "common/state/Loading";
+import { LoadingPage } from "common/state/LoadingPage";
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,8 +40,11 @@ export function CertificationListPage() {
 
   return (
     <CertificationList>
+      {/* <LoadingPage /> */}
       <CertifiBanner />
       <Section>
+        {/* <Loading /> */}
+        <CreateAlert />
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
           {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}

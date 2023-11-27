@@ -2,7 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput,
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setLocation, setLocationDetail } from "../../store";
+import { AppDispatch, RootState, setLocation, setLocationDetail } from "store/index";
 import styled from "styled-components";
 import { LocationOn, Search } from "@mui/icons-material";
 import { SearchButton } from "common/button/SearchButton";

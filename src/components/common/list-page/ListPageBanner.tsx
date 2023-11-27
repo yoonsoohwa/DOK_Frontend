@@ -31,6 +31,7 @@ const Section = styled.div`
   width: 100%;
   height: 315px;
   box-sizing: border-box;
+  position: relative;
   padding-bottom: 30px;
   background-color: ${({ theme, color }) => (color ? theme[color] : theme.main2)};
 `;
