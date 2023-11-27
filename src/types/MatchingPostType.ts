@@ -10,9 +10,10 @@ export interface MatchingPostType {
     text: string,
     code: string
   };
-  locationDetail: string;
+  locationDetail: string | null;
   walkingDate: Date | string;
   walkingDuration: Number;
+  requestText: string | null;
   deletedAt: Date | string | null;
   createdAt: Date | string;
   updatedAt: Date | string;

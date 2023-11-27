@@ -1,18 +1,18 @@
 import { styled } from "styled-components";
-import React from "react";
+import React, { Children } from "react";
 import userImage from "/temp/뽀삐.png";
 import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { Profile } from "common/user/ProfileInfo";
+import { ProfileInfo } from "common/user/ProfileInfo";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import dayjs from "dayjs";
 
-interface type {
+interface CertificationPostDetailProps {
   handleClose: () => void;
 }
 
-export function CertificationPostDetail({ handleClose }: type) {
+export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
   if (!certificationDetailPost) return <></>;
   const { user, matchingPost, certificationImg, sublocation, review, createdAt } = certificationDetailPost;
@@ -32,21 +32,23 @@ export function CertificationPostDetail({ handleClose }: type) {
     <DetailBox className="certifiDetail">
       <Left className="detail-left">
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
-          {certificationImg.map((step, index) => (
-            <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
-              <Box
-                component="img"
-                sx={{
-                  height: "100%",
-                  display: "block",
-                  width: "100%",
-                  objectFit: "contain",
-                }}
-                src={step}
-                alt={step}
-              />
-            </div>
-          ))}
+          {Children.toArray(
+            certificationImg.map((step) => (
+              <div className="image" style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: "100%",
+                    display: "block",
+                    width: "100%",
+                    objectFit: "contain",
+                  }}
+                  src={step}
+                  alt={step}
+                />
+              </div>
+            ))
+          )}
         </div>
 
         <MobileStepper
@@ -69,7 +71,7 @@ export function CertificationPostDetail({ handleClose }: type) {
 
       <Right className="custom-scrollbar">
         <Top>
-          <Profile nickname={user.nickname} time={createdAt} />
+          <ProfileInfo nickname={user.nickname} time={createdAt} />
           <IconButton onClick={handleClose}>
             <Clear />
           </IconButton>

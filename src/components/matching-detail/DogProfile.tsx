@@ -1,16 +1,17 @@
 import { styled } from "styled-components";
-import { Profile } from "common/user/ProfileInfo";
+import { ProfileInfo } from "common/user/ProfileInfo";
 import { useSelector } from "react-redux";
-import { RootState } from "/src/store";
+import { RootState } from "store/store";
 
 export function DogProfile() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  if(!matchingDetailPost) return <></>;
   const { _id: id, user, userDog, createdAt } = matchingDetailPost;
   const { birth: dogBirth, dogImg, dogName, dogType, gender: dogGender, note: dogNote, personality: dogPersonality } = userDog;
 
   return (
     <DogProfileContainer>
-      <Profile nickname={user.nickname} time={createdAt} />
+      <ProfileInfo nickname={user.nickname} time={createdAt.toString()} />
       <DogImage src={dogImg} />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />
@@ -20,7 +21,7 @@ export function DogProfile() {
         <li>
           <DogInfoListItem>
             <span>나이:</span>
-            <p>{dogBirth}</p>
+            <p>{dogBirth.toString()}</p>
           </DogInfoListItem>
         </li>
         <li>

@@ -3,12 +3,12 @@ import { styled } from "styled-components";
 import { TopBarTitle } from "./TopBarTitle";
 import { TopBarFilter } from "./TopBarFilter";
 
-interface type {
+interface ListPageTopBarProps {
   yellow?: string;
   black?: string;
 }
 
-export function ListPageTopBar({ yellow, black }: type) {
+export function ListPageTopBar({ yellow, black }: ListPageTopBarProps) {
   return (
     <Section>
       <TopBarTitle yellow="132" black="개의 산책 인증이 있습니다." />

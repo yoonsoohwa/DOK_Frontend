@@ -4,12 +4,12 @@ import { RootState } from "src/store";
 import { styled } from "styled-components";
 import { CertifiPostCard } from "../certification/PostCard";
 
-interface type {
+interface MainSection3Props {
   title: string;
   color: string;
 }
 
-export function MainSection3({ title, color }: type) {
+export function MainSection3({ title, color }: MainSection3Props) {
   const { certificationPosts } = useSelector((state: RootState) => state.main);
 
   return (

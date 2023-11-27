@@ -4,12 +4,12 @@ import { RootState } from "src/store";
 import { styled } from "styled-components";
 import { MatchingCard } from "../matching/Card";
 
-interface type {
+interface MainSection2Props {
   title: string;
   color: string;
 }
 
-export function MainSection2({ title, color }: type) {
+export function MainSection2({ title, color }: MainSection2Props) {
   const { matchingPosts } = useSelector((state: RootState) => state.main);
 
   return (

@@ -1,12 +1,15 @@
-import { styled } from "styled-components";
-import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from "@mui/icons-material";
-import { HandlerRequestButton } from "./HandlerRequestButton";
-import { HandlerSelectContainer } from "./HandlerSelectContainer";
-import { useSelector } from "react-redux";
-import { RootState } from "/src/store";
+import { styled } from 'styled-components';
+import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from '@mui/icons-material';
+import { HandlerRequestButton } from './HandlerRequestButton';
+import { HandlerSelectContainer } from './HandlerSelectContainer';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { MatchingPostType } from 'src/types';
+
 
 export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
 
   return (
@@ -17,14 +20,14 @@ export function WalkDetailInfo() {
             <CalendarToday />
             <span>산책 날짜</span>
           </TextAlignLayout>
-          <p>{walkingDate}</p>
+          <p>{walkingDate.toString()}</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>15:40 ~ 16:10 ({walkingDuration})</p>
+          <p>15:40 ~ 16:10 ({walkingDuration.toString()})</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>

@@ -5,7 +5,8 @@ import { CommentContainer } from "../components/matching-detail/CommentContainer
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setMatchingDetailPost } from "/src/store";
+import { AppDispatch, RootState } from "store/store";
+import { setMatchingDetailPost } from "store/matchingSlice";
 
 export function MatchingDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
