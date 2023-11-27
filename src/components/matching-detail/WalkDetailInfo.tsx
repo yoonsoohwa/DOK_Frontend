@@ -4,7 +4,7 @@ import { HandlerRequestButton } from './HandlerRequestButton';
 import { HandlerSelectContainer } from './HandlerSelectContainer';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { MatchingPostType } from 'src/types';
+import { LocationMap } from './LocationMap';
 
 
 export function WalkDetailInfo() {
@@ -36,7 +36,7 @@ export function WalkDetailInfo() {
           </TextAlignLayout>
           <MapLayout>
             <p>{`${location.text} (${locationDetail})`}</p>
-            <div></div>
+            <LocationMap></LocationMap>
           </MapLayout>
         </WalkInfoItem>
         <WalkInfoItem>
@@ -125,10 +125,5 @@ const MapLayout = styled(FlexLayout)`
 
   > p {
     padding-bottom: 5px;
-  }
-
-  div {
-    background-color: black;
-    height: 200px;
   }
 `;
