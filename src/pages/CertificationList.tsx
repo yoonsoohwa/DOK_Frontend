@@ -1,18 +1,18 @@
-import { styled } from "styled-components";
-import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
-import { CertifiBanner } from "../components/certification/Banner";
-import { Children, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, addCertificationPosts } from "../store";
-import { CertifiPostCard } from "../components/certification/PostCard";
-import { CertificationPostDetail } from "../components/certification/PostDetail";
-import { Dialog } from "@mui/material";
-import { CardListContainer } from "../styles/CardListContainer";
-import { ScrollToTopButton } from "common/button/ScrollTopButton";
-import { useInView } from "react-intersection-observer";
-import { CreateAlert } from "../components/certification/CreateAlert";
-import { Loading } from "common/state/Loading";
-import { LoadingPage } from "common/state/LoadingPage";
+import { styled } from 'styled-components';
+import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
+import { CertifiBanner } from '../components/certification/Banner';
+import { Children, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, addCertificationPosts } from '../store';
+import { CertifiPostCard } from '../components/certification/PostCard';
+import { CertificationPostDetail } from '../components/certification/PostDetail';
+import { Dialog } from '@mui/material';
+import { CardListContainer } from '../styles/CardListContainer';
+import { ScrollToTopButton } from 'common/button/ScrollTopButton';
+import { useInView } from 'react-intersection-observer';
+import { CreateAlert } from '../components/certification/CreateAlert';
+import { Loading } from 'common/state/Loading';
+import { LoadingPage } from 'common/state/LoadingPage';
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,7 +26,7 @@ export function CertificationListPage() {
   };
 
   const addPostList = async () => {
-    const res = await fetch("/src/api/mock/certification.json");
+    const res = await fetch('/src/api/mock/certification.json');
     const data = await res.json();
     dispatch(addCertificationPosts(data.data));
     // console.log(certificationPosts);

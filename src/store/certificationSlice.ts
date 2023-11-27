@@ -1,18 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CertificationPostType } from "../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { CertificationPostType } from '../types';
 
-type type = {
+interface certificationSliceType {
   certificationPosts: CertificationPostType[];
   certificationDetailPostId: string;
-};
+}
 
-const initialState: type = {
+const initialState: certificationSliceType = {
   certificationPosts: [],
-  certificationDetailPostId: "",
+  certificationDetailPostId: '',
 };
 
 const certificationSlice = createSlice({
-  name: "certification", //이름
+  name: 'certification', //이름
   initialState, //초기값
   reducers: {
     addCertificationPosts: (state, action) => {

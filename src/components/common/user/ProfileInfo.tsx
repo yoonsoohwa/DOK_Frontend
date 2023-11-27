@@ -1,16 +1,16 @@
-import { styled } from "styled-components";
-import userImage from "/temp/뽀삐.png";
-import { UserNickname } from "./UserNickname";
-import timeDiff from "../../../utils/timeDiff";
+import { styled } from 'styled-components';
+import userImage from '/temp/뽀삐.png';
+import { UserNickname } from './UserNickname';
+import timeDiff from '../../../utils/timeDiff';
 
-interface ProfileProps {
+interface ProfileInfoProps {
   image?: string;
   nickname: string;
   time: string;
-  size?: "small";
+  size?: 'small';
 }
 
-export function ProfileInfo({ image, nickname, time, size }: ProfileProps) {
+export function ProfileInfo({ image, nickname, time, size }: ProfileInfoProps) {
   return (
     <PostUser className={size}>
       <img className="user-img" src={image || userImage} />

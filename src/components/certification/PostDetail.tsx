@@ -1,13 +1,13 @@
-import { styled } from "styled-components";
-import React, { Children, useEffect, useState } from "react";
-import userImage from "/temp/뽀삐.png";
-import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
-import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { ProfileInfo } from "common/user/ProfileInfo";
-import { useSelector } from "react-redux";
-import { RootState } from "store/index";
-import dayjs from "dayjs";
-import { CertificationPostType, initCertificationPostType } from "../../types";
+import { styled } from 'styled-components';
+import React, { Children, useEffect, useState } from 'react';
+import userImage from '/temp/뽀삐.png';
+import { Box, IconButton, MobileStepper, Rating } from '@mui/material';
+import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import dayjs from 'dayjs';
+import { CertificationPostType, initCertificationPostType } from '../../types';
 
 interface CertificationPostDetailProps {
   handleClose: () => void;
@@ -31,7 +31,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("");
+      const res = await fetch('');
       const data = await res.json();
       setCertificationDetailPost(data);
     })();
@@ -43,20 +43,20 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
           {Children.toArray(
             certificationImg.map((step) => (
-              <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
+              <div className="image" style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
                 <Box
                   component="img"
                   sx={{
-                    height: "100%",
-                    display: "block",
-                    width: "100%",
-                    objectFit: "contain",
+                    height: '100%',
+                    display: 'block',
+                    width: '100%',
+                    objectFit: 'contain',
                   }}
                   src={step}
                   alt={step}
                 />
               </div>
-            ))
+            )),
           )}
         </div>
 
@@ -65,7 +65,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
           position="static"
           activeStep={currentImgIndex}
           nextButton={
-            <SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: "end" }}>
+            <SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
               <KeyboardArrowRight />
             </SlideIconButton>
           }
@@ -74,7 +74,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
               <KeyboardArrowLeft />
             </SlideIconButton>
           }
-          sx={{ background: "none", width: "100%", height: "100%", alignSelf: "end" }}
+          sx={{ background: 'none', width: '100%', height: '100%', alignSelf: 'end' }}
         />
       </Left>
 
@@ -96,7 +96,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
           <div>
             <AccessTime className="icon" />
             <div className="title">산책 시간</div>
-            <div className="text">{dayjs(matchingPost.walkingDate).format("YYYY년 MM월 DD일 hh:mma")}</div>
+            <div className="text">{dayjs(matchingPost.walkingDate).format('YYYY년 MM월 DD일 hh:mma')}</div>
           </div>
           {sublocation && (
             <div>
@@ -256,7 +256,7 @@ const Contents = styled.div`
   }
 
   .detail::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 0;

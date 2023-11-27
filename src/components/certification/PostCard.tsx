@@ -1,13 +1,13 @@
-import React from "react";
-import { styled } from "styled-components";
-import { AccessTime, Pets } from "@mui/icons-material";
-import { ProfileInfo } from "common/user/ProfileInfo";
-import { Rating, Tooltip } from "@mui/material";
-import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { AppDispatch, setCertificationDetailId } from "../../store";
-import { CertificationPostType } from "../../types";
-import dateTimeFormat from "../../utils/dateTimeFormat";
+import React from 'react';
+import { styled } from 'styled-components';
+import { AccessTime, Pets } from '@mui/icons-material';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { Rating, Tooltip } from '@mui/material';
+import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, setCertificationDetailId } from '../../store';
+import { CertificationPostType } from '../../types';
+import dateTimeFormat from '../../utils/dateTimeFormat';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
@@ -26,10 +26,12 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
+      <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
       <Tooltip
         title={
-          <div style={{ fontSize: "14px" }}>
+          <div style={{ fontSize: '14px' }}>
             <Pets fontSize="inherit" />
+            {` ${matchingPost.userDog.dogName}`}
             {` ${matchingPost.userDog.dogName}`}
           </div>
         }
@@ -41,10 +43,10 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
       </Tooltip>
       <Contents>
         <div>
-          <AccessTime sx={{ fontSize: "20px" }} />
+          <AccessTime sx={{ fontSize: '20px' }} />
           <span>{dateTimeFormat(matchingPost.walkingDate.toString())}</span>
         </div>
-        <div className={`detail ${review.rating && "review"}`}>
+        <div className={`detail ${review && 'review'}`}>
           {postText}
           {review.rating && (
             <Review>

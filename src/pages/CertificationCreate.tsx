@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/common/create-page/PostCreateFormLayout";
-import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
-import { FormLabel, TextField } from "@mui/material";
-import { PostCreateGroup } from "common/create-page/PostCreateGroup";
+import React, { useState } from 'react';
+import { styled } from 'styled-components';
+import { PostCreateFormLayout } from '../components/common/create-page/PostCreateFormLayout';
+import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from '@mui/icons-material';
+import { FormLabel, TextField } from '@mui/material';
+import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 
 export function CertificationCreatePage() {
   // 인증 글 작성은 리덕스 사용 X
   // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
 
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
 
@@ -65,7 +65,7 @@ export function CertificationCreatePage() {
               </FormLabel>
               <div>
                 <label htmlFor="photo" className=" MuiInputBase-sizeSmall">
-                  <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : "") : ""}</span>
+                  <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : '') : ''}</span>
                   <AddPhotoAlternateOutlined className="pointer" />
                 </label>
                 <input

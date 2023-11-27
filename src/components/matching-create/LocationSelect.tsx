@@ -7,6 +7,10 @@ import styled from "styled-components";
 import { LocationOn, Search } from "@mui/icons-material";
 import { SearchButton } from "common/button/SearchButton";
 
+const geocoder = new kakao.maps.services.Geocoder();
+// 키워드 검색
+// const ps = new kakao.maps.services.Places();
+
 export function LocationSelect() {
   const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
   const dispatch = useDispatch<AppDispatch>();
@@ -28,10 +32,6 @@ export function LocationSelect() {
       setMapOpen(false);
     }
   };
-
-  var geocoder = new kakao.maps.services.Geocoder();
-  // 키워드 검색
-  // const ps = new kakao.maps.services.Places();
 
   useEffect(() => {
     geocoder.coord2Address(position.lng, position.lat, function (result, status) {
