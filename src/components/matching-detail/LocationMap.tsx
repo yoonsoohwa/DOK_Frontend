@@ -39,6 +39,6 @@ export function LocationMap() {
 }
 
 const MapContainer = styled.div`
-  height: 200px;
+  height: 300px;
   border: 1px solid ${({theme}) => theme.gray};
 `;

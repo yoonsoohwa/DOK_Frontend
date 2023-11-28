@@ -9,12 +9,11 @@ import { useState } from 'react';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 
-
 export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
-  const [isAuthor, setIsAuthor] = useState(false);  //작성자 여부
+  const [isAuthor, setIsAuthor] = useState(false); //작성자 여부
 
   return (
     <WalkDetailLayout>
@@ -24,7 +23,7 @@ export function WalkDetailInfo() {
             <CalendarToday />
             <span>산책 날짜</span>
           </TextAlignLayout>
-          <p>{dateTimeFormat(walkingDate.toString(), "date")}</p>
+          <p>{dateTimeFormat(walkingDate.toString(), 'date')}</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
@@ -33,13 +32,12 @@ export function WalkDetailInfo() {
           </TextAlignLayout>
           <p>15:40 ~ 16:10 ({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
-        <WalkInfoItem>
+        <WalkInfoItem><MapLayout>
           <TextAlignLayout>
             <LocationOn />
             <span>만남 장소</span>
-          </TextAlignLayout>
-          <MapLayout>
             <p>{`${location.text} (${locationDetail})`}</p>
+          </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>
         </WalkInfoItem>
@@ -98,7 +96,7 @@ const WalkInfoItem = styled(TextAlignLayout)`
     flex-shrink: 0;
     align-self: flex-start;
   }
-  > div > span {
+  span {
     width: 5.5rem;
     display: block;
     padding-left: 5px;
@@ -125,8 +123,5 @@ const WalkInfoItem = styled(TextAlignLayout)`
 const MapLayout = styled(FlexLayout)`
   align-items: normal;
   flex: 1;
-
-  > p {
-    padding-bottom: 7px;
-  }
+  gap: 7px;
 `;
