@@ -127,6 +127,6 @@ const MapLayout = styled(FlexLayout)`
   flex: 1;
 
   > p {
-    padding-bottom: 5px;
+    padding-bottom: 7px;
   }
 `;

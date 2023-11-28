@@ -5,9 +5,11 @@ import { HandlerListItem } from './HandlerLIstItem';
 import { ButtonMain } from 'common/button/ButtonMain';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
+import { useParams } from 'react-router-dom';
 
 export function HandlerSelectContainer() {
   const dispatch = useDispatch<AppDispatch>();
+  const { id } = useParams();
   const { requestHandlers, selectedHandler } = useSelector((state: RootState) => state.matching);
   const [open, setOpen] = useState(false);
 
@@ -20,13 +22,36 @@ export function HandlerSelectContainer() {
   };
 
   const onSubmitHandler = () => {
+    if (!selectedHandler) {
+      console.log('please select handler!');
+      return;
+    }
 
-  }
+    const sendSelectedHandler = async () => {
+      const { matchingPostId, user } = selectedHandler;
+      try {
+        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/6565b395e7ae4e5e9526ffc0/${user._id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const data = await res.json();
+        console.log(data);
+        console.log(matchingPostId, user._id);
+      } catch (err) {
+        // console.log(err);
+      }
+    };
+
+    sendSelectedHandler();
+  };
 
   useEffect(() => {
     const RequestHandlerList = async () => {
       try {
-        const res = await fetch('/src/api/mock/matching-post-requests.json');
+        // const res = await fetch('/src/api/mock/matching-post-requests.json');
+        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${id}`);
         const data = await res.json();
         dispatch(setRequestHandlers(data));
       } catch (error) {
@@ -52,7 +77,7 @@ export function HandlerSelectContainer() {
             <SelectButtonContainer onClick={handleClick}>핸들러를 선택해주세요.</SelectButtonContainer>
           )}
           {open ? (
-            <HandlerListContainer className="custom-scrollbar">
+            <HandlerListContainer className={`custom-scrollbar ${requestHandlers.length > 3 ? "scroll" : null}`}>
               {Children.toArray(
                 requestHandlers.map((handler) => {
                   return <HandlerListItem handler={handler} />;
@@ -63,7 +88,7 @@ export function HandlerSelectContainer() {
         </SelectorLayout>
       </ClickAwayListener>
       <ButtonContainer>
-        <ButtonMain text="매칭하기" onClick={onSubmitHandler}/>
+        <ButtonMain text="매칭하기" onClick={onSubmitHandler} />
       </ButtonContainer>
     </HandlerSelectLayout>
   );
@@ -88,7 +113,7 @@ const SelectorLayout = styled.div`
   height: 3rem;
 
   > div {
-    border: solid 1.5px ${({theme}) => theme.sub3};
+    border: solid 1.5px ${({ theme }) => theme.sub3};
   }
 `;
 
@@ -107,6 +132,10 @@ const HandlerListContainer = styled.div`
   left: 0;
   z-index: 1;
   border: 1.5px solid ${({ theme }) => theme.sub3};
-  overflow: scroll;
+
+  &.scroll {
+    overflow: scroll;
   overflow-x: hidden;
+  }
+  
 `;

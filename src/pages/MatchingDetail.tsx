@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store/store";
-import { setMatchingDetailPost } from "store/matchingSlice";
+import { setMatchingDetailPost, setSelectedHandler } from "store/matchingSlice";
 
 export function MatchingDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,9 +17,11 @@ export function MatchingDetailPage() {
   useEffect(() => {
     const matchingDetailData = async () => {
       try {
-        const res = await fetch("/src/api/mock/matching-post-detail.json");
+        // const res = await fetch("/src/api/mock/matching-post-detail.json");
+        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/${id}`);
         const data = await res.json();
-        dispatch(setMatchingDetailPost(data));
+        dispatch(setMatchingDetailPost(data[0]));
+        dispatch(setSelectedHandler(null));
       } catch (error) {
         console.log(error);
       } finally {
