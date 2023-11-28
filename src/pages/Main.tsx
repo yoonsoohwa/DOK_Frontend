@@ -1,16 +1,32 @@
 import { styled } from "styled-components";
-import React from "react";
-import { MainInfo } from "../components/Main/MainInfo";
-import { MainSection1 } from "../components/Main/MainSection1";
-import { MainSection2 } from "../components/Main/MainSection2";
+import React, { useEffect } from "react";
+import { MainInfo } from "../components/main/MainInfo";
+import { MainSection1 } from "../components/main/MainSection1";
+import { MainSection2 } from "../components/main/MainSection2";
+import { MainSection3 } from "../components/main/MainSection3";
+import { useDispatch } from "react-redux";
+import { AppDispatch, setMainCertificationPosts, setMainMatchingPosts, setMainDogs } from "../store";
 
 export function MainPage() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("src/api/mock/main.json");
+      const data = await res.json();
+
+      dispatch(setMainDogs(data.dogs));
+      dispatch(setMainMatchingPosts(data.matchingPosts));
+      dispatch(setMainCertificationPosts(data.certificationPosts));
+    })();
+  }, []);
+
   return (
     <MainPageComponent>
       <MainInfo />
-      <MainSection1 pets={["1", "2", "3", "4", "5", "6"]} />
-      <MainSection2 title="오늘의 매칭 글" contents={["ㅋㅋ", "ㅋㅋㅋ", "aaa"]} color="main" />
-      <MainSection2 title="따뜻한 후기" contents={["ㅋㅋ", "ㅋㅋㅋ", "aaa"]} isRightTitle={true} color="sub" />
+      <MainSection1 />
+      <MainSection2 title="오늘의 매칭 글" color="main" />
+      <MainSection3 title="따뜻한 후기" color="sub" />
     </MainPageComponent>
   );
 }

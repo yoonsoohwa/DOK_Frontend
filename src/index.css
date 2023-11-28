@@ -3,6 +3,7 @@
 body {
   background-color: #fff;
   font-family: "Noto Sans KR";
+  padding: 0 !important;
 }
 
 html,
@@ -107,8 +108,10 @@ section {
   display: block;
 }
 ol,
-ul {
+ul,
+a {
   list-style: none;
+  text-decoration: none;
 }
 blockquote,
 q {

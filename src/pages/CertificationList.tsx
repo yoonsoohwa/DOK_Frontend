@@ -1,24 +1,56 @@
-import { styled } from "styled-components";
-import React from "react";
-import { Box, Button, IconButton, MobileStepper, Rating } from "@mui/material";
-import { ListPageBanner } from "../components/Common/ListPageBanner";
-import BannerImage from "/svg/matchingBannerImage.svg";
-import { ListPageTopBar } from "../components/Common/ListPageTopBar";
-import { CertificationPostDetail } from "../components/Certification/PostDetail";
-import { CertifiPostCard } from "../components/Certification/PostCard";
-import { MatchingCard } from "../components/Matching/MatchingCard";
-import { CertifiPostList } from "../components/Certification/PostList";
-import { CertifiBanner } from "../components/Certification/Banner";
+import { styled } from 'styled-components';
+import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
+import { CertifiBanner } from '../components/certification/Banner';
+import { AlertError } from 'common/alert/AlertError';
+import { AlertSuccess } from 'common/alert/AlertSuccess';
+import { Children, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, addCertificationPosts } from '../store';
+import { CertifiPostCard } from '../components/certification/PostCard';
+import { CertificationPostDetail } from '../components/certification/PostDetail';
+import { Dialog } from '@mui/material';
+import { CardListContainer } from '../styles/CardListContainer';
+import { ScrollToTopButton } from 'common/button/ScrollTopButton';
+import { useInView } from 'react-intersection-observer';
 
 export function CertificationListPage() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { certificationPosts } = useSelector((state: RootState) => state.certification);
+
+  const [open, setOpen] = useState(false);
+  const [scrollRef, inView] = useInView();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const addPostList = async () => {
+    const res = await fetch('/src/api/mock/certification.json');
+    const data = await res.json();
+    dispatch(addCertificationPosts(data));
+    // console.log(certificationPosts);
+  };
+
+  useEffect(() => {
+    if (inView) {
+      addPostList();
+    }
+  }, [inView]);
+
   return (
     <CertificationList>
       <CertifiBanner />
       <Section>
-        <ListPageTopBar text={["132", "개의 산책 인증이 있습니다."]} />
-        <CertifiPostList />
-        <CertificationPostDetail />
+        <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
+        <CardListContainer>
+          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}
+          <MyDialog onClose={handleClose} open={open} maxWidth={false}>
+            <CertificationPostDetail handleClose={handleClose} />
+          </MyDialog>
+        </CardListContainer>
       </Section>
+      <div className="scroll-ref" ref={scrollRef}></div>
+      <ScrollToTopButton />
     </CertificationList>
   );
 }
@@ -26,10 +58,22 @@ export function CertificationListPage() {
 const CertificationList = styled.div`
   width: 100%;
   margin: 0 auto;
+  position: relative;
+
+  .scroll-ref {
+    height: 1px;
+    position: relative;
+    bottom: 100px;
+  }
 `;
 
 export const Section = styled.div`
   width: 100%;
   max-width: 1140px;
+  margin: 0 auto;
+`;
+
+const MyDialog = styled(Dialog)`
+  max-width: none;
   margin: 0 auto;
 `;
