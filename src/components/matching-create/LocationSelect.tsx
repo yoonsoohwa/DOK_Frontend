@@ -2,10 +2,14 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput,
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setLocation, setLocationDetail } from "../../store";
+import { AppDispatch, RootState, setLocation, setLocationDetail } from "store/index";
 import styled from "styled-components";
 import { LocationOn, Search } from "@mui/icons-material";
 import { SearchButton } from "common/button/SearchButton";
+
+const geocoder = new kakao.maps.services.Geocoder();
+// 키워드 검색
+// const ps = new kakao.maps.services.Places();
 
 export function LocationSelect() {
   const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
@@ -29,14 +33,9 @@ export function LocationSelect() {
     }
   };
 
-  var geocoder = new kakao.maps.services.Geocoder();
-  // 키워드 검색
-  // const ps = new kakao.maps.services.Places();
-
   useEffect(() => {
     geocoder.coord2Address(position.lng, position.lat, function (result, status) {
       if (status === kakao.maps.services.Status.OK) {
-        console.log(result[0]);
         var addr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
         setAddress(addr);
         /*
@@ -58,10 +57,13 @@ export function LocationSelect() {
 
   useEffect(() => {
     //사용자 위치 정보로 초기화
-    geocoder.addressSearch("서울특별시 서초구 강남대로 399", function (result, status) {
+    const userLocation = "서울특별시 서초구 강남대로 399";
+
+    geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
         setPosition({ lat: Number(result[0].y), lng: Number(result[0].x) });
+        dispatch(setLocation(userLocation));
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 존재하지 않습니다.");
         return;

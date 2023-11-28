@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { styled } from "styled-components";
-import { PostCreateFormLayout } from "../components/common/create-page/PostCreateFormLayout";
-import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from "@mui/icons-material";
-import { FormLabel, TextField } from "@mui/material";
-import { PostCreateGroup } from "common/create-page/PostCreateGroup";
+import React, { useState } from 'react';
+import { styled } from 'styled-components';
+import { PostCreateFormLayout } from '../components/common/create-page/PostCreateFormLayout';
+import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from '@mui/icons-material';
+import { FormLabel, TextField } from '@mui/material';
+import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 
 export function CertificationCreatePage() {
   // 인증 글 작성은 리덕스 사용 X
   // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
 
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
 
@@ -65,7 +65,7 @@ export function CertificationCreatePage() {
               </FormLabel>
               <div>
                 <label htmlFor="photo" className=" MuiInputBase-sizeSmall">
-                  <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : "") : ""}</span>
+                  <span>{images ? images[0].name + (images.length > 1 ? ` 외 ${images.length - 1}개` : '') : ''}</span>
                   <AddPhotoAlternateOutlined className="pointer" />
                 </label>
                 <input
@@ -149,6 +149,10 @@ const Contents = styled.div`
       align-items: flex-start;
     }
 
+    .pointer {
+      color: rgba(0, 0, 0, 0.23);
+    }
+
     label {
       min-width: 300px;
       border: solid 1px rgba(0, 0, 0, 0.23);
@@ -174,39 +178,3 @@ const Contents = styled.div`
     }
   }
 `;
-
-// const Contents = styled.div`
-//   display: flex;
-//   align-items: flex-start;
-//   margin-bottom: 40px;
-
-//   &.file-input {
-//     margin-bottom: 40px;
-//     display: block;
-
-//     > div {
-//       display: flex;
-//       align-items: flex-start;
-//     }
-
-//     label {
-//       width: 300px;
-//       height: 40px;
-//       border: solid 1px rgba(0, 0, 0, 0.23);
-//       border-radius: 4px;
-//       padding: 8.5px 14px;
-//       display: flex;
-//       justify-content: space-between;
-
-//       span {
-//         overflow: hidden;
-//         text-overflow: ellipsis;
-//         margin-right: 4px;
-//       }
-//     }
-
-//     input#photo {
-//       display: none;
-//     }
-//   }
-// `;

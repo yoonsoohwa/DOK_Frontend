@@ -9,6 +9,7 @@ export default defineConfig({
     alias: [
       { find: "common", replacement: "/src/components/common" },
       { find: "api", replacement: "/src/api" },
+      { find: "store", replacement: "/src/store" },
     ],
   },
 });

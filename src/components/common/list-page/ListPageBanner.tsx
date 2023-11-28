@@ -1,17 +1,16 @@
-import { styled } from "styled-components";
-import petIcon from "/svg/pets.svg";
-import footprintImg from "/image/six_footprint.png";
-import dogwalkImg from "/svg/walking_dog.svg";
-import React from "react";
+import { styled } from 'styled-components';
+import petIcon from '/svg/pets.svg';
+import footprintImg from '/svg/six_footprint.svg';
+import React from 'react';
 
-interface type {
+interface ListPageBannerProps {
   title: string;
   desc: string;
   children: React.ReactNode;
-  color?: "sub" | "sub2" | "sub3";
+  color?: 'sub' | 'sub2' | 'sub3';
 }
 
-export function ListPageBanner({ title, desc, children, color }: type) {
+export function ListPageBanner({ title, desc, children, color }: ListPageBannerProps) {
   return (
     <Section color={color}>
       <InnerBox>
@@ -31,6 +30,7 @@ const Section = styled.div`
   width: 100%;
   height: 315px;
   box-sizing: border-box;
+  position: relative;
   padding-bottom: 30px;
   background-color: ${({ theme, color }) => (color ? theme[color] : theme.main2)};
 `;

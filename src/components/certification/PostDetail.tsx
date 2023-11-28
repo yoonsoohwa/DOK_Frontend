@@ -1,21 +1,22 @@
-import { styled } from "styled-components";
-import React from "react";
-import userImage from "/temp/뽀삐.png";
-import { Box, IconButton, MobileStepper, Rating } from "@mui/material";
-import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from "@mui/icons-material";
-import { Profile } from "common/user/ProfileInfo";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import dayjs from "dayjs";
+import { styled } from 'styled-components';
+import React, { Children, useEffect, useState } from 'react';
+import userImage from '/temp/뽀삐.png';
+import { Box, IconButton, MobileStepper, Rating } from '@mui/material';
+import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import dayjs from 'dayjs';
+import { CertificationPostType, initCertificationPostType } from '../../types';
 
-interface type {
+interface CertificationPostDetailProps {
   handleClose: () => void;
 }
 
-export function CertificationPostDetail({ handleClose }: type) {
-  const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
-  if (!certificationDetailPost) return <></>;
-  const { user, matchingPost, certificationImg, sublocation, review, createdAt } = certificationDetailPost;
+export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
+  const { certificationDetailPostId } = useSelector((state: RootState) => state.certification);
+  const [certificationDetailPost, setCertificationDetailPost] = useState<CertificationPostType>(initCertificationPostType);
+  let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
 
   const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
   const maxSteps = certificationImg.length;
@@ -28,25 +29,35 @@ export function CertificationPostDetail({ handleClose }: type) {
     setCurrentImgIndex((cur) => cur - 1);
   };
 
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('');
+      const data = await res.json();
+      setCertificationDetailPost(data);
+    })();
+  }, []);
+
   return (
     <DetailBox className="certifiDetail">
       <Left className="detail-left">
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
-          {certificationImg.map((step, index) => (
-            <div className="image" key={step} style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
-              <Box
-                component="img"
-                sx={{
-                  height: "100%",
-                  display: "block",
-                  width: "100%",
-                  objectFit: "contain",
-                }}
-                src={step}
-                alt={step}
-              />
-            </div>
-          ))}
+          {Children.toArray(
+            certificationImg.map((step) => (
+              <div className="image" style={{ transform: `translateX(-${currentImgIndex}00%)`, width: `${100 / maxSteps}%` }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: '100%',
+                    display: 'block',
+                    width: '100%',
+                    objectFit: 'contain',
+                  }}
+                  src={step}
+                  alt={step}
+                />
+              </div>
+            )),
+          )}
         </div>
 
         <MobileStepper
@@ -54,7 +65,7 @@ export function CertificationPostDetail({ handleClose }: type) {
           position="static"
           activeStep={currentImgIndex}
           nextButton={
-            <SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: "end" }}>
+            <SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
               <KeyboardArrowRight />
             </SlideIconButton>
           }
@@ -63,13 +74,13 @@ export function CertificationPostDetail({ handleClose }: type) {
               <KeyboardArrowLeft />
             </SlideIconButton>
           }
-          sx={{ background: "none", width: "100%", height: "100%", alignSelf: "end" }}
+          sx={{ background: 'none', width: '100%', height: '100%', alignSelf: 'end' }}
         />
       </Left>
 
       <Right className="custom-scrollbar">
         <Top>
-          <Profile nickname={user.nickname} time={createdAt} />
+          <ProfileInfo nickname={user.nickname} time={createdAt} />
           <IconButton onClick={handleClose}>
             <Clear />
           </IconButton>
@@ -85,7 +96,7 @@ export function CertificationPostDetail({ handleClose }: type) {
           <div>
             <AccessTime className="icon" />
             <div className="title">산책 시간</div>
-            <div className="text">{dayjs(matchingPost.walkingDate).format("YYYY년 MM월 DD일 hh:mma")}</div>
+            <div className="text">{dayjs(matchingPost.walkingDate).format('YYYY년 MM월 DD일 hh:mma')}</div>
           </div>
           {sublocation && (
             <div>
@@ -99,44 +110,24 @@ export function CertificationPostDetail({ handleClose }: type) {
             <ChatOutlined className="icon" />
             <div className="title">인증 내용</div>
           </div>
-          <div className="text detail">
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />물 100ml 마셨어요~ 뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고, <br />
-            뽀삐가 너무 발랄하고 귀여웠습니다. <br />
-            사진은 서울숲에서 찍은 사진입니다!배변 한 번 했고
-          </div>
+          <div className="text detail">{postText}</div>
         </Contents>
 
-        {review && (
+        {review.rating && (
           <Review>
             <div className="top">
               <div className="label">견주의 후기</div>
               <div className="left">
                 <img src={userImage} className="user-img" />
                 <div>뽀삐엄마</div>
-                <Rating readOnly={true}></Rating>
+                <Rating readOnly={true} value={review.rating}></Rating>
                 <IconButton size="small">
                   <Edit fontSize="small" />
                 </IconButton>
               </div>
               <div className="right">30분 전</div>
             </div>
-            <div>
-              뽀삐 표정 보니 산책 신나게 잘 한 것 같습니다 <br />
-              ^^근데 사진 조금 더 많이 찍어주셨으면 좋았을 것 같아요~ <br />
-              확실히 전문가다 보니 제가 산책시킨 것보다 낫네요
-            </div>
+            <div>{review.reviewText}</div>
           </Review>
         )}
       </Right>
@@ -265,7 +256,7 @@ const Contents = styled.div`
   }
 
   .detail::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 0;

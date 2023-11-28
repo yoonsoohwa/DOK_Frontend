@@ -1,12 +1,16 @@
-import React from "react";
-import { styled } from "styled-components";
+import React from 'react';
+import { styled } from 'styled-components';
 
-interface type {
-  petData: { dogImg: string; dogName: string; gender: string };
+interface MainPetBoxProps {
+  petData: {
+    dogImg: string;
+    dogName: string;
+    gender: string;
+  };
   className: string;
 }
 
-export function MainPetBox({ petData, className }: type) {
+export function MainPetBox({ petData, className }: MainPetBoxProps) {
   return (
     <Pet className={className}>
       <img className="pet-img" src={petData.dogImg} />
@@ -48,7 +52,7 @@ const Pet = styled.div`
     }
 
     div {
-      font-family: "Gaegu";
+      font-family: 'Gaegu';
       font-weight: 900;
       font-size: 3vw;
       color: #3e3e3e;
