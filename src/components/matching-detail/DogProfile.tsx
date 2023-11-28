@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 import { ProfileInfo } from "common/user/ProfileInfo";
 import { useSelector } from "react-redux";
 import { RootState } from "store/store";
+import calculateAge from "../../utils/calculateAge";
 
 export function DogProfile() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
@@ -21,7 +22,7 @@ export function DogProfile() {
         <li>
           <DogInfoListItem>
             <span>나이:</span>
-            <p>{dogBirth.toString()}</p>
+            <p>{calculateAge(dogBirth.toString())}</p>
           </DogInfoListItem>
         </li>
         <li>
@@ -104,7 +105,7 @@ const DogNameBox = styled(TextAlignLayout)`
 
 const DogInfoListItem = styled(TextAlignLayout)`
   font-size: 16px;
-  padding: 2px 0;
+  padding: 5px 0;
 
   > span {
     font-weight: 500;

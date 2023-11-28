@@ -17,6 +17,7 @@ export function MatchingListPage() {
   const [scrollRef, inView] = useInView();
 
   const addMatchingCardList = async () => {
+    // const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=1&perPage=2');
     const res = await fetch('/src/api/mock/matching-posts.json');
     const data = await res.json();
     dispatch(addMatchingPosts(data));
@@ -53,6 +54,12 @@ export function MatchingListPage() {
 const MatchingList = styled.div`
   width: 100%;
   margin: 0 auto;
+
+  .scroll-ref {
+    height: 1px;
+    position: relative;
+    bottom: 500px;
+  }
 `;
 
 const Section = styled.div`

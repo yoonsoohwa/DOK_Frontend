@@ -3,6 +3,7 @@ import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
 import { CardContainer } from "../certification/PostCard";
 import { MatchingPostType } from "../../types";
 import { ProfileInfo } from "common/user/ProfileInfo";
+import durationTimeFormat from "../../utils/durationTimeFormat";
 
 interface MatchingCardProps {
   post: MatchingPostType;
@@ -26,7 +27,7 @@ export function MatchingCard({ post }: MatchingCardProps) {
         <div>
           <AccessTime sx={{ fontSize: "120%" }} />
           <span>
-            2023-11-12 <span style={{ background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px" }}>1h 30m</span>
+            2023-11-12 | {durationTimeFormat(Number(walkingDuration))}
           </span>
         </div>
       </WalkInfo>
@@ -52,8 +53,6 @@ const WalkInfo = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 10px;
-
     & > div {
       padding: 1px 0;
     }
