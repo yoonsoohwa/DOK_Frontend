@@ -1,12 +1,15 @@
-import React from "react";
-import { styled } from "styled-components";
-import { AccessTime, Pets } from "@mui/icons-material";
-import { ProfileInfo } from "common/user/ProfileInfo";
-import { Rating, Tooltip } from "@mui/material";
-import dayjs from "dayjs";
-import { useDispatch } from "react-redux";
-import { AppDispatch, setCertificationDetail } from "../../store";
-import { CertificationPostType } from "../../types";
+import React from 'react';
+import { styled } from 'styled-components';
+import { AccessTime, Pets } from '@mui/icons-material';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { Rating, Tooltip } from '@mui/material';
+import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, setCertificationDetailId } from '../../store';
+import { CertificationPostType } from '../../types';
+import dateTimeFormat from '../../utils/dateTimeFormat';
+import { EditMenu } from 'common/user/EditMenu';
+import { useNavigate } from 'react-router';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
@@ -14,20 +17,27 @@ interface CertifiPostCardProps {
 }
 
 export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
-  const { user, matchingPost, certificationImg, review, createdAt } = contents;
+  const { user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
-    dispatch(setCertificationDetail(contents));
+    dispatch(setCertificationDetailId(contents._id));
     onclick?.();
+  };
+
+  const handleEdit = () => {
+    dispatch(setCertificationDetailId(contents._id));
+    navigate('write');
   };
 
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
+      <EditMenu handleEdit={handleEdit} />
       <Tooltip
         title={
-          <div style={{ fontSize: "14px" }}>
+          <div style={{ fontSize: '14px' }}>
             <Pets fontSize="inherit" />
             {` ${matchingPost.userDog.dogName}`}
           </div>
@@ -38,20 +48,16 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
       >
         <img className="main-img" src={certificationImg[0]} />
       </Tooltip>
-
       <Contents>
         <div>
-          <AccessTime sx={{ fontSize: "20px" }} />
-          <span>
-            {dayjs(matchingPost.walkingDate).format("YYYY-MM-DD | ")} <span className="time">{dayjs(matchingPost.walkingDate).format("hh:mmA")}</span>
-          </span>
+          <AccessTime sx={{ fontSize: '20px' }} />
+          <span>{dateTimeFormat(matchingPost.walkingDate.toString())}</span>
         </div>
-        <div className={`detail ${review && "review"}`}>
-          뽀삐가 너무 귀여워서 산책하는 내내 행복했습니다. 20분에 한 번씩 휴식했고, 10분 정도는 친구들하고 뛰어 놀았습니다! 물은 여섯번 나눠서 먹였어요 20분에 한 번씩 휴식했고,
-          10분 정도는 친구들하고 뛰어 놀았습니다!
-          {review && (
+        <div className={`detail ${review.rating && 'review'}`}>
+          {postText}
+          {review.rating && (
             <Review>
-              견주의 후기: <Rating value={3.5} precision={0.5} readOnly></Rating>
+              견주의 후기: <Rating value={review.rating} precision={0.5} readOnly></Rating>
             </Review>
           )}
         </div>
@@ -66,14 +72,16 @@ export const CardContainer = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.main4};
-  margin: 0 6px 4px 0;
+  background-color: #fff;
+  margin: 0 6px 4px;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   position: relative;
   box-sizing: border-box;
-  transition: all 0.3s ease-in-out 0s;
+  transition:
+    box-shadow 0.3s ease-in-out 0s,
+    transform 0.3s ease-in-out 0s;
 
   .main-img {
     width: 100%;
@@ -88,7 +96,6 @@ export const CardContainer = styled.div`
 
   @media screen and (max-width: 784px) {
     max-width: 43vw;
-    font-size: 14px;
   }
 
   &:hover {
@@ -123,6 +130,7 @@ const Contents = styled.div`
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: #6c6c6c;
 
     &.review {
       display: block;

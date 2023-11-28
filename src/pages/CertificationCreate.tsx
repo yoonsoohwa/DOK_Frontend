@@ -149,6 +149,10 @@ const Contents = styled.div`
       align-items: flex-start;
     }
 
+    .pointer {
+      color: rgba(0, 0, 0, 0.23);
+    }
+
     label {
       min-width: 300px;
       border: solid 1px rgba(0, 0, 0, 0.23);
@@ -174,39 +178,3 @@ const Contents = styled.div`
     }
   }
 `;
-
-// const Contents = styled.div`
-//   display: flex;
-//   align-items: flex-start;
-//   margin-bottom: 40px;
-
-//   &.file-input {
-//     margin-bottom: 40px;
-//     display: block;
-
-//     > div {
-//       display: flex;
-//       align-items: flex-start;
-//     }
-
-//     label {
-//       width: 300px;
-//       height: 40px;
-//       border: solid 1px rgba(0, 0, 0, 0.23);
-//       border-radius: 4px;
-//       padding: 8.5px 14px;
-//       display: flex;
-//       justify-content: space-between;
-
-//       span {
-//         overflow: hidden;
-//         text-overflow: ellipsis;
-//         margin-right: 4px;
-//       }
-//     }
-
-//     input#photo {
-//       display: none;
-//     }
-//   }
-// `;

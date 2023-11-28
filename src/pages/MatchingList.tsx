@@ -16,14 +16,14 @@ export function MatchingListPage() {
 
   const [scrollRef, inView] = useInView();
 
-  const addPostList = async () => {
-    const res = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=1&perPage=2");
+  const addMatchingCardList = async () => {
+    const res = await fetch('/src/api/mock/matching-posts.json');
     const data = await res.json();
     dispatch(addMatchingPosts(data));
   };
   useEffect(() => {
     if (inView) {
-      addPostList();
+      addMatchingCardList();
     }
   }, [inView]);
 

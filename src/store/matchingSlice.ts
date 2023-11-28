@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import { MatchingPostType } from "../types";
 import { RequestHandlerType } from "../types";
 
-type type = {
+type matchingType = {
   matchingPosts: MatchingPostType[];
   matchingDetailPost: MatchingPostType | null;
   requestHandlers: RequestHandlerType[];
   selectedHandler: RequestHandlerType | null;
 };
 
-const initialState: type = {
+const initialState: matchingType = {
   matchingPosts: [],
   matchingDetailPost: null,
   requestHandlers: [],

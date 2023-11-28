@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const CardListContainer = styled.div`
   width: 100%;
@@ -12,11 +12,11 @@ export const CardListContainer = styled.div`
   padding: 2rem 0;
   box-sizing: border-box;
 
-  @media screen and (max-width: 1040px) {
+  @media screen and (max-width: 1058px) {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media screen and (max-width: 784px) {
+  @media screen and (max-width: 796px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;

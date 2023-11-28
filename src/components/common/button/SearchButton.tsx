@@ -20,7 +20,7 @@ const MyButton = styled(Button)`
     flex-shrink: 0;
     margin-left: 4px;
     min-width: 20px;
-    padding: 6px 9px;
+    padding: 8px 9px;
   }
   &.MuiButtonBase-root:hover {
     box-shadow: none;

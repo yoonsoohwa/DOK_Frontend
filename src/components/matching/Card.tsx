@@ -4,11 +4,11 @@ import { CardContainer } from "../certification/PostCard";
 import { MatchingPostType } from "../../types";
 import { ProfileInfo } from "common/user/ProfileInfo";
 
-interface type {
+interface MatchingCardProps {
   post: MatchingPostType;
 }
 
-export function MatchingCard({ post }: type) {
+export function MatchingCard({ post }: MatchingCardProps) {
   const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   return (
     <CardContainer className={`pointer ${matchingStatus !== "progress" && "ended"}`}>

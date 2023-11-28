@@ -10,7 +10,7 @@ import { DateSelect } from "../components/matching-create/DateSelect";
 import { DurationSelect } from "../components/matching-create/DurationSelect";
 import { PaySelect } from "../components/matching-create/PaySelect";
 import { RequestTextField } from "../components/matching-create/RequestTextField";
-import { LocationSelect } from "../components/matching-create/Location";
+import { LocationSelect } from "../components/matching-create/LocationSelect";
 import { useDispatch, useSelector } from "react-redux";
 
 import { AppDispatch, RootState } from "../store";
