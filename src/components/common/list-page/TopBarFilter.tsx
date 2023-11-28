@@ -13,52 +13,82 @@ import {
   Select,
   SelectChangeEvent,
   TextField,
-} from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import React, { useEffect, useState } from "react";
-import { styled } from "styled-components";
-import { Clear, SimCardDownload } from "@mui/icons-material";
-import { SearchButton } from "common/button/SearchButton";
-import beobjeongdong from "api/beobjeongdong";
+} from '@mui/material';
+import dayjs, { Dayjs } from 'dayjs';
+import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import React, { useEffect, useState } from 'react';
+import { styled } from 'styled-components';
+import { Clear, SimCardDownload } from '@mui/icons-material';
+import { SearchButton } from 'common/button/SearchButton';
+import beobjeongdong from 'api/beobjeongdong';
 
 export function TopBarFilter() {
-  const [sido, setSido] = useState("");
-  const [sigugun, setSigugun] = useState("");
-  const [dong, setDong] = useState("");
+  const [districtCode, setDistrictCode] = useState('');
+  const [district, setDistrict] = useState('');
+
+  const [sido, setSido] = useState<keyof typeof beobjeongdong.sigugun | ''>('');
+  const [sigugun, setSigugun] = useState<keyof typeof beobjeongdong.dong | '' | 'all'>('');
+  const [dong, setDong] = useState('');
+
   const [date, setDate] = useState<Dayjs | null>();
   const [open, setOpen] = useState(false);
 
   const handleChangeSido = (event: SelectChangeEvent) => {
-    // const sido = beobjeongdong.sido.filter(({ codeNm }) => codeNm === event.target.value)[0];
-    setSido(event.target.value);
-    console.log(event.target.value);
+    const value = event.target.value;
+    setSido(value as keyof typeof beobjeongdong.sigugun | '');
+    setSigugun('all');
+  };
+
+  const handleChangeSigugun = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    setSigugun(value as keyof typeof beobjeongdong.dong | '');
+    setDong('all');
+  };
+
+  const handleChangeDong = (event: SelectChangeEvent) => {
+    const value = event.target.value;
+    setDong(value);
+  };
+
+  const resetDistrict = () => {
+    setSido('');
+    setSigugun('');
+    setDong('');
   };
 
   const handleClickOpen = () => {
     setOpen(true);
+    focus();
   };
 
-  const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    }
+  const handleClickClose = (event: React.SyntheticEvent<unknown>) => {
+    setOpen(false);
+    resetDistrict();
+  };
+
+  const handleChangeDistrict = (event: React.SyntheticEvent<unknown>) => {
+    const state = sido ? beobjeongdong.sido.filter(({ code }) => code === sido)[0].name : '';
+    const city = sigugun ? (sigugun === 'all' ? '전체' : sido && beobjeongdong.sigugun[sido].filter(({ code }) => code === sigugun)[0].name) : '';
+    const town = dong ? (dong === 'all' ? '전체' : sigugun && sigugun !== 'all' && beobjeongdong.dong[sigugun].filter(({ code }) => code === dong)[0].name) : '';
+    setDistrict(sido ? `${state} ${city} ${town}` : '');
+    setDistrictCode(dong || sigugun || sido);
+    setOpen(false);
+    resetDistrict();
   };
 
   return (
     <Section>
-      <TextField fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={sido} InputProps={{ readOnly: true }} size="small" />
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+      <TextField className="district" fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={district} InputProps={{ readOnly: true }} size="small" />
+      <Dialog disableEscapeKeyDown open={open}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
         <DialogContent>
-          <Box component="form" sx={{ display: "flex", flexWrap: "wrap" }}>
+          <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ m: 1, minWidth: 180 }}>
               <InputLabel htmlFor="demo-dialog-native">도/시</InputLabel>
               <Select
                 value={sido}
-                renderValue={(value) => beobjeongdong.sido.filter(({ sido }) => sido === value)[0].codeNm}
                 onChange={handleChangeSido}
                 input={<OutlinedInput label="시/도" id="demo-dialog-native" />}
                 MenuProps={{
@@ -71,9 +101,9 @@ export function TopBarFilter() {
                 }}
               >
                 // 주소 배열 데이터 넣을 부분
-                {beobjeongdong.sido.map((data) => (
-                  <MenuItem key={data.sido} value={data.sido}>
-                    {data.codeNm}
+                {beobjeongdong.sido.map(({ code, name }) => (
+                  <MenuItem key={code} value={code}>
+                    {name}
                   </MenuItem>
                 ))}
               </Select>
@@ -84,21 +114,25 @@ export function TopBarFilter() {
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
                 value={sigugun}
+                onChange={handleChangeSigugun}
                 input={<OutlinedInput label="시/군/구" />}
+                disabled={!sido}
                 MenuProps={{
                   PaperProps: {
                     style: {
                       maxHeight: 48 * 4.5 + 8, //ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
-                      width: 200,
+                      minWidth: 200,
                     },
                   },
                 }}
               >
-                {beobjeongdong.sigugun[11].map((data) => (
-                  <MenuItem key={data.sigugun} value={data.sigugun}>
-                    {data.codeNm}
-                  </MenuItem>
-                ))}
+                {sido && <MenuItem value={'all'}>전체</MenuItem>}
+                {sido &&
+                  beobjeongdong.sigugun[sido].map(({ code, name }) => (
+                    <MenuItem key={code} value={code}>
+                      {name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -107,7 +141,9 @@ export function TopBarFilter() {
                 labelId="demo-dialog-select-label"
                 id="demo-dialog-select"
                 value={dong}
+                onChange={handleChangeDong}
                 input={<OutlinedInput label="읍/면/동" />}
+                disabled={!sigugun || sigugun === 'all'}
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -117,30 +153,34 @@ export function TopBarFilter() {
                   },
                 }}
               >
-                <MenuItem value={"전체"}>전체</MenuItem>
-                <MenuItem value={"청운동"}>청운동</MenuItem>
-                <MenuItem value={"효자동"}>효자동</MenuItem>
-                <MenuItem value={"종로1가"}>종로1가</MenuItem>
+                {sigugun && sigugun !== 'all' && <MenuItem value={'all'}>전체</MenuItem>}
+                {sigugun &&
+                  sigugun !== 'all' &&
+                  beobjeongdong.dong[sigugun].map(({ code, name }) => (
+                    <MenuItem key={code} value={code}>
+                      {name}
+                    </MenuItem>
+                  ))}
               </Select>
             </FormControl>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleClickClose}>Cancel</Button>
+          <Button onClick={handleChangeDistrict}>Ok</Button>
         </DialogActions>
       </Dialog>
 
       <DateSection>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]} sx={{ width: "200px" }}>
+          <DemoContainer components={['DatePicker']} sx={{ width: '200px' }}>
             <DesktopDatePicker
               format="YYYY-MM-DD"
               label="날짜 선택"
               value={date}
               onChange={(newValue) => setDate(newValue)}
-              maxDate={dayjs().add(7, "day")}
-              slotProps={{ textField: { size: "small" } }}
+              maxDate={dayjs().add(7, 'day')}
+              slotProps={{ textField: { size: 'small' } }}
             />
           </DemoContainer>
         </LocalizationProvider>
@@ -166,7 +206,11 @@ const Section = styled.div`
   align-items: end;
 
   > div {
-    margin-left: 8px;
+    margin-left: 6px;
+  }
+
+  .district .MuiInputBase-input {
+    cursor: pointer;
   }
 `;
 

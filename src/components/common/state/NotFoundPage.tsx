@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export function NotFound() {
   return (
@@ -17,6 +17,8 @@ const Layout = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: calc(100vh - 140px);
+  box-sizing: border-box;
 
   .error {
     font-size: larger;

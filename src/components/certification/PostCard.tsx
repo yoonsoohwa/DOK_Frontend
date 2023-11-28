@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch, setCertificationDetailId } from '../../store';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
+import { EditMenu } from 'common/user/EditMenu';
+import { useNavigate } from 'react-router';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
@@ -17,21 +19,26 @@ interface CertifiPostCardProps {
 export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
   const { user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
     dispatch(setCertificationDetailId(contents._id));
     onclick?.();
   };
 
+  const handleEdit = () => {
+    dispatch(setCertificationDetailId(contents._id));
+    navigate('write');
+  };
+
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
-      <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
+      <EditMenu handleEdit={handleEdit} />
       <Tooltip
         title={
           <div style={{ fontSize: '14px' }}>
             <Pets fontSize="inherit" />
-            {` ${matchingPost.userDog.dogName}`}
             {` ${matchingPost.userDog.dogName}`}
           </div>
         }
@@ -46,7 +53,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
           <AccessTime sx={{ fontSize: '20px' }} />
           <span>{dateTimeFormat(matchingPost.walkingDate.toString())}</span>
         </div>
-        <div className={`detail ${review && 'review'}`}>
+        <div className={`detail ${review.rating && 'review'}`}>
           {postText}
           {review.rating && (
             <Review>
@@ -65,8 +72,8 @@ export const CardContainer = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.main4};
-  margin: 0 6px 4px 0;
+  background-color: #fff;
+  margin: 0 6px 4px;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
@@ -83,9 +90,8 @@ export const CardContainer = styled.div`
     object-fit: cover;
   }
 
-  @media screen and (max-width: 784px) {
+  @media screen and (max-width: 796px) {
     max-width: 43vw;
-    font-size: 14px;
   }
 
   &:hover {

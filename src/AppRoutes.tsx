@@ -1,12 +1,12 @@
-import styled from "styled-components";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NonMemberHeader } from "./components/header/NonMember";
-import { MemberHeader } from "./components/header/Member";
-import { Footer } from "./components/footer/Footer";
+import styled from 'styled-components';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { NonMemberHeader } from './components/header/NonMember';
+import { MemberHeader } from './components/header/Member';
+import { Footer } from './components/footer/Footer';
 
-import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from "./pages";
-import { useScrollTop } from "./hooks/useScrollTop";
-import { NotFound } from "common/state/NotFoundPage";
+import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from './pages';
+import { useScrollTop } from './hooks/useScrollTop';
+import { NotFound } from 'common/state/NotFoundPage';
 
 export function AppRoutes() {
   useScrollTop();
@@ -43,4 +43,6 @@ const DivForHeaderFooter = styled.div`
 
 const DivForFixedHeader = styled.div`
   padding-top: 80px;
+  min-height: calc(100vh - 60px);
+  box-sizing: border-box;
 `;

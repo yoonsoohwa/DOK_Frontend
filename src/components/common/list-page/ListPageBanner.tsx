@@ -1,14 +1,13 @@
-import { styled } from "styled-components";
-import petIcon from "/svg/pets.svg";
-import footprintImg from "/image/six_footprint.png";
-import dogwalkImg from "/svg/walking_dog.svg";
-import React from "react";
+import { styled } from 'styled-components';
+import petIcon from '/svg/pets.svg';
+import footprintImg from '/svg/six_footprint.svg';
+import React from 'react';
 
 interface ListPageBannerProps {
   title: string;
   desc: string;
   children: React.ReactNode;
-  color?: "sub" | "sub2" | "sub3";
+  color?: 'sub' | 'sub2' | 'sub3';
 }
 
 export function ListPageBanner({ title, desc, children, color }: ListPageBannerProps) {
