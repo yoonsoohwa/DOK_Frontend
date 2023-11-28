@@ -239,7 +239,11 @@
       },
       "certificationImg": ["https://i.pinimg.com/564x/9d/b8/86/9db886bb5475cc35a7f450831f4125bc.jpg", "https://i.pinimg.com/564x/7c/1d/65/7c1d65e17df5c48b98aadbc574ba41c1.jpg"],
       "sublocation": "캔디 어린이 공원",
-      "review": "sadas",
+      "postText": "zxczxczczxczxxczxczczxcczxczxczxczxczxczxczxczxc\nasdkaskdhjbfsdfafa\nzxcasfwgs",
+      "review": {
+        "rating": 4.5,
+        "reviewText": ""
+      },
       "deletedAt": null,
       "createdAt": "2023-11-22T18:13:09.020",
       "updatedAt": "2023-11-22T14:13:09.020"
@@ -292,7 +296,11 @@
         "https://i.pinimg.com/564x/84/17/de/8417de4c34a17daf297dd8979e33245f.jpg"
       ],
       "sublocation": "캔디 어린이 공원",
-      "review": null,
+      "postText": "zxczxczczxczxxczxczczxcczxczxczxczxczxczxczxczxc\nasdkaskdhjbfsdfafa\nzxcasfwgs",
+      "review": {
+        "rating": 4,
+        "reviewText": ""
+      },
       "deletedAt": null,
       "createdAt": "2023-11-17T14:13:09.020",
       "updatedAt": "2023-11-17T14:13:09.020"
@@ -340,7 +348,11 @@
       },
       "certificationImg": ["https://i.pinimg.com/564x/84/17/de/8417de4c34a17daf297dd8979e33245f.jpg"],
       "sublocation": "캔디 어린이 공원",
-      "review": "655774f52aaed92f196f1as1",
+      "postText": "zxczxczczxczxxczxczczxcczxczxczxczxczxczxczxczxc\nasdkaskdhjbfsdfafa\nzxcasfwgs",
+      "review": {
+        "rating": 5,
+        "reviewText": ""
+      },
       "deletedAt": null,
       "createdAt": "2023-11-17T14:13:09.020",
       "updatedAt": "2023-11-17T14:13:09.020"
