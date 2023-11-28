@@ -1,8 +1,6 @@
 import { styled } from 'styled-components';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CertifiBanner } from '../components/certification/Banner';
-import { AlertError } from 'common/alert/AlertError';
-import { AlertSuccess } from 'common/alert/AlertSuccess';
 import { Children, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, addCertificationPosts } from '../store';
@@ -12,6 +10,13 @@ import { Dialog } from '@mui/material';
 import { CardListContainer } from '../styles/CardListContainer';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { useInView } from 'react-intersection-observer';
+import { CreateAlert } from '../components/certification/CreateAlert';
+import { Loading } from 'common/state/Loading';
+import { LoadingPage } from 'common/state/LoadingPage';
+import { EmptyData } from 'common/state/EmptyData';
+import { test } from 'api/test';
+
+test();
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,7 +32,7 @@ export function CertificationListPage() {
   const addPostList = async () => {
     const res = await fetch('/src/api/mock/certification.json');
     const data = await res.json();
-    dispatch(addCertificationPosts(data));
+    dispatch(addCertificationPosts(data.data));
     // console.log(certificationPosts);
   };
 
@@ -39,8 +44,12 @@ export function CertificationListPage() {
 
   return (
     <CertificationList>
+      {/* <LoadingPage /> */}
       <CertifiBanner />
       <Section>
+        {/* <Loading /> */}
+        <CreateAlert />
+        {/* <EmptyData /> */}
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
           {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}

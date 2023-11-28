@@ -194,7 +194,7 @@ const Scroll = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  color: ${({ theme }) => theme.gray};
+  color: #bdbdbd;
   margin: 50px 0 30px;
   font-size: 12px;
 `;

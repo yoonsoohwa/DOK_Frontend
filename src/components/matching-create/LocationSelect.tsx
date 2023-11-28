@@ -57,10 +57,13 @@ export function LocationSelect() {
 
   useEffect(() => {
     //사용자 위치 정보로 초기화
-    geocoder.addressSearch("서울특별시 서초구 강남대로 399", function (result, status) {
+    const userLocation = "서울특별시 서초구 강남대로 399";
+
+    geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
       if (status === kakao.maps.services.Status.OK) {
         setPosition({ lat: Number(result[0].y), lng: Number(result[0].x) });
+        dispatch(setLocation(userLocation));
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert("검색 결과가 존재하지 않습니다.");
         return;

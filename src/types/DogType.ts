@@ -1,4 +1,4 @@
-import { UserType } from "./UserType";
+import { UserType, initUserType } from "./UserType";
 
 export interface DogType {
   _id: string;
@@ -11,3 +11,15 @@ export interface DogType {
   personality: string;
   note: string;
 }
+
+export const initDogType = {
+  _id: "",
+  user: initUserType,
+  dogName: "",
+  dogImg: "",
+  birth: "",
+  dogType: "",
+  gender: "",
+  personality: "",
+  note: "",
+};

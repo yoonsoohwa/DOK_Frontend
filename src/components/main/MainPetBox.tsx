@@ -2,7 +2,11 @@ import React from 'react';
 import { styled } from 'styled-components';
 
 interface MainPetBoxProps {
-  petData: { dogImg: string; dogName: string; gender: string };
+  petData: {
+    dogImg: string;
+    dogName: string;
+    gender: string;
+  };
   className: string;
 }
 

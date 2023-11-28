@@ -1,13 +1,13 @@
-import { styled } from "styled-components";
-import userImage from "/temp/뽀삐.png";
-import { UserNickname } from "./UserNickname";
-import timeDiff from "../../../utils/timeDiff";
+import { styled } from 'styled-components';
+import userImage from '/temp/뽀삐.png';
+import { UserNickname } from './UserNickname';
+import timeDiff from '../../../utils/timeDiff';
 
 interface ProfileInfoProps {
   image?: string;
   nickname: string;
   time: string;
-  size?: "small";
+  size?: 'small';
 }
 
 export function ProfileInfo({ image, nickname, time, size }: ProfileInfoProps) {
@@ -38,9 +38,6 @@ const PostUser = styled.div`
       font-size: 16px;
       line-height: 18px;
       font-weight: 400;
-      @media screen and (max-width: 768px) {
-        font-size: 14px;
-      }
     }
 
     > span {
