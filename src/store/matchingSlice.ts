@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { MatchingPostType } from "../types";
 
-type type = {
+type matchingType = {
   matchingPosts: MatchingPostType[];
 };
 
-const initialState: type = {
+const initialState: matchingType = {
   matchingPosts: [],
 };
 
