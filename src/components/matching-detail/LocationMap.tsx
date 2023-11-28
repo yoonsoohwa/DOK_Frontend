@@ -40,4 +40,5 @@ export function LocationMap() {
 
 const MapContainer = styled.div`
   height: 200px;
+  border: 1px solid ${({theme}) => theme.gray};
 `;
