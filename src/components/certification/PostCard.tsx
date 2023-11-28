@@ -67,7 +67,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
 }
 
 export const CardContainer = styled.div`
-  width: 100%;
+  width: 100em;
   max-width: 250px;
   height: fit-content;
   display: flex;
@@ -94,7 +94,7 @@ export const CardContainer = styled.div`
     background-color: #eeeeee;
   }
 
-  @media screen and (max-width: 784px) {
+  @media screen and (max-width: 802px) {
     max-width: 43vw;
   }
 

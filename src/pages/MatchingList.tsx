@@ -1,14 +1,14 @@
-import { styled } from "styled-components";
-import { MatchingBanner } from "../components/matching/Banner";
-import { useState, useEffect, Children } from "react";
-import { AppDispatch, RootState, addMatchingPosts } from "../store";
-import { useDispatch, useSelector } from "react-redux";
-import { MatchingCard } from "../components/matching/Card";
-import { ScrollToTopButton } from "../components/common/button/ScrollTopButton";
-import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
-import { CardListContainer } from "../styles/CardListContainer";
-import { Link } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
+import { styled } from 'styled-components';
+import { MatchingBanner } from '../components/matching/Banner';
+import { useState, useEffect, Children } from 'react';
+import { AppDispatch, RootState, addMatchingPosts } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { MatchingCard } from '../components/matching/Card';
+import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
+import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
+import { CardListContainer } from '../styles/CardListContainer';
+import { Link } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +17,7 @@ export function MatchingListPage() {
   const [scrollRef, inView] = useInView();
 
   const addMatchingCardList = async () => {
-    const res = await fetch('/src/api/mock/matching-posts.json');
+    const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=1&perPage=2');
     const data = await res.json();
     dispatch(addMatchingPosts(data));
   };
@@ -40,7 +40,7 @@ export function MatchingListPage() {
                   <MatchingCard post={post} />
                 </Link>
               );
-            })
+            }),
           )}
         </CardListContainer>
       </Section>

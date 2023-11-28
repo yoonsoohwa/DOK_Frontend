@@ -14,9 +14,6 @@ import { CreateAlert } from '../components/certification/CreateAlert';
 import { Loading } from 'common/state/Loading';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
-import { test } from 'api/test';
-
-test();
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -72,7 +69,7 @@ const CertificationList = styled.div`
   .scroll-ref {
     height: 1px;
     position: relative;
-    bottom: 100px;
+    bottom: 3%;
   }
 `;
 

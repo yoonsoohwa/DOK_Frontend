@@ -1,8 +1,8 @@
-import { styled } from "styled-components";
-import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
-import { CardContainer } from "../certification/PostCard";
-import { MatchingPostType } from "../../types";
-import { ProfileInfo } from "common/user/ProfileInfo";
+import { styled } from 'styled-components';
+import { AccountCircle, LocationOn, AccessTime } from '@mui/icons-material';
+import { CardContainer } from '../certification/PostCard';
+import { MatchingPostType } from '../../types';
+import { ProfileInfo } from 'common/user/ProfileInfo';
 
 interface MatchingCardProps {
   post: MatchingPostType;
@@ -11,7 +11,7 @@ interface MatchingCardProps {
 export function MatchingCard({ post }: MatchingCardProps) {
   const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   return (
-    <CardContainer className={`pointer ${matchingStatus !== "progress" && "ended"}`}>
+    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`}>
       <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
@@ -20,17 +20,17 @@ export function MatchingCard({ post }: MatchingCardProps) {
           <span>{userDog.dogName}</span>
         </div>
         <div>
-          <LocationOn sx={{ fontSize: "120%" }} />
+          <LocationOn sx={{ fontSize: '120%' }} />
           <span>{location.text}</span>
         </div>
         <div>
-          <AccessTime sx={{ fontSize: "120%" }} />
+          <AccessTime sx={{ fontSize: '120%' }} />
           <span>
-            2023-11-12 <span style={{ background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px" }}>1h 30m</span>
+            2023-11-12 <span style={{ background: '#F8F3C1', borderRadius: '50px', padding: '1px 5px' }}>1h 30m</span>
           </span>
         </div>
       </WalkInfo>
-      {matchingStatus !== "progress" && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
+      {matchingStatus !== 'progress' && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
     </CardContainer>
   );
 }
@@ -52,8 +52,6 @@ const WalkInfo = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 10px;
-
     & > div {
       padding: 1px 0;
     }
