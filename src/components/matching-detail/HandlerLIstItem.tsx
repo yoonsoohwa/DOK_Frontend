@@ -1,17 +1,32 @@
-import { styled } from "styled-components";
-import personImg from "/svg/person_img.svg";
-import { Button } from "@mui/material";
+import { styled } from 'styled-components';
+import personImg from '/svg/person_img.svg';
+import { Button } from '@mui/material';
+import { RequestHandlerType } from 'src/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setSelectedHandler } from 'store/index';
 
-export function HandlerListItem() {
+interface type {
+  handler: RequestHandlerType;
+}
+
+export function HandlerListItem({ handler }: type) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { nickname, address, _id: id } = handler.user;
+
+  const onClickHandler = () => {
+    dispatch(setSelectedHandler(handler));
+  };
+
   return (
-    <ItemContainer>
+    <ItemContainer onClick={onClickHandler}>
       <ItemLayout>
         <UserImg src={personImg} />
         <UserInfo>
-          <span>쿵치팍치</span>
-          <span>서울특별시 종로구 효자동</span>
+          <span>{nickname}</span>
+          <span>{address}</span>
         </UserInfo>
-        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: "fit-content" }}>
+        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={() => console.log(id)}>
           프로필
         </Button>
       </ItemLayout>

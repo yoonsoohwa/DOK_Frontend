@@ -22,7 +22,7 @@ export function AppRoutes() {
           <Route path="/certification/write" element={<CertificationCreatePage />} />
 
           <Route path="/matching" element={<MatchingListPage />} />
-          <Route path="/matching/detail" element={<MatchingDetailPage />} />
+          <Route path="/matching/:id" element={<MatchingDetailPage />} />
           <Route path="/matching/write" element={<MatchingCreatePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />

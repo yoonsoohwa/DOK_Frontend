@@ -1,5 +1,6 @@
 [
   {
+    "_id": "6560546b7084e707d9ac8705aa",
     "user": {
       "_id": "655774f52aaed92f196f1aa4",
       "userId": "Skipton Pauer",
@@ -37,9 +38,10 @@
     "deletedAt": null,
     "createdAt": "2023-11-20T06:26:14.699+00:00",
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
+    "_id": "6560546b7084e707d9ac8706bb",
     "user": {
       "_id": "655774f52aaed92f196f1aa5",
       "userId": "dlwlsdl",
@@ -80,9 +82,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560546b7084e707d9ac8707cc",
     "user": {
       "_id": "655774f52aaed92f196f1aa6",
       "userId": "Skipton Pauer",
@@ -117,9 +120,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560546b7084e707d9ac7705dd",
     "user": {
       "_id": "655774f52aaed92f196f1aa4",
       "userId": "Skipton Pauer",
@@ -157,9 +161,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560545b7084e707d9ac8705ee",
     "user": {
       "_id": "655774f52aaed92f196f1aa5",
       "userId": "dlwlsdl",
@@ -200,9 +205,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
+    "_id": "6460546b7084e707d9ac8705ff",
     "user": {
       "_id": "655774f52aaed92f196f1aa6",
       "userId": "Skipton Pauer",
@@ -237,9 +243,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560546b7784e707d9ac8705gg",
     "user": {
       "_id": "655774f52aaed92f196f1aa4",
       "userId": "Skipton Pauer",
@@ -277,9 +284,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560746b7084e707d9ac8705hh",
     "user": {
       "_id": "655774f52aaed92f196f1aa5",
       "userId": "dlwlsdl",
@@ -320,9 +328,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6563546b7084e707d9ac8705ii",
     "user": {
       "_id": "655774f52aaed92f196f1aa6",
       "userId": "Skipton Pauer",
@@ -357,9 +366,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "completed"
   },
   {
+    "_id": "2560546b7084e707d9ac8705jj",
     "user": {
       "_id": "655774f52aaed92f196f1aa4",
       "userId": "Skipton Pauer",
@@ -397,9 +407,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560146b7084e707d9ac8705kk",
     "user": {
       "_id": "655774f52aaed92f196f1aa5",
       "userId": "dlwlsdl",
@@ -440,9 +451,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560549b7084e707d9ac8705ll",
     "user": {
       "_id": "655774f52aaed92f196f1aa6",
       "userId": "Skipton Pauer",
@@ -477,9 +489,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560545b7084e707d9ac8705mm",
     "user": {
       "_id": "655774f52aaed92f196f1aa4",
       "userId": "Skipton Pauer",
@@ -517,9 +530,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리 강아지 산책 시켜주실 성실한 분 모십니다",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "failed"
   },
   {
+    "_id": "6560546b7084e70779ac8705nn",
     "user": {
       "_id": "655774f52aaed92f196f1aa5",
       "userId": "dlwlsdl",
@@ -560,9 +574,10 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 1,
     "requestText": "우리집 강아지 개껌을 좋아해",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "progress"
   },
   {
+    "_id": "6560546b7084e737d9ac8705oo",
     "user": {
       "_id": "655774f52aaed92f196f1aa6",
       "userId": "Skipton Pauer",
@@ -597,6 +612,6 @@
     "updatedAt": "2023-11-20T06:26:14.699+00:00",
     "walkingDuration": 2,
     "requestText": "강아지 산책시켜주실 분 구합니다(급구)",
-    "matchingStatus": "매칭중"
+    "matchingStatus": "failed"
   }
 ]
