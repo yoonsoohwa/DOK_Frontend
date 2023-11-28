@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { LocationMap } from './LocationMap';
 import { useState } from 'react';
+import dateTimeFormat from '../../utils/dateTimeFormat';
+import durationTimeFormat from '../../utils/durationTimeFormat';
 
 
 export function WalkDetailInfo() {
@@ -22,14 +24,14 @@ export function WalkDetailInfo() {
             <CalendarToday />
             <span>산책 날짜</span>
           </TextAlignLayout>
-          <p>{walkingDate.toString()}</p>
+          <p>{dateTimeFormat(walkingDate.toString(), "date")}</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>15:40 ~ 16:10 ({walkingDuration.toString()})</p>
+          <p>15:40 ~ 16:10 ({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>

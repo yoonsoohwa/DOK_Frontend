@@ -1,9 +1,10 @@
-import { styled } from "styled-components";
-import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
-import { CardContainer } from "../certification/PostCard";
-import { MatchingPostType } from "../../types";
-import { ProfileInfo } from "common/user/ProfileInfo";
-import durationTimeFormat from "../../utils/durationTimeFormat";
+import { styled } from 'styled-components';
+import { AccountCircle, LocationOn, AccessTime } from '@mui/icons-material';
+import { CardContainer } from '../certification/PostCard';
+import { MatchingPostType } from '../../types';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import durationTimeFormat from '../../utils/durationTimeFormat';
+import dateTimeFormat from '../../utils/dateTimeFormat';
 
 interface MatchingCardProps {
   post: MatchingPostType;
@@ -12,7 +13,7 @@ interface MatchingCardProps {
 export function MatchingCard({ post }: MatchingCardProps) {
   const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   return (
-    <CardContainer className={`pointer ${matchingStatus !== "progress" && "ended"}`}>
+    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`}>
       <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
@@ -21,17 +22,17 @@ export function MatchingCard({ post }: MatchingCardProps) {
           <span>{userDog.dogName}</span>
         </div>
         <div>
-          <LocationOn sx={{ fontSize: "120%" }} />
+          <LocationOn sx={{ fontSize: '120%' }} />
           <span>{location.text}</span>
         </div>
         <div>
-          <AccessTime sx={{ fontSize: "120%" }} />
+          <AccessTime sx={{ fontSize: '120%' }} />
           <span>
-            2023-11-12 | {durationTimeFormat(Number(walkingDuration))}
+            {dateTimeFormat(walkingDate.toString(), "date")} | {durationTimeFormat(Number(walkingDuration))}
           </span>
         </div>
       </WalkInfo>
-      {matchingStatus !== "progress" && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
+      {matchingStatus !== 'progress' && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
     </CardContainer>
   );
 }
