@@ -21,6 +21,7 @@ export const Bookmark = () => {
         setAnchorEl(null);        
       };
 
+    //   해당부분 코치님 삭제 요청
     const handleBookmarkClick = () => {
         if (clicked) {
         setBookmarkImg(bookmarkOn);
@@ -31,9 +32,13 @@ export const Bookmark = () => {
     };
 
     return <>
+    {/* onClick 했을 때 여러개 함수로 하지말고 하나 핸들러에서 작성 */}
         <img src={bookmarkImg} onClick={(event) => {
-        handleBookmarkClick();        
+        handleBookmarkClick();    
+        
+        //   해당부분 코치님 삭제 요청    
         setClicked(!clicked);
+
         handlePopOverClick(event);        
         }} />
         <Popover
