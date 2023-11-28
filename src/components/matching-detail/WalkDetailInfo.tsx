@@ -5,12 +5,14 @@ import { HandlerSelectContainer } from './HandlerSelectContainer';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { LocationMap } from './LocationMap';
+import { useState } from 'react';
 
 
 export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
+  const [isAuthor, setIsAuthor] = useState(false);  //작성자 여부
 
   return (
     <WalkDetailLayout>
@@ -54,8 +56,7 @@ export function WalkDetailInfo() {
           <p>{requestText}</p>
         </WalkInfoItem>
       </WalkInfoBox>
-      <HandlerSelectContainer />
-      {/* <HandlerRequestButton /> */}
+      {isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}
     </WalkDetailLayout>
   );
 }

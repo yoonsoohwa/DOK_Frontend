@@ -1,10 +1,14 @@
-import { styled } from "styled-components";
-import { useState } from "react";
-import { ClickAwayListener } from "@mui/base/ClickAwayListener";
-import { HandlerListItem } from "./HandlerLIstItem";
-import { ButtonMain } from "common/button/ButtonMain";
+import { styled } from 'styled-components';
+import { Children, useEffect, useState } from 'react';
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
+import { HandlerListItem } from './HandlerLIstItem';
+import { ButtonMain } from 'common/button/ButtonMain';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
 
 export function HandlerSelectContainer() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { requestHandlers, selectedHandler } = useSelector((state: RootState) => state.matching);
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -15,24 +19,51 @@ export function HandlerSelectContainer() {
     setOpen(false);
   };
 
+  const onSubmitHandler = () => {
+
+  }
+
+  useEffect(() => {
+    const RequestHandlerList = async () => {
+      try {
+        const res = await fetch('/src/api/mock/matching-post-requests.json');
+        const data = await res.json();
+        dispatch(setRequestHandlers(data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    RequestHandlerList();
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [selectedHandler]);
+
   return (
     <HandlerSelectLayout>
       <ClickAwayListener onClickAway={handleClickAway}>
         <SelectorLayout>
-          <SelectButtonContainer onClick={handleClick}>핸들러를 선택해주세요.</SelectButtonContainer>
+          {selectedHandler ? (
+            <div onClick={handleClick}>
+              <HandlerListItem handler={selectedHandler} />
+            </div>
+          ) : (
+            <SelectButtonContainer onClick={handleClick}>핸들러를 선택해주세요.</SelectButtonContainer>
+          )}
           {open ? (
             <HandlerListContainer className="custom-scrollbar">
-              <HandlerListItem />
-              <HandlerListItem />
-              <HandlerListItem />
-              <HandlerListItem />
-              <HandlerListItem />
+              {Children.toArray(
+                requestHandlers.map((handler) => {
+                  return <HandlerListItem handler={handler} />;
+                }),
+              )}
             </HandlerListContainer>
           ) : null}
         </SelectorLayout>
       </ClickAwayListener>
       <ButtonContainer>
-        <ButtonMain text="매칭하기" />
+        <ButtonMain text="매칭하기" onClick={onSubmitHandler}/>
       </ButtonContainer>
     </HandlerSelectLayout>
   );
@@ -55,6 +86,10 @@ const SelectorLayout = styled.div`
   position: relative;
   width: 100%;
   height: 3rem;
+
+  > div {
+    border: solid 1.5px ${({theme}) => theme.sub3};
+  }
 `;
 
 const SelectButtonContainer = styled.button`
