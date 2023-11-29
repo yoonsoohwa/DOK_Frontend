@@ -23,8 +23,12 @@ import { styled } from 'styled-components';
 import { Clear, SimCardDownload } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 import beobjeongdong from 'api/beobjeongdong';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store/store';
+import { setMatchingPostsFilter } from 'store/matchingSlice';
 
 export function TopBarFilter() {
+  const dispatch = useDispatch<AppDispatch>();
   const [districtCode, setDistrictCode] = useState('');
   const [district, setDistrict] = useState('');
 
@@ -32,7 +36,7 @@ export function TopBarFilter() {
   const [sigugun, setSigugun] = useState<keyof typeof beobjeongdong.dong | '' | 'all'>('');
   const [dong, setDong] = useState('');
 
-  const [date, setDate] = useState<Dayjs | null>();
+  const [date, setDate] = useState<Dayjs | null>(null);
   const [open, setOpen] = useState(false);
 
   const handleChangeSido = (event: SelectChangeEvent) => {
@@ -73,10 +77,21 @@ export function TopBarFilter() {
     const city = sigugun ? (sigugun === 'all' ? '전체' : sido && beobjeongdong.sigugun[sido].filter(({ code }) => code === sigugun)[0].name) : '';
     const town = dong ? (dong === 'all' ? '전체' : sigugun && sigugun !== 'all' && beobjeongdong.dong[sigugun].filter(({ code }) => code === dong)[0].name) : '';
     setDistrict(sido ? `${state} ${city} ${town}` : '');
-    setDistrictCode(dong || sigugun || sido);
+    setDistrictCode((dong !== 'all' && dong) || (sigugun !== 'all' && sigugun) || sido);
     setOpen(false);
     resetDistrict();
   };
+
+  const setFilter = () => {
+    const filter = { locationCode: districtCode, walkingDate: date?.format() };
+    console.log('set filter : ', filter);
+    dispatch(setMatchingPostsFilter(filter));
+  };
+
+  useEffect(() => {
+    console.log(date);
+    dispatch(setMatchingPostsFilter({ locationCode: districtCode, walkingDate: '' }));
+  }, []);
 
   return (
     <Section>
@@ -192,7 +207,7 @@ export function TopBarFilter() {
       </DateSection>
 
       {/* <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton> */}
-      <SearchButton onClick={() => {}} />
+      <SearchButton onClick={setFilter} />
     </Section>
   );
 }

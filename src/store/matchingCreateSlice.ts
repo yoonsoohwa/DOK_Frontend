@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { DogType } from "../types";
-import dayjs from "dayjs";
+import { createSlice } from '@reduxjs/toolkit';
+import { DogType } from '../types';
+import dayjs from 'dayjs';
 
 type type = {
   dogSelect: DogType | undefined;
@@ -11,8 +11,8 @@ type type = {
   paySelect: number;
   errorPaySelect: boolean;
   requestText: string;
-  location: string | undefined;
-  locationDetail: string;
+  locationSelect: string | undefined;
+  locationDetailSelect: string;
 };
 
 const initialState: type = {
@@ -23,13 +23,13 @@ const initialState: type = {
   durationSelect: 0.5,
   paySelect: 0.5 * 9860,
   errorPaySelect: true,
-  requestText: "",
-  location: "",
-  locationDetail: "",
+  requestText: '',
+  locationSelect: '',
+  locationDetailSelect: '',
 };
 
-const matchingCreateSlice = createSlice({
-  name: "matchingCreate", //이름
+const matchingFormSlice = createSlice({
+  name: 'matchingForm', //이름
   initialState, //초기값
   reducers: {
     setDogSelect: (state, action) => {
@@ -40,7 +40,7 @@ const matchingCreateSlice = createSlice({
     },
     setDateSelect: (state, action: { payload: string | undefined }) => {
       //유효성 검사
-      if (dayjs(action.payload).format() !== "Invalid Date") {
+      if (dayjs(action.payload).format() !== 'Invalid Date') {
         state.dateSelect = action.payload;
       }
     },
@@ -60,10 +60,10 @@ const matchingCreateSlice = createSlice({
       state.requestText = action.payload;
     },
     setLocation: (state, action) => {
-      state.location = action.payload;
+      state.locationSelect = action.payload;
     },
     setLocationDetail: (state, action) => {
-      state.locationDetail = action.payload;
+      state.locationDetailSelect = action.payload;
     },
   },
 });
@@ -79,5 +79,5 @@ export const {
   setRequestText,
   setLocation,
   setLocationDetail,
-} = matchingCreateSlice.actions;
-export default matchingCreateSlice;
+} = matchingFormSlice.actions;
+export default matchingFormSlice;

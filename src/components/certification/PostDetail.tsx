@@ -30,9 +30,11 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   };
 
   useEffect(() => {
+    const url = `http://kdt-sw-6-team01.elicecoding.com/api/certificationRouter/certificationPostDetails/${certificationDetailPostId}`;
     (async () => {
-      const res = await fetch('');
+      const res = await fetch(url);
       const data = await res.json();
+      console.log(data);
       setCertificationDetailPost(data);
     })();
   }, []);

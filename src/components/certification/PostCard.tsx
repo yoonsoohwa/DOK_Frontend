@@ -3,7 +3,6 @@ import { styled } from 'styled-components';
 import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { Rating, Tooltip } from '@mui/material';
-import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, setCertificationDetailId } from '../../store';
 import { CertificationPostType } from '../../types';
@@ -13,21 +12,22 @@ import { useNavigate } from 'react-router';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
-  onclick?: () => void;
+  onclick: () => void;
 }
 
 export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
-  const { user, matchingPost, postText, certificationImg, review, createdAt } = contents;
+  const { _id, user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
-    dispatch(setCertificationDetailId(contents._id));
-    onclick?.();
+    dispatch(setCertificationDetailId(_id));
+    console.log(_id);
+    onclick();
   };
 
   const handleEdit = () => {
-    dispatch(setCertificationDetailId(contents._id));
+    dispatch(setCertificationDetailId(_id));
     navigate('write');
   };
 
@@ -67,7 +67,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
 }
 
 export const CardContainer = styled.div`
-  width: 100%;
+  width: 100em;
   max-width: 250px;
   height: fit-content;
   display: flex;
@@ -94,7 +94,7 @@ export const CardContainer = styled.div`
     background-color: #eeeeee;
   }
 
-  @media screen and (max-width: 784px) {
+  @media screen and (max-width: 802px) {
     max-width: 43vw;
   }
 

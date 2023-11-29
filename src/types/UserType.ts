@@ -13,17 +13,17 @@ export interface UserType {
   updatedAt: Date | string;
 }
 
-export const initUserType = {
-  _id: "",
-  userId: "",
-  password: "",
-  name: "",
-  nickname: "",
-  address: "",
-  phoneNumber: "",
-  introduce: "",
+export const initUserType: UserType = {
+  _id: '',
+  userId: '',
+  password: '',
+  name: '',
+  nickname: '',
+  address: '',
+  phoneNumber: '',
+  introduce: '',
   isCertificated: false,
   deletedAt: null,
-  createdAt: "",
-  updatedAt: "",
+  createdAt: '',
+  updatedAt: '',
 };

@@ -1,8 +1,8 @@
-import React, { Children } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "src/store";
-import { styled } from "styled-components";
-import { MatchingCard } from "../matching/Card";
+import React, { Children } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import { styled } from 'styled-components';
+import { MatchingCard } from '../matching/Card';
 
 interface MainSection2Props {
   title: string;
@@ -26,7 +26,7 @@ export function MainSection2({ title, color }: MainSection2Props) {
   );
 }
 
-const top = 300;
+const top = 380;
 const bottom = 280;
 
 const Section = styled.div`
@@ -58,7 +58,7 @@ const Title = styled.div<{ color: string }>`
   h2 {
     font-size: 40px;
     margin: 0;
-    padding-top: 70px;
+    padding-top: 90px;
     color: ${({ theme, color }) => (color ? theme[color] : theme.main)};
   }
 

@@ -1,7 +1,7 @@
-import React from "react";
-import { styled } from "styled-components";
-import { TopBarTitle } from "./TopBarTitle";
-import { TopBarFilter } from "./TopBarFilter";
+import React from 'react';
+import { styled } from 'styled-components';
+import { TopBarTitle } from './TopBarTitle';
+import { TopBarFilter } from './TopBarFilter';
 
 interface ListPageTopBarProps {
   yellow?: string;
@@ -11,7 +11,7 @@ interface ListPageTopBarProps {
 export function ListPageTopBar({ yellow, black }: ListPageTopBarProps) {
   return (
     <Section>
-      <TopBarTitle yellow="132" black="개의 산책 인증이 있습니다." />
+      <TopBarTitle yellow={yellow} black={black} />
       <TopBarFilter />
     </Section>
   );

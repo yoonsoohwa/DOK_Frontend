@@ -1,13 +1,16 @@
-import { styled } from "styled-components";
-import React from "react";
-import mainTopImage from "/svg/main_header_image.svg";
-import logoImage from "/dok_logo.png";
-import { Pets } from "@mui/icons-material";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import MouseOutlinedIcon from "@mui/icons-material/MouseOutlined";
-import { Link } from "react-router-dom";
+import { styled } from 'styled-components';
+import React from 'react';
+import mainTopImage from '/svg/main_header_image.svg';
+import logoImage from '/dok_logo.png';
+import { Pets } from '@mui/icons-material';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 export function MainInfo() {
+  const { matchingPostCount } = useSelector((state: RootState) => state.main);
+
   return (
     <Section>
       <MainTopImage>
@@ -24,18 +27,18 @@ export function MainInfo() {
             믿을만한 전문가와 내 이웃이 기다리고 있습니다
           </div>
           <div>
-            <div className="color-sub">120</div>
+            <div className="color-sub">{matchingPostCount}</div>
             <div>현재 매칭 신청 수</div>
           </div>
           <div>
-            <Link to={"/matching"} className="link">
+            <Link to={'/matching'} className="link">
               <button className="pointer">
                 <Pets className="pet" />
                 <span>핸들러 구하러 가기</span>
                 <KeyboardArrowRightIcon />
               </button>
             </Link>
-            <Link to={"/certification"} className="link">
+            <Link to={'/certification'} className="link">
               <button className="pointer">
                 <Pets className="pet" />
                 <span>산책 인증 보러 가기</span>
@@ -46,10 +49,6 @@ export function MainInfo() {
         </LeftBox>
         <img src={logoImage} />
       </Contents>
-      <Scroll>
-        <MouseOutlinedIcon className="mouse" />
-        scroll
-      </Scroll>
     </Section>
   );
 }
@@ -115,7 +114,7 @@ const LeftBox = styled.div`
   > div:nth-child(3) {
     display: flex;
     align-items: end;
-    font-family: "Gaegu";
+    font-family: 'Gaegu';
 
     margin-top: 60px;
 
@@ -155,7 +154,7 @@ const LeftBox = styled.div`
       border: none;
       border-radius: 20px;
 
-      font-family: "Gaegu";
+      font-family: 'Gaegu';
       font-weight: 700;
       font-size: 24px;
       letter-spacing: -0.02em;
@@ -188,13 +187,4 @@ const LeftBox = styled.div`
       }
     }
   }
-`;
-
-const Scroll = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  color: #bdbdbd;
-  margin: 50px 0 30px;
-  font-size: 12px;
 `;

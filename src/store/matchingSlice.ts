@@ -9,6 +9,10 @@ type matchingType = {
   requestHandlers: RequestHandlerType[];
   selectedHandler: RequestHandlerType | null;
   matchingComments: MatchingCommentType[];
+  filter: {
+    locationCode: string | undefined;
+    walkingDate: string | undefined;
+  };
 };
 
 const initialState: matchingType = {
@@ -17,12 +21,19 @@ const initialState: matchingType = {
   requestHandlers: [],
   selectedHandler: null,
   matchingComments: [],
+  filter: {
+    locationCode: '',
+    walkingDate: '',
+  },
 };
 
 const matchingSlice = createSlice({
   name: 'matching',
   initialState,
   reducers: {
+    resetMatchingPosts: (state) => {
+      state.matchingPosts = [];
+    },
     addMatchingPosts: (state, action) => {
       state.matchingPosts.push(...action.payload);
     },
@@ -41,8 +52,11 @@ const matchingSlice = createSlice({
     addMatchingComment: (state, action) => {
       state.matchingComments.push(...action.payload);
     },
+    setMatchingPostsFilter: (state, action) => {
+      state.filter = action.payload;
+    },
   },
 });
 
-export const { addMatchingPosts, setMatchingDetailPost, setRequestHandlers, setSelectedHandler, setMatchingComments, addMatchingComment } = matchingSlice.actions;
+export const { resetMatchingPosts, addMatchingPosts, setMatchingDetailPost, setRequestHandlers, setSelectedHandler, setMatchingComments, addMatchingComment, setMatchingPostsFilter } = matchingSlice.actions;
 export default matchingSlice;

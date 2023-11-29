@@ -14,16 +14,14 @@ import { CreateAlert } from '../components/certification/CreateAlert';
 import { Loading } from 'common/state/Loading';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
-import { test } from 'api/test';
-
-test();
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { certificationPosts } = useSelector((state: RootState) => state.certification);
 
   const [open, setOpen] = useState(false);
-  const [scrollRef, inView] = useInView();
+  const [page, setPage] = useState(1);
+  const [scrollRef, inView] = useInView({ threshold: 0.5 });
 
   const handleClose = () => {
     setOpen(false);
@@ -32,6 +30,7 @@ export function CertificationListPage() {
   const addPostList = async () => {
     const res = await fetch('/src/api/mock/certification.json');
     const data = await res.json();
+    console.log(data.data);
     dispatch(addCertificationPosts(data.data));
     // console.log(certificationPosts);
   };

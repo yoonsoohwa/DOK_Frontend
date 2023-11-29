@@ -7,6 +7,7 @@ import { Footer } from './components/footer/Footer';
 import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from './pages';
 import { useScrollTop } from './hooks/useScrollTop';
 import { NotFound } from 'common/state/NotFoundPage';
+import { MatchingUpdatePage } from './pages/MatchingUpdate';
 
 export function AppRoutes() {
   useScrollTop();
@@ -20,10 +21,13 @@ export function AppRoutes() {
           <Route path="/" element={<MainPage />} />
           <Route path="/certification" element={<CertificationListPage />} />
           <Route path="/certification/write" element={<CertificationCreatePage />} />
+          <Route path="/certification/write/:id" element={<CertificationCreatePage />} />
 
           <Route path="/matching" element={<MatchingListPage />} />
           <Route path="/matching/:id" element={<MatchingDetailPage />} />
           <Route path="/matching/write" element={<MatchingCreatePage />} />
+          <Route path="/matching/write/:id" element={<MatchingUpdatePage />} />
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/signup" element={<SignUpPage />} />

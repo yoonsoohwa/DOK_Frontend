@@ -1,39 +1,57 @@
-import { useState } from "react";
-import { styled } from "styled-components";
-import { ChatOutlined, Info, AddBox, LocationOn, Event, AccessTime, MonetizationOnOutlined, Pets } from "@mui/icons-material";
-import { PostCreateFormLayout } from "common/create-page/PostCreateFormLayout";
-import { AlertSnackbar } from "common/alert/AlertSnackbar";
-import { AlertSuccess } from "common/alert/AlertSuccess";
+import { useState } from 'react';
+import { styled } from 'styled-components';
+import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
+import { AlertSnackbar } from 'common/alert/AlertSnackbar';
+import { AlertSuccess } from 'common/alert/AlertSuccess';
 
-import { DogSelect } from "../components/matching-create/DogSelect";
-import { DateSelect } from "../components/matching-create/DateSelect";
-import { DurationSelect } from "../components/matching-create/DurationSelect";
-import { PaySelect } from "../components/matching-create/PaySelect";
-import { RequestTextField } from "../components/matching-create/RequestTextField";
-import { LocationSelect } from "../components/matching-create/LocationSelect";
-import { useDispatch, useSelector } from "react-redux";
+import { DogSelect } from '../components/matching-form/DogSelect';
+import { DateSelect } from '../components/matching-form/DateSelect';
+import { DurationSelect } from '../components/matching-form/DurationSelect';
+import { PaySelect } from '../components/matching-form/PaySelect';
+import { RequestTextField } from '../components/matching-form/RequestTextField';
+import { LocationSelect } from '../components/matching-form/LocationSelect';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from "../store";
-import { useNavigate } from "react-router";
-import { PostCreateGroup } from "common/create-page/PostCreateGroup";
+import { AppDispatch, RootState } from '../store';
+import { useNavigate } from 'react-router';
+import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
+import dayjs from 'dayjs';
 
 export function MatchingCreatePage() {
-  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, location, locationDetail } = useSelector(
-    (state: RootState) => state.matchingCreate
-  );
+  const {
+    dogSelect,
+    errorDogSelect,
+    dateSelect,
+    errorDateSelect,
+    durationSelect,
+    paySelect,
+    errorPaySelect,
+    requestText,
+    locationSelect: location,
+    locationDetailSelect: locationDetail,
+  } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
   const [openError, setOpenError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const navigate = useNavigate();
 
-  const addPost = () => {
-    // fetch("", {
-    //   method: "POST",
-    //   body: {
-    //     dog: dogSelect,
-    //   }
-    // })
-    navigate("/matching");
+  const addPost = async () => {
+    const reqBody = {
+      userDog: dogSelect?._id,
+      price: paySelect,
+      location,
+      locationDetail,
+      walkingDate: dayjs(dateSelect).toDate(),
+      walkingDuration: durationSelect,
+      requestText,
+    };
+
+    const res = await fetch('', {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+    });
+
+    navigate('/matching');
   };
 
   const handleSubmit = () => {
@@ -45,7 +63,7 @@ export function MatchingCreatePage() {
   };
 
   const handleReset = () => {
-    throw new Error("Function not implemented.");
+    throw new Error('Function not implemented.');
   };
 
   return (
