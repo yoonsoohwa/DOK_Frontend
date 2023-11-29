@@ -40,14 +40,14 @@ export function Login() {
     //   .then(json => console.log(json))
     
     // 테스트 데이터
-    const test = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    const test = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signIn", {
         method: "POST", 
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "userId" : {userId},
-          "password" : {password}
+          "userId" : userId,
+          "password" : password,
         }),
     })
       .then(response => response.json())

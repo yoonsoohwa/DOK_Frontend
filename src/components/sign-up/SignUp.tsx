@@ -2,9 +2,15 @@ import React, { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import {Box, Button, TextField, FormControlLabel, Checkbox, colors} from '@mui/material';
 import { PersonInformation, TrilateralAgreement } from "./Agreement";
+import Modal from "react-modal";
+import DaumPostcode from 'react-daum-postcode';
 import { AddressAPI } from "./AddressAPI";
 import { PhoneCertification } from "./PhoneCertification";
 import { error } from "console";
+import { Height, WidthFull } from "@mui/icons-material";
+import zIndex from "@mui/material/styles/zIndex";
+
+
 
 export function SignUp() {
     
@@ -13,10 +19,11 @@ export function SignUp() {
     
     const handleChange1 = (event : React.ChangeEvent<HTMLInputElement>) => {
         setChecked([event.target.checked, event.target.checked]);
+        setAgreeCheck(!agreeCheck);
     };
 
     const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked([event.target.checked, checked[1]]);
+        setChecked([event.target.checked , checked[1] ]);
     };
 
     const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +34,12 @@ export function SignUp() {
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
         <FormControlLabel        
             label={<PersonInformation />}        
-            control={<Checkbox checked={checked[1]} onChange={handleChange2} />}
+            control={<Checkbox checked={checked[0]} disabled onChange={handleChange2} />}
             sx={{marginTop:"2%"}}
         />
         <FormControlLabel
             label={<TrilateralAgreement />}
-            control={<Checkbox checked={checked[1]} onChange={handleChange3} />}
+            control={<Checkbox checked={checked[0]} disabled onChange={handleChange3} />}
             sx={{marginTop:"2%"}}
         />
         </Box>
@@ -49,66 +56,78 @@ export function SignUp() {
     const [nicknameCheck , setNicknameCheck] = useState<boolean>(false);
     const [agreeCheck , setAgreeCheck] = useState<boolean>(false);
     const [formDataCheck, setFormDataCheck] = useState<boolean>(true);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const [idValue , setIdValue] = useState<string>();
     const [pwdValue , setPwdValue] = useState<string>();
     const [pwdConfirmValue , setPwdConfirmValue] = useState<string>();
     const [nameValue , setNameValue] = useState<string>();
-    const [addressValue , setAddressValue] = useState<boolean>(true);
+    const [addressValue , setAddressValue] = useState<string>();
+    const [addressBCode, setAddressBCode] = useState<string>();
     const [phoneValue , setPhoneValue] = useState<string>();
     const [nicknameValue , setNicknameValue] = useState<string>();
     const [agreeValue , setAgreeValue] = useState<boolean>(true);
 
-    useEffect(() => {
-        (idCheck && pwdCheck && pwdConfirmCheck && nameCheck && addressCheck && phoneCheck && nicknameCheck && agreeCheck) ? setFormDataCheck(true) : setFormDataCheck(false);
-    },[idValue, pwdValue, pwdConfirmValue, nameValue, addressValue, phoneValue, nicknameValue, agreeValue])
+        
 
-    const validation =()=>{
-        let check = /^.{11}$/;
-        return !check.test(`${phoneValue}`);
+    useEffect(() => {        
+        idValue !== undefined && idValue.length >= 1 ? setIdCheck(true) : setIdCheck(false);
+        pwdValue !== undefined && pwdValue.length >= 1 ? setPwdCheck(true) : setPwdCheck(false);
+        pwdConfirmValue !== undefined && pwdConfirmValue.length >= 1 ? setPwdConfirmCheck(true) : setPwdConfirmCheck(false);
+        nameValue !== undefined && nameValue.length >= 1 ? setNameCheck(true) : setNameCheck(false);
+        addressValue !== undefined && addressValue.length >= 1 ? setAddressCheck(true) : setAddressCheck(false);
+        phoneValue !== undefined && phoneValue.length >= 1 ? setPhoneCheck(true) : setPhoneCheck(false);
+        nicknameValue !== undefined && nicknameValue.length >= 1 ? setNicknameCheck(true) : setNicknameCheck(false);
+        
+        (idCheck && pwdCheck && pwdConfirmCheck && nameCheck && addressCheck && phoneCheck && nicknameCheck && agreeCheck) ? setFormDataCheck(false) : setFormDataCheck(true);
+    },[idValue, pwdValue, pwdConfirmValue, nameValue, addressValue, phoneValue, nicknameValue, agreeCheck])
+
+    // useEffect(() => {
+        
+    // },[formDataCheck]);
+
+    const phoneValidation =()=>{
+        let check = /^010\d{8}$/;
+        return check.test(`${phoneValue}`);
+    }
+
+    const pwdValidation = () => {
+        let check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/;
+        return check.test(`${pwdValue}`);
+    }
+
+    // 주소 검색
+    const handleAddressSearch = () => {        
+        setIsOpen(true);
+    }
+    const handleSelectAddress = (data : any) => {            
+        setAddressBCode(data.bcode);    
+        setAddressValue(data.address);
+        setIsOpen(false);
     }
 
   const handleCheckFormData = async () => {    
-    // idValue ? alert("true") : alert("false");
-    // const test = await fetch("http://localhost:3000/api/users/signUp", {
-    //     method: "POST", // 또는 'PUT'
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         "userId" : {idValue},
-    //         "password" : {pwdValue},
-    //         "name": {nameValue},
-    //         "nickname" : {nicknameValue},
-    //         "address" : "서울시 어쩌구",
-    //         "phoneNumber" : "1234 5678",
-    //         "introduce" : "",
-    //         "isCertificated": true,
-    //         "deletedAt": ""
-    //     }),
-    // });
+    
+    // 휴대폰 010 지우고 앞 4자리 뒷 4자리 띄워주기 (백에서 이렇게받음)
+    const splitPhoneValue = phoneValue?.substring(3)
+    const firstPhoneValue = splitPhoneValue?.substring(0,4);
+    const secondPhoneValue = splitPhoneValue?.substring(4);
 
-    // console.log(test.json);
+    console.log(addressValue);
 
-    // fetch('https://jsonplaceholder.typicode.com/todos/1')
-    //   .then(response => response.json())
-    //   .then(json => console.log(json))
-
-    // 테스트 데이터
-    console.log(pwdValue);
-
-    const test = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signUp", {
+    const signUp = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signUp", {
         method: "POST", 
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            "userId" : {idValue},
-            "password" : {pwdValue},
-            "name": {nameValue},
-            "nickname" : {nicknameValue},
-            "address" : "서울시 어쩌구",
-            "phoneNumber" : {phoneValue},
+            "userId" : idValue,
+            "password" : pwdValue,
+            "name": nameValue,
+            "nickname" : nicknameValue,
+            "address" : addressValue,
+            // "bcode" : addressBCode,
+            "phoneNumber" : firstPhoneValue +" " + secondPhoneValue,
             "introduce" : "",
             "isCertificated": true,
             "deletedAt": ""
@@ -122,8 +141,10 @@ export function SignUp() {
 
 
 
-
-
+//   ID 중복확인 fetch
+const handleCheckID = async () => {    
+    
+  }
 
 
 
@@ -134,7 +155,7 @@ export function SignUp() {
 
             <ButtonDiv>
                 <TextField
-                    error={idCheck}
+                    error={idValue !== undefined && !idCheck ? true : false}
                     id="testTest"
                     label="아이디"
                     defaultValue={idValue}
@@ -146,7 +167,7 @@ export function SignUp() {
             </ButtonDiv>
 
                 <TextField
-                    error={pwdCheck}
+                    error={pwdValue !== undefined && !pwdValidation() ? true : false}
                     defaultValue={pwdValue}
                     onChange={(event) => setPwdValue(event.target.value)}
                     id="testTest2"
@@ -157,16 +178,18 @@ export function SignUp() {
                 />
                
                <TextField
-                    error={pwdConfirmCheck}
+                    // phoneValue !== undefined && !phoneValidation() ? true : false
+                    error={pwdConfirmValue !== undefined && !(pwdConfirmValue === pwdValue) ? true : false}
                     defaultValue={pwdConfirmValue}
                     onChange={(event) => setPwdConfirmValue(event.target.value)}
                     label="비밀번호 확인"
                     placeholder="비밀번호를 다시 한 번 작성해주세요"
+                    helperText={pwdConfirmValue !== undefined && !(pwdConfirmValue === pwdValue) ? "입력하신 비밀번호가 다릅니다." : ""}
                     sx={{width:"60%", margin:"0 0 5% 0"}}
                 />
                 
                 <TextField
-                    error={nameCheck}
+                    error={nameValue !== undefined && !nameCheck ? true : false}
                     defaultValue={nameValue}
                     onChange={(event) => setNameValue(event.target.value)}
                     id="loginID"
@@ -177,31 +200,59 @@ export function SignUp() {
 
             <ButtonDiv>           
                  {/* 주소검색  */}
-                 {addressCheck ? <AddressAPI addressCheck/> : <AddressAPI />}                 
-                {/* <AddressAPI error={addressCheck ? "error" : null} /> */}
+                 {/* {addressCheck ? <AddressAPI addressCheck/> : <AddressAPI />}   */}
+                 
+                 
+                 <TextField
+                    error={addressValue !== undefined && !addressCheck ? true : false}
+                    label={addressValue}
+                    onChange={(e) => setAddressValue(e.target.value)}
+                    // disabled
+                    sx={{width:"60%", margin:"0 0 5% 0"}}
+                />
+                <Button variant="contained" color="mainB" sx={{margin: "0% 0% 5% 2.5%"}} onClick={handleAddressSearch}>주소검색</Button>
+                
+                <Modal 
+                    isOpen={isOpen} 
+                    ariaHideApp={false}
+                    style={{
+                        content: {                        
+                        width: '50%',
+                        height: '50%',
+                        margin: 'auto',
+                        },
+                    overlay: {
+                        zIndex: 1,
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+                        },
+                        
+                    }}
+                >
+                    <DaumPostcode
+                        onComplete={handleSelectAddress}  
+                    />
+                </Modal>
             </ButtonDiv>
 
             <ButtonDiv>
                 {/* 휴대폰 본인인증 */}
-                {/* {phoneCheck ? <PhoneCertification phoneCheck/> : <PhoneCertification />} */}
-
                 <TextField
                     type="number"
-                    error ={ validation()}
+                    error ={phoneValue !== undefined && !phoneValidation() ? true : false}
                     defaultValue={phoneValue}
                     onChange={(event) => setPhoneValue(event.target.value)}
                     id="loginID"
                     label="전화번호"
                     // placeholder="01012341234"                    
                     // helperText="* 하이픈(-)없이 01012341234 형태로 작성해 주세요"
-                    helperText={validation() ? "올바른 전화번호를 입력해 주세요." : ""}
+                    helperText={phoneValue !== undefined && !phoneValidation() ? "올바른 전화번호를 입력해 주세요." : ""}
                     sx={{width:"60%", margin:"0% 0 5% 0"}}
                 />
             </ButtonDiv>
 
             <ButtonDiv>
                 <TextField
-                    error={nicknameCheck}
+                    error={nicknameValue !== undefined && !nicknameCheck ? true : false}
                     defaultValue={nicknameValue}
                     onChange={(event) => setNicknameValue(event.target.value)}
                     id="loginID"
@@ -216,9 +267,10 @@ export function SignUp() {
                     <FormControlLabel
                         label="모두동의"                        
                         control={
-                            <Checkbox                            
+                            <Checkbox                    
+                            // defaultChecked={true}      
                             checked={checked[0] && checked[1]}
-                            indeterminate={checked[0] !== checked[1]}
+                            // indeterminate={checked[0] !== checked[1]}
                             onChange={handleChange1}
                             />
                         }                        
@@ -241,6 +293,8 @@ export function SignUp() {
     </MainDiv>
   );
 }
+
+
 
 const MainDiv = styled.div`
     
