@@ -3,6 +3,8 @@ import { AccountCircle, LocationOn, AccessTime } from '@mui/icons-material';
 import { CardContainer } from '../certification/PostCard';
 import { MatchingPostType } from '../../types';
 import { ProfileInfo } from 'common/user/ProfileInfo';
+import durationTimeFormat from '../../utils/durationTimeFormat';
+import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -47,7 +49,7 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
         <div>
           <AccessTime sx={{ fontSize: '120%' }} />
           <span>
-            2023-11-12 <span style={{ background: '#F8F3C1', borderRadius: '50px', padding: '1px 5px' }}>1h 30m</span>
+            {dateTimeFormat(walkingDate.toString(), "date")} | {durationTimeFormat(Number(walkingDuration))}
           </span>
         </div>
       </WalkInfo>

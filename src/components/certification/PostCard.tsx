@@ -51,7 +51,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
       <Contents>
         <div>
           <AccessTime sx={{ fontSize: '20px' }} />
-          <span>{dateTimeFormat(matchingPost.walkingDate.toString())}</span>
+          <span>{dateTimeFormat(matchingPost.walkingDate.toString(), "date-time")}</span>
         </div>
         <div className={`detail ${review.rating && 'review'}`}>
           {postText}

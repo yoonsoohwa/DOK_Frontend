@@ -80,6 +80,12 @@ export function MatchingListPage() {
 const MatchingList = styled.div`
   width: 100%;
   margin: 0 auto;
+
+  .scroll-ref {
+    height: 1px;
+    position: relative;
+    bottom: 200px;
+  }
 `;
 
 const Section = styled.div`

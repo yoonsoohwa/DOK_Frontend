@@ -18,6 +18,11 @@ export function HandlerListItem({ handler }: type) {
     dispatch(setSelectedHandler(handler));
   };
 
+  const onClickToProfileHandler = (e:any) => {
+    e.stopPropagation();
+    console.log(handler)
+  }
+
   return (
     <ItemContainer onClick={onClickHandler}>
       <ItemLayout>
@@ -26,7 +31,7 @@ export function HandlerListItem({ handler }: type) {
           <span>{nickname}</span>
           <span>{address}</span>
         </UserInfo>
-        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={() => console.log(id)}>
+        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
         </Button>
       </ItemLayout>
