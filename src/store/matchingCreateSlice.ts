@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { DogType } from '../types';
 import dayjs from 'dayjs';
 
-type type = {
+type initialStateType = {
   dogSelect: DogType | undefined;
   errorDogSelect: boolean;
   dateSelect: string | undefined;
@@ -15,7 +15,7 @@ type type = {
   locationDetailSelect: string;
 };
 
-const initialState: type = {
+const initialState: initialStateType = {
   dogSelect: undefined,
   errorDogSelect: true,
   dateSelect: undefined,
@@ -32,6 +32,9 @@ const matchingFormSlice = createSlice({
   name: 'matchingForm', //이름
   initialState, //초기값
   reducers: {
+    resetMatchingSelect: (state) => {
+      Object.assign(state, initialState);
+    },
     setDogSelect: (state, action) => {
       state.dogSelect = action.payload;
     },
@@ -69,6 +72,7 @@ const matchingFormSlice = createSlice({
 });
 
 export const {
+  resetMatchingSelect,
   setDogSelect,
   setErrorDogSelect,
   setDateSelect,
