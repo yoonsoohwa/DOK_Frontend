@@ -12,7 +12,7 @@ import durationTimeFormat from '../../utils/durationTimeFormat';
 export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   if (!matchingDetailPost) return <></>;
-  const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
+  const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus } = matchingDetailPost;
   const [isAuthor, setIsAuthor] = useState(true); //작성자 여부
 
   return (
@@ -32,12 +32,13 @@ export function WalkDetailInfo() {
           </TextAlignLayout>
           <p>15:40 ~ 16:10 ({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
-        <WalkInfoItem><MapLayout>
-          <TextAlignLayout>
-            <LocationOn />
-            <span>만남 장소</span>
-            <p>{`${location?.text} (${locationDetail})`}</p>
-          </TextAlignLayout>
+        <WalkInfoItem>
+          <MapLayout>
+            <TextAlignLayout>
+              <LocationOn />
+              <span>만남 장소</span>
+              <p>{`${location?.text} (${locationDetail})`}</p>
+            </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>
         </WalkInfoItem>
@@ -56,7 +57,11 @@ export function WalkDetailInfo() {
           <p>{requestText}</p>
         </WalkInfoItem>
       </WalkInfoBox>
-      {isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}
+      {matchingStatus === 'process' && (
+        <HandlerContainer>
+          {isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}
+        </HandlerContainer>
+      )}
     </WalkDetailLayout>
   );
 }
@@ -80,7 +85,7 @@ const WalkInfoBox = styled(FlexLayout)`
   background-color: ${({ theme }) => theme.main4};
   border-radius: 8px;
   border: 1px dashed #fcd11e;
-  padding: 30px 19px;
+  padding: 35px 20px;
   justify-content: space-between;
   align-items: normal;
   box-sizing: border-box;
@@ -124,4 +129,11 @@ const MapLayout = styled(FlexLayout)`
   align-items: normal;
   flex: 1;
   gap: 7px;
+`;
+
+const HandlerContainer = styled.div`
+  width: 100%;
+  padding-top: 23px;
+  display: flex;
+  justify-content: center;
 `;

@@ -37,7 +37,6 @@ export function HandlerSelectContainer() {
             }
         });
         const data = await res.json();
-        console.log(data);
         console.log(matchingPostId, user._id);
       } catch (err) {
         // console.log(err);
@@ -96,7 +95,6 @@ export function HandlerSelectContainer() {
 
 const HandlerSelectLayout = styled.div`
   display: flex;
-  margin-top: 15px;
   align-items: center;
   width: 100%;
   justify-content: space-between;
@@ -110,7 +108,7 @@ const ButtonContainer = styled.div`
 const SelectorLayout = styled.div`
   position: relative;
   width: 100%;
-  height: 3rem;
+  height: 50px;
 
   > div {
     border: solid 1.5px ${({ theme }) => theme.sub3};

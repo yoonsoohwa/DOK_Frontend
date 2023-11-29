@@ -37,7 +37,7 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
   }
 
   return (
-    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`} onClick={handleToDetail}>
+    <CardContainer className={`pointer ${matchingStatus !== 'process' && 'ended'}`} onClick={handleToDetail}>
       <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
       <EditMenu handleEdit={handleEdit} />
       <img src={userDog.dogImg} className="main-img" />
@@ -57,7 +57,7 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
           </span>
         </div>
       </WalkInfo>
-      {matchingStatus !== 'progress' && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
+      {matchingStatus !== 'process' && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
     </CardContainer>
   );
 }

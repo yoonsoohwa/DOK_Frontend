@@ -1,18 +1,19 @@
-import { styled } from "styled-components";
-import { DogProfile } from "../components/matching-detail/DogProfile";
-import { WalkDetailInfo } from "../components/matching-detail/WalkDetailInfo";
-import { CommentContainer } from "../components/matching-detail/CommentContainer";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "store/store";
-import { setMatchingDetailPost, setSelectedHandler } from "store/matchingSlice";
+import { styled } from 'styled-components';
+import { DogProfile } from '../components/matching-detail/DogProfile';
+import { WalkDetailInfo } from '../components/matching-detail/WalkDetailInfo';
+import { CommentContainer } from '../components/matching-detail/CommentContainer';
+import { StatusBanner } from '../components/matching-detail/StatusBanner';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from 'store/store';
+import { setMatchingDetailPost, setSelectedHandler } from 'store/matchingSlice';
 
 export function MatchingDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
-  const [isloading, setIsLoading] = useState<boolean>(true);
-  
+  const [isloading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState('process');
 
   useEffect(() => {
     const matchingDetailData = async () => {
@@ -22,6 +23,7 @@ export function MatchingDetailPage() {
         const data = await res.json();
         dispatch(setMatchingDetailPost(data[0]));
         dispatch(setSelectedHandler(null));
+        setStatus(data[0].matchingStatus);
       } catch (error) {
         console.log(error);
       } finally {
@@ -37,6 +39,7 @@ export function MatchingDetailPage() {
       {isloading ? null : (
         <MatchingDetailLayout>
           <ContentBox>
+            {status !== 'process' && <StatusBanner />}
             <WalkContainer>
               <DogProfile />
               <WalkDetailInfo />

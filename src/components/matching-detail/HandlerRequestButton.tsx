@@ -15,7 +15,7 @@ export function HandlerRequestButton() {
   const [isRequestHandler, setIsRequestHandler] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-  const userId = '6563f3569187c8fe58c24106';
+  const userId = '65656a8ce1ac8eee2d3352c3';
 
   const onClickHandler = () => {
     if (!isLogined) {
@@ -59,12 +59,11 @@ export function HandlerRequestButton() {
       <AlertSnackbar title="이미 신청한 산책글입니다." open={openRequestErrorSnackber} onClose={() => setOpenRequestErrorSnackber(false)} type="error" duration={1500} />
       <AlertSnackbar title="핸들러 신청이 완료되었습니다." open={openSuccessRequestSnackbar} onClose={() => setOpenSuccessRequestSnackbar(false)} duration={1500} />
       <AlertSuccess title="이 산책글의 핸들러를 신청하시겠습니까?" open={openSuccessAlert} onClick={onClickApplyHandler} onClose={() => setOpenSuccessAlert(false)} />
-      <ButtonMain text="핸들러 신청하기" fill={true} onClick={onClickHandler} />
+      <ButtonMain text="핸들러 신청하기" fill={true} onClick={onClickHandler} size="large" />
     </ButtonContainer>
   );
 }
 
 const ButtonContainer = styled.div`
   width: 200px;
-  margin-top: 30px;
 `;

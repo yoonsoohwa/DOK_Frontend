@@ -37,7 +37,7 @@ export function MatchingListPage() {
     const data = await res.json();
     console.log(url, data);
 
-    dispatch(addMatchingPosts(data));
+    dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);
   };
 
@@ -61,9 +61,7 @@ export function MatchingListPage() {
           {Children.toArray(
             matchingPosts.map((post) => {
               return (
-                // <Link to={`/matching/${post._id}`}>
                 <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />
-                // </Link>
               );
             }),
           )}
