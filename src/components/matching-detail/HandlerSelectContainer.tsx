@@ -30,7 +30,7 @@ export function HandlerSelectContainer() {
     const sendSelectedHandler = async () => {
       const { matchingPostId, user } = selectedHandler;
       try {
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/6565b395e7ae4e5e9526ffc0/${user._id}`, {
+        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${matchingPostId}/${user._id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

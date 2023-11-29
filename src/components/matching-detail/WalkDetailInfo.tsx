@@ -13,7 +13,7 @@ export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration } = matchingDetailPost;
-  const [isAuthor, setIsAuthor] = useState(false); //작성자 여부
+  const [isAuthor, setIsAuthor] = useState(true); //작성자 여부
 
   return (
     <WalkDetailLayout>
@@ -36,7 +36,7 @@ export function WalkDetailInfo() {
           <TextAlignLayout>
             <LocationOn />
             <span>만남 장소</span>
-            <p>{`${location.text} (${locationDetail})`}</p>
+            <p>{`${location?.text} (${locationDetail})`}</p>
           </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>

@@ -32,8 +32,12 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
     navigate(`/matching/write/${_id}`, { state: { post } });
   };
 
+  const handleToDetail = () => {
+    navigate(`/matching/${_id}`);
+  }
+
   return (
-    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`}>
+    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`} onClick={handleToDetail}>
       <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
       <EditMenu handleEdit={handleEdit} />
       <img src={userDog.dogImg} className="main-img" />

@@ -17,9 +17,11 @@ export function CommentContainer() {
       try {
         const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/comment/${id}`);
         const data = await res.json();
-        dispatch(setMatchingComments(data));
-        if (data.length !== 0) setHasComment(true);
         console.log(data);
+        if (res.status === 200) {
+          dispatch(setMatchingComments(data));
+          if (data.length !== 0) setHasComment(true);
+        }
       } catch (err) {
         console.log(err);
       }
