@@ -2,10 +2,15 @@ import { FormLabel, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setRequestText } from '../../store';
 import { ChatOutlined } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 export function RequestTextField() {
   const { requestText } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(setRequestText(''));
+  }, []);
 
   return (
     <>

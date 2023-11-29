@@ -28,6 +28,7 @@ export function DogSelect() {
       const data = await res.json();
       setDogs(data);
     })();
+    dispatch(setDogSelect(undefined));
   }, []);
 
   return (

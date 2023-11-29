@@ -21,7 +21,10 @@ export function MatchingListPage() {
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) //전체 길이보다 작거나 같으면 그만 요청
-    let url = `http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=${page}&perPage=12`;
+    console.log('add list ');
+
+    const _page = matchingPosts.length ? page : 1;
+    let url = `http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=${_page}&perPage=12`;
 
     if (filter.locationCode) {
       url += `&locationCode=${filter.locationCode}`;
@@ -35,7 +38,7 @@ export function MatchingListPage() {
     console.log(url, data);
 
     dispatch(addMatchingPosts(data));
-    setPage((cur) => cur + 1);
+    setPage(_page + 1);
   };
 
   const handleAlert = () => {
@@ -45,13 +48,9 @@ export function MatchingListPage() {
   useEffect(() => {
     if (inView) {
       addMatchingCardList();
+      console.log('in view');
     }
-  }, [inView, filter]);
-
-  useEffect(() => {
-    dispatch(resetMatchingPosts());
-    setPage(1);
-  }, [filter]);
+  }, [filter, inView]);
 
   return (
     <MatchingList>

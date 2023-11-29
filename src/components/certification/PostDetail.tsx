@@ -14,7 +14,7 @@ interface CertificationPostDetailProps {
 }
 
 export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
-  const { certificationDetailPostId } = useSelector((state: RootState) => state.certification);
+  const { certificationDetailPost: certificationDetailPostId } = useSelector((state: RootState) => state.certification);
   const [certificationDetailPost, setCertificationDetailPost] = useState<CertificationPostType>(initCertificationPostType);
   let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
 

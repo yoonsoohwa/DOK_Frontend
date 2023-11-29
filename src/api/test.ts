@@ -1,5 +1,5 @@
 export async function test() {
-  const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/api/certificationRouter/postCertificationPost', {
+  const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/api/matchingRequestRouter/matchingRequest/sadasd', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

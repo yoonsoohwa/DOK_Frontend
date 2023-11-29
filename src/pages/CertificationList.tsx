@@ -14,6 +14,8 @@ import { CreateAlert } from '../components/certification/CreateAlert';
 import { Loading } from 'common/state/Loading';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
+import { certificationUrl } from 'api/apiUrls';
+import { test } from 'api/test';
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,16 +30,11 @@ export function CertificationListPage() {
   };
 
   const addPostList = async () => {
-    const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/src/api/mock/certification.json', {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    });
+    // `${certificationUrl}/allCertificationPost`
+    const res = await fetch('src/api/mock/certification.json');
     const data = await res.json();
     console.log(data.data);
     dispatch(addCertificationPosts(data.data));
-    // console.log(certificationPosts);
   };
 
   useEffect(() => {
