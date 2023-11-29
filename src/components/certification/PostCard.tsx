@@ -12,10 +12,10 @@ import { useNavigate } from 'react-router';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
-  onclick: () => void;
+  onClick: () => void;
 }
 
-export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
+export function CertifiPostCard({ contents, onClick }: CertifiPostCardProps) {
   const { _id, user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
   const handleOpenDetail = (e: React.MouseEvent) => {
     dispatch(setCertificationDetailId(_id));
     console.log(_id);
-    onclick();
+    onClick();
   };
 
   const handleEdit = () => {
@@ -51,7 +51,7 @@ export function CertifiPostCard({ contents, onclick }: CertifiPostCardProps) {
       <Contents>
         <div>
           <AccessTime sx={{ fontSize: '20px' }} />
-          <span>{dateTimeFormat(matchingPost.walkingDate.toString(), "date-time")}</span>
+          <span>{dateTimeFormat(matchingPost.walkingDate.toString(), 'date-time')}</span>
         </div>
         <div className={`detail ${review.rating && 'review'}`}>
           {postText}

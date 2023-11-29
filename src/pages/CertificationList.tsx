@@ -28,7 +28,12 @@ export function CertificationListPage() {
   };
 
   const addPostList = async () => {
-    const res = await fetch('/src/api/mock/certification.json');
+    const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/src/api/mock/certification.json', {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    });
     const data = await res.json();
     console.log(data.data);
     dispatch(addCertificationPosts(data.data));
@@ -51,7 +56,7 @@ export function CertificationListPage() {
         {/* <EmptyData /> */}
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
-          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}
+          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} />))}
           <MyDialog onClose={handleClose} open={open} maxWidth={false}>
             <CertificationPostDetail handleClose={handleClose} />
           </MyDialog>
