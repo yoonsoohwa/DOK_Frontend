@@ -1,10 +1,10 @@
-import { FormLabel, TextField } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setRequestText } from "../../store";
-import { ChatOutlined } from "@mui/icons-material";
+import { FormLabel, TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setRequestText } from '../../store';
+import { ChatOutlined } from '@mui/icons-material';
 
 export function RequestTextField() {
-  const { requestText } = useSelector((state: RootState) => state.matchingCreate);
+  const { requestText } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
   return (

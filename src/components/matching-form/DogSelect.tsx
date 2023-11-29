@@ -3,11 +3,11 @@ import dog from '/svg/dog_default.svg';
 import { Children, useEffect, useState } from 'react';
 import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { DogType } from 'src/types';
+import { DogType } from '../../types';
 import { Pets } from '@mui/icons-material';
 
 export function DogSelect() {
-  const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingCreate);
+  const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
   const [dogs, setDogs] = useState<DogType[]>();
 

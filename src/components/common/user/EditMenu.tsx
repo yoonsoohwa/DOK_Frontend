@@ -15,11 +15,15 @@ export function EditMenu({ handleEdit, handleRemove }: EditMenuProps) {
   };
 
   const handleOpen = (e: React.MouseEvent) => {
-    setOpen(!open);
+    setOpen(true);
+  };
+
+  const handleClose = (e: React.MouseEvent) => {
+    setOpen(false);
   };
 
   return (
-    <IconBox onClick={handleStopPropagation}>
+    <IconBox onClick={handleStopPropagation} onMouseLeave={handleClose}>
       <MoreVert className="icon" onClick={handleOpen} />
       {open && (
         <ul className="menu">
@@ -38,6 +42,10 @@ const IconBox = styled.div`
 
   .icon {
     color: #747474;
+
+    &:hover {
+      color: ${({ theme }) => theme.sub};
+    }
   }
 
   .menu {

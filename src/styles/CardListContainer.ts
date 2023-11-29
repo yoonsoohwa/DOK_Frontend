@@ -16,7 +16,7 @@ export const CardListContainer = styled.div`
     grid-template-columns: repeat(3, 1fr);
   }
 
-  @media screen and (max-width: 796px) {
+  @media screen and (max-width: 802px) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;

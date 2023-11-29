@@ -1,20 +1,20 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setLocation, setLocationDetail } from "store/index";
-import styled from "styled-components";
-import { LocationOn, Search } from "@mui/icons-material";
-import { SearchButton } from "common/button/SearchButton";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setLocation, setLocationDetail } from 'store/index';
+import styled from 'styled-components';
+import { LocationOn, Search } from '@mui/icons-material';
+import { SearchButton } from 'common/button/SearchButton';
 
 const geocoder = new kakao.maps.services.Geocoder();
 // 키워드 검색
 // const ps = new kakao.maps.services.Places();
 
 export function LocationSelect() {
-  const { location, locationDetail } = useSelector((state: RootState) => state.matchingCreate);
+  const { locationSelect: location, locationDetailSelect: locationDetail } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState('');
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [mapOpen, setMapOpen] = useState(false);
 
@@ -28,7 +28,7 @@ export function LocationSelect() {
   };
 
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
-    if (reason !== "backdropClick") {
+    if (reason !== 'backdropClick') {
       setMapOpen(false);
     }
   };
@@ -57,7 +57,7 @@ export function LocationSelect() {
 
   useEffect(() => {
     //사용자 위치 정보로 초기화
-    const userLocation = "서울특별시 서초구 강남대로 399";
+    const userLocation = '서울특별시 서초구 강남대로 399';
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
@@ -65,10 +65,10 @@ export function LocationSelect() {
         setPosition({ lat: Number(result[0].y), lng: Number(result[0].x) });
         dispatch(setLocation(userLocation));
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert("검색 결과가 존재하지 않습니다.");
+        alert('검색 결과가 존재하지 않습니다.');
         return;
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert("검색 결과 중 오류가 발생했습니다.");
+        alert('검색 결과 중 오류가 발생했습니다.');
         return;
       }
     });
@@ -99,9 +99,9 @@ export function LocationSelect() {
             isPanto={true}
             style={{
               // 지도의 크기
-              width: "80vw",
-              maxWidth: "1024px",
-              height: "60vh",
+              width: '80vw',
+              maxWidth: '1024px',
+              height: '60vh',
             }}
             level={2} // 지도의 확대 레벨
             onClick={(_t, mouseEvent) =>

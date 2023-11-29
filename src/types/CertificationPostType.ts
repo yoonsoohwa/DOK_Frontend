@@ -1,5 +1,5 @@
-import { MatchingPostType, initMatchingPostType } from "./MatchingPostType";
-import { UserType, initUserType } from "./UserType";
+import { MatchingPostType, initMatchingPostType } from './MatchingPostType';
+import { UserType, initUserType } from './UserType';
 
 export interface CertificationPostType {
   _id: string;
@@ -17,18 +17,18 @@ export interface CertificationPostType {
   updatedAt: string;
 }
 
-export const initCertificationPostType = {
-  _id: "",
+export const initCertificationPostType: CertificationPostType = {
+  _id: '',
   user: initUserType,
   matchingPost: initMatchingPostType,
   certificationImg: [],
-  sublocation: "",
-  postText: "",
+  sublocation: '',
+  postText: '',
   review: {
     rating: null,
-    reviewText: "",
+    reviewText: '',
   },
   deletedAt: null,
-  createdAt: "",
-  updatedAt: "",
+  createdAt: '',
+  updatedAt: '',
 };

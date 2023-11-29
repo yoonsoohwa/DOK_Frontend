@@ -1,31 +1,57 @@
-import { styled } from "styled-components";
-import { MatchingBanner } from "../components/matching/Banner";
-import { useState, useEffect, Children } from "react";
-import { AppDispatch, RootState, addMatchingPosts } from "../store";
-import { useDispatch, useSelector } from "react-redux";
-import { MatchingCard } from "../components/matching/Card";
-import { ScrollToTopButton } from "../components/common/button/ScrollTopButton";
-import { ListPageTopBar } from "../components/common/list-page/ListPageTopBar";
-import { CardListContainer } from "../styles/CardListContainer";
-import { Link } from "react-router-dom";
-import { useInView } from "react-intersection-observer";
+import { styled } from 'styled-components';
+import { MatchingBanner } from '../components/matching/Banner';
+import { useState, useEffect, Children } from 'react';
+import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { MatchingCard } from '../components/matching/Card';
+import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
+import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
+import { CardListContainer } from '../styles/CardListContainer';
+import { Link } from 'react-router-dom';
+import { useInView } from 'react-intersection-observer';
+import { AlertError } from 'common/alert/AlertError';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts } = useSelector((state: RootState) => state.matching);
+  const { matchingPosts, filter } = useSelector((state: RootState) => state.matching);
 
   const [scrollRef, inView] = useInView();
+  const [page, setPage] = useState(1);
+  const [openAlert, setOpenAlert] = useState(false);
 
   const addMatchingCardList = async () => {
-    const res = await fetch('/src/api/mock/matching-posts.json');
+    // if(matchingPosts) //전체 길이보다 작거나 같으면 그만 요청
+    let url = `http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=${page}&perPage=12`;
+
+    if (filter.locationCode) {
+      url += `&locationCode=${filter.locationCode}`;
+    }
+    if (filter.walkingDate) {
+      url += `&walkingDate=${filter.walkingDate}`;
+    }
+
+    const res = await fetch(url);
     const data = await res.json();
+    console.log(url, data);
+
     dispatch(addMatchingPosts(data));
+    setPage((cur) => cur + 1);
   };
+
+  const handleAlert = () => {
+    setOpenAlert(false);
+  };
+
   useEffect(() => {
     if (inView) {
       addMatchingCardList();
     }
-  }, [inView]);
+  }, [inView, filter]);
+
+  useEffect(() => {
+    dispatch(resetMatchingPosts());
+    setPage(1);
+  }, [filter]);
 
   return (
     <MatchingList>
@@ -36,15 +62,16 @@ export function MatchingListPage() {
           {Children.toArray(
             matchingPosts.map((post) => {
               return (
-                <Link to={`/matching/${post._id}`}>
-                  <MatchingCard post={post} />
-                </Link>
+                // <Link to={`/matching/${post._id}`}>
+                <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />
+                // </Link>
               );
-            })
+            }),
           )}
         </CardListContainer>
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
+      <AlertError open={openAlert} onClick={handleAlert} desc={'핸들러 지원 요청이 있는 글은 수정/삭제가 불가능 합니다.'} />
       <ScrollToTopButton />
     </MatchingList>
   );

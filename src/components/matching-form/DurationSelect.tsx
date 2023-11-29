@@ -1,10 +1,10 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setDurationSelect, setPaySelect } from "../../store";
-import { AccessTime } from "@mui/icons-material";
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setDurationSelect, setPaySelect } from '../../store';
+import { AccessTime } from '@mui/icons-material';
 
 export function DurationSelect() {
-  const { durationSelect } = useSelector((state: RootState) => state.matchingCreate);
+  const { durationSelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

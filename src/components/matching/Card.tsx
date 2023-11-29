@@ -1,18 +1,39 @@
-import { styled } from "styled-components";
-import { AccountCircle, LocationOn, AccessTime } from "@mui/icons-material";
-import { CardContainer } from "../certification/PostCard";
-import { MatchingPostType } from "../../types";
-import { ProfileInfo } from "common/user/ProfileInfo";
+import { styled } from 'styled-components';
+import { AccountCircle, LocationOn, AccessTime } from '@mui/icons-material';
+import { CardContainer } from '../certification/PostCard';
+import { MatchingPostType } from '../../types';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { EditMenu } from 'common/user/EditMenu';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AppDispatch, setCertificationDetailId } from 'store/index';
+import { useState } from 'react';
 
 interface MatchingCardProps {
   post: MatchingPostType;
+  openAlert: boolean;
+  setOpenAlert: (arg: boolean) => void;
 }
 
-export function MatchingCard({ post }: MatchingCardProps) {
-  const { user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
+export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProps) {
+  const { _id, user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const handleEdit = async () => {
+    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/:matchingPostId`);
+    const data = await res.json();
+    if (!data.length) {
+      console.log('data: ', data);
+      return setOpenAlert(true);
+    }
+    navigate(`/matching/write/${_id}`, { state: { post } });
+  };
+
   return (
-    <CardContainer className={`pointer ${matchingStatus !== "progress" && "ended"}`}>
+    <CardContainer className={`pointer ${matchingStatus !== 'progress' && 'ended'}`}>
       <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
+      <EditMenu handleEdit={handleEdit} />
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>
@@ -20,17 +41,17 @@ export function MatchingCard({ post }: MatchingCardProps) {
           <span>{userDog.dogName}</span>
         </div>
         <div>
-          <LocationOn sx={{ fontSize: "120%" }} />
-          <span>{location.text}</span>
+          <LocationOn sx={{ fontSize: '120%' }} />
+          <span>{location?.text}</span>
         </div>
         <div>
-          <AccessTime sx={{ fontSize: "120%" }} />
+          <AccessTime sx={{ fontSize: '120%' }} />
           <span>
-            2023-11-12 <span style={{ background: "#F8F3C1", borderRadius: "50px", padding: "1px 5px" }}>1h 30m</span>
+            2023-11-12 <span style={{ background: '#F8F3C1', borderRadius: '50px', padding: '1px 5px' }}>1h 30m</span>
           </span>
         </div>
       </WalkInfo>
-      {matchingStatus !== "progress" && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
+      {matchingStatus !== 'progress' && <MatchingStatusImage src={`/svg/matching_${matchingStatus}.svg`} />}
     </CardContainer>
   );
 }
@@ -52,8 +73,6 @@ const WalkInfo = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    font-size: 10px;
-
     & > div {
       padding: 1px 0;
     }

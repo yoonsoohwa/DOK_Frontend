@@ -12,7 +12,7 @@ interface MainPetBoxProps {
 
 export function MainPetBox({ petData, className }: MainPetBoxProps) {
   return (
-    <Pet className={className}>
+    <Pet className={`pet-box ${className}`}>
       <img className="pet-img" src={petData.dogImg} />
       <div className="gender-name">
         <img src="/svg/gender_female.svg" />
