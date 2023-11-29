@@ -27,6 +27,10 @@ export function PaySelect() {
     handleError(paySelect);
   }, [durationSelect]);
 
+  useEffect(() => {
+    dispatch(setPaySelect(0.5 * 9860));
+  }, []);
+
   return (
     <FormControl fullWidth>
       <FormLabel component="legend" htmlFor="pay">

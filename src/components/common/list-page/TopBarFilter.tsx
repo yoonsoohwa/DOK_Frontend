@@ -25,7 +25,7 @@ import { SearchButton } from 'common/button/SearchButton';
 import beobjeongdong from 'api/beobjeongdong';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store/store';
-import { setMatchingPostsFilter } from 'store/matchingSlice';
+import { resetMatchingPosts, setMatchingPostsFilter } from 'store/matchingSlice';
 
 export function TopBarFilter() {
   const dispatch = useDispatch<AppDispatch>();
@@ -86,10 +86,10 @@ export function TopBarFilter() {
     const filter = { locationCode: districtCode, walkingDate: date?.format() };
     console.log('set filter : ', filter);
     dispatch(setMatchingPostsFilter(filter));
+    dispatch(resetMatchingPosts());
   };
 
   useEffect(() => {
-    console.log(date);
     dispatch(setMatchingPostsFilter({ locationCode: districtCode, walkingDate: '' }));
   }, []);
 
