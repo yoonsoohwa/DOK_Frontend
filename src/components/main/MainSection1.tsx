@@ -1,29 +1,38 @@
-import React, { Children } from "react";
-import { styled } from "styled-components";
-import { MainPetBox } from "./MainPetBox";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import React, { Children } from 'react';
+import { styled } from 'styled-components';
+import { MainPetBox } from './MainPetBox';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import MouseOutlinedIcon from '@mui/icons-material/MouseOutlined';
 
 export function MainSection1() {
   const { dogs } = useSelector((state: RootState) => state.main);
 
   return (
-    <Section>
-      <PetsScrollBox>
-        {Children.toArray(dogs.map(({ dogImg, dogName, gender }, idx) => <MainPetBox className={idx % 2 ? "right" : "left"} petData={{ dogImg, dogName, gender }} />))}
-      </PetsScrollBox>
-      <TitleBox>
-        <div>
-          도크와
-          <br />
-          함께한
-          <br />
-          강아지들
-          <br />
-          <img src="/image/maltiz_retriever.png" />
-        </div>
-      </TitleBox>
-    </Section>
+    <>
+      {dogs.length >= 6 && (
+        <Section>
+          <Scroll>
+            <MouseOutlinedIcon className="mouse" />
+            scroll
+          </Scroll>
+          <PetsScrollBox>
+            {Children.toArray(dogs.map(({ dogImg, dogName, gender }, idx) => <MainPetBox className={idx % 2 ? 'right' : 'left'} petData={{ dogImg, dogName, gender }} />))}
+          </PetsScrollBox>
+          <TitleBox>
+            <div>
+              도크와
+              <br />
+              함께한
+              <br />
+              강아지들
+              <br />
+              <img src="/image/maltiz_retriever.png" />
+            </div>
+          </TitleBox>
+        </Section>
+      )}
+    </>
   );
 }
 
@@ -59,9 +68,18 @@ const TitleBox = styled.div`
 
   text-align: right;
   font-size: 7vw;
-  font-family: "Elice DX Neolli";
+  font-family: 'Elice DX Neolli';
   font-weight: 900;
   color: ${({ theme }) => theme.main};
   line-height: 124%;
   text-shadow: 5px 5px #fff7c7;
+`;
+
+const Scroll = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #bdbdbd;
+  margin: 50px 0 30px;
+  font-size: 12px;
 `;

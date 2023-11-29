@@ -4,19 +4,30 @@ import { PostCreateFormLayout } from '../components/common/create-page/PostCreat
 import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from '@mui/icons-material';
 import { FormLabel, TextField } from '@mui/material';
 import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
+import { useNavigate } from 'react-router-dom';
+import { AlertSnackbar } from 'common/alert/AlertSnackbar';
+import { AlertSuccess } from 'common/alert/AlertSuccess';
 
 export function CertificationCreatePage() {
   // 인증 글 작성은 리덕스 사용 X
   // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
-
+  const [postText, setPostText] = useState('');
+  const [errorPostText, setErrorPostText] = useState(true);
   const [address, setAddress] = useState('');
+  const [errorAddress, setErrorAddress] = useState(true);
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
+  const [errorImages, setErrorImages] = useState(true);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [openError, setOpenError] = useState(false);
+  const [openSubmit, setOpenSubmit] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || !e.target.files[0]) {
       setImages(null);
       setImagesURL(null);
+      setErrorImages(true);
       return;
     }
 
@@ -28,12 +39,65 @@ export function CertificationCreatePage() {
     (물론 브라우저를 종료하면 생성한 URL도 함께 메모리에서 해제된다.) */
     setImages(arrayImg);
     setImagesURL(newImagesURL);
+    setErrorImages(false);
+  };
+
+  const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 50) {
+      setErrorPostText(true);
+    } else {
+      setErrorPostText(false);
+    }
+    setPostText(e.target.value);
+  };
+
+  const handleChangeAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length <= 5) {
+      setErrorAddress(true);
+    } else {
+      setErrorAddress(false);
+    }
+    setAddress(e.target.value);
+  };
+
+  const addPost = async () => {
+    const reqBody = {
+      user: '6563f3569187c8fe58c24105',
+      matchingPost: '656440af540546c344ee6f21',
+      sublocation: location,
+      postText,
+      review: '',
+      deletedAt: null,
+    };
+
+    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/certificationRouter/postCertificationPost`, {
+      method: 'POST',
+      body: JSON.stringify(reqBody),
+    });
+    const data = await res.json();
+    console.log(data);
+
+    navigate('/certification');
+  };
+
+  const handleSubmit = () => {
+    if (errorPostText || errorAddress || errorImages) {
+      console.log(errorPostText, errorAddress, errorImages);
+      return setOpenError(true);
+    }
+    setOpenSubmit(true);
+  };
+
+  const handleReset = () => {
+    throw new Error('Function not implemented.');
   };
 
   return (
     <CertifiCreate>
+      <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
+      <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={addPost} title="글을 작성하시겠습니까?" desc={``} />
       <div className="body">
-        <PostCreateFormLayout onSubmit={() => {}} onReset={() => {}} title="인증 등록하기">
+        <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleReset} title="인증 등록하기">
           <PostCreateGroup title="Link">
             <Contents>
               <Pets className="icon" />
@@ -47,7 +111,7 @@ export function CertificationCreatePage() {
                 <LocationOn className="icon" />
                 산책 장소
               </FormLabel>
-              <TextField id="outlined-multiline-flexible" size="small" value={address} fullWidth />
+              <TextField id="outlined-multiline-flexible" size="small" value={address} onChange={handleChangeAddress} fullWidth />
             </Contents>
 
             <Contents>
@@ -55,7 +119,7 @@ export function CertificationCreatePage() {
                 <ChatOutlined className="icon" />
                 인증 내용
               </FormLabel>
-              <TextField id="outlined-multiline-flexible" multiline rows={4} fullWidth />
+              <TextField value={postText} onChange={handleChangeText} id="outlined-multiline-flexible" multiline rows={4} fullWidth />
             </Contents>
 
             <Contents className="file-input ">
@@ -74,7 +138,7 @@ export function CertificationCreatePage() {
                   onChange={(e) => {
                     if (!e.target.files?.length) return;
                     setImages(e.target.files ? Array.from(e.target.files) : []);
-                    handleImageChange(e);
+                    handleChangeImage(e);
                   }}
                   multiple
                 />

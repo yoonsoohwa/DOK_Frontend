@@ -6,10 +6,12 @@ export interface MatchingPostType {
   user: UserType;
   userDog: DogType;
   price: Number;
-  location: {
-    text: string;
-    code: string;
-  };
+  location:
+    | {
+        text: string;
+        code: string;
+      }
+    | undefined;
   locationDetail: string | null;
   walkingDate: Date | string;
   walkingDuration: Number;
@@ -25,10 +27,7 @@ export const initMatchingPostType: MatchingPostType = {
   user: initUserType,
   userDog: initDogType,
   price: 0,
-  location: {
-    text: '',
-    code: '',
-  },
+  location: undefined,
   locationDetail: '',
   walkingDate: '',
   walkingDuration: 0,

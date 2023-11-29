@@ -20,7 +20,8 @@ export function CertificationListPage() {
   const { certificationPosts } = useSelector((state: RootState) => state.certification);
 
   const [open, setOpen] = useState(false);
-  const [scrollRef, inView] = useInView();
+  const [page, setPage] = useState(1);
+  const [scrollRef, inView] = useInView({ threshold: 0.5 });
 
   const handleClose = () => {
     setOpen(false);
@@ -29,6 +30,7 @@ export function CertificationListPage() {
   const addPostList = async () => {
     const res = await fetch('/src/api/mock/certification.json');
     const data = await res.json();
+    console.log(data.data);
     dispatch(addCertificationPosts(data.data));
     // console.log(certificationPosts);
   };
@@ -69,7 +71,7 @@ const CertificationList = styled.div`
   .scroll-ref {
     height: 1px;
     position: relative;
-    bottom: 3%;
+    bottom: 100px;
   }
 `;
 

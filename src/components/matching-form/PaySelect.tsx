@@ -1,11 +1,11 @@
-import { TextField, InputAdornment, FormLabel, FormControl } from "@mui/material";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setErrorPaySelect, setPaySelect } from "../../store";
-import { MonetizationOnOutlined } from "@mui/icons-material";
+import { TextField, InputAdornment, FormLabel, FormControl } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setErrorPaySelect, setPaySelect } from '../../store';
+import { MonetizationOnOutlined } from '@mui/icons-material';
 
 export function PaySelect() {
-  const { paySelect, durationSelect, errorPaySelect } = useSelector((state: RootState) => state.matchingCreate);
+  const { paySelect, durationSelect, errorPaySelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleError = (pay: number) => {
