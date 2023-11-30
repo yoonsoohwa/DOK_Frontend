@@ -4,44 +4,21 @@ import Button from "@mui/material/Button";
 import { ButtonMain } from "common/button/ButtonMain";
 import { ButtonSub } from "common/button/ButtonSub";
 import { useState } from "react";
-
-
-
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, setUser } from "store/index";
 
 export function Login() {
 
   const [userId, setUserId] = useState<string>();
   const [password, setPassword] = useState<string>();
+  // dispatch써야 user 수정가능
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.user);
 
   const handleLogin = async () => {    
-    // idValue ? alert("true") : alert("false");
-    // const test = await fetch("http://localhost:3000/api/users/signUp", {
-    //     method: "POST", // 또는 'PUT'
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //         "userId" : {idValue},
-    //         "password" : {pwdValue},
-    //         "name": {nameValue},
-    //         "nickname" : {nicknameValue},
-    //         "address" : "서울시 어쩌구",
-    //         "phoneNumber" : "1234 5678",
-    //         "introduce" : "",
-    //         "isCertificated": true,
-    //         "deletedAt": ""
-    //     }),
-    // });
 
-    // console.log(test.json);
-
-    // fetch('https://jsonplaceholder.typicode.com/todos/1')
-    //   .then(response => response.json())
-    //   .then(json => console.log(json))
-    
-    // 테스트 데이터
-    const test = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signIn", {
-        method: "POST", 
+    const test = await fetch("/api/users/signIn", {
+      method: "POST", 
         headers: {
             "Content-Type": "application/json",
         },
@@ -49,10 +26,39 @@ export function Login() {
           "userId" : userId,
           "password" : password,
         }),
+        credentials: 'include',
     })
       .then(response => response.json())
-      .then(json => console.log(json));
+      .then(data => {
+        // action준거를 수정하는거라 setUser로 받아야함
+        dispatch(setUser(data));
+      });
+
+    // try{
+    //   const response = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signIn", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       "userId": userId,
+    //       "password": password,
+    //     }),
+    //     credentials: 'include',
+    //   });
     
+    //   if (!response.ok) {
+    //     throw new Error('Network response was not ok.');
+    //   }
+  
+    //   const data = await response.json();
+    //   console.log(data);
+
+    //   const dateHeader = response.headers.get('Date');
+    //   console.log('Date 헤더 정보:', dateHeader);
+    // } catch (error) {
+    //   console.error('There was a problem with the fetch operation:', error);
+    // }
   }
 
 
@@ -79,6 +85,7 @@ export function Login() {
           sx={{ margin: "0 0 5% 0" }}
         />
         <div>
+          {/* {user.nickname} */}
           <ButtonMain text="로그인" onClick={handleLogin} fill={true} />
         </div>
         <div>
