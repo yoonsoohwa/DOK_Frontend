@@ -24,7 +24,7 @@ export function MainInfo() {
           <div>
             지금 내 반려동물과 산책할 파트너를 만나보세요
             <br />
-            믿을만한 전문가와 내 이웃이 기다리고 있습니다
+            믿을만한 내 이웃이 기다리고 있습니다
           </div>
           <div>
             <div className="color-sub">{matchingPostCount}</div>

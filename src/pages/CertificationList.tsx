@@ -3,7 +3,7 @@ import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CertifiBanner } from '../components/certification/Banner';
 import { Children, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, addCertificationPosts, setCertificationPostsCount } from '../store';
+import { AppDispatch, RootState, addCertificationPosts, resetCertificationPosts, setCertificationPostsCount, setFilter } from '../store';
 import { CertifiPostCard } from '../components/certification/PostCard';
 import { CertificationPostDetail } from '../components/certification/PostDetail';
 import { Dialog } from '@mui/material';
@@ -64,12 +64,15 @@ export function CertificationListPage() {
     // test();
   }, [filter, inView]);
 
+  useEffect(() => {
+    dispatch(resetCertificationPosts());
+    dispatch(setFilter({ locationCode: '', walkingTime: '' }));
+  }, []);
+
   return (
     <CertificationList>
-      {/* <LoadingPage /> */}
       <CertifiBanner />
       <Section>
-        {/* <Loading /> */}
         <CreateAlert />
         <ListPageTopBar yellow={certificationPostsCount?.toString() || '0'} black="개의 산책 인증이 있습니다." />
         {!certificationPostsCount ? (

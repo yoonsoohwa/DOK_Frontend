@@ -99,7 +99,7 @@ export function TopBarFilter() {
 
   return (
     <Section>
-      <TextField className="district" fullWidth id="outlined-required" label="지역 선택" onClick={handleClickOpen} value={district} InputProps={{ readOnly: true }} size="small" />
+      <TextField className="district" fullWidth id="outlined-required" label="지역 검색" onClick={handleClickOpen} value={district} InputProps={{ readOnly: true }} size="small" />
       <Dialog disableEscapeKeyDown open={open}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
         <DialogContent>
@@ -195,7 +195,7 @@ export function TopBarFilter() {
           <DemoContainer components={['DatePicker']} sx={{ width: '200px' }}>
             <DesktopDatePicker
               format="YYYY-MM-DD"
-              label="날짜 선택"
+              label="산책일 검색"
               value={date}
               onChange={(newValue) => setDate(newValue)}
               maxDate={dayjs().add(7, 'day')}

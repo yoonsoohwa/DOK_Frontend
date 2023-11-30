@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { MatchingBanner } from '../components/matching/Banner';
 import { useState, useEffect, Children } from 'react';
-import { AppDispatch, RootState, addMatchingPosts, setMatchingPostCount } from '../store';
+import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts, setFilter, setMatchingPostCount } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { MatchingCard } from '../components/matching/Card';
 import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
@@ -59,11 +59,16 @@ export function MatchingListPage() {
     }
   }, [filter, inView]);
 
+  useEffect(() => {
+    dispatch(resetMatchingPosts());
+    dispatch(setFilter({ locationCode: '', walkingTime: '' }));
+  }, []);
+
   return (
     <MatchingList>
       <MatchingBanner />
       <Section>
-        <ListPageTopBar yellow={matchingPostsCount?.toString()} black="개의 매칭 요청이 있습니다." />
+        <ListPageTopBar yellow={matchingPostsCount?.toString() || '0'} black="개의 매칭 요청이 있습니다." />
         {!matchingPostsCount ? (
           matchingPostsCount === undefined ? (
             <Loading />

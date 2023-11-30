@@ -11,26 +11,28 @@ export function MainSection1() {
   return (
     <>
       {dogs.length >= 6 && (
-        <Section>
+        <>
           <Scroll>
             <MouseOutlinedIcon className="mouse" />
             scroll
           </Scroll>
-          <PetsScrollBox>
-            {Children.toArray(dogs.map(({ dogImg, dogName, gender }, idx) => <MainPetBox className={idx % 2 ? 'right' : 'left'} petData={{ dogImg, dogName, gender }} />))}
-          </PetsScrollBox>
-          <TitleBox>
-            <div>
-              도크와
-              <br />
-              함께한
-              <br />
-              강아지들
-              <br />
-              <img src="/image/maltiz_retriever.png" />
-            </div>
-          </TitleBox>
-        </Section>
+          <Section>
+            <PetsScrollBox>
+              {Children.toArray(dogs.map(({ dogImg, dogName, gender }, idx) => <MainPetBox className={idx % 2 ? 'right' : 'left'} petData={{ dogImg, dogName, gender }} />))}
+            </PetsScrollBox>
+            <TitleBox>
+              <div>
+                도크와
+                <br />
+                함께한
+                <br />
+                강아지들
+                <br />
+                <img src="/image/maltiz_retriever.png" />
+              </div>
+            </TitleBox>
+          </Section>
+        </>
       )}
     </>
   );
