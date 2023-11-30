@@ -24,9 +24,11 @@ export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
     (state: RootState) => state.matchingForm,
   );
+  const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [initData, setInitData] = useState({ dateSelect, durationSelect, paySelect, locationSelect });
   const [openError, setOpenError] = useState(false);
+  const [openDogError, setOpenDogError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const [openCancle, setOpenCancle] = useState(false);
   const navigate = useNavigate();
@@ -37,14 +39,12 @@ export function MatchingCreatePage() {
       price: paySelect,
       location: locationSelect,
       locationDetail: locationDetailSelect,
-      walkingDate: dayjs(dateSelect).toDate(),
+      walkingDate: dayjs(dateSelect).format('YYYY-MM-DDTHH:mm:ss.000'),
       walkingDuration: durationSelect,
       requestText,
     };
 
-    const userId = '6563f3569187c8fe58c24105';
-
-    const res = await fetch(`${matchingFormUrl}/matchingRequest/${userId}`, {
+    const res = await fetch(`${matchingFormUrl}/matchingRequest/${_user._id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -86,16 +86,30 @@ export function MatchingCreatePage() {
     handleCancle();
   };
 
+  const handleGoToMypage = () => {
+    navigate('/mypage');
+  };
+
   useEffect(() => {
     // 로그인 했는지 확인
-    dispatch(setOpenAlertLogin(true));
+    if (!_user._id) {
+      dispatch(setOpenAlertLogin(true));
+    }
 
     // 유저에게 강아지가 없는지 확인
+    (async () => {
+      const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
+      const data = await res.json();
+      console.log(data);
+      if (!data.length) {
+        setOpenDogError(true);
+      }
+    })();
   }, []);
 
   return (
     <CertifiCreate>
-      <AlertLogin isBack={false} />
+      <AlertLogin isBack={true} />
       <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
       <AlertSuccess
         open={openSubmit}
@@ -105,6 +119,17 @@ export function MatchingCreatePage() {
         desc={`${dogSelect?.dogName} | ${dateSelect} | ${durationSelect} | ${paySelect}\n요청 사항 : ${requestText}\n만남 위치 : ${locationSelect}\n상세 위치 : ${locationDetailSelect}`}
       />
       <AlertError open={openCancle} onClose={() => setOpenCancle(false)} onClick={handleCancle} title="정말 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
+      <AlertError
+        open={openDogError}
+        onClose={() => {
+          setOpenDogError(false);
+          return navigate(-1);
+        }}
+        onClick={handleGoToMypage}
+        title="등록된 강아지가 없습니다."
+        desc="마이페이지에서 강아지를 등록한 후 이용해주세요."
+        buttonText="강아지 등록하기"
+      />
 
       <div className="body">
         <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleOpenSubmit} onReset={handleOpenCancle}>

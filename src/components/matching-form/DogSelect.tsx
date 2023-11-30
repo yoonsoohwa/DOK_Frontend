@@ -9,6 +9,7 @@ import { certificationUrl, matchingFormUrl, userUrl } from 'api/apiUrls';
 
 export function DogSelect() {
   const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingForm);
+  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [dogs, setDogs] = useState<DogType[]>();
 
@@ -25,12 +26,13 @@ export function DogSelect() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${matchingFormUrl}/doginformation/${'6563f3569187c8fe58c24105'}`);
+      const res = await fetch(`${matchingFormUrl}/doginformation/${user._id}`);
       const data = await res.json();
       console.log(data);
       setDogs(data);
     })();
     dispatch(setDogSelect(undefined));
+    dispatch(setErrorDogSelect(true));
   }, []);
 
   return (

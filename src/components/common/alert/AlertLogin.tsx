@@ -15,6 +15,7 @@ export function AlertLogin({ isBack }: AlertErrorProps) {
 
   const handleClick = () => {
     nav('/login');
+    dispatch(setOpenAlertLogin(false));
   };
 
   const handleCancle = () => {
