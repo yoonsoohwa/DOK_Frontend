@@ -1,13 +1,16 @@
+import { useSelector } from "react-redux";
+import { RootState } from "store/index";
 import styled from "styled-components";
 
 export const ChangeProfileImg = () => {
+    const { user } = useSelector((state: RootState) => state.user);
     return (
         <MainFrame>
             <div>
                 <img src="/svg/person_img.svg"/>
             </div>
             <div>
-                아이디 : 
+                아이디 : {user.userId}
             </div>
         </MainFrame>
     )

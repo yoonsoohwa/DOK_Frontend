@@ -23,7 +23,7 @@ export const useLoginCheck = ()  => {
               const data = await response.json();
               dispatch(setUser(data.user));
               dispatch(setDog(data.dog));
-              console.log(data)
+              console.log(data);
             }else{
               console.log("로그인 안됨");
             }
