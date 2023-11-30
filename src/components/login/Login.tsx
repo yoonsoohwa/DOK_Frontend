@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { ButtonMain } from "common/button/ButtonMain";
 import { ButtonSub } from "common/button/ButtonSub";
 import { useState } from "react";
@@ -17,7 +16,7 @@ export function Login() {
 
   const handleLogin = async () => {    
 
-    const test = await fetch("/api/users/signIn", {
+    const login = await fetch("/api/users/signIn", {
       method: "POST", 
         headers: {
             "Content-Type": "application/json",
@@ -28,11 +27,17 @@ export function Login() {
         }),
         credentials: 'include',
     })
-      .then(response => response.json())
-      .then(data => {
-        // action준거를 수정하는거라 setUser로 받아야함
-        dispatch(setUser(data));
-      });
+      // .then(response => response.json())
+      // .then(data => {
+      //   // action준거를 수정하는거라 setUser로 받아야함
+      //   dispatch(setUser(data));
+      // });
+
+      const data = await login.json();
+      console.log(data);
+      dispatch(setUser(data));
+      
+
 
     // try{
     //   const response = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signIn", {
