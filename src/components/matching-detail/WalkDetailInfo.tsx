@@ -16,8 +16,7 @@ export function WalkDetailInfo() {
   const { user } = useSelector((state: RootState) => state.user);
   if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus, user: postUser } = matchingDetailPost;
-//   const isAuthor = user._id === postUser._id;
-const isAuthor = true;
+  const isAuthor = user._id === postUser._id;
 
   return (
     <WalkDetailLayout>
@@ -41,7 +40,7 @@ const isAuthor = true;
             <TextAlignLayout>
               <LocationOn />
               <span>만남 장소</span>
-              <p>{`${location?.text} (${locationDetail})`}</p>
+              <p>{`${location?.text} ${locationDetail && `(${locationDetail})`}`}</p>
             </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>

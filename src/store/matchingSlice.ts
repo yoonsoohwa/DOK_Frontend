@@ -51,7 +51,7 @@ const matchingSlice = createSlice({
       state.matchingComments = action.payload;
     },
     addMatchingComment: (state, action) => {
-      state.matchingComments.push(...action.payload);
+      state.matchingComments.push(action.payload);
     },
     deleteMatchingComment: (state, action) => {
       state.matchingComments = state.matchingComments.filter((comment) => comment._id !== action.payload);

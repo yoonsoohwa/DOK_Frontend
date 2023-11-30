@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import personImg from '/svg/person_img.svg';
+import userImage from '/svg/user_image1.svg';
 import { Input, IconButton } from '@mui/material';
 import { Send } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,8 +39,8 @@ export function CommentInput({ commentType, parentCommentId }: CommentProps) {
           parentCommentId: parentCommentId || null,
         }),
       });
-      const data = res.json();
-      console.log(data);
+      const data = await res.json();
+      console.log(data , "dd");
       dispatch(addMatchingComment(data));
       setText('');
     } catch (err) {
@@ -55,7 +55,7 @@ export function CommentInput({ commentType, parentCommentId }: CommentProps) {
   return (
     <InputLayout>
     <AlertLogin isBack={false}/>
-      <UserImg src={personImg} className={commentType} />
+      <UserImg src={user.userImg || userImage} className={`user-img ${commentType}`} />
       <Input placeholder="댓글 추가" sx={{ width: '100%' }} onChange={onChangeHandler} disabled={matchingDetailPost?.matchingStatus !== 'process'} />
       <IconButton size="small" onClick={onClickHandler}>
         <Send sx={{ transform: 'rotate(-15deg)' }} />

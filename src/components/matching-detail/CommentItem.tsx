@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import personImg from '/svg/person_img.svg';
+import userImage from '/svg/user_image1.svg';
 import { UserNickname } from 'common/user/UserNickname';
 import { CommentInput } from './CommentInput';
 import { MatchingCommentType } from '../../types';
@@ -45,7 +45,7 @@ export function CommentItem({ comment, commentType }: type) {
 
   return (
     <CommentItemLayout>
-      <UserImg src={personImg} className={commentType}/>
+      <UserImg src={commentUser.userImg || userImage} className={`user-img ${commentType}`}/>
       <div>
         <CommentInfo>
           <UserNickname nickname={commentUser.nickname} badge={true} />

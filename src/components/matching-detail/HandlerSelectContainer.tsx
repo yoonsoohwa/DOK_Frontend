@@ -29,6 +29,13 @@ export function HandlerSelectContainer() {
   };
 
   const handlerSendMatchingClick = () => {
+    //선택한 핸들러가 없을 경우
+    if (!selectedHandler) {
+      setOpenErrorAlert(true);
+      return;
+    }
+
+    //이미 핸들러 매칭 완료가 되었을 경우
     if (isSendedMatching) {
       setOpenIsSelectedSnackber(true);
       return;
@@ -37,15 +44,11 @@ export function HandlerSelectContainer() {
   };
 
   const onSubmitHandler = () => {
-    if (!selectedHandler) {
-      setOpenErrorAlert(true);
-      return;
-    }
-
     const sendSelectedHandler = async () => {
+      if (!selectedHandler) return;
       const { matchingPostId, user } = selectedHandler;
       try {
-        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingPostId}/${user._id}`, {
+        const res = await fetch(`${matchingPostDetailUrl}/handler/${selectedHandler?.matchingPostId}/${user._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -92,7 +95,9 @@ export function HandlerSelectContainer() {
               <HandlerListItem handler={selectedHandler} />
             </div>
           ) : (
-            <SelectButtonContainer onClick={handleClickHandler}>핸들러를 선택해주세요.</SelectButtonContainer>
+            <SelectButtonContainer onClick={handleClickHandler} disabled={requestHandlers.length === 0}>
+              {requestHandlers.length === 0 ? '매칭을 요청한 핸들러가 없습니다' : '핸들러를 선택해주세요.'}
+            </SelectButtonContainer>
           )}
           {open ? (
             <HandlerListContainer className={`custom-scrollbar ${requestHandlers.length > 3 ? 'scroll' : null}`}>
@@ -105,9 +110,11 @@ export function HandlerSelectContainer() {
           ) : null}
         </SelectorLayout>
       </ClickAwayListener>
-      <ButtonContainer>
-        <ButtonMain text="매칭하기" onClick={handlerSendMatchingClick} />
-      </ButtonContainer>
+      {requestHandlers.length !== 0 ? (
+        <ButtonContainer>
+          <ButtonMain text="매칭하기" onClick={handlerSendMatchingClick} />
+        </ButtonContainer>
+      ) : null}
       <AlertSnackbar title="핸들러를 선택해주세요." open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} type="error" />
       <AlertSuccess
         title={`${selectedHandler?.user.nickname}님과 매칭하시겠습니까?`}

@@ -12,6 +12,7 @@ import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
+import { matchingPostListUrl } from '../api/apiUrls';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,13 +25,13 @@ export function MatchingListPage() {
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
-    console.log(matchingPostsCount, matchingPosts);
+    // console.log(matchingPostsCount, matchingPosts);
     if (matchingPostsCount && matchingPostsCount <= matchingPosts.length) {
       return;
     }
 
     const _page = matchingPosts.length ? page : 1;
-    let url = `http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=${_page}&perPage=12`;
+    let url = `${matchingPostListUrl}?page=${_page}&perPage=12`;
 
     if (filter.locationCode) {
       url += `&locationCode=${filter.locationCode}`;
@@ -42,7 +43,7 @@ export function MatchingListPage() {
 
     const res = await fetch(url);
     const data = await res.json();
-    console.log(url, data);
+    // console.log(url, data);
 
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));

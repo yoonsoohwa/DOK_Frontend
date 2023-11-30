@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import personImg from '/svg/person_img.svg';
 import { Button } from '@mui/material';
 import { RequestHandlerType } from 'src/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setSelectedHandler } from 'store/index';
+import userImage from '/svg/user_image1.svg';
 
 interface type {
   handler: RequestHandlerType;
@@ -12,21 +12,20 @@ interface type {
 export function HandlerListItem({ handler }: type) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { nickname, _id: id } = handler.user;
+  const { nickname, _id: id, userImg } = handler.user;
 
   const onClickHandler = () => {
     dispatch(setSelectedHandler(handler));
   };
 
-  const onClickToProfileHandler = (e:any) => {
+  const onClickToProfileHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(handler)
   }
 
   return (
     <ItemContainer onClick={onClickHandler}>
       <ItemLayout>
-        <UserImg src={personImg} />
+        <UserImg src={userImg || userImage} className='user-img' />
         <UserInfo>
           <span>{nickname}</span>
           <span>"ddd"</span>

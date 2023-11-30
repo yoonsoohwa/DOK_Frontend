@@ -18,6 +18,8 @@ export function CommentList() {
         const data = await res.json();
         if (res.status === 200) {
           dispatch(setMatchingComments(data.reverse()));
+        } else {
+          dispatch(setMatchingComments([]));
         }
       } catch (err) {
         console.log(err);
@@ -25,7 +27,7 @@ export function CommentList() {
     };
 
     getMatchingComment();
-  }, [matchingComments]);
+  }, []);
 
   return (
     <CommentLayout>
