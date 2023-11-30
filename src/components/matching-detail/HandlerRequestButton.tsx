@@ -1,22 +1,27 @@
 import { ButtonMain } from 'common/button/ButtonMain';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
 import { AlertLogin } from 'common/alert/AlertLogin';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, setOpenAlertLogin } from 'store/index';
+import { AppDispatch, RootState, setOpenAlertLogin } from 'store/index';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 
 export function HandlerRequestButton() {
-  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const dispatch = useDispatch<AppDispatch>();
+  const { matchingDetailPost, requestHandlers } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openRequestErrorSnackber, setOpenRequestErrorSnackber] = useState(false);
   const [openSuccessRequestSnackbar, setOpenSuccessRequestSnackbar] = useState(false);
   const [isRequestHandler, setIsRequestHandler] = useState(false);
-  const dispatch = useDispatch();
-  const isLogined = !(user._id === '');
+  const isLogined = user._id !== '';
+
+  useEffect(() => {
+    const isIncludeHandler = requestHandlers.filter((handler) => handler.user._id === user._id).length !== 0;
+    setIsRequestHandler(isIncludeHandler);
+  }, [requestHandlers]);
 
   const onClickHandler = () => {
     if (!isLogined) {

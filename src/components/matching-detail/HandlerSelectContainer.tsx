@@ -4,13 +4,12 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { HandlerListItem } from './HandlerLIstItem';
 import { ButtonMain } from 'common/button/ButtonMain';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setRequestHandlers, updateMatchingStatus } from 'store/index';
+import { AppDispatch, RootState, updateMatchingStatus } from 'store/index';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
 
 export function HandlerSelectContainer() {
-  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const dispatch = useDispatch<AppDispatch>();
   const { requestHandlers, selectedHandler } = useSelector((state: RootState) => state.matching);
   const [open, setOpen] = useState(false);
@@ -67,20 +66,6 @@ export function HandlerSelectContainer() {
 
     sendSelectedHandler();
   };
-
-  useEffect(() => {
-    const RequestHandlerList = async () => {
-      try {
-        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingDetailPost?._id}`);
-        const data = await res.json();
-
-        dispatch(setRequestHandlers(data));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    RequestHandlerList();
-  }, []);
 
   useEffect(() => {
     setOpen(false);
