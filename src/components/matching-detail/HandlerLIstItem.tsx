@@ -12,7 +12,7 @@ interface type {
 export function HandlerListItem({ handler }: type) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { nickname, address, _id: id } = handler.user;
+  const { nickname, _id: id } = handler.user;
 
   const onClickHandler = () => {
     dispatch(setSelectedHandler(handler));
@@ -29,7 +29,7 @@ export function HandlerListItem({ handler }: type) {
         <UserImg src={personImg} />
         <UserInfo>
           <span>{nickname}</span>
-          <span>{address}</span>
+          <span>"ddd"</span>
         </UserInfo>
         <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
@@ -40,7 +40,7 @@ export function HandlerListItem({ handler }: type) {
 }
 
 const ItemContainer = styled.div`
-  height: 3rem;
+  height: 50px;
   padding: 5px;
   background-color: ${({ theme }) => theme.main4};
   box-sizing: border-box;
@@ -64,6 +64,8 @@ const UserImg = styled.img`
 const UserInfo = styled(ItemLayout)`
   flex-direction: column;
   align-items: flex-start;
+  padding: 0 5px;
+  justify-content: center;
 
   > span:first-of-type {
     font-size: 16px;

@@ -1,26 +1,39 @@
-import { styled } from "styled-components";
-import personImg from "/svg/person_img.svg";
-import { UserNickname } from "common/user/UserNickname";
+import { styled } from 'styled-components';
+import personImg from '/svg/person_img.svg';
+import { UserNickname } from 'common/user/UserNickname';
+import { CommentInput } from './CommentInput';
+import { MatchingCommentType } from '../../types';
+import timeDiff from '../../utils/timeDiff';
+import { useState } from 'react';
 
 interface type {
-  commentType?: "reply";
+  comment: MatchingCommentType;
+  commentType?: 'reply';
 }
 
-export function CommentItem({ commentType }: type) {
+export function CommentItem({ comment, commentType }: type) {
+  const [openInput, setOpenInput] = useState(false);
+  const { _id, comment: text, createdAt, user } = comment;
+
+  const handleAddReply = () => {
+    setOpenInput(!openInput);
+  }
+
   return (
-    <CommentItemLayout className={commentType}>
+    <CommentItemLayout>
       <UserImg src={personImg} />
       <div>
         <CommentInfo>
-          <UserNickname nickname="쿵치팍치" badge={true} />
-          <span>25분 전</span>
+          <UserNickname nickname={user.nickname} badge={true} />
+          <span>{timeDiff(createdAt)}</span>
         </CommentInfo>
-        <p>신청 많이 해주세요~!</p>
-        <CommentOption>
-          {!commentType ? <span id="addReply">댓글쓰기</span> : null}
-          <span id="commentEdit">수정</span>
-          <span id="commentDelete">삭제</span>
-        </CommentOption>
+        <p>{text}</p>
+        <CommentItemLayout>
+          {!commentType ? <OptionButton id="addReply" onClick={handleAddReply}>댓글쓰기</OptionButton> : null}
+          <OptionButton id="commentEdit">수정</OptionButton>
+          <OptionButton id="commentDelete">삭제</OptionButton>
+        </CommentItemLayout>
+        {openInput && <CommentInput commentType='reply' parentCommentId={_id} />}
       </div>
     </CommentItemLayout>
   );
@@ -31,8 +44,8 @@ const CommentItemLayout = styled.div`
   gap: 7px;
   padding: 3px 0;
 
-  &.reply {
-    padding-left: 40px;
+  > div {
+    width: 100%;
   }
 `;
 
@@ -55,6 +68,9 @@ const CommentInfo = styled(CommentItemLayout)`
   }
 `;
 
-const CommentOption = styled(CommentItemLayout)`
+const OptionButton = styled.button`
+  border: 0;
+  background: transparent;
+  padding: 2px 0;
   font-size: 12px;
 `;

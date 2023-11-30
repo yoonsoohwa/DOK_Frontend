@@ -12,11 +12,13 @@ export function LocationMap() {
   const geocoder = new kakao.maps.services.Geocoder();
 
   useEffect(() => {
-    geocoder.addressSearch(location.text, function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        setPosition({lat: Number(result[0].y), lng: Number(result[0].x)})
-      }
-    });
+    if (location) {
+      geocoder.addressSearch(location.text, function (result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          setPosition({ lat: Number(result[0].y), lng: Number(result[0].x) });
+        }
+      });
+    }
   }, []);
 
   return (
@@ -40,5 +42,5 @@ export function LocationMap() {
 
 const MapContainer = styled.div`
   height: 300px;
-  border: 1px solid ${({theme}) => theme.gray};
+  border: 1px solid ${({ theme }) => theme.gray};
 `;

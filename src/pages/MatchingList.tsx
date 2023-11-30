@@ -66,9 +66,7 @@ export function MatchingListPage() {
           {Children.toArray(
             matchingPosts.map((post) => {
               return (
-                // <Link to={`/matching/${post._id}`}>
                 <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />
-                // </Link>
               );
             }),
           )}
