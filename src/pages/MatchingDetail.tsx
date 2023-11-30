@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { DogProfile } from '../components/matching-detail/DogProfile';
 import { WalkDetailInfo } from '../components/matching-detail/WalkDetailInfo';
-import { CommentContainer } from '../components/matching-detail/CommentContainer';
+import { CommentList } from '../components/matching-detail/CommentList';
 import { StatusBanner } from '../components/matching-detail/StatusBanner';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -44,7 +44,7 @@ export function MatchingDetailPage() {
               <DogProfile />
               <WalkDetailInfo />
             </WalkContainer>
-            <CommentContainer />
+            <CommentList />
           </ContentBox>
         </MatchingDetailLayout>
       )}
