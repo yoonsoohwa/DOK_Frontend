@@ -1,10 +1,8 @@
 import { styled } from 'styled-components';
-import { CommentInput } from './CommentInput';
 import { CommentItem } from './CommentItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setMatchingComments } from 'store/index';
 import { Children, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { MatchingCommentType } from '../../types';
 
 interface type {

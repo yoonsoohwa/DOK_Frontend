@@ -81,7 +81,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
       <Right className="custom-scrollbar">
         <div>
           <Top>
-            <ProfileInfo nickname={user.nickname} time={createdAt} />
+            <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} />
             <IconButton onClick={handleClose}>
               <Clear />
             </IconButton>

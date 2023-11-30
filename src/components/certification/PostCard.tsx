@@ -3,8 +3,8 @@ import { styled } from 'styled-components';
 import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { Rating, Tooltip } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { AppDispatch, setCertificationDetail, setCertificationDetailIndex } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setCertificationDetail, setCertificationDetailIndex } from '../../store';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
@@ -18,6 +18,7 @@ interface CertifiPostCardProps {
 
 export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardProps) {
   const { _id, user, matchingPost, postText, certificationImg, review, createdAt } = contents;
+  const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -35,8 +36,8 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
 
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
-      <ProfileInfo nickname={user.nickname} time={createdAt} size="small" />
-      <EditMenu handleEdit={handleEdit} />
+      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
+      {_user._id === user._id && <EditMenu handleEdit={handleEdit} />}
       <Tooltip
         title={
           <div style={{ fontSize: '14px' }}>

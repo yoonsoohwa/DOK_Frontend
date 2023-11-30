@@ -14,14 +14,13 @@ export function AppRoutes() {
   useScrollTop();
   useLoginCheck();
 
-  return (    
-    <DivForHeaderFooter>            
+  return (
+    <DivForHeaderFooter>
       <MemberHeader />
       <DivForFixedHeader>
-        <Routes>          
+        <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/certification" element={<CertificationListPage />} />
-          <Route path="/certification/write" element={<CertificationCreatePage />} />
           <Route path="/certification/write/:id" element={<CertificationCreatePage />} />
 
           <Route path="/matching" element={<MatchingListPage />} />

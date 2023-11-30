@@ -6,9 +6,9 @@ import { ProfileInfo } from 'common/user/ProfileInfo';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, setCertificationDetail } from 'store/index';
+import { AppDispatch, RootState, setCertificationDetail } from 'store/index';
 import { useState } from 'react';
 
 interface MatchingCardProps {
@@ -19,13 +19,15 @@ interface MatchingCardProps {
 
 export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProps) {
   const { _id, user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
+  const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleEdit = async () => {
-    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/:matchingPostId`);
+    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${_id}`);
     const data = await res.json();
-    if (!data.length) {
+    console.log('?', data);
+    if (data.length) {
       console.log('data: ', data);
       return setOpenAlert(true);
     }
@@ -34,12 +36,12 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
 
   const handleToDetail = () => {
     navigate(`/matching/${_id}`);
-  }
+  };
 
   return (
     <CardContainer className={`pointer ${matchingStatus !== 'process' && 'ended'}`} onClick={handleToDetail}>
-      <ProfileInfo nickname={user.nickname} time={createdAt.toString()} size="small" />
-      <EditMenu handleEdit={handleEdit} />
+      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt.toString()} size="small" />
+      {_user._id === user._id && matchingStatus === 'process' && <EditMenu handleEdit={handleEdit} />}
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>

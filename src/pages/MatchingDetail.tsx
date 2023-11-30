@@ -8,9 +8,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store/store';
 import { setMatchingDetailPost, setSelectedHandler } from 'store/matchingSlice';
+import { matchingPostDetailUrl } from '../api/apiUrls'
+import { LoadingPage } from 'common/state/LoadingPage';
 
 export function MatchingDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const { id } = useParams();
   const [isloading, setIsLoading] = useState(true);
   const [status, setStatus] = useState('process');
@@ -18,8 +21,7 @@ export function MatchingDetailPage() {
   useEffect(() => {
     const matchingDetailData = async () => {
       try {
-        // const res = await fetch("/src/api/mock/matching-post-detail.json");
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/${id}`);
+        const res = await fetch(`${matchingPostDetailUrl}/${id}`);
         const data = await res.json();
         dispatch(setMatchingDetailPost(data[0]));
         dispatch(setSelectedHandler(null));
@@ -32,11 +34,11 @@ export function MatchingDetailPage() {
     };
 
     matchingDetailData();
-  }, []);
+  }, [matchingDetailPost?.matchingStatus]);
 
   return (
     <>
-      {isloading ? null : (
+      {isloading ? <LoadingPage /> : (
         <MatchingDetailLayout>
           <ContentBox>
             {status !== 'process' && <StatusBanner />}
@@ -60,7 +62,7 @@ const MatchingDetailLayout = styled.div`
 
 const ContentBox = styled.div`
   width: 100%;
-  margin: 50px auto;
+  margin: 25px auto;
   box-sizing: border-box;
 `;
 
