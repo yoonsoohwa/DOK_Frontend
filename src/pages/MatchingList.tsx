@@ -10,6 +10,8 @@ import { CardListContainer } from '../styles/CardListContainer';
 import { useInView } from 'react-intersection-observer';
 import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
+import { Loading } from 'common/state/Loading';
+import { EmptyData } from 'common/state/EmptyData';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -67,13 +69,21 @@ export function MatchingListPage() {
       <MatchingBanner />
       <Section>
         <ListPageTopBar yellow={matchingPostsCount?.toString() || '0'} black="개의 매칭 요청이 있습니다." />
-        <CardListContainer>
-          {Children.toArray(
-            matchingPosts.map((post) => {
-              return <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />;
-            }),
-          )}
-        </CardListContainer>
+        {!matchingPostsCount ? (
+          matchingPostsCount === undefined ? (
+            <Loading />
+          ) : (
+            <EmptyData />
+          )
+        ) : (
+          <CardListContainer>
+            {Children.toArray(
+              matchingPosts.map((post) => {
+                return <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />;
+              }),
+            )}
+          </CardListContainer>
+        )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <AlertError open={openAlert} onClick={handleAlert} desc={'핸들러 지원 요청이 있는 글은 수정/삭제가 불가능 합니다.'} />
