@@ -4,8 +4,14 @@ import { styled } from "styled-components";
 import { Bookmark } from "./Bookmark";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "store/index";
+
+
 
 export const MemberHeader = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+
     const headerHover = "/svg/header_hover.svg";
     const { pathname } = useLocation();
     
@@ -39,14 +45,28 @@ export const MemberHeader = () => {
               </StyledLink>
             </div>
           </CatagoryDiv>
+          {user._id 
+          ? (
             <SubCatagoryImg>
-              <div>
-                <Bookmark />
-              </div>
-              <StyledLink to={"/"}>
-              <div>로그아웃</div>
-              </StyledLink>
-            </SubCatagoryImg>
+            <div>
+              {/* <Bookmark /> */}
+            </div>
+            <StyledLink to={"/"}>
+            <div>로그아웃</div>
+            </StyledLink>
+          </SubCatagoryImg>
+          ) 
+          : (
+            <SubCatagoryDiv>
+            <LogOutStyledLink to={"/login"}>
+              <div className="login">로그인</div>
+            </LogOutStyledLink>
+            <LogOutStyledLink to={"/signup"}>
+              <div className="logOut">회원가입</div>
+            </LogOutStyledLink>
+          </SubCatagoryDiv>
+          )}
+            
           </MainDiv>
         </BorderDiv>
       </>
@@ -155,3 +175,26 @@ const StyledLink = styled(Link)`
     }
   
 `;
+
+const SubCatagoryDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+  
+  margin: 32px 0 0 0;
+  font-size: 18px;
+
+    & > div{
+      margin: 0 0 0 5%;
+    }
+  
+`;
+
+const LogOutStyledLink = styled(Link)`
+  color: black;
+  &:hover {
+    > img {
+        visibility: visible;
+    }
+  }
+`
