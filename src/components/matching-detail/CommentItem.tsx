@@ -56,6 +56,7 @@ const UserImg = styled.img`
 
 const CommentInfo = styled(CommentItemLayout)`
   align-items: center;
+  width: fit-content;
 
   > div > span:first-of-type {
     font-weight: 600;
