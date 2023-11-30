@@ -4,7 +4,7 @@ export interface UserType {
   password: string;
   name: string;
   nickname: string;
-  address: string;
+  address: { text: string; code: string };
   phoneNumber: string;
   introduce: string;
   isCertificated: boolean;
@@ -19,7 +19,7 @@ export const initUserType: UserType = {
   password: '',
   name: '',
   nickname: '',
-  address: '',
+  address: { text: '', code: '' },
   phoneNumber: '',
   introduce: '',
   isCertificated: false,

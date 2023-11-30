@@ -4,7 +4,7 @@ import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { Rating, Tooltip } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { AppDispatch, setCertificationDetailId } from '../../store';
+import { AppDispatch, setCertificationDetail, setCertificationDetailIndex } from '../../store';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
@@ -13,21 +13,23 @@ import { useNavigate } from 'react-router';
 interface CertifiPostCardProps {
   contents: CertificationPostType;
   onClick: () => void;
+  index: number;
 }
 
-export function CertifiPostCard({ contents, onClick }: CertifiPostCardProps) {
+export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardProps) {
   const { _id, user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
-    dispatch(setCertificationDetailId(_id));
-    console.log(_id);
+    dispatch(setCertificationDetail(contents));
+    dispatch(setCertificationDetailIndex(index));
     onClick();
   };
 
   const handleEdit = () => {
-    dispatch(setCertificationDetailId(_id));
+    dispatch(setCertificationDetail(contents));
+    dispatch(setCertificationDetailIndex(index));
     navigate('write');
   };
 

@@ -1,10 +1,17 @@
+import { userUrl } from './apiUrls';
+
 export async function test() {
-  const res = await fetch('http://kdt-sw-6-team01.elicecoding.com/api/matchingRequestRouter/matchingRequest/sadasd', {
+  // ${userUrl}
+  const res = await fetch(`http://localhost:3000/api/users/signIn`, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ user: 'zz', matchingPost: 'asd', sublocation: 'asd', postText: 'asd', review: 'qwe', deletedAt: null }),
+    body: JSON.stringify({
+      userId: 'doogguby12',
+      password: 'Testpassword1234!',
+    }),
   });
 
   const data = await res.json();

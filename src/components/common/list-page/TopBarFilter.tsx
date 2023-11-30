@@ -25,7 +25,7 @@ import { SearchButton } from 'common/button/SearchButton';
 import beobjeongdong from 'api/beobjeongdong';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store/store';
-import { resetMatchingPosts, setMatchingPostsFilter } from 'store/matchingSlice';
+import { resetMatchingPosts, resetCertificationPosts, setCertificationPostsCount, setFilter, setMatchingPostCount } from 'store/index';
 
 export function TopBarFilter() {
   const dispatch = useDispatch<AppDispatch>();
@@ -82,15 +82,19 @@ export function TopBarFilter() {
     resetDistrict();
   };
 
-  const setFilter = () => {
-    const filter = { locationCode: districtCode, walkingDate: date?.format() };
+  const handleFilter = () => {
+    const filter = { locationCode: districtCode, walkingTime: date?.format() };
     console.log('set filter : ', filter);
-    dispatch(setMatchingPostsFilter(filter));
+    dispatch(setFilter(filter));
     dispatch(resetMatchingPosts());
+    dispatch(resetCertificationPosts());
+    dispatch(setMatchingPostCount(undefined));
+    dispatch(setCertificationPostsCount(undefined));
   };
 
   useEffect(() => {
-    dispatch(setMatchingPostsFilter({ locationCode: districtCode, walkingDate: '' }));
+    //districtCode
+    dispatch(setFilter({ locationCode: districtCode, walkingTime: '' }));
   }, []);
 
   return (
@@ -207,7 +211,7 @@ export function TopBarFilter() {
       </DateSection>
 
       {/* <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton> */}
-      <SearchButton onClick={setFilter} />
+      <SearchButton onClick={handleFilter} />
     </Section>
   );
 }

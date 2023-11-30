@@ -1,27 +1,31 @@
 import { styled } from 'styled-components';
 import { MatchingBanner } from '../components/matching/Banner';
 import { useState, useEffect, Children } from 'react';
-import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts } from '../store';
+import { AppDispatch, RootState, addMatchingPosts, setMatchingPostCount } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { MatchingCard } from '../components/matching/Card';
 import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CardListContainer } from '../styles/CardListContainer';
-import { Link } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { AlertError } from 'common/alert/AlertError';
+import dayjs from 'dayjs';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts, filter } = useSelector((state: RootState) => state.matching);
+  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
+  const { filter } = useSelector((state: RootState) => state.filter);
 
   const [scrollRef, inView] = useInView();
   const [page, setPage] = useState(1);
   const [openAlert, setOpenAlert] = useState(false);
 
   const addMatchingCardList = async () => {
-    // if(matchingPosts) //전체 길이보다 작거나 같으면 그만 요청
-    console.log('add list ');
+    // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
+    console.log(matchingPostsCount, matchingPosts);
+    if (matchingPostsCount && matchingPostsCount <= matchingPosts.length) {
+      return;
+    }
 
     const _page = matchingPosts.length ? page : 1;
     let url = `http://kdt-sw-6-team01.elicecoding.com/api/matchingPostLists?page=${_page}&perPage=12`;
@@ -29,14 +33,16 @@ export function MatchingListPage() {
     if (filter.locationCode) {
       url += `&locationCode=${filter.locationCode}`;
     }
-    if (filter.walkingDate) {
-      url += `&walkingDate=${filter.walkingDate}`;
+
+    if (filter.walkingTime) {
+      url += `&walkingTime=${dayjs(filter.walkingTime).format('YYYY-MM-DD')}`;
     }
 
     const res = await fetch(url);
     const data = await res.json();
     console.log(url, data);
 
+    dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);
   };
@@ -48,7 +54,6 @@ export function MatchingListPage() {
   useEffect(() => {
     if (inView) {
       addMatchingCardList();
-      console.log('in view');
     }
   }, [filter, inView]);
 

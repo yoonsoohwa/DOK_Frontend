@@ -3,7 +3,7 @@ import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CertifiBanner } from '../components/certification/Banner';
 import { Children, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, addCertificationPosts } from '../store';
+import { AppDispatch, RootState, addCertificationPosts, setCertificationPostsCount } from '../store';
 import { CertifiPostCard } from '../components/certification/PostCard';
 import { CertificationPostDetail } from '../components/certification/PostDetail';
 import { Dialog } from '@mui/material';
@@ -16,10 +16,12 @@ import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
 import { certificationUrl } from 'api/apiUrls';
 import { test } from 'api/test';
+import dayjs from 'dayjs';
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { certificationPosts } = useSelector((state: RootState) => state.certification);
+  const { certificationPosts, certificationPostsCount } = useSelector((state: RootState) => state.certification);
+  const { filter } = useSelector((state: RootState) => state.filter);
 
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,18 +32,37 @@ export function CertificationListPage() {
   };
 
   const addPostList = async () => {
-    // `${certificationUrl}/allCertificationPost`
-    const res = await fetch('src/api/mock/certification.json');
+    if (certificationPostsCount && certificationPostsCount <= certificationPosts.length) {
+      return;
+    }
+
+    const _page = certificationPosts.length ? page : 1;
+    let url = `${certificationUrl}/allCertificationPost?page=${_page}&perPage=12`;
+
+    if (filter.locationCode) {
+      url += `&locationCode=${filter.locationCode}`;
+    }
+
+    if (filter.walkingTime) {
+      url += `&walkingTime=${dayjs(filter.walkingTime).format('YYYY-MM-DD')}`;
+    }
+
+    const res = await fetch(url);
     const data = await res.json();
-    console.log(data.data);
-    dispatch(addCertificationPosts(data.data));
+    console.log(url, data);
+
+    dispatch(setCertificationPostsCount(Number(data[0])));
+    dispatch(addCertificationPosts(data[1]));
+    setPage(_page + 1);
   };
 
   useEffect(() => {
     if (inView) {
       addPostList();
     }
-  }, [inView]);
+
+    // test();
+  }, [filter, inView]);
 
   return (
     <CertificationList>
@@ -50,14 +71,21 @@ export function CertificationListPage() {
       <Section>
         {/* <Loading /> */}
         <CreateAlert />
-        {/* <EmptyData /> */}
-        <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
-        <CardListContainer>
-          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} />))}
-          <MyDialog onClose={handleClose} open={open} maxWidth={false}>
-            <CertificationPostDetail handleClose={handleClose} />
-          </MyDialog>
-        </CardListContainer>
+        <ListPageTopBar yellow={certificationPostsCount?.toString() || '0'} black="개의 산책 인증이 있습니다." />
+        {!certificationPostsCount ? (
+          certificationPostsCount === undefined ? (
+            <Loading />
+          ) : (
+            <EmptyData />
+          )
+        ) : (
+          <CardListContainer>
+            {Children.toArray(certificationPosts.map((post, index) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} index={index} />))}
+            <MyDialog onClose={handleClose} open={open} maxWidth={false}>
+              <CertificationPostDetail handleClose={handleClose} />
+            </MyDialog>
+          </CardListContainer>
+        )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <ScrollToTopButton />

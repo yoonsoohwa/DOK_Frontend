@@ -8,16 +8,18 @@ import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, Ma
 import { useScrollTop } from './hooks/useScrollTop';
 import { NotFound } from 'common/state/NotFoundPage';
 import { MatchingUpdatePage } from './pages/MatchingUpdate';
+import { useEffect } from 'react';
+import { useLoginCheck } from './hooks/useLoginCheck';
 
 export function AppRoutes() {
   useScrollTop();
+  useLoginCheck();
 
-  return (
-    <DivForHeaderFooter>
-      {/* 이 부분에서 acceptToken 유무로 헤더 조정 */}
+  return (    
+    <DivForHeaderFooter>            
       <MemberHeader />
       <DivForFixedHeader>
-        <Routes>
+        <Routes>          
           <Route path="/" element={<MainPage />} />
           <Route path="/certification" element={<CertificationListPage />} />
           <Route path="/certification/write" element={<CertificationCreatePage />} />
