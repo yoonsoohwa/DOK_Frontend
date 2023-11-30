@@ -14,6 +14,8 @@ import { CreateAlert } from '../components/certification/CreateAlert';
 import { Loading } from 'common/state/Loading';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
+import { certificationUrl } from 'api/apiUrls';
+import { test } from 'api/test';
 
 export function CertificationListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,11 +30,11 @@ export function CertificationListPage() {
   };
 
   const addPostList = async () => {
-    const res = await fetch('/src/api/mock/certification.json');
+    // `${certificationUrl}/allCertificationPost`
+    const res = await fetch('src/api/mock/certification.json');
     const data = await res.json();
     console.log(data.data);
     dispatch(addCertificationPosts(data.data));
-    // console.log(certificationPosts);
   };
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export function CertificationListPage() {
         {/* <EmptyData /> */}
         <ListPageTopBar yellow="132" black="개의 산책 인증이 있습니다." />
         <CardListContainer>
-          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onclick={() => setOpen(true)} />))}
+          {Children.toArray(certificationPosts.map((post) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} />))}
           <MyDialog onClose={handleClose} open={open} maxWidth={false}>
             <CertificationPostDetail handleClose={handleClose} />
           </MyDialog>

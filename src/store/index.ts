@@ -4,3 +4,4 @@ export * from "./certificationSlice";
 export * from "./matchingCreateSlice";
 export * from "./matchingSlice";
 export * from "./userSlice";
+export * from './alertSlice';

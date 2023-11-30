@@ -2,6 +2,7 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mu
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setDurationSelect, setPaySelect } from '../../store';
 import { AccessTime } from '@mui/icons-material';
+import { useEffect } from 'react';
 
 export function DurationSelect() {
   const { durationSelect } = useSelector((state: RootState) => state.matchingForm);
@@ -12,6 +13,10 @@ export function DurationSelect() {
     dispatch(setDurationSelect(duration));
     dispatch(setPaySelect(duration * 9860));
   };
+
+  useEffect(() => {
+    dispatch(setDurationSelect(0.5));
+  }, []);
 
   return (
     <FormControl>
