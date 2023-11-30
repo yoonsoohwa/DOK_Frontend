@@ -5,6 +5,7 @@ import { CommentInput } from './CommentInput';
 import { MatchingCommentType } from '../../types';
 import timeDiff from '../../utils/timeDiff';
 import { useState } from 'react';
+import { AlertError } from 'common/alert/AlertError';
 
 interface type {
   comment: MatchingCommentType;
@@ -13,10 +14,27 @@ interface type {
 
 export function CommentItem({ comment, commentType }: type) {
   const [openInput, setOpenInput] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const { _id, comment: text, createdAt, user } = comment;
 
   const handleAddReply = () => {
     setOpenInput(!openInput);
+  }
+
+  const handleRemove = async () => {
+    try {
+        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/comment/${_id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        const data = await res.json();
+        setOpenErrorAlert(false);
+        console.log(data);
+    } catch(err) {
+        console.log(err);
+    }
   }
 
   return (
@@ -31,10 +49,16 @@ export function CommentItem({ comment, commentType }: type) {
         <CommentItemLayout>
           {!commentType ? <OptionButton id="addReply" onClick={handleAddReply}>댓글쓰기</OptionButton> : null}
           <OptionButton id="commentEdit">수정</OptionButton>
-          <OptionButton id="commentDelete">삭제</OptionButton>
+          <OptionButton id="commentDelete" onClick={() => setOpenErrorAlert(true)}>삭제</OptionButton>
         </CommentItemLayout>
         {openInput && <CommentInput commentType='reply' parentCommentId={_id} />}
       </div>
+      <AlertError
+        title="정말 삭제하시겠습니까?"
+        open={openErrorAlert}
+        onClose={() => setOpenErrorAlert(false)}
+        onClick={handleRemove}
+      />
     </CommentItemLayout>
   );
 }
