@@ -28,7 +28,7 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    if (value.length > 200) {
+    if (value.length > 100) {
       return;
     }
 

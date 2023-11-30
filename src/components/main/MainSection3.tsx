@@ -4,24 +4,19 @@ import { RootState } from 'src/store';
 import { styled } from 'styled-components';
 import { CertifiPostCard } from '../certification/PostCard';
 
-interface MainSection3Props {
-  title: string;
-  color: string;
-}
-
-export function MainSection3({ title, color }: MainSection3Props) {
+export function MainSection3() {
   const { certificationPosts } = useSelector((state: RootState) => state.main);
 
   return (
     <Section>
       <InnerBox>
-        <Title color={color}>
-          <h2>{title}</h2>
+        <Title>
+          <h2>믿음직한 인증 글</h2>
           <div className="send-text">자세히 보러가기</div>
         </Title>
-        <Contents>{Children.toArray(certificationPosts.map((data) => <CertifiPostCard contents={data} />))}</Contents>
+        <Contents>{Children.toArray(certificationPosts.map((data, index) => <CertifiPostCard index={index} onClick={() => {}} contents={data} />))}</Contents>
       </InnerBox>
-      <BackgroundBox color={color}></BackgroundBox>
+      <BackgroundBox></BackgroundBox>
     </Section>
   );
 }
@@ -50,7 +45,7 @@ const InnerBox = styled.div`
   padding: 80px 0 50px;
 `;
 
-const Title = styled.div<{ color: string }>`
+const Title = styled.div`
   width: 300px;
   text-align: center;
   align-self: flex-start;
@@ -60,7 +55,7 @@ const Title = styled.div<{ color: string }>`
     font-size: 40px;
     margin: 0;
     padding-top: 110px;
-    color: ${({ theme, color }) => (color ? theme[color] : theme.main)};
+    color: ${({ theme }) => theme.sub};
   }
 
   .send-text {
@@ -87,10 +82,10 @@ const Contents = styled.div`
   }
 `;
 
-const BackgroundBox = styled.div<{ color: string }>`
+const BackgroundBox = styled.div`
   width: 100%;
   height: ${bottom}px;
-  background-color: ${({ theme, color }) => (color ? theme[color] : theme.main)};
+  background-color: ${({ theme }) => theme.sub};
   position: absolute;
   top: ${top}px;
   z-index: -1;

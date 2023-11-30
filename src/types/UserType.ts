@@ -7,6 +7,7 @@ export interface UserType {
   address: { text: string; code: string };
   phoneNumber: string;
   introduce: string;
+  userImg: string;
   isCertificated: boolean;
   deletedAt: null | Date | string;
   createdAt: Date | string;
@@ -21,6 +22,7 @@ export const initUserType: UserType = {
   nickname: '',
   address: { text: '', code: '' },
   phoneNumber: '',
+  userImg: '',
   introduce: '',
   isCertificated: false,
   deletedAt: null,

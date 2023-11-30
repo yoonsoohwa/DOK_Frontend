@@ -1,19 +1,19 @@
 import { styled } from 'styled-components';
-import userImage from '/temp/뽀삐.png';
+import userImage from '/svg/user_image1.svg';
 import { UserNickname } from './UserNickname';
 import timeDiff from '../../../utils/timeDiff';
 
 interface ProfileInfoProps {
-  image?: string;
+  userImg?: string;
   nickname: string;
   time: string;
   size?: 'small';
 }
 
-export function ProfileInfo({ image, nickname, time, size }: ProfileInfoProps) {
+export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps) {
   return (
     <PostUser className={size}>
-      <img className="user-img" src={image || userImage} />
+      <img className="user-img" src={userImg || userImage} />
       <UserInfo>
         <UserNickname nickname={nickname} />
         <span>{timeDiff(time)}</span>

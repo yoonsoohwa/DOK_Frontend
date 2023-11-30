@@ -13,7 +13,7 @@ export interface MatchingPostType {
       }
     | undefined;
   locationDetail: string | null;
-  walkingDate: Date | string;
+  walkingDate: string;
   walkingDuration: number;
   requestText: string | null;
   deletedAt: Date | string | null;

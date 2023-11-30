@@ -13,6 +13,7 @@ const geocoder = new kakao.maps.services.Geocoder();
 
 export function LocationSelect() {
   const { locationSelect, locationDetailSelect } = useSelector((state: RootState) => state.matchingForm);
+  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [locationText, setLocationText] = useState('');
   const [locationCode, setLocationCode] = useState('');
@@ -71,7 +72,8 @@ export function LocationSelect() {
 
   useEffect(() => {
     //사용자 위치 정보로 초기화
-    const userLocation = '서울특별시 서초구 강남대로 399';
+    console.log(user.address);
+    const userLocation = user.address.text || '서울특별시 서초구 강남대로 399';
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
