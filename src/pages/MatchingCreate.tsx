@@ -89,12 +89,13 @@ export function MatchingCreatePage() {
   useEffect(() => {
     // 로그인 했는지 확인
     dispatch(setOpenAlertLogin(true));
+
     // 유저에게 강아지가 없는지 확인
   }, []);
 
   return (
     <CertifiCreate>
-      <AlertLogin isBack={true} />
+      <AlertLogin isBack={false} />
       <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
       <AlertSuccess
         open={openSubmit}

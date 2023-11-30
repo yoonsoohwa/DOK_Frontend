@@ -8,7 +8,7 @@ import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, setCertificationDetailId } from 'store/index';
+import { AppDispatch, setCertificationDetail } from 'store/index';
 import { useState } from 'react';
 
 interface MatchingCardProps {
@@ -49,7 +49,7 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
         <div>
           <AccessTime sx={{ fontSize: '120%' }} />
           <span>
-            {dateTimeFormat(walkingDate.toString(), "date")} | {durationTimeFormat(Number(walkingDuration))}
+            {dateTimeFormat(walkingDate.toString(), 'date')} | {durationTimeFormat(Number(walkingDuration))}
           </span>
         </div>
       </WalkInfo>

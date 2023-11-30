@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import { styled } from 'styled-components';
 import { PostCreateFormLayout } from '../components/common/create-page/PostCreateFormLayout';
 import { AddPhotoAlternateOutlined, ChatOutlined, LocationOn, Pets } from '@mui/icons-material';
@@ -17,16 +17,15 @@ export function CertificationCreatePage() {
   const [errorAddress, setErrorAddress] = useState(true);
   const [images, setImages] = useState<File[] | null>();
   const [imagesURL, setImagesURL] = useState<string[] | null>();
-  const [errorImages, setErrorImages] = useState(true);
+  const [errorImages, setErrorImages] = useState<boolean | string>(true);
 
   const [openError, setOpenError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const navigate = useNavigate();
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files[0]) {
-      setImages(null);
-      setImagesURL(null);
+    console.log(!e.target.files?.[0], (images?.length || 0) + (e.target.files?.length || 0) > 6);
+    if (!e.target.files?.[0] || (images?.length || 0) + e.target.files.length > 6) {
       setErrorImages(true);
       return;
     }
@@ -137,19 +136,12 @@ export function CertificationCreatePage() {
                   type="file"
                   onChange={(e) => {
                     if (!e.target.files?.length) return;
-                    setImages(e.target.files ? Array.from(e.target.files) : []);
                     handleChangeImage(e);
                   }}
                   multiple
                 />
               </div>
-              {imagesURL && (
-                <div className="preview custom-scrollbar">
-                  {imagesURL.map((url) => (
-                    <img src={url} />
-                  ))}
-                </div>
-              )}
+              {imagesURL && <div className="preview custom-scrollbar">{Children.toArray(imagesURL.map((url) => <img src={url} />))}</div>}
             </Contents>
           </PostCreateGroup>
         </PostCreateFormLayout>
