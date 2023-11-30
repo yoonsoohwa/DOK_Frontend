@@ -4,16 +4,23 @@ import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 import { HandlerListItem } from './HandlerLIstItem';
 import { ButtonMain } from 'common/button/ButtonMain';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
-import { useParams } from 'react-router-dom';
+import { AppDispatch, RootState, setRequestHandlers, updateMatchingStatus } from 'store/index';
+import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { AlertSnackbar } from 'common/alert/AlertSnackbar';
+import { AlertSuccess } from 'common/alert/AlertSuccess';
 
 export function HandlerSelectContainer() {
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const dispatch = useDispatch<AppDispatch>();
-  const { id } = useParams();
   const { requestHandlers, selectedHandler } = useSelector((state: RootState) => state.matching);
   const [open, setOpen] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [openIsSelectedSnackber, setOpenIsSelectedSnackber] = useState(false);
+  const [isSendedMatching, setIsSendedMatching] = useState(false);
 
-  const handleClick = () => {
+  const handleClickHandler = () => {
     setOpen((prev) => !prev);
   };
 
@@ -21,25 +28,37 @@ export function HandlerSelectContainer() {
     setOpen(false);
   };
 
+  const handlerSendMatchingClick = () => {
+    if (isSendedMatching) {
+      setOpenIsSelectedSnackber(true);
+      return;
+    }
+    setOpenSuccessAlert(true);
+  };
+
   const onSubmitHandler = () => {
     if (!selectedHandler) {
-      console.log('please select handler!');
+      setOpenErrorAlert(true);
       return;
     }
 
     const sendSelectedHandler = async () => {
       const { matchingPostId, user } = selectedHandler;
       try {
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${matchingPostId}/${user._id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            }
+        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingPostId}/${user._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         });
-        const data = await res.json();
-        console.log(matchingPostId, user._id);
+
+        if (res.status === 200) {
+          setOpenSuccessSnackbar(true);
+          setIsSendedMatching(true);
+          dispatch(updateMatchingStatus(matchingPostId));
+        }
       } catch (err) {
-        // console.log(err);
+        console.log(err);
       }
     };
 
@@ -49,9 +68,9 @@ export function HandlerSelectContainer() {
   useEffect(() => {
     const RequestHandlerList = async () => {
       try {
-        // const res = await fetch('/src/api/mock/matching-post-requests.json');
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${id}`);
+        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingDetailPost?._id}`);
         const data = await res.json();
+
         dispatch(setRequestHandlers(data));
       } catch (error) {
         console.log(error);
@@ -69,14 +88,14 @@ export function HandlerSelectContainer() {
       <ClickAwayListener onClickAway={handleClickAway}>
         <SelectorLayout>
           {selectedHandler ? (
-            <div onClick={handleClick}>
+            <div onClick={handleClickHandler}>
               <HandlerListItem handler={selectedHandler} />
             </div>
           ) : (
-            <SelectButtonContainer onClick={handleClick}>핸들러를 선택해주세요.</SelectButtonContainer>
+            <SelectButtonContainer onClick={handleClickHandler}>핸들러를 선택해주세요.</SelectButtonContainer>
           )}
           {open ? (
-            <HandlerListContainer className={`custom-scrollbar ${requestHandlers.length > 3 ? "scroll" : null}`}>
+            <HandlerListContainer className={`custom-scrollbar ${requestHandlers.length > 3 ? 'scroll' : null}`}>
               {Children.toArray(
                 requestHandlers.map((handler) => {
                   return <HandlerListItem handler={handler} />;
@@ -87,8 +106,17 @@ export function HandlerSelectContainer() {
         </SelectorLayout>
       </ClickAwayListener>
       <ButtonContainer>
-        <ButtonMain text="매칭하기" onClick={onSubmitHandler} />
+        <ButtonMain text="매칭하기" onClick={handlerSendMatchingClick} />
       </ButtonContainer>
+      <AlertSnackbar title="핸들러를 선택해주세요." open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} type="error" />
+      <AlertSuccess
+        title={`${selectedHandler?.user.nickname}님과 매칭하시겠습니까?`}
+        open={openSuccessAlert}
+        onClick={onSubmitHandler}
+        onClose={() => setOpenSuccessAlert(false)}
+      />
+      <AlertSnackbar title="매칭이 완료된 글입니다." open={openIsSelectedSnackber} onClose={() => setOpenIsSelectedSnackber(false)} type="error" duration={1500} />
+      <AlertSnackbar title="선택한 핸들러와 매칭이 완료되었습니다." open={openSuccessSnackbar} onClose={() => setOpenSuccessSnackbar(false)} />
     </HandlerSelectLayout>
   );
 }
@@ -133,7 +161,6 @@ const HandlerListContainer = styled.div`
 
   &.scroll {
     overflow: scroll;
-  overflow-x: hidden;
+    overflow-x: hidden;
   }
-  
 `;

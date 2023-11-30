@@ -2,45 +2,61 @@ import { styled } from 'styled-components';
 import personImg from '/svg/person_img.svg';
 import { Input, IconButton } from '@mui/material';
 import { Send } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setOpenAlertLogin, addMatchingComment } from 'store/index';
 import { useState } from 'react';
+import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { AlertLogin } from 'common/alert/AlertLogin';
 
 interface CommentProps {
-    commentType?: 'reply',
-    parentCommentId?: string,
+  commentType?: 'reply';
+  parentCommentId?: string;
 }
 
-export function CommentInput({commentType, parentCommentId}: CommentProps) {
+export function CommentInput({ commentType, parentCommentId }: CommentProps) {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
-  const userId = '65656e7fddbf8bf4b11e0292';
-  const url = 'http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/comment'
+  const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
   const [text, setText] = useState('');
+  const isLogined = user._id !== '';
 
   const onClickHandler = async () => {
-    const res = await fetch(url, {
-        method: "POST",
+    if (!isLogined) {
+      dispatch(setOpenAlertLogin(true));
+      return;
+    }
+
+    try {
+      const res = await fetch(`${matchingPostDetailUrl}/comment`, {
+        method: 'POST',
         headers: {
-            "Content-type": "application/json",
+          'Content-type': 'application/json',
         },
         body: JSON.stringify({
-            "matchingPostId": matchingDetailPost?._id,
-            "user": userId,
-            "comment": text,
-            "parentCommentId": parentCommentId || null
-        })
-    })
-    const data = res.json();
-  }
+          matchingPostId: matchingDetailPost?._id,
+          user: user._id,
+          comment: text,
+          parentCommentId: parentCommentId || null,
+        }),
+      });
+      const data = res.json();
+      console.log(data);
+      dispatch(addMatchingComment(data));
+      setText('');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const onChangeHandler = (e: any) => {
     setText(e.target.value);
-  }
+  };
 
   return (
     <InputLayout>
-      <UserImg src={personImg} className={commentType}/>
-      <Input placeholder="댓글 추가" sx={{ width: '100%' }} onChange={onChangeHandler}/>
+    <AlertLogin isBack={false}/>
+      <UserImg src={personImg} className={commentType} />
+      <Input placeholder="댓글 추가" sx={{ width: '100%' }} onChange={onChangeHandler} disabled={matchingDetailPost?.matchingStatus !== 'process'} />
       <IconButton size="small" onClick={onClickHandler}>
         <Send sx={{ transform: 'rotate(-15deg)' }} />
       </IconButton>

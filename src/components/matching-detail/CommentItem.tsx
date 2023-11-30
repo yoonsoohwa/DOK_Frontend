@@ -4,8 +4,11 @@ import { UserNickname } from 'common/user/UserNickname';
 import { CommentInput } from './CommentInput';
 import { MatchingCommentType } from '../../types';
 import timeDiff from '../../utils/timeDiff';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AlertError } from 'common/alert/AlertError';
+import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, deleteMatchingComment } from 'store/index';
 
 interface type {
   comment: MatchingCommentType;
@@ -13,52 +16,60 @@ interface type {
 }
 
 export function CommentItem({ comment, commentType }: type) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { user } = useSelector((state: RootState) => state.user);
   const [openInput, setOpenInput] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const { _id, comment: text, createdAt, user } = comment;
+  const { _id, comment: text, createdAt, user: commentUser } = comment;
 
   const handleAddReply = () => {
     setOpenInput(!openInput);
-  }
+  };
 
   const handleRemove = async () => {
     try {
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/comment/${_id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
-        });
-        const data = await res.json();
-        setOpenErrorAlert(false);
-        console.log(data);
-    } catch(err) {
-        console.log(err);
+      const res = await fetch(`${matchingPostDetailUrl}/comment/${_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      setOpenErrorAlert(false);
+      dispatch(deleteMatchingComment(_id));
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   return (
     <CommentItemLayout>
-      <UserImg src={personImg} />
+      <UserImg src={personImg} className={commentType}/>
       <div>
         <CommentInfo>
-          <UserNickname nickname={user.nickname} badge={true} />
+          <UserNickname nickname={commentUser.nickname} badge={true} />
           <span>{timeDiff(createdAt)}</span>
         </CommentInfo>
         <p>{text}</p>
         <CommentItemLayout>
-          {!commentType ? <OptionButton id="addReply" onClick={handleAddReply}>댓글쓰기</OptionButton> : null}
-          <OptionButton id="commentEdit">수정</OptionButton>
-          <OptionButton id="commentDelete" onClick={() => setOpenErrorAlert(true)}>삭제</OptionButton>
+          {!commentType && matchingDetailPost?.matchingStatus === 'process' ? (
+            <OptionButton id="addReply" onClick={handleAddReply}>
+              댓글쓰기
+            </OptionButton>
+          ) : null}
+          {user._id === commentUser._id && (
+            <>
+              <OptionButton id="commentEdit">수정</OptionButton>
+              <OptionButton id="commentDelete" onClick={() => setOpenErrorAlert(true)}>
+                삭제
+              </OptionButton>
+            </>
+          )}
         </CommentItemLayout>
-        {openInput && <CommentInput commentType='reply' parentCommentId={_id} />}
+        {openInput && <CommentInput commentType="reply" parentCommentId={_id} />}
       </div>
-      <AlertError
-        title="정말 삭제하시겠습니까?"
-        open={openErrorAlert}
-        onClose={() => setOpenErrorAlert(false)}
-        onClick={handleRemove}
-      />
+      <AlertError title="정말 삭제하시겠습니까?" open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} onClick={handleRemove} />
     </CommentItemLayout>
   );
 }
@@ -76,6 +87,11 @@ const CommentItemLayout = styled.div`
 const UserImg = styled.img`
   width: 40px;
   height: 40px;
+
+  &.reply {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 const CommentInfo = styled(CommentItemLayout)`

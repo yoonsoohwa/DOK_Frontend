@@ -4,18 +4,17 @@ import { CommentItem } from './CommentItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setMatchingComments } from 'store/index';
 import { Children, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { CommentContainer } from './CommentContainer';
+import { matchingPostDetailUrl } from '../../api/apiUrls';
 
 export function CommentList() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingComments } = useSelector((state: RootState) => state.matching);
-  const { id } = useParams();
+  const { matchingComments, matchingDetailPost } = useSelector((state: RootState) => state.matching);
 
   useEffect(() => {
     const getMatchingComment = async () => {
       try {
-        const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/comment/${id}`);
+        const res = await fetch(`${matchingPostDetailUrl}/comment/${matchingDetailPost?._id}`);
         const data = await res.json();
         if (res.status === 200) {
           dispatch(setMatchingComments(data.reverse()));
@@ -26,7 +25,7 @@ export function CommentList() {
     };
 
     getMatchingComment();
-  }, []);
+  }, [matchingComments]);
 
   return (
     <CommentLayout>

@@ -43,11 +43,18 @@ const matchingSlice = createSlice({
     setSelectedHandler: (state, action) => {
       state.selectedHandler = action.payload;
     },
+    updateMatchingStatus: (state, action) => {
+      const post = state.matchingPosts.find((post) => post._id === action.payload);
+      post && (post.matchingStatus = 'completed');
+    },
     setMatchingComments: (state, action) => {
       state.matchingComments = action.payload;
     },
     addMatchingComment: (state, action) => {
       state.matchingComments.push(...action.payload);
+    },
+    deleteMatchingComment: (state, action) => {
+      state.matchingComments = state.matchingComments.filter((comment) => comment._id !== action.payload);
     },
   },
 });
@@ -61,5 +68,7 @@ export const {
   setSelectedHandler,
   setMatchingComments,
   addMatchingComment,
+  updateMatchingStatus,
+  deleteMatchingComment,
 } = matchingSlice.actions;
 export default matchingSlice;

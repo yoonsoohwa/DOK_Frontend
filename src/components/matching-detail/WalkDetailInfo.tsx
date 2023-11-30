@@ -8,12 +8,16 @@ import { LocationMap } from './LocationMap';
 import { useState } from 'react';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
+import calculateWalkingTime from '../../utils/calculateWalkingTime';
+import { duration } from '@mui/material';
 
 export function WalkDetailInfo() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { user } = useSelector((state: RootState) => state.user);
   if (!matchingDetailPost) return <></>;
-  const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus } = matchingDetailPost;
-  const [isAuthor, setIsAuthor] = useState(true); //작성자 여부
+  const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus, user: postUser } = matchingDetailPost;
+//   const isAuthor = user._id === postUser._id;
+const isAuthor = true;
 
   return (
     <WalkDetailLayout>
@@ -30,7 +34,7 @@ export function WalkDetailInfo() {
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>15:40 ~ 16:10 ({durationTimeFormat(walkingDuration)})</p>
+          <p>{calculateWalkingTime(walkingDate.toString(), walkingDuration)} ({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <MapLayout>
