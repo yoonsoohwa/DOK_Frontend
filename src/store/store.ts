@@ -3,6 +3,7 @@ import mainSlice from './mainSlice';
 import certificationSlice from './certificationSlice';
 import matchingFormSlice from './matchingCreateSlice';
 import matchingSlice from './matchingSlice';
+import userSlice from './userSlice';
 import alertSlice from './alertSlice';
 
 const store = configureStore({
@@ -12,6 +13,7 @@ const store = configureStore({
     certification: certificationSlice.reducer,
     matching: matchingSlice.reducer,
     matchingForm: matchingFormSlice.reducer,
+    user : userSlice.reducer,
   },
 });
 

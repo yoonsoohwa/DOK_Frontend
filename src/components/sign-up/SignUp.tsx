@@ -125,7 +125,10 @@ export function SignUp() {
             "password" : pwdValue,
             "name": nameValue,
             "nickname" : nicknameValue,
-            "address" : addressValue,
+            "address" : {
+                "text":addressValue,
+                "code":addressBCode,
+            },
             // "bcode" : addressBCode,
             "phoneNumber" : firstPhoneValue +" " + secondPhoneValue,
             "introduce" : "",
