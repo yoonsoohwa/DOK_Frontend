@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, setUser } from "store/index";
+import { AppDispatch, RootState, setDog, setUser } from "store/index";
 
 export const useLoginCheck = ()  => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, dog } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,9 +21,11 @@ export const useLoginCheck = ()  => {
             // 응답의 상태를 체크해야함 reponse.ok
             if(response.status === 200){
               const data = await response.json();
-              dispatch(setUser(data));
+              dispatch(setUser(data.user));
+              dispatch(setDog(data.dog));
+              console.log(data)
             }else{
-                
+              console.log("로그인 안됨");
             }
             // console.log(data);
             // console.log(`로그인 조회 완료 : ${data}`);

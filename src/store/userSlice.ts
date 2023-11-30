@@ -1,13 +1,15 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { UserType } from '../types';
+import { DogType, UserType, initDogType } from '../types';
 import {initUserType } from '../types';
 
 interface userSliceType {
   user: UserType;
+  dog: DogType,
 }
 
 const initialState: userSliceType = {
   user: initUserType,
+  dog: initDogType,
 };
 
 const user = createSlice({
@@ -17,8 +19,11 @@ const user = createSlice({
     setUser: (state, action : PayloadAction<UserType>) => {
       state.user = action.payload;
     },
+    setDog: (state, action : PayloadAction<DogType>) => {
+      state.dog = action.payload;
+    },
   },
 });
 
-export const { setUser } = user.actions;
+export const { setUser, setDog } = user.actions;
 export default user;
