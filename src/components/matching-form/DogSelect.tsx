@@ -5,6 +5,7 @@ import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from '../../s
 import { useDispatch, useSelector } from 'react-redux';
 import { DogType } from '../../types';
 import { Pets } from '@mui/icons-material';
+import { certificationUrl, matchingFormUrl, userUrl } from 'api/apiUrls';
 
 export function DogSelect() {
   const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingForm);
@@ -24,8 +25,9 @@ export function DogSelect() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('/src/api/mock/dogs.json');
+      const res = await fetch(`${matchingFormUrl}/doginformation/${'6563f3569187c8fe58c24105'}`);
       const data = await res.json();
+      console.log(data);
       setDogs(data);
     })();
     dispatch(setDogSelect(undefined));

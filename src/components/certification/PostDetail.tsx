@@ -1,24 +1,27 @@
 import { styled } from 'styled-components';
 import React, { Children, useEffect, useState } from 'react';
 import userImage from '/temp/뽀삐.png';
-import { Box, IconButton, MobileStepper, Rating } from '@mui/material';
+import { Box, IconButton, MobileStepper, Rating, TextField } from '@mui/material';
 import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import dayjs from 'dayjs';
-import { CertificationPostType, initCertificationPostType } from '../../types';
+import { certificationUrl } from 'api/apiUrls';
+import { ReviewEdit } from './ReviewEdit';
+import { Review } from './Review';
 
 interface CertificationPostDetailProps {
   handleClose: () => void;
 }
 
 export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
-  const { certificationDetailPost: certificationDetailPostId } = useSelector((state: RootState) => state.certification);
-  const [certificationDetailPost, setCertificationDetailPost] = useState<CertificationPostType>(initCertificationPostType);
+  const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
   let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
 
-  const [currentImgIndex, setCurrentImgIndex] = React.useState(0);
+  const [isEditable, setIsEditable] = useState(true); //default false
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const maxSteps = certificationImg.length;
 
   const handleNext = () => {
@@ -30,13 +33,8 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   };
 
   useEffect(() => {
-    const url = `http://kdt-sw-6-team01.elicecoding.com/api/certificationRouter/certificationPostDetails/${certificationDetailPostId}`;
-    (async () => {
-      const res = await fetch(url);
-      const data = await res.json();
-      console.log(data);
-      setCertificationDetailPost(data);
-    })();
+    // 로그인한 사용자가 user라면 isEditable = true
+    // isEditable하고 review.rating이 없다면 isEditing = true
   }, []);
 
   return (
@@ -81,57 +79,42 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
       </Left>
 
       <Right className="custom-scrollbar">
-        <Top>
-          <ProfileInfo nickname={user.nickname} time={createdAt} />
-          <IconButton onClick={handleClose}>
-            <Clear />
-          </IconButton>
-        </Top>
+        <div>
+          <Top>
+            <ProfileInfo nickname={user.nickname} time={createdAt} />
+            <IconButton onClick={handleClose}>
+              <Clear />
+            </IconButton>
+          </Top>
 
-        <Contents>
-          <div>
-            <img className="icon" src="/svg/card_dog_icon.svg" />
-            <div className="title">강아지</div>
-            <div className="text">{matchingPost.userDog.dogName}</div>
-          </div>
-
-          <div>
-            <AccessTime className="icon" />
-            <div className="title">산책 시간</div>
-            <div className="text">{dayjs(matchingPost.walkingDate).format('YYYY년 MM월 DD일 hh:mma')}</div>
-          </div>
-          {sublocation && (
+          <Contents>
             <div>
-              <LocationOn className="icon" />
-              <div className="title">산책 위치</div>
-              <div className="text">{sublocation}</div>
+              <img className="icon" src="/svg/card_dog_icon.svg" />
+              <div className="title">강아지</div>
+              <div className="text">{matchingPost.userDog.dogName}</div>
             </div>
-          )}
 
-          <div>
-            <ChatOutlined className="icon" />
-            <div className="title">인증 내용</div>
-          </div>
-          <div className="text detail">{postText}</div>
-        </Contents>
-
-        {review.rating && (
-          <Review>
-            <div className="top">
-              <div className="label">견주의 후기</div>
-              <div className="left">
-                <img src={userImage} className="user-img" />
-                <div>뽀삐엄마</div>
-                <Rating readOnly={true} value={review.rating}></Rating>
-                <IconButton size="small">
-                  <Edit fontSize="small" />
-                </IconButton>
+            <div>
+              <AccessTime className="icon" />
+              <div className="title">산책 일시</div>
+              <div className="text">{dayjs(matchingPost.walkingDate).format('YYYY년 MM월 DD일 hh:mma')}</div>
+            </div>
+            {sublocation && (
+              <div>
+                <LocationOn className="icon" />
+                <div className="title">산책 위치</div>
+                <div className="text">{sublocation}</div>
               </div>
-              <div className="right">30분 전</div>
+            )}
+
+            <div>
+              <ChatOutlined className="icon" />
+              <div className="title">인증 내용</div>
             </div>
-            <div>{review.reviewText}</div>
-          </Review>
-        )}
+            <div className="text detail">{postText}</div>
+          </Contents>
+        </div>
+        {isEditing ? <ReviewEdit setIsEditing={setIsEditing} /> : review.rating && <Review isEditable={isEditable} setIsEditing={setIsEditing} />}
       </Right>
     </DetailBox>
   );
@@ -204,6 +187,10 @@ const Right = styled.div`
   overflow-y: auto;
   position: relative;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Top = styled.div`
@@ -268,53 +255,5 @@ const Contents = styled.div`
     border-bottom: 30px solid #d5e5f0;
     border-right: 30px solid transparent;
     box-shadow: -0.2em 0.2em 0.3em -0.1em rgba(0, 0, 0, 0.15);
-  }
-`;
-
-const Review = styled.div`
-  width: 100%;
-  position: static;
-  bottom: 0px;
-  border-top: 2px #8e8e8e solid;
-  margin-top: 80px;
-  padding: 30px 26px;
-  box-sizing: border-box;
-
-  .label {
-    position: absolute;
-    top: -43px;
-    background-color: #fff;
-    padding: 0 4px;
-    color: #8e8e8e;
-    font-weight: 500;
-  }
-
-  .top {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    margin-bottom: 14px;
-
-    .left {
-      display: flex;
-      align-items: center;
-      font-size: 20px;
-      font-weight: 500;
-
-      > * {
-        margin-right: 8px;
-      }
-    }
-
-    .right {
-      font-size: 14px;
-      color: #8e8e8e;
-      padding: 2px 0;
-    }
-
-    .user-img {
-      width: 35px;
-      height: 35px;
-    }
   }
 `;

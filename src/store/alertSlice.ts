@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CertificationPostType, DogType, MatchingPostType } from '../types';
 
 interface initialStateType {
   openAlertLogin: boolean;
@@ -10,7 +9,7 @@ const initialState: initialStateType = {
 };
 
 const alertSlice = createSlice({
-  name: 'main', //이름
+  name: 'alert', //이름
   initialState, //초기값
   reducers: {
     setOpenAlertLogin: (state, action: PayloadAction<boolean>) => {

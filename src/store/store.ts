@@ -5,11 +5,13 @@ import matchingFormSlice from './matchingCreateSlice';
 import matchingSlice from './matchingSlice';
 import userSlice from './userSlice';
 import alertSlice from './alertSlice';
+import filterSlice from './filterSlice';
 
 const store = configureStore({
   reducer: {
     main: mainSlice.reducer,
     alert: alertSlice.reducer,
+    filter: filterSlice.reducer,
     certification: certificationSlice.reducer,
     matching: matchingSlice.reducer,
     matchingForm: matchingFormSlice.reducer,

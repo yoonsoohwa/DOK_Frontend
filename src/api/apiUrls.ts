@@ -5,3 +5,4 @@ export const matchingPostListUrl = domain + 'matchingPostLists';
 export const matchingPostDetailUrl = domain + 'matchingPostDetail';
 export const matchingFormUrl = domain + 'matchingRequestRouter';
 export const certificationUrl = domain + 'certificationRouter';
+export const dogUrl = domain + 'dog';

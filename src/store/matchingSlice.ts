@@ -5,26 +5,20 @@ import { MatchingCommentType } from '../types';
 
 type matchingType = {
   matchingPosts: MatchingPostType[];
+  matchingPostsCount: number | undefined;
   matchingDetailPost: MatchingPostType | null;
   requestHandlers: RequestHandlerType[];
   selectedHandler: RequestHandlerType | null;
   matchingComments: MatchingCommentType[];
-  filter: {
-    locationCode: string | undefined;
-    walkingDate: string | undefined;
-  };
 };
 
 const initialState: matchingType = {
   matchingPosts: [],
+  matchingPostsCount: undefined,
   matchingDetailPost: null,
   requestHandlers: [],
   selectedHandler: null,
   matchingComments: [],
-  filter: {
-    locationCode: '',
-    walkingDate: '',
-  },
 };
 
 const matchingSlice = createSlice({
@@ -36,6 +30,9 @@ const matchingSlice = createSlice({
     },
     addMatchingPosts: (state, action) => {
       state.matchingPosts.push(...action.payload);
+    },
+    setMatchingPostCount: (state, action) => {
+      state.matchingPostsCount = action.payload;
     },
     setMatchingDetailPost: (state, action) => {
       state.matchingDetailPost = action.payload;
@@ -52,11 +49,17 @@ const matchingSlice = createSlice({
     addMatchingComment: (state, action) => {
       state.matchingComments.push(...action.payload);
     },
-    setMatchingPostsFilter: (state, action) => {
-      state.filter = action.payload;
-    },
   },
 });
 
-export const { resetMatchingPosts, addMatchingPosts, setMatchingDetailPost, setRequestHandlers, setSelectedHandler, setMatchingComments, addMatchingComment, setMatchingPostsFilter } = matchingSlice.actions;
+export const {
+  resetMatchingPosts,
+  setMatchingPostCount,
+  addMatchingPosts,
+  setMatchingDetailPost,
+  setRequestHandlers,
+  setSelectedHandler,
+  setMatchingComments,
+  addMatchingComment,
+} = matchingSlice.actions;
 export default matchingSlice;

@@ -11,7 +11,7 @@ type initialStateType = {
   paySelect: number;
   errorPaySelect: boolean;
   requestText: string;
-  locationSelect: string | undefined;
+  locationSelect: { text: string; code: string } | undefined;
   locationDetailSelect: string;
 };
 
@@ -24,7 +24,7 @@ const initialState: initialStateType = {
   paySelect: 0.5 * 9860,
   errorPaySelect: true,
   requestText: '',
-  locationSelect: '',
+  locationSelect: undefined,
   locationDetailSelect: '',
 };
 

@@ -12,18 +12,20 @@ const geocoder = new kakao.maps.services.Geocoder();
 // const ps = new kakao.maps.services.Places();
 
 export function LocationSelect() {
-  const { locationSelect: location, locationDetailSelect: locationDetail } = useSelector((state: RootState) => state.matchingForm);
+  const { locationSelect, locationDetailSelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
-  const [address, setAddress] = useState('');
+  const [locationText, setLocationText] = useState('');
+  const [locationCode, setLocationCode] = useState('');
   const [position, setPosition] = useState({ lat: 0, lng: 0 });
   const [mapOpen, setMapOpen] = useState(false);
 
-  const handleOpen = (event: React.MouseEvent) => {
+  const handleOpen = () => {
     setMapOpen(true);
   };
 
-  const handleSubmit = (event: React.MouseEvent) => {
-    dispatch(setLocation(address));
+  const handleSubmit = () => {
+    const newLocation = { text: locationText, code: locationCode };
+    dispatch(setLocation(newLocation));
     setMapOpen(false);
   };
 
@@ -33,11 +35,11 @@ export function LocationSelect() {
     }
   };
 
-  useEffect(() => {
-    geocoder.coord2Address(position.lng, position.lat, function (result, status) {
-      if (status === kakao.maps.services.Status.OK) {
-        var addr = !!result[0] && (result[0].road_address?.address_name || result[0].address.address_name);
-        setAddress(addr);
+  const handleChangeLocation = (lng: number, lat: number) => {
+    geocoder.coord2Address(lng, lat, (res, status) => {
+      if (status === kakao.maps.services.Status.OK && res[0]) {
+        var addr = res[0].road_address?.address_name || res[0].address.address_name;
+        setLocationText(addr);
         /*
         검색 기능(추가기능) 구현 시 필요한 부분
 
@@ -53,6 +55,18 @@ export function LocationSelect() {
          */
       }
     });
+
+    geocoder.coord2RegionCode(lng, lat, (res, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        setLocationCode(res[0].code);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (position.lng && position.lat) {
+      handleChangeLocation(position.lng, position.lat);
+    }
   }, [position]);
 
   useEffect(() => {
@@ -61,9 +75,14 @@ export function LocationSelect() {
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
-      if (status === kakao.maps.services.Status.OK) {
-        setPosition({ lat: Number(result[0].y), lng: Number(result[0].x) });
-        dispatch(setLocation(userLocation));
+      if (status === kakao.maps.services.Status.OK && result[0]) {
+        const lat = Number(result[0].y);
+        const lng = Number(result[0].x);
+
+        setPosition({ lat, lng });
+        console.log(lng, lat);
+        handleChangeLocation(lng, lat);
+        dispatch(setLocation({ text: userLocation, code: '' }));
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         alert('검색 결과가 존재하지 않습니다.');
         return;
@@ -81,17 +100,17 @@ export function LocationSelect() {
         만남 위치
       </FormLabel>
       <div className="flex">
-        <TextField id="" size="small" InputProps={{ readOnly: true }} value={location} fullWidth />
+        <TextField id="" size="small" InputProps={{ readOnly: true }} value={locationSelect?.text || ''} fullWidth />
         <SearchButton onClick={handleOpen} />
       </div>
-      <TextField id="" size="small" value={locationDetail} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 위치" fullWidth />
+      <TextField id="" size="small" value={locationDetailSelect} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 위치" fullWidth />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
         <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>
         <DialogContentBox dividers>
           <div className="location-text">
             <LocationOn className="icon" color="primary" />
-            <span>{address}</span>
+            <span>{locationText}</span>
           </div>
           <Map // 지도를 표시할 Container
             id="map"
