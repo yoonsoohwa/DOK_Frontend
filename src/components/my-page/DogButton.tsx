@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { DogDetail } from "./DogDetail";
+import { useSelector } from "react-redux";
+import { RootState } from "store/index";
+import { DogCard } from "./DogCard";
 
 export const DogButton = () => {
     const [clicked, setClicked] = useState(false);
+    const [isAddButton, setIsAddButton] = useState(true);
+    const { dog } = useSelector((state: RootState) => state.user);
+
+    const handleAddBtn = () => {
+        setClicked(!clicked)
+        setIsAddButton(false);
+    }
+
     return (
         <>
-        <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>
-        <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>
-            {clicked ? <DogDetail /> : <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
+        {/* <AddButton onClick={() => setClicked(!clicked)}>+</AddButton> */}
+            {dog ? dog.map(() => <DogCard />) : null}
+            <AddButton onClick={handleAddBtn}>+</AddButton>            
+            {clicked && isAddButton ? <DogDetail /> : <AddButton onClick={handleAddBtn}>+</AddButton>}
             {/* <AddButton onClick={() => setClicked(!clicked)}>+</AddButton> */}
         </>
     )

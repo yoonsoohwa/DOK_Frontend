@@ -6,15 +6,12 @@ import { DogButton } from "./DogButton";
 import { Height, Padding } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "store/index";
-import { Link } from "react-router-dom";
 
-export const DogDetail = () => {
+export const DogCard = () => {
     const [clicked, setClicked] = useState(false);
     
-    const inputRef = useRef<HTMLInputElement>(null);;
-
     const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
-    const { user } = useSelector((state: RootState) => state.user);
+    const { dog } = useSelector((state: RootState) => state.user);
 
     
     const [dogName, setDogName] = useState("");
@@ -25,66 +22,13 @@ export const DogDetail = () => {
     const [personality, setPersonality] = useState("active");
     const [note, setNote] = useState("");
 
-    const handleAddDog = async () => {
-        const req = await fetch(`/api/users/myDog`,{
-            method:"POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                "user": user._id,
-                "dogName": dogName,
-                "dogImg":"string으로 가랏",
-                "birth":"01/04/2024",
-                "gender":gender,
-                "dogType":dogType,
-                "personality":personality,
-                "note" : note,
-            }),
-            credentials: 'include',
-        });
-        const res = req.json;
-        console.log(res);
-    }
-
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e: ProgressEvent<FileReader>) {
-            const image = e.target?.result as string;
-            setImagePath(image);
-            console.log(imagePath);
-        };
-        reader.readAsDataURL(file);
-        }
-    };
-
-    const handleImageClick = () => {
-        if (inputRef.current) {
-          inputRef.current.click();
-        }
-      };
 
     return (
         <>
-            {clicked ? <Link to={"/mypage"} /> 
-            : <TotalFrame>
+            <TotalFrame>
                 <div className="image">
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(event) => handleImageUpload(event)}
-                        style={{ display: 'none' }}
-                        ref={inputRef}
-                        id="imageInput"
-                    />
                     <img
                         src={imagePath} // 기본 이미지 설정 (선택된 이미지가 없을 때 표시될 이미지)
-                        alt="Selected"
-                        id="selectedImage"
-                        onClick={handleImageClick}
-                        style={{ cursor: 'pointer' }} // 마우스 커서가 포인터로 변경되도록 스타일 지정
                     />
                 </div>
                 <InfoFrame>
@@ -93,16 +37,20 @@ export const DogDetail = () => {
                             <img src="/svg/dog_default.svg" alt="강아지아이콘" style={{marginRight: "2.5px"}} />
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 이름을 작성해주세요" 
-                            defaultValue={dogName}
-                            onChange={(e) => setDogName(e.target.value)}
+                            <TextField
+                            disabled
+                            value="테스트"                            
                             sx={{
                                 '& .MuiInputBase-input': {                                
-                                padding: "5% 5% 5% 5%",
+                                padding: "5% 5% 5% 5%",                                
                                 fontSize: "15px",
                                 width:"210px"
                                 },
-                            }}/>
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                  },
+                                "& fieldset": { border: 'none' },
+                            }}/>                            
                         </div>
                     </div>
                     <div className="species">
@@ -111,14 +59,18 @@ export const DogDetail = () => {
                         </div>
                         <div>
                             <TextField placeholder="반려견의 견종을 작성해주세요" 
-                            defaultValue={dogType}
-                            onChange={(e) => setDogType(e.target.value)}
+                            disabled
+                            value="테스트2" 
                             sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
                                 fontSize: "15px",
                                 width:"210px"
                                 },
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                  },
+                                  "& fieldset": { border: 'none' },
                             }}/>
                         </div>
                     </div>
@@ -128,13 +80,18 @@ export const DogDetail = () => {
                         </div>
                         <div>
                             <TextField placeholder="반려견의 나이를 작성해주세요" 
-                            
+                            disabled
+                            value="테스트" 
                             sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
                                 fontSize: "15px",
                                 width:"210px"
                                 },
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                  },
+                                  "& fieldset": { border: 'none' },
                             }}/>
                         </div>
                     </div>
@@ -143,21 +100,20 @@ export const DogDetail = () => {
                             성별
                         </div>
                         <div>
-                            <FormControl>                            
-                                <RadioGroup
-                                    row
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    // defaultValue={gender}
-                                    defaultValue="male"
-                                    value={gender}
-                                    onChange={(e) => setGender(e.target.value)}
-                                    name="radio-buttons-group"                                    
-                                >
-                                    <FormControlLabel value="male" control={<Radio />} label="남자" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}} />
-                                    <FormControlLabel value="female" control={<Radio />} label="여자"  sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
-                                    <FormControlLabel value="other" control={<Radio />} label="중성" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
-                                </RadioGroup>
-                            </FormControl>
+                            <TextField placeholder="반려견의 나이를 작성해주세요" 
+                                disabled
+                                value="테스트" 
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                    padding: "5% 5% 5% 5%",
+                                    fontSize: "15px",
+                                    width:"210px"
+                                    },
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                    },
+                                    "& fieldset": { border: 'none' },
+                                }}/>
                         </div>
                     </div>
                     <div className="character">
@@ -165,21 +121,20 @@ export const DogDetail = () => {
                             성격
                         </div>
                         <div>
-                            <FormControl>                            
-                                <RadioGroup
-                                    row
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    // defaultValue={personality}
-                                    defaultValue="active"
-                                    value={personality}
-                                    onChange={(e)=> setPersonality(e.target.value)}
-                                    name="radio-buttons-group"                                    
-                                >
-                                    <FormControlLabel value="active" control={<Radio />} label="활발" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}} />
-                                    <FormControlLabel value="calm" control={<Radio />} label="얌전"  sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
-                                    <FormControlLabel value="sensitive" control={<Radio />} label="예민" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>                                    
-                                </RadioGroup>
-                            </FormControl>
+                            <TextField placeholder="반려견의 나이를 작성해주세요" 
+                                disabled
+                                value="테스트" 
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                    padding: "5% 5% 5% 5%",
+                                    fontSize: "15px",
+                                    width:"210px"
+                                    },
+                                    "& .MuiInputBase-input.Mui-disabled": {
+                                        WebkitTextFillColor: "#000000",
+                                    },
+                                    "& fieldset": { border: 'none' },
+                                }}/>
                         </div>
                     </div>
                     <div className="note">
@@ -189,7 +144,8 @@ export const DogDetail = () => {
                         <div>
                             {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
                             <TextField placeholder="특이사항을 작성해주세요" 
-                            defaultValue={note}
+                            disabled
+                            value=""
                             onChange={(e) => setNote(e.target.value)}
                             multiline rows={2}
                             sx={{
@@ -199,17 +155,15 @@ export const DogDetail = () => {
                                 padding: "0% 0% 0% 0%",
                                 fontSize: "12px"
                                 },
+                                "& .MuiInputBase-input.Mui-disabled": {
+                                    WebkitTextFillColor: "#000000",
+                                },
+                                "& fieldset": { border: 'none' },
                             }}/>
                         </div>
                     </div>
-                    <div className="button">
-                        <Button variant="contained" color="mainB" onClick={() => handleAddDog()}>등록하기</Button>
-                        <Button variant="contained" color="mainB" onClick={() => setClicked(!clicked)}>취소하기</Button>
-                    </div>
                 </InfoFrame>
             </TotalFrame>
-            }
-            
         </>
     )
 }
