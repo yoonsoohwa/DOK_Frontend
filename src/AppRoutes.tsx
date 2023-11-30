@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { NonMemberHeader } from './components/header/NonMember';
 import { MemberHeader } from './components/header/Member';
 import { Footer } from './components/footer/Footer';
 

@@ -10,6 +10,7 @@ import { RootState } from "store/index";
 
 
 export const MemberHeader = () => {
+  // 유저가 로그인 됐는지 확인하는 로직
   const { user } = useSelector((state: RootState) => state.user);
 
     const headerHover = "/svg/header_hover.svg";
