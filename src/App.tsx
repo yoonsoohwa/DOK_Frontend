@@ -9,7 +9,7 @@ import store from "./store/store";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App">      
       <ThemeProvider theme={defaultTheme}>
         <MuiThemeProvider theme={theme}>
           <Provider store={store}>
