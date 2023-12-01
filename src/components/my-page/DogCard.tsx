@@ -32,8 +32,8 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note, dogI
             <TotalFrame>
                 <div className="image">
                     <img
-                        src={imagePath} // 기본 이미지 설정 (선택된 이미지가 없을 때 표시될 이미지)
-                        // src={dogImg} 
+                        // src={imagePath} // 기본 이미지 설정 (선택된 이미지가 없을 때 표시될 이미지)
+                        src={dogImg ? dogImg : imagePath}
                     />
                 </div>
                 <InfoFrame>
