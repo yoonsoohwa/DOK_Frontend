@@ -42,7 +42,7 @@ export function Login() {
       nav('/');
     } else {
         setIsAlertSnackbar(true);
-        
+
     }
 
     // try{
@@ -100,7 +100,7 @@ export function Login() {
             <ButtonMain text="로그인" onClick={handleLogin} fill={true} />
           </div>
           <div>
-            <ButtonSub text="회원가입" fill={true} />
+            <ButtonSub text="회원가입" onClick={() => nav('/signup')} fill={true} />
           </div>
         </SubFrame>
       </MainFrame>
