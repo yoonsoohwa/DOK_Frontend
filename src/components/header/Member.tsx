@@ -11,17 +11,28 @@ export const MemberHeader = () => {
   // 유저가 로그인 됐는지 확인하는 로직
   const { user } = useSelector((state: RootState) => state.user);
 
-  const headerHover = '/svg/header_hover.svg';
-  const { pathname } = useLocation();
+    const headerHover = "/svg/header_hover.svg";
+    const { pathname } = useLocation();
+    
+    // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
+    // header 로고에만 Link고 나머지는 StyledLink로 작성
+    
+    const logOut = async () => {
+      await fetch("/api/users/signOut",{
+        method: "POST", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+      })
+      window.location.reload()
+    }
 
-  // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
-  // header 로고에만 Link고 나머지는 StyledLink로 작성
-
-  return (
-    <>
-      <BorderDiv>
-        <MainDiv>
-          <Link to={'/'}>
+    return (
+      <>
+        <BorderDiv>
+          <MainDiv>
+          <Link to={"/"}>
             <img src={header_logo} />
           </Link>
           <CatagoryDiv>
@@ -48,12 +59,15 @@ export const MemberHeader = () => {
           </CatagoryDiv>
           {user._id ? (
             <SubCatagoryImg>
-              <div>{/* <Bookmark /> */}</div>
-              <StyledLink to={'/'}>
-                <div>로그아웃</div>
-              </StyledLink>
-            </SubCatagoryImg>
-          ) : (
+            <div>
+              {/* <Bookmark /> */}
+            </div>
+            <StyledLink to={"/"}>
+            <div onClick={logOut}>로그아웃</div>
+            </StyledLink>
+          </SubCatagoryImg>
+          ) 
+          : (
             <SubCatagoryDiv>
               <LogOutStyledLink to={'/login'}>
                 <div className="login">로그인</div>
