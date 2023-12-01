@@ -34,7 +34,7 @@ export function DogProfile() {
         <li>
           <DogInfoListItem>
             <span>성별:</span>
-            <p>{dogGender}</p>
+            <p>{dogGender === 'Male' ? '남자' : '여자'}</p>
           </DogInfoListItem>
         </li>
         <li>
@@ -46,7 +46,7 @@ export function DogProfile() {
         <li>
           <DogInfoListItem>
             <span>특이사항:</span>
-            <p>{dogNote}</p>
+            <p>{dogNote || '없음'}</p>
           </DogInfoListItem>
         </li>
       </ul>
