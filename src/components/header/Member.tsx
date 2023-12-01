@@ -19,6 +19,17 @@ export const MemberHeader = () => {
     // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
     // header 로고에만 Link고 나머지는 StyledLink로 작성
     
+    const logOut = async () => {
+      await fetch("/api/users/signOut",{
+        method: "POST", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: 'include',
+      })
+      window.location.reload()
+    }
+
     return (
       <>
         <BorderDiv>
@@ -53,7 +64,7 @@ export const MemberHeader = () => {
               {/* <Bookmark /> */}
             </div>
             <StyledLink to={"/"}>
-            <div>로그아웃</div>
+            <div onClick={logOut}>로그아웃</div>
             </StyledLink>
           </SubCatagoryImg>
           ) 
