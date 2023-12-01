@@ -22,7 +22,7 @@ export const DogDetail = () => {
     
     const [dogName, setDogName] = useState("");
     const [dogImg, setDogImg] = useState<string>("");
-    const [birth, setBirth] = useState("");
+    const [birth, setBirth] = useState("2023/01/01");
     const [gender, setGender] = useState("male");
     const [dogType, setDogType] = useState("");
     const [personality, setPersonality] = useState("active");
@@ -30,10 +30,11 @@ export const DogDetail = () => {
 
     const handleAddDog = async () => {
 
-        console.log(user.userId);
-        console.log(user._id);
+        // console.log(user.userId);
+        // console.log(user._id);
+        console.log(birth);
 
-        const req = await fetch('/api/upload/image',{
+        const req = await fetch('/api/users/myDog',{
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
@@ -51,23 +52,23 @@ export const DogDetail = () => {
             }),
             credentials: 'include',
         });
-        const res = req.json;
+        const res = await req.json();
         console.log(`=====등록하기 res=====`);
-        console.log(req);
+        console.log(res);
         console.log(`=====등록하기 res=====`);
 
-        if(req.status !== 201) {
-            setAddCard(true);
-            // <Link to={"/mypage"} />
-            <DogButton />
-        }else if(req.status === 201){
+        // if(req.status !== 201) {
+        //     setAddCard(true);
+        //     // <Link to={"/mypage"} />
+        //     <DogButton />
+        // }else if(req.status === 201){
             
-        }
+        // }
 
 
     }
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
         const reader = new FileReader();
@@ -82,17 +83,19 @@ export const DogDetail = () => {
         const formData = new FormData();
         formData.append('image', file);
 
-        fetch('/api/users/myDog', {
+        await fetch('/api/upload/image', {
             method: 'POST',
             body: formData,
             credentials: 'include',
         })
-        .then(response => {
-            // 필요한 경우 응답 처리
-            // setDogImg(response.url.toString());
-            console.log(`이미지 응답 테스트`);
-            console.log(response);
-            console.log(`이미지 응답 테스트`);
+        .then(response => response.json())
+        .then(data => {
+            {
+                console.log(`이미지 응답 테스트`);
+                console.log(data[0]);
+                console.log(`이미지 응답 테스트`);
+                setDogImg(data[0]);
+            }
         })
         .catch(error => {
             // 에러 처리
@@ -186,9 +189,8 @@ export const DogDetail = () => {
                             >
                                 {/* <DemoItem label="나이를 입력해주세요"> */}
                                 <DatePicker
-                                     onChange={(date) => setBirth(date ? date.format('YYYY-MM-DD') : '')}
-                                     
-                                    defaultValue={dayjs('01/01/2000')}
+                                    onChange={(date) => setBirth(date ? date.format('YYYY-MM-DD'): "")}
+                                    value={dayjs('01/01/2023')}
                                     sx={{
                                         width:"200px",
                                     '& .MuiInputBase-input': {
