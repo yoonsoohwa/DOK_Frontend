@@ -7,7 +7,7 @@ import { DogType } from '../../types';
 import { Pets } from '@mui/icons-material';
 import { certificationUrl, matchingFormUrl, userUrl } from 'api/apiUrls';
 
-export function DogSelect() {
+export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
   const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingForm);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +16,8 @@ export function DogSelect() {
   const handleChange = (e: SelectChangeEvent) => {
     const selected = dogs?.filter(({ dogName }) => dogName === e.target.value)[0];
     if (!selected) {
-      return dispatch(setErrorDogSelect(true));
+      dispatch(setErrorDogSelect(true));
+      return;
     }
 
     dispatch(setDogSelect(selected));
@@ -26,11 +27,17 @@ export function DogSelect() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${matchingFormUrl}/doginformation/${user._id}`);
+      const res = await fetch(`${userUrl}/myDog`, { credentials: 'include' });
       const data = await res.json();
-      console.log(data);
-      setDogs(data);
+      if (res.ok) {
+        setDogs(data);
+      }
     })();
+    if (isUpdate) {
+      console.log('??');
+      dispatch(setErrorDogSelect(false));
+      return;
+    }
     dispatch(setDogSelect(undefined));
     dispatch(setErrorDogSelect(true));
   }, []);

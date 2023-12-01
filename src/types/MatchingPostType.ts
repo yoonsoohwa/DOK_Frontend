@@ -20,6 +20,7 @@ export interface MatchingPostType {
   createdAt: Date | string;
   updatedAt: Date | string;
   matchingStatus: string;
+  matchingHandler: string;
 }
 
 export const initMatchingPostType: MatchingPostType = {
@@ -36,4 +37,5 @@ export const initMatchingPostType: MatchingPostType = {
   createdAt: '',
   updatedAt: '',
   matchingStatus: '',
+  matchingHandler: '',
 };

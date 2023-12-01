@@ -73,25 +73,33 @@ export function LocationSelect() {
   useEffect(() => {
     //사용자 위치 정보로 초기화
     console.log(user.address);
-    const userLocation = user.address.text || '서울특별시 서초구 강남대로 399';
+    let userLocation = user.address.text || '서울특별시 서초구 강남대로 399';
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
+      let lat = 0;
+      let lng = 0;
       if (status === kakao.maps.services.Status.OK && result[0]) {
-        const lat = Number(result[0].y);
-        const lng = Number(result[0].x);
+        lat = Number(result[0].y);
+        lng = Number(result[0].x);
 
         setPosition({ lat, lng });
         console.log(lng, lat);
         handleChangeLocation(lng, lat);
-        dispatch(setLocation({ text: userLocation, code: '' }));
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-        alert('검색 결과가 존재하지 않습니다.');
-        return;
+        console.log('검색 결과가 존재하지 않습니다.');
       } else if (status === kakao.maps.services.Status.ERROR) {
-        alert('검색 결과 중 오류가 발생했습니다.');
-        return;
+        console.log('검색 결과 중 오류가 발생했습니다.');
       }
+
+      geocoder.coord2RegionCode(lng, lat, (res, status) => {
+        if (status === kakao.maps.services.Status.OK) {
+          setLocationCode(res[0].code);
+          console.log(res[0].code);
+          console.log({ text: userLocation, code: res[0].code });
+          dispatch(setLocation({ text: userLocation, code: res[0].code }));
+        }
+      });
     });
   }, []);
 
@@ -105,7 +113,15 @@ export function LocationSelect() {
         <TextField id="" size="small" InputProps={{ readOnly: true }} value={locationSelect?.text || ''} fullWidth />
         <SearchButton onClick={handleOpen} />
       </div>
-      <TextField id="" size="small" value={locationDetailSelect} onChange={(e) => dispatch(setLocationDetail(e.target.value))} placeholder="상세 위치" fullWidth />
+      <TextField
+        id=""
+        size="small"
+        helperText="*상세 위치는 선택 사항 입니다."
+        value={locationDetailSelect}
+        onChange={(e) => dispatch(setLocationDetail(e.target.value))}
+        placeholder="상세 위치"
+        fullWidth
+      />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
         <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>

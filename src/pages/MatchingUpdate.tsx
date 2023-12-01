@@ -19,15 +19,21 @@ import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 import dayjs from 'dayjs';
 import { useLocation } from 'react-router-dom';
 import { Forbidden } from 'common/state/Forbidden';
+import { AlertError } from 'common/alert/AlertError';
+import { matchingFormUrl } from 'api/apiUrls';
+import dateTimeFormat from '../utils/dateTimeFormat';
+import durationTimeFormat from '../utils/durationTimeFormat';
 
 export function MatchingUpdatePage() {
-  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
-    (state: RootState) => state.matchingForm,
-  );
+  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
+    useSelector((state: RootState) => state.matchingForm);
+  const [initData, setInitData] = useState({ dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect });
   const dispatch = useDispatch<AppDispatch>();
   const [isForbidden, setIsForbidden] = useState(false);
   const [openError, setOpenError] = useState(false);
+  const [validateText, setValidateText] = useState('');
   const [openSubmit, setOpenSubmit] = useState(false);
+  const [openCancle, setOpenCancle] = useState(false);
   const nav = useNavigate();
   const loc = useLocation();
 
@@ -42,7 +48,7 @@ export function MatchingUpdatePage() {
       requestText,
     };
 
-    const res = await fetch('', {
+    const res = await fetch(`${matchingFormUrl}/`, {
       method: 'POST',
       body: JSON.stringify(reqBody),
     });
@@ -51,15 +57,43 @@ export function MatchingUpdatePage() {
   };
 
   const handleSubmit = () => {
-    if (errorDogSelect || errorDateSelect || errorPaySelect) {
-      console.log(errorDogSelect, errorDateSelect, errorPaySelect);
+    if (errorDogSelect) {
+      setValidateText('강아지를 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (errorDateSelect) {
+      setValidateText('날짜를 다시 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (errorPaySelect) {
+      setValidateText('알바 가격을 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (requestText && requestText?.length < 5) {
+      setValidateText('요청 메시지를 작성해주세요.');
       return setOpenError(true);
     }
     setOpenSubmit(true);
   };
 
-  const handleReset = () => {
-    throw new Error('Function not implemented.');
+  const handleCancle = () => {
+    nav('/matching');
+  };
+
+  const handleOpenCancle = () => {
+    console.log(initData, dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect);
+    if (
+      dogSelect?._id !== initData.dogSelect?._id ||
+      dateSelect !== initData.dateSelect ||
+      durationSelect !== initData.durationSelect ||
+      paySelect !== initData.paySelect ||
+      requestText !== initData.requestText ||
+      locationSelect?.code !== initData.locationSelect?.code ||
+      locationDetailSelect !== initData.locationDetailSelect
+    ) {
+      return setOpenCancle(true);
+    }
+    handleCancle();
   };
 
   useEffect(() => {
@@ -84,19 +118,23 @@ export function MatchingUpdatePage() {
         <Forbidden />
       ) : (
         <CertifiCreate>
-          <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
+          <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
           <AlertSuccess
             open={openSubmit}
             onClose={() => setOpenSubmit(false)}
             onClick={updatePost}
             title="글을 수정하시겠습니까?"
-            desc={`강아지 : ${dogSelect?.dogName}\n산책 날짜 : ${dateSelect}\n산책 시간 : ${durationSelect}\n가격 : ${paySelect}\n요청 사항 : ${requestText}\n만남 위치 : ${locationSelect}\n상세 위치 : ${locationDetailSelect}`}
+            desc={`${dogSelect?.dogName} | ${dateTimeFormat(dateSelect || '', 'date-time')} | ${durationTimeFormat(
+              durationSelect,
+            )} | ${paySelect}원\n요청 사항 : ${requestText}\n만남 위치 : ${locationSelect?.text} ${locationDetailSelect || ''}`}
           />
+          <AlertError open={openCancle} onClose={() => setOpenCancle(false)} onClick={handleCancle} title="수정을 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
+
           <div className="body">
-            <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleSubmit} onReset={handleReset}>
+            <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleSubmit} onReset={handleOpenCancle}>
               <PostCreateGroup title="Pet">
                 <Contents>
-                  <DogSelect />
+                  <DogSelect isUpdate={true} />
                 </Contents>
               </PostCreateGroup>
 
@@ -123,7 +161,7 @@ export function MatchingUpdatePage() {
 
               <PostCreateGroup title="Addition">
                 <Contents>
-                  <RequestTextField />
+                  <RequestTextField isUpdate={true} />
                 </Contents>
               </PostCreateGroup>
             </PostCreateFormLayout>

@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
+import defaultImg from '/svg/dog_default_white.svg';
+import Female from '/svg/gender_female.svg';
+import Male from '/svg/gender_male.svg';
 
 interface MainPetBoxProps {
   petData: {
@@ -11,11 +14,20 @@ interface MainPetBoxProps {
 }
 
 export function MainPetBox({ petData, className }: MainPetBoxProps) {
+  const [petImg, setPetImg] = useState(true);
+  // useEffect(() => {
+  //   const arr = petData.dogImg.split('.');
+  //   const type = arr[arr.length - 1];
+  //   if (type !== 'jpg' && type !== 'jpeg' && type !== 'png') {
+  //     setPetImg(false);
+  //   }
+  // }, []);
+
   return (
     <Pet className={`pet-box ${className}`}>
-      <img className="pet-img" src={petData.dogImg} />
+      <img className="pet-img" src={petImg ? petData.dogImg : defaultImg} />
       <div className="gender-name">
-        <img src="/svg/gender_female.svg" />
+        <img src={petData.gender === 'Female' ? Female : Male} />
         <div>{petData.dogName}</div>
       </div>
     </Pet>

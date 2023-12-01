@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 interface initialStateType {
   openAlertLogin: boolean;
+  isLoading: boolean;
 }
 
 const initialState: initialStateType = {
   openAlertLogin: false,
+  isLoading: true,
 };
 
 const alertSlice = createSlice({
@@ -15,8 +17,11 @@ const alertSlice = createSlice({
     setOpenAlertLogin: (state, action: PayloadAction<boolean>) => {
       state.openAlertLogin = action.payload;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setOpenAlertLogin } = alertSlice.actions;
+export const { setOpenAlertLogin, setIsLoading } = alertSlice.actions;
 export default alertSlice;

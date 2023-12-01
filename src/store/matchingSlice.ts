@@ -10,6 +10,7 @@ type matchingType = {
   requestHandlers: RequestHandlerType[];
   selectedHandler: RequestHandlerType | null;
   matchingComments: MatchingCommentType[];
+  matchingPostEditId: string;
 };
 
 const initialState: matchingType = {
@@ -19,6 +20,7 @@ const initialState: matchingType = {
   requestHandlers: [],
   selectedHandler: null,
   matchingComments: [],
+  matchingPostEditId: '',
 };
 
 const matchingSlice = createSlice({
@@ -56,9 +58,12 @@ const matchingSlice = createSlice({
     deleteMatchingComment: (state, action) => {
       state.matchingComments = state.matchingComments.filter((comment) => comment._id !== action.payload);
     },
+    setMatchingPostEditId: (state, action) => {
+      state.matchingPostEditId = action.payload;
+    },
     updateMatchingComment: (state, action) => {
       const { commentId, commentData } = action.payload;
-      console.log(commentData)
+      console.log(commentData);
       const commentIdx = state.matchingComments.findIndex((comment) => comment._id === commentId);
       state.matchingComments.splice(commentIdx, 1, commentData);
     },
@@ -76,6 +81,7 @@ export const {
   addMatchingComment,
   updateMatchingStatus,
   deleteMatchingComment,
+  setMatchingPostEditId,
   updateMatchingComment,
 } = matchingSlice.actions;
 export default matchingSlice;

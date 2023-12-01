@@ -10,7 +10,8 @@ type initialStateType = {
   durationSelect: 0.5 | 1 | 1.5 | 2;
   paySelect: number;
   errorPaySelect: boolean;
-  requestText: string;
+  requestText: string | undefined;
+  errorRequestText: boolean;
   locationSelect: { text: string; code: string } | undefined;
   locationDetailSelect: string;
 };
@@ -23,7 +24,8 @@ const initialState: initialStateType = {
   durationSelect: 0.5,
   paySelect: 0.5 * 9860,
   errorPaySelect: true,
-  requestText: '',
+  requestText: undefined,
+  errorRequestText: true,
   locationSelect: undefined,
   locationDetailSelect: '',
 };
@@ -62,6 +64,9 @@ const matchingFormSlice = createSlice({
     setRequestText: (state, action) => {
       state.requestText = action.payload;
     },
+    setErrorRequestText: (state, action) => {
+      state.errorRequestText = action.payload;
+    },
     setLocation: (state, action) => {
       state.locationSelect = action.payload;
     },
@@ -81,6 +86,7 @@ export const {
   setPaySelect,
   setErrorPaySelect,
   setRequestText,
+  setErrorRequestText,
   setLocation,
   setLocationDetail,
 } = matchingFormSlice.actions;
