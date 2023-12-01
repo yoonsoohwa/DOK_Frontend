@@ -11,7 +11,8 @@ export const ProfileInfo = () => {
     return <>
             <TotalFrame>
                 <Img>
-                    <img src="/svg/user_image1.svg"/>
+                    <img src={user.userImg ? user.userImg : "/svg/user_image1.svg"}/>
+                    {/* <img src={user.userImg ? "/svg/user_image1.svg" : user.userImg}/> */}
                 </Img>
                 <div>
                     <Name>
@@ -41,6 +42,11 @@ const TotalFrame = styled.div`
 const Img = styled.div`
     align-self: center;
     margin-right: 1%;
+    border-radius: 50%;
+    > img {
+        width: 100px;
+        border-radius: 50%;
+    }
 `
 
 const Name = styled.div`
