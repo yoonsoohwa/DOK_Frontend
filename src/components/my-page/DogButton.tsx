@@ -7,21 +7,20 @@ import { DogCard } from "./DogCard";
 
 export const DogButton = () => {
     const [clicked, setClicked] = useState(false);
-    const [isAddButton, setIsAddButton] = useState(true);
     const { dog } = useSelector((state: RootState) => state.user);
-
-    const handleAddBtn = () => {
-        setClicked(!clicked)
-        setIsAddButton(false);
-    }
 
     return (
         <>
-        {/* <AddButton onClick={() => setClicked(!clicked)}>+</AddButton> */}
-            {dog ? dog.map(() => <DogCard />) : null}
-            <AddButton onClick={handleAddBtn}>+</AddButton>            
-            {clicked && isAddButton ? <DogDetail /> : <AddButton onClick={handleAddBtn}>+</AddButton>}
-            {/* <AddButton onClick={() => setClicked(!clicked)}>+</AddButton> */}
+            {dog ? dog.map((item) => <DogCard 
+                key={item._id} 
+                dogName={item.dogName} 
+                birth={item.birth}
+                gender={item.gender} 
+                dogType={item.dogType} 
+                personality={item.personality}
+                note={item.note}/>) 
+            : null}
+            {clicked ? <DogDetail /> : <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
         </>
     )
 }

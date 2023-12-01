@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState, addCertificationPosts, setCertificationPostsCount } from "store/index";
+import { AppDispatch, RootState, addCertificationPosts, resetCertificationPosts, setCertificationPostsCount } from "store/index";
 import { Children, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ListPageTopBar } from "common/list-page/ListPageTopBar";
@@ -36,7 +36,7 @@ export const Certification = () => {
 
     const _page = certificationPosts.length ? page : 1;
     // let url = `/api/mypage/myCertificationLists/:${user._id}`;
-    let url = `http://kdt-sw-6-team01.elicecoding.com/api/mypage/myCertificationLists/:6563f3569187c8fe58c24106`;
+    let url = `/api/mypage/myCertificationLists/`;
 
     
     // if (filter.locationCode) {
@@ -55,6 +55,11 @@ export const Certification = () => {
     dispatch(addCertificationPosts(data[1]));
     setPage(_page + 1);
   };
+
+  useEffect(() => {
+    dispatch(resetCertificationPosts());
+    addPostList();
+  }, []);
 
   useEffect(() => {
     if (inView) {

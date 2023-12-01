@@ -2,8 +2,6 @@ import { styled } from "styled-components"
 import Button from '@mui/material/Button';
 import {TextField, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import { useRef, useState } from "react";
-import { DogButton } from "./DogButton";
-import { Height, Padding } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "store/index";
 import { Link } from "react-router-dom";
@@ -14,7 +12,7 @@ export const DogDetail = () => {
     const inputRef = useRef<HTMLInputElement>(null);;
 
     const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
-    const { user } = useSelector((state: RootState) => state.user);
+    const { user, dog } = useSelector((state: RootState) => state.user);
 
     
     const [dogName, setDogName] = useState("");
@@ -26,15 +24,19 @@ export const DogDetail = () => {
     const [note, setNote] = useState("");
 
     const handleAddDog = async () => {
-        const req = await fetch(`/api/users/myDog`,{
+
+        console.log(user.userId);
+        console.log(user._id);
+
+        const req = await fetch('/api/users/myDog',{
             method:"POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                "user": user._id,
+                "user": user.userId,
                 "dogName": dogName,
-                "dogImg":"string으로 가랏",
+                "dogImg":user._id,
                 "birth":"01/04/2024",
                 "gender":gender,
                 "dogType":dogType,
@@ -68,7 +70,7 @@ export const DogDetail = () => {
 
     return (
         <>
-            {clicked ? <Link to={"/mypage"} /> 
+            {clicked ? <Link to={"/mypage"} />
             : <TotalFrame>
                 <div className="image">
                     <input
@@ -209,10 +211,27 @@ export const DogDetail = () => {
                 </InfoFrame>
             </TotalFrame>
             }
-            
+            {clicked && <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
         </>
     )
 }
+
+const AddButton = styled.button`    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: black dashed 3px;
+    border-radius: 10px;
+
+    width: 40%;
+    height: 600px;
+    font-size: 200px;
+    color: gray;
+    background-color: #ffffff;
+
+    margin: 3% auto;
+`
 
 const TotalFrame = styled.div`
     display: flex;

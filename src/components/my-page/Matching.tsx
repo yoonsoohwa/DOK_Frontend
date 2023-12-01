@@ -10,6 +10,8 @@ import { addMatchingPosts, resetMatchingPosts, setMatchingPostCount } from "stor
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store/index";
+import { EmptyData } from "common/state/EmptyData";
+import { Loading } from "common/state/Loading";
 
 export const Matching = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -71,6 +73,14 @@ export const Matching = () => {
     </MainFrame>
     <SubFrame>
     <Section>
+
+    {!matchingPostsCount ? (
+            matchingPostsCount === undefined ? (
+              <Loading />
+            ) : (
+              <EmptyData />
+            )
+          ) : (
         <CardListContainer>
           {Children.toArray(
             matchingPosts.map((post) => {
@@ -80,6 +90,7 @@ export const Matching = () => {
             }),
           )}
         </CardListContainer>
+          )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <AlertError open={openAlert} onClick={handleAlert} desc={'핸들러 지원 요청이 있는 글은 수정/삭제가 불가능 합니다.'} />

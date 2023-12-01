@@ -1,28 +1,27 @@
 import { styled } from "styled-components"
 import Button from '@mui/material/Button';
 import {TextField, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DogButton } from "./DogButton";
 import { Height, Padding } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "store/index";
 
-export const DogCard = () => {
-    const [clicked, setClicked] = useState(false);
+interface DogType {
+    dogName : string,
+    birth : string | Date,
+    gender : string,
+    dogType : string,
+    personality : string,
+    note : string,
+    // dogImg : string,
+}
+
+export const DogCard = ({dogName, gender,birth, dogType, personality, note}: DogType)  => {
     
     const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
-    const { dog } = useSelector((state: RootState) => state.user);
 
     
-    const [dogName, setDogName] = useState("");
-    const [dogImg, setDogImg] = useState("");
-    const [birth, setBirth] = useState("111");
-    const [gender, setGender] = useState("male");
-    const [dogType, setDogType] = useState("");
-    const [personality, setPersonality] = useState("active");
-    const [note, setNote] = useState("");
-
-
     return (
         <>
             <TotalFrame>
@@ -39,11 +38,12 @@ export const DogCard = () => {
                         <div>
                             <TextField
                             disabled
-                            value="테스트"                            
+                            value={dogName}                           
                             sx={{
                                 '& .MuiInputBase-input': {                                
                                 padding: "5% 5% 5% 5%",                                
-                                fontSize: "15px",
+                                fontSize: "30px",
+                                fontWeight: 'bold',
                                 width:"210px"
                                 },
                                 "& .MuiInputBase-input.Mui-disabled": {
@@ -60,7 +60,7 @@ export const DogCard = () => {
                         <div>
                             <TextField placeholder="반려견의 견종을 작성해주세요" 
                             disabled
-                            value="테스트2" 
+                            value={dogType}
                             sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
@@ -81,7 +81,7 @@ export const DogCard = () => {
                         <div>
                             <TextField placeholder="반려견의 나이를 작성해주세요" 
                             disabled
-                            value="테스트" 
+                            value={birth}
                             sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
@@ -102,7 +102,7 @@ export const DogCard = () => {
                         <div>
                             <TextField placeholder="반려견의 나이를 작성해주세요" 
                                 disabled
-                                value="테스트" 
+                                value={gender}
                                 sx={{
                                     '& .MuiInputBase-input': {
                                     padding: "5% 5% 5% 5%",
@@ -123,7 +123,9 @@ export const DogCard = () => {
                         <div>
                             <TextField placeholder="반려견의 나이를 작성해주세요" 
                                 disabled
-                                value="테스트" 
+                                value={personality === "calm" ? "얌전" 
+                                : (personality === "active" ? "활발" 
+                                : (personality === "sensitive" ? "예민" : personality))}
                                 sx={{
                                     '& .MuiInputBase-input': {
                                     padding: "5% 5% 5% 5%",
@@ -145,8 +147,7 @@ export const DogCard = () => {
                             {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
                             <TextField placeholder="특이사항을 작성해주세요" 
                             disabled
-                            value=""
-                            onChange={(e) => setNote(e.target.value)}
+                            value={note}
                             multiline rows={2}
                             sx={{
                                 overflowY:'auto',       
