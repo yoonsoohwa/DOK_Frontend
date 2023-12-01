@@ -12,7 +12,7 @@ export function DogProfile() {
 
   return (
     <DogProfileContainer>
-      <ProfileInfo nickname={user.nickname} time={createdAt.toString()} />
+      <ProfileInfo userImg={user.userImg} nickname={user.nickname} time={createdAt.toString()} />
       <DogImage src={dogImg} />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />

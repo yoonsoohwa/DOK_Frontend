@@ -8,8 +8,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store/store';
 import { setMatchingDetailPost, setSelectedHandler } from 'store/matchingSlice';
-import { matchingPostDetailUrl } from '../api/apiUrls'
+import { matchingPostDetailUrl } from '../api/apiUrls';
 import { LoadingPage } from 'common/state/LoadingPage';
+import { NotFound } from 'common/state/NotFoundPage';
 
 export function MatchingDetailPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,6 +18,7 @@ export function MatchingDetailPage() {
   const { id } = useParams();
   const [isloading, setIsLoading] = useState(true);
   const [status, setStatus] = useState('process');
+  const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
     const matchingDetailData = async () => {
@@ -28,6 +30,7 @@ export function MatchingDetailPage() {
         setStatus(data[0].matchingStatus);
       } catch (error) {
         console.log(error);
+        setIsNotFound(true);
       } finally {
         setIsLoading(false);
       }
@@ -38,7 +41,11 @@ export function MatchingDetailPage() {
 
   return (
     <>
-      {isloading ? <LoadingPage /> : (
+      {isloading ? (
+        <LoadingPage />
+      ) : isNotFound ? (
+        <NotFound />
+      ) : (
         <MatchingDetailLayout>
           <ContentBox>
             {status !== 'process' && <StatusBanner />}

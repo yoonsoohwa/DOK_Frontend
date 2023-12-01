@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import personImg from '/svg/person_img.svg';
+import userImage from '/svg/user_image1.svg';
 import { UserNickname } from 'common/user/UserNickname';
 import { CommentInput } from './CommentInput';
 import { MatchingCommentType } from '../../types';
@@ -17,11 +17,12 @@ interface type {
 
 export function CommentItem({ comment, commentType }: type) {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { matchingDetailPost, matchingComments } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
   const [openInput, setOpenInput] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const { _id, comment: text, createdAt, user: commentUser } = comment;
+  const [editComment, setEditComment] = useState(false);
+  const { _id, comment: text, createdAt, user: commentUser, parentCommentId, updatedAt } = comment;
 
   const handleAddReply = () => {
     setOpenInput(!openInput);
@@ -37,19 +38,33 @@ export function CommentItem({ comment, commentType }: type) {
       });
       const data = await res.json();
       setOpenErrorAlert(false);
+      setOpenInput(false);
       dispatch(deleteMatchingComment(_id));
     } catch (err) {
       console.log(err);
     }
   };
 
-  return (
+  useEffect(() => {
+    setEditComment(false);
+  }, [matchingComments]);
+
+  return editComment ? (
+    parentCommentId ? (
+      <CommentInput commentType="reply" editText={text} commentId={_id} />
+    ) : (
+      <CommentInput editText={text} commentId={_id} />
+    )
+  ) : (
     <CommentItemLayout>
-      <UserImg src={personImg} className={commentType}/>
+      <UserImg src={commentUser.userImg || userImage} className={`user-img ${commentType}`} />
+
       <div>
         <CommentInfo>
-          <UserNickname nickname={commentUser.nickname} badge={true} />
-          <span>{timeDiff(createdAt)}</span>
+          <span>{commentUser.nickname}</span>
+          <span>
+            {timeDiff(createdAt)} {updatedAt !== createdAt && '(수정됨)'}
+          </span>
         </CommentInfo>
         <p>{text}</p>
         <CommentItemLayout>
@@ -60,7 +75,9 @@ export function CommentItem({ comment, commentType }: type) {
           ) : null}
           {user._id === commentUser._id && (
             <>
-              <OptionButton id="commentEdit">수정</OptionButton>
+              <OptionButton id="commentEdit" onClick={() => setEditComment(true)}>
+                수정
+              </OptionButton>
               <OptionButton id="commentDelete" onClick={() => setOpenErrorAlert(true)}>
                 삭제
               </OptionButton>
@@ -69,6 +86,7 @@ export function CommentItem({ comment, commentType }: type) {
         </CommentItemLayout>
         {openInput && <CommentInput commentType="reply" parentCommentId={_id} />}
       </div>
+
       <AlertError title="정말 삭제하시겠습니까?" open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} onClick={handleRemove} />
     </CommentItemLayout>
   );
@@ -85,12 +103,12 @@ const CommentItemLayout = styled.div`
 `;
 
 const UserImg = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
 
   &.reply {
-    width: 30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
   }
 `;
 
@@ -98,7 +116,7 @@ const CommentInfo = styled(CommentItemLayout)`
   align-items: center;
   width: fit-content;
 
-  > div > span:first-of-type {
+  > span:first-of-type {
     font-weight: 600;
   }
 
