@@ -195,11 +195,20 @@ const TotalFrame = styled.div`
     div.image {         
         width: 280px;
         height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 16px;
+        margin-top: 3%;
 
         > img {
             width: 100%;
             height: 100%;   
-            object-fit: contain;     
+            object-fit: cover;    
+            > img{
+                object-fit: cover;   
+            }
         }
     }
 `
