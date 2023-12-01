@@ -103,6 +103,9 @@ export const CardContainer = styled.div`
     max-width: 43vw;
   }
 
+  @media screen and (min-width: 803px) and (max-width: 1058px) {
+    max-width: 29vw;
+  }
   &:hover {
     transform: translate(0px, -5px);
     box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 12px;
@@ -143,9 +146,6 @@ const Contents = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
     }
-  }
-
-  @media screen and (max-width: 768px) {
   }
 `;
 

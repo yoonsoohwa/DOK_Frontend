@@ -26,7 +26,7 @@ export function MainSection2() {
         </Title>
         <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard setOpenAlert={() => {}} post={data} />))}</Contents>
       </InnerBox>
-      <img src="https://capsule-render.vercel.app/api?type=waving&color=FCD11E&height=240&section=footer" />
+      <img src={`https://capsule-render.vercel.app/api?type=waving&color=FCD11E&height=${window.innerWidth}&section=footer`} />
     </Section>
   );
 }
@@ -42,12 +42,13 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;
+  overflow: hidden;
 
   > img {
     position: absolute;
     width: 100%;
-    bottom: 0;
-    z-index: -10;
+    top: 300px;
+    z-index: -1;
   }
 `;
 
@@ -95,6 +96,10 @@ const Title = styled.div`
   @media screen and (max-width: 1156px) {
     .send-text {
       display: none;
+    }
+
+    h2 {
+      margin-bottom: 40px;
     }
   }
 `;

@@ -67,8 +67,8 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
       <div className="top">
         <div className="label">견주의 후기</div>
         <div className="left">
-          <img src={userImage} className="user-img" />
-          <div>뽀삐엄마</div>
+          <img src={matchingPost.user.userImg || userImage} className="user-img" />
+          <div>{matchingPost.user.nickname}</div>
           <Rating readOnly={false} value={rating} onChange={handleChangeRating}></Rating>
         </div>
         <div className="right">

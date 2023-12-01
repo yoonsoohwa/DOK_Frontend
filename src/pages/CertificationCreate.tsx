@@ -108,7 +108,9 @@ export function CertificationCreatePage() {
     } else {
       setErrorAddress(false);
     }
-    setAddress(e.target.value);
+    if (e.target.value.trim().length <= 20) {
+      setAddress(e.target.value);
+    }
   };
 
   const addPost = async () => {

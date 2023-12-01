@@ -43,15 +43,22 @@ export function MatchingUpdatePage() {
       price: paySelect,
       location: locationSelect,
       locationDetail: locationDetailSelect,
-      walkingDate: dayjs(dateSelect).toDate(),
+      walkingDate: dayjs(dateSelect).format('YYYY-MM-DDTHH:mm:ss.000'),
       walkingDuration: durationSelect,
       requestText,
     };
 
-    const res = await fetch(`${matchingFormUrl}/`, {
-      method: 'POST',
+    const _id = loc.state.post._id;
+    const res = await fetch(`${matchingFormUrl}/newMatchingRequest/${_id}`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
       body: JSON.stringify(reqBody),
     });
+    const data = await res.json();
+    console.log(data);
 
     nav('/matching');
   };
@@ -81,7 +88,6 @@ export function MatchingUpdatePage() {
   };
 
   const handleOpenCancle = () => {
-    console.log(initData, dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect);
     if (
       dogSelect?._id !== initData.dogSelect?._id ||
       dateSelect !== initData.dateSelect ||

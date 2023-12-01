@@ -49,6 +49,7 @@ export function MatchingCreatePage() {
 
     const res = await fetch(`/api/matchingRequestRouter/matchingRequest`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
