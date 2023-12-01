@@ -22,8 +22,8 @@ export const useLoginCheck = ()  => {
             if(response.status === 200){
               const data = await response.json();
               dispatch(setUser(data.user));
-              dispatch(setDog(data.dog));
-              console.log(data);
+              dispatch(setDog(data.userDogs));
+              console.log(data.userDogs);
             }else{
               console.log("로그인 안됨");
             }

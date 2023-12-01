@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const ChangeProfileImg = () => {
     const { user } = useSelector((state: RootState) => state.user);
+    
     return (
         <MainFrame>
             <div>

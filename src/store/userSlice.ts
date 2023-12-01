@@ -3,12 +3,14 @@ import { DogType, UserType, initDogType, initUserType } from '../types';
 
 interface userSliceType {
   user: UserType;
-  dog: DogType,
+  // dog: DogType,
+  dog: DogType[],
 }
 
 const initialState: userSliceType = {
   user: initUserType,
-  dog: initDogType,
+  // dog: initDogType,
+  dog: [],
 };
 
 const user = createSlice({
@@ -18,7 +20,8 @@ const user = createSlice({
     setUser: (state, action : PayloadAction<UserType>) => {
       state.user = action.payload;
     },
-    setDog: (state, action : PayloadAction<DogType>) => {
+    // setDog: (state, action : PayloadAction<DogType>) => {
+      setDog: (state, action : PayloadAction<DogType[]>) => {
       state.dog = action.payload;
     },
   },

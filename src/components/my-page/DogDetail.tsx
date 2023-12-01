@@ -2,15 +2,70 @@ import { styled } from "styled-components"
 import Button from '@mui/material/Button';
 import {TextField, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import { useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "store/index";
+import { Link } from "react-router-dom";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
 import { DogButton } from "./DogButton";
-import { Height, Padding } from "@mui/icons-material";
 
 export const DogDetail = () => {
     const [clicked, setClicked] = useState(false);
+    const [addCard, setAddCard] = useState(false);
     
     const inputRef = useRef<HTMLInputElement>(null);;
 
     const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
+    const { user, dog } = useSelector((state: RootState) => state.user);
+    
+    const [dogName, setDogName] = useState("");
+    const [dogImg, setDogImg] = useState<string>("");
+    const [birth, setBirth] = useState("");
+    const [gender, setGender] = useState("male");
+    const [dogType, setDogType] = useState("");
+    const [personality, setPersonality] = useState("active");
+    const [note, setNote] = useState("");
+
+    const handleAddDog = async () => {
+
+        console.log(user.userId);
+        console.log(user._id);
+
+        const req = await fetch('/api/upload/image',{
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                "user": user.userId,
+                "dogName": dogName,
+                // "dogImg":user._id,
+                "dogImg":dogImg,
+                "birth":birth,
+                "gender":gender,
+                "dogType":dogType,
+                "personality":personality,
+                "note" : note,
+            }),
+            credentials: 'include',
+        });
+        const res = req.json;
+        console.log(`=====등록하기 res=====`);
+        console.log(req);
+        console.log(`=====등록하기 res=====`);
+
+        if(req.status !== 201) {
+            setAddCard(true);
+            // <Link to={"/mypage"} />
+            <DogButton />
+        }else if(req.status === 201){
+            
+        }
+
+
+    }
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -22,6 +77,27 @@ export const DogDetail = () => {
             console.log(imagePath);
         };
         reader.readAsDataURL(file);
+
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        fetch('/api/users/myDog', {
+            method: 'POST',
+            body: formData,
+            credentials: 'include',
+        })
+        .then(response => {
+            // 필요한 경우 응답 처리
+            // setDogImg(response.url.toString());
+            console.log(`이미지 응답 테스트`);
+            console.log(response);
+            console.log(`이미지 응답 테스트`);
+        })
+        .catch(error => {
+            // 에러 처리
+            console.error('이미지 업로드 에러:', error);
+        });
         }
     };
 
@@ -33,7 +109,7 @@ export const DogDetail = () => {
 
     return (
         <>
-            {clicked ? <DogButton /> 
+            {clicked ? <Link to={"/mypage"} />
             : <TotalFrame>
                 <div className="image">
                     <input
@@ -58,11 +134,14 @@ export const DogDetail = () => {
                             <img src="/svg/dog_default.svg" alt="강아지아이콘" style={{marginRight: "2.5px"}} />
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 이름을 작성해주세요" sx={{
-                                '& .MuiInputBase-input': {
+                            <TextField placeholder="이름을 작성해주세요" 
+                            defaultValue={dogName}
+                            onChange={(e) => setDogName(e.target.value)}
+                            sx={{
+                                '& .MuiInputBase-input': {                                
                                 padding: "5% 5% 5% 5%",
                                 fontSize: "15px",
-                                width:"210px"
+                                width:"200px"
                                 },
                             }}/>
                         </div>
@@ -72,11 +151,14 @@ export const DogDetail = () => {
                             견종
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 견종을 작성해주세요" sx={{
+                            <TextField placeholder="견종을 작성해주세요" 
+                            defaultValue={dogType}
+                            onChange={(e) => setDogType(e.target.value)}
+                            sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
                                 fontSize: "15px",
-                                width:"210px"
+                                width:"200px"
                                 },
                             }}/>
                         </div>
@@ -86,13 +168,36 @@ export const DogDetail = () => {
                             나이
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 나이를 작성해주세요" sx={{
+                            {/* <TextField placeholder="반려견의 나이를 작성해주세요" 
+                            
+                            sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
                                 fontSize: "15px",
                                 width:"210px"
                                 },
-                            }}/>
+                            }}/> */}
+
+                         <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer
+                                components={[
+                                'DatePicker'
+                                ]}
+                            >
+                                {/* <DemoItem label="나이를 입력해주세요"> */}
+                                <DatePicker
+                                     onChange={(date) => setBirth(date ? date.format('YYYY-MM-DD') : '')}
+                                     
+                                    defaultValue={dayjs('01/01/2000')}
+                                    sx={{
+                                        width:"200px",
+                                    '& .MuiInputBase-input': {
+                                    padding: "5% 5% 5% 5%",
+                                    },
+                                }} />
+                                {/* </DemoItem> */}
+                            </DemoContainer>
+                        </LocalizationProvider>
                         </div>
                     </div>
                     <div className="gender">
@@ -104,12 +209,15 @@ export const DogDetail = () => {
                                 <RadioGroup
                                     row
                                     aria-labelledby="demo-radio-buttons-group-label"
+                                    // defaultValue={gender}
                                     defaultValue="male"
+                                    value={gender}
+                                    onChange={(e) => setGender(e.target.value)}
                                     name="radio-buttons-group"                                    
                                 >
-                                    <FormControlLabel value="male" control={<Radio />} label="남자" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}} />
-                                    <FormControlLabel value="female" control={<Radio />} label="여자"  sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
-                                    <FormControlLabel value="other" control={<Radio />} label="중성" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
+                                    <FormControlLabel value="male" control={<Radio />} label="남자" sx={{'& .MuiSvgIcon-root': {fontSize: 10}}} />
+                                    <FormControlLabel value="female" control={<Radio />} label="여자"  sx={{'& .MuiSvgIcon-root': {fontSize: 10}}}/>
+                                    <FormControlLabel value="other" control={<Radio />} label="중성" sx={{'& .MuiSvgIcon-root': {fontSize: 10}}}/>
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -123,12 +231,15 @@ export const DogDetail = () => {
                                 <RadioGroup
                                     row
                                     aria-labelledby="demo-radio-buttons-group-label"
-                                    defaultValue="male"
+                                    // defaultValue={personality}
+                                    defaultValue="active"
+                                    value={personality}
+                                    onChange={(e)=> setPersonality(e.target.value)}
                                     name="radio-buttons-group"                                    
                                 >
-                                    <FormControlLabel value="male" control={<Radio />} label="소심" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}} />
-                                    <FormControlLabel value="female" control={<Radio />} label="새침"  sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>
-                                    <FormControlLabel value="other" control={<Radio />} label="활발" sx={{'& .MuiSvgIcon-root': {fontSize: 12}}}/>                                    
+                                    <FormControlLabel value="active" control={<Radio />} label="활발" sx={{'& .MuiSvgIcon-root': {fontSize: 10}}} />
+                                    <FormControlLabel value="calm" control={<Radio />} label="얌전"  sx={{'& .MuiSvgIcon-root': {fontSize: 10}}}/>
+                                    <FormControlLabel value="sensitive" control={<Radio />} label="예민" sx={{'& .MuiSvgIcon-root': {fontSize: 10}}}/>                                    
                                 </RadioGroup>
                             </FormControl>
                         </div>
@@ -139,11 +250,14 @@ export const DogDetail = () => {
                         </div>
                         <div>
                             {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
-                            <TextField placeholder="특이사항을 작성해주세요" multiline rows={2}
+                            <TextField placeholder="특이사항을 작성해주세요" 
+                            defaultValue={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            multiline rows={2}
                             sx={{
                                 overflowY:'auto',       
                                 '& .MuiInputBase-input': {                                    
-                                width: "240px",
+                                width: "210px",
                                 padding: "0% 0% 0% 0%",
                                 fontSize: "12px"
                                 },
@@ -151,16 +265,34 @@ export const DogDetail = () => {
                         </div>
                     </div>
                     <div className="button">
-                        <Button variant="contained" color="mainB" >등록하기</Button>
+                        <Button variant="contained" color="mainB" onClick={() => handleAddDog()}>등록하기</Button>
                         <Button variant="contained" color="mainB" onClick={() => setClicked(!clicked)}>취소하기</Button>
                     </div>
                 </InfoFrame>
             </TotalFrame>
             }
-            
+            {clicked && <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
+            {/* {addCard && <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>} */}
         </>
     )
 }
+
+const AddButton = styled.button`    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: black dashed 3px;
+    border-radius: 10px;
+
+    width: 40%;
+    height: 600px;
+    font-size: 200px;
+    color: gray;
+    background-color: #ffffff;
+
+    margin: 3% auto;
+`
 
 const TotalFrame = styled.div`
     display: flex;
@@ -201,7 +333,7 @@ const InfoFrame = styled.div`
             display: flex;
             justify-self: center;
             align-self: center;
-            width: 48px;
+            width: 41px;
             height: 48px;            
             object-fit: contain;
         }
@@ -228,6 +360,7 @@ const InfoFrame = styled.div`
     div.age {
         display: flex;
         margin-top: 3%;
+        
         & > div:nth-child(1) {
             display: flex;
             justify-content: center;
