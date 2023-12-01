@@ -1,23 +1,26 @@
 import { styled } from "styled-components"
 import Button from '@mui/material/Button';
 import {TextField, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "store/index";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, setDog } from "store/index";
 import { Link } from "react-router-dom";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { DogButton } from "./DogButton";
+import { title } from "process";
+import { AlertError } from "common/alert/AlertError";
 
 export const DogDetail = () => {
     const [clicked, setClicked] = useState(false);
-    const [addCard, setAddCard] = useState(false);
-    
+    const [addCard, setAddCard] = useState(true);
+    const [openErrorAlert, setOpenErrorAlert] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
     const inputRef = useRef<HTMLInputElement>(null);;
 
-    const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
+    const [imagePath, setImagePath] = useState<string>('/image/dogAddDefault.PNG'); // 기본 이미지 설정
     const { user, dog } = useSelector((state: RootState) => state.user);
     
     const [dogName, setDogName] = useState("");
@@ -32,7 +35,24 @@ export const DogDetail = () => {
 
         // console.log(user.userId);
         // console.log(user._id);
-        console.log(birth);
+        // console.log(birth);
+
+        if(gender === "male" || gender === "Male"){
+            setGender("남자");
+        }else if(gender === "female" || gender === "Female"){
+            setGender("여자");
+        }else if(gender === "other" || gender === "Other"){
+            setGender("중성");
+        }
+
+        if(personality === "active" || gender === "Active"){
+            setGender("활발");
+        }else if(gender === "sensitive" || gender === "Sensitive"){
+            setGender("예민");
+        }else if(gender === "calm" || gender === "Calm"){
+            setGender("얌전");
+        }
+
 
         const req = await fetch('/api/users/myDog',{
             method:"POST",
@@ -57,15 +77,42 @@ export const DogDetail = () => {
         console.log(res);
         console.log(`=====등록하기 res=====`);
 
-        // if(req.status !== 201) {
-        //     setAddCard(true);
-        //     // <Link to={"/mypage"} />
-        //     <DogButton />
-        // }else if(req.status === 201){
-            
-        // }
+        if (req.status === 201) {
+            const fetchData = async () => {
+                try {
+                  const response = await fetch('/api/users/myInfo', {
+                    method: 'GET',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                  });
+          
+                  if (response.status === 200) {
+                    const data = await response.json();
+                    dispatch(setDog(data.userDogs));
+                    console.log(data.userDogs);
+                    
+                  } else {
+                    console.log('dog추가 오류');
+                  }
+                } catch (error) {
+                  console.error('dog데이터 조회 오류:', error);
+                }
+              };
+          
+              fetchData();
+        }
 
 
+        setClicked(!clicked);
+
+    }
+
+
+    const handleCancle = () => {
+        setOpenErrorAlert(true);
+        // setClicked(!clicked)
     }
 
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,14 +136,7 @@ export const DogDetail = () => {
             credentials: 'include',
         })
         .then(response => response.json())
-        .then(data => {
-            {
-                console.log(`이미지 응답 테스트`);
-                console.log(data[0]);
-                console.log(`이미지 응답 테스트`);
-                setDogImg(data[0]);
-            }
-        })
+        .then(data => setDogImg(data[0]))
         .catch(error => {
             // 에러 처리
             console.error('이미지 업로드 에러:', error);
@@ -109,6 +149,22 @@ export const DogDetail = () => {
           inputRef.current.click();
         }
       };
+
+    useEffect(() => {
+        (imagePath === "/image/dogAddDefault.PNG") || !dogName || !dogType ? null : setAddCard(false);
+
+    },[imagePath, dogName, dogType])
+
+    useEffect(() => {
+        setDogName("");
+        setDogImg("");
+        setBirth("2023/01/01");
+        setGender("male");
+        setDogType("");
+        setPersonality("active");
+        setNote("");
+        setOpenErrorAlert(false);
+    },[clicked])
 
     return (
         <>
@@ -126,9 +182,10 @@ export const DogDetail = () => {
                     <img
                         src={imagePath} // 기본 이미지 설정 (선택된 이미지가 없을 때 표시될 이미지)
                         alt="Selected"
-                        id="selectedImage"
+                        className="selectedImage"
                         onClick={handleImageClick}
-                        style={{ cursor: 'pointer' }} // 마우스 커서가 포인터로 변경되도록 스타일 지정
+
+                        style={{ cursor: 'pointer'  }} // 마우스 커서가 포인터로 변경되도록 스타일 지정
                     />
                 </div>
                 <InfoFrame>
@@ -267,8 +324,9 @@ export const DogDetail = () => {
                         </div>
                     </div>
                     <div className="button">
-                        <Button variant="contained" color="mainB" onClick={() => handleAddDog()}>등록하기</Button>
-                        <Button variant="contained" color="mainB" onClick={() => setClicked(!clicked)}>취소하기</Button>
+                        <Button variant="contained" color="mainB" disabled={addCard} onClick={() => handleAddDog()}>등록하기</Button>
+                        <Button variant="contained" color="mainB" onClick={() => handleCancle()}>취소하기</Button>               
+                        <AlertError title="작성중이던 내용은 저장되지 않습니다." open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} onClick={() => setClicked(!clicked)} />         
                     </div>
                 </InfoFrame>
             </TotalFrame>
@@ -278,6 +336,8 @@ export const DogDetail = () => {
         </>
     )
 }
+
+
 
 const AddButton = styled.button`    
     display: flex;
@@ -313,14 +373,24 @@ const TotalFrame = styled.div`
     div.image {         
         width: 280px;
         height: 220px;
-
         > img {
             width: 100%;
             height: 100%;   
-            object-fit: contain;     
+            object-fit: contain;    
+            
+
+            
         }
+        .selectedImage {
+                cursor: pointer;
+
+                &:hover {
+                filter: blur(3px);
+                }
+            }
     }
 `
+
 
 const InfoFrame = styled.div`
     display: flex;
