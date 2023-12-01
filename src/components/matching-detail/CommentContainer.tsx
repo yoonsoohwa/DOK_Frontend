@@ -6,28 +6,22 @@ import { Children, useEffect, useState } from 'react';
 import { MatchingCommentType } from '../../types';
 
 interface type {
-    comment: MatchingCommentType
+  comment: MatchingCommentType;
 }
 
-export function CommentContainer({comment}: type) {
+export function CommentContainer({ comment }: type) {
   const { matchingComments } = useSelector((state: RootState) => state.matching);
 
   return (
     <div>
-      <CommentItem comment={comment}/>
-      {Children.toArray(
-        matchingComments
-          .filter((reply) => comment._id === reply.parentCommentId)
-          .map((reply) => (
-            <ReplyContainer>
-              <CommentItem comment={reply} commentType="reply" />
-            </ReplyContainer>
-          ))
-      )}
+      <CommentItem comment={comment} />
+      <ReplyContainer>
+        {Children.toArray(matchingComments.filter((reply) => comment._id === reply.parentCommentId).map((reply) => <CommentItem comment={reply} commentType="reply" />))}
+      </ReplyContainer>
     </div>
   );
 }
 
 const ReplyContainer = styled.div`
-  padding-left: 46px;
+  padding-left: 42px;
 `;

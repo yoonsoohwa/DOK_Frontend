@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import personImg from '/svg/person_img.svg';
 import { Button } from '@mui/material';
 import { RequestHandlerType } from 'src/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setSelectedHandler } from 'store/index';
+import userImage from '/svg/user_image1.svg';
 
 interface type {
   handler: RequestHandlerType;
@@ -11,29 +11,27 @@ interface type {
 
 export function HandlerListItem({ handler }: type) {
   const dispatch = useDispatch<AppDispatch>();
-
-  const { nickname, _id: id } = handler.user;
+  const { nickname, _id: id, userImg, address } = handler.user;
 
   const onClickHandler = () => {
     dispatch(setSelectedHandler(handler));
   };
 
-  const onClickToProfileHandler = (e:any) => {
+  const onClickToProfileHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log(handler)
   }
 
   return (
     <ItemContainer onClick={onClickHandler}>
       <ItemLayout>
-        <UserImg src={personImg} />
+        <UserImg src={userImg || userImage} className='user-img' />
         <UserInfo>
           <span>{nickname}</span>
-          <span>"ddd"</span>
+          <span>{address.text}</span>
         </UserInfo>
-        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
+        {/* <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
-        </Button>
+        </Button> */}
       </ItemLayout>
     </ItemContainer>
   );
@@ -62,16 +60,15 @@ const UserImg = styled.img`
 `;
 
 const UserInfo = styled(ItemLayout)`
-  flex-direction: column;
-  align-items: flex-start;
   padding: 0 5px;
-  justify-content: center;
+  justify-content: space-between;
 
   > span:first-of-type {
     font-size: 16px;
+    font-weight: 500;
   }
 
   > span:last-of-type {
-    font-size: 10px;
+    font-size: 12px;
   }
 `;

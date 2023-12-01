@@ -51,10 +51,16 @@ const matchingSlice = createSlice({
       state.matchingComments = action.payload;
     },
     addMatchingComment: (state, action) => {
-      state.matchingComments.push(...action.payload);
+      state.matchingComments.unshift(action.payload);
     },
     deleteMatchingComment: (state, action) => {
       state.matchingComments = state.matchingComments.filter((comment) => comment._id !== action.payload);
+    },
+    updateMatchingComment: (state, action) => {
+      const { commentId, commentData } = action.payload;
+      console.log(commentData)
+      const commentIdx = state.matchingComments.findIndex((comment) => comment._id === commentId);
+      state.matchingComments.splice(commentIdx, 1, commentData);
     },
   },
 });
@@ -70,5 +76,6 @@ export const {
   addMatchingComment,
   updateMatchingStatus,
   deleteMatchingComment,
+  updateMatchingComment,
 } = matchingSlice.actions;
 export default matchingSlice;
