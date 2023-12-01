@@ -104,9 +104,15 @@ export const DogDetail = () => {
               fetchData();
         }
 
-
+        setDogName("");
+        setImagePath('/image/dogAddDefault.PNG');
+        setBirth("2023/01/01");
+        setGender("male");
+        setDogType("");
+        setPersonality("active");
+        setNote("");
         setClicked(!clicked);
-
+        setAddCard(true);
     }
 
 
