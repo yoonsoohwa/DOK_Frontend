@@ -5,12 +5,14 @@ interface userSliceType {
   user: UserType;
   // dog: DogType,
   dog: DogType[],
+  selectedImg: string | ''
 }
 
 const initialState: userSliceType = {
   user: initUserType,
   // dog: initDogType,
   dog: [],
+  selectedImg: ''
 };
 
 const user = createSlice({
@@ -24,8 +26,11 @@ const user = createSlice({
       setDog: (state, action : PayloadAction<DogType[]>) => {
       state.dog = action.payload;
     },
+    setSelectedImg: (state, action) => {
+        state.selectedImg = action.payload;
+    }
   },
 });
 
-export const { setUser, setDog } = user.actions;
+export const { setUser, setDog, setSelectedImg } = user.actions;
 export default user;

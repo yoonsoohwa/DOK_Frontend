@@ -4,35 +4,38 @@ import { styled } from 'styled-components';
 import { Bookmark } from './Bookmark';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, setUser } from 'store/index';
+import { initUserType } from '../../types';
 
 export const MemberHeader = () => {
   // 유저가 로그인 됐는지 확인하는 로직
   const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
-    const headerHover = "/svg/header_hover.svg";
-    const { pathname } = useLocation();
-    
-    // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
-    // header 로고에만 Link고 나머지는 StyledLink로 작성
-    
-    const logOut = async () => {
-      await fetch("/api/users/signOut",{
-        method: "POST", 
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-      })
-      window.location.reload()
-    }
+  const headerHover = '/svg/header_hover.svg';
+  const { pathname } = useLocation();
 
-    return (
-      <>
-        <BorderDiv>
-          <MainDiv>
-          <Link to={"/"}>
+  // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
+  // header 로고에만 Link고 나머지는 StyledLink로 작성
+
+  const logOut = async () => {
+    await fetch('/api/users/signOut', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    dispatch(setUser(initUserType));
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <BorderDiv>
+        <MainDiv>
+          <Link to={'/'}>
             <img src={header_logo} />
           </Link>
           <CatagoryDiv>
@@ -59,15 +62,12 @@ export const MemberHeader = () => {
           </CatagoryDiv>
           {user._id ? (
             <SubCatagoryImg>
-            <div>
-              {/* <Bookmark /> */}
-            </div>
-            <StyledLink to={"/"}>
-            <div onClick={logOut}>로그아웃</div>
-            </StyledLink>
-          </SubCatagoryImg>
-          ) 
-          : (
+              <div>{/* <Bookmark /> */}</div>
+              <StyledLink to={'/'}>
+                <div onClick={logOut}>로그아웃</div>
+              </StyledLink>
+            </SubCatagoryImg>
+          ) : (
             <SubCatagoryDiv>
               <LogOutStyledLink to={'/login'}>
                 <div className="login">로그인</div>

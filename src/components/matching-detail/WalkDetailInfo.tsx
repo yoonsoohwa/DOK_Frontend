@@ -49,15 +49,21 @@ export function WalkDetailInfo() {
             <span>산책 시간</span>
           </TextAlignLayout>
           <p>
-            {calculateWalkingTime(walkingDate.toString(), walkingDuration)} ({durationTimeFormat(walkingDuration)})
+            {calculateWalkingTime(walkingDate.toString(), walkingDuration)} <p>({durationTimeFormat(walkingDuration)})</p>
           </p>
         </WalkInfoItem>
         <WalkInfoItem>
           <MapLayout>
             <TextAlignLayout>
               <LocationOn />
-              <span>만남 장소</span>
-              <p>{`${location?.text} ${locationDetail && `(${locationDetail})`}`}</p>
+              <TextAlignLayout>
+                <span>만남 장소</span>
+                <div>
+                  <p>
+                    {`${location?.text}`} {locationDetail && <p>({locationDetail})</p>}
+                  </p>
+                </div>
+              </TextAlignLayout>
             </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>
@@ -110,6 +116,11 @@ const WalkInfoBox = styled(FlexLayout)`
 
 const TextAlignLayout = styled(FlexLayout)`
   flex-direction: row;
+
+  p > p {
+    font-size: 14px;
+    display: inline;
+  }
 `;
 
 const WalkInfoItem = styled(TextAlignLayout)`
@@ -127,7 +138,6 @@ const WalkInfoItem = styled(TextAlignLayout)`
   }
   p {
     font-weight: 400;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   }
 
   @media screen and (max-width: 480px) {
