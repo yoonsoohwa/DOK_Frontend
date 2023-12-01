@@ -4,24 +4,28 @@ import { DogDetail } from "./DogDetail";
 import { useSelector } from "react-redux";
 import { RootState } from "store/index";
 import { DogCard } from "./DogCard";
+import { Loading } from "common/state/Loading";
 
 export const DogButton = () => {
     const [clicked, setClicked] = useState(false);
-    const { dog } = useSelector((state: RootState) => state.user);
+    const {user, dog } = useSelector((state: RootState) => state.user);
 
     return (
         <>
-            {dog ? dog.map((item) => <DogCard 
-                dogImg={item.dogImg}
-                key={item._id} 
-                dogName={item.dogName} 
-                birth={item.birth}
-                gender={item.gender} 
-                dogType={item.dogType} 
-                personality={item.personality}
-                note={item.note}/>) 
-            : null}
-            {clicked ? <DogDetail /> : <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
+        {/* : <Loading />
+        } */} 
+        {dog ? dog.map((item) => <DogCard 
+            dogImg={item.dogImg}
+            key={item._id} 
+            dogName={item.dogName} 
+            birth={item.birth}
+            gender={item.gender} 
+            dogType={item.dogType} 
+            personality={item.personality}
+            note={item.note}/>)
+        : null}
+        {clicked ? <DogDetail /> : <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}      
+            
         </>
     )
 }
