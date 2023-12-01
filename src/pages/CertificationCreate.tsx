@@ -15,9 +15,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { Forbidden } from 'common/state/Forbidden';
 import { NotFound } from 'common/state/NotFoundPage';
+import { LoadingPage } from 'common/state/LoadingPage';
 
 export function CertificationCreatePage() {
   const { user } = useSelector((state: RootState) => state.user);
+  const { isLoading } = useSelector((state: RootState) => state.alert);
   // 인증 글 작성은 리덕스 사용 X
   // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
   const [matchingPost, setMatchingPost] = useState<MatchingPostType | undefined>();
@@ -33,30 +35,39 @@ export function CertificationCreatePage() {
   const [openError, setOpenError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const [isForbidden, setIsForbidden] = useState(false);
+  const [_isLoading, setIsLoading] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
 
   const nav = useNavigate();
   const loc = useLocation();
 
-  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(!e.target.files?.[0], (images?.length || 0) + (e.target.files?.length || 0) > 6);
     if (!e.target.files?.[0] || (images?.length || 0) + e.target.files.length > 6) {
       setErrorImages(true);
       return;
     }
 
+    let formData = new FormData();
     const newImages = [...images, ...Array.from(e.target.files)];
-    const newImagesURL = newImages.map((file) => URL.createObjectURL(file));
-    imagesURL?.map((url) => URL.revokeObjectURL(url));
-    /* 동일한 파일 객체를 이용하여 URL을 생성한다고 해도 새로운 URL을 생성한다.
-    사용하지 않는 이미지 URL의 경우에는 반드시 revokeObjectURL을 사용하여 메모리에서 해제하자.
-    (물론 브라우저를 종료하면 생성한 URL도 함께 메모리에서 해제된다.) */
+
+    newImages.forEach((file) => {
+      formData.append('image', file);
+    });
+
+    const res = await fetch(`/api/upload/image`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+    const data = await res.json();
+
     setImages(newImages);
-    setImagesURL(newImagesURL);
+    setImagesURL(data);
     setErrorImages(false);
   };
 
-  const handleRemoveImage = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleRemoveImage = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const idx = Number(e.currentTarget.id);
     setErrorImages(false);
 
@@ -64,12 +75,20 @@ export function CertificationCreatePage() {
     if (images.length <= 1) setErrorImages(true);
 
     const newImages = images.filter((file, _idx) => idx !== _idx);
-    const newImagesURL = newImages.map((file) => URL.createObjectURL(file));
+    let formData = new FormData();
+    newImages.forEach((file) => {
+      formData.append('image', file);
+    });
 
-    imagesURL && URL.revokeObjectURL(imagesURL[idx]);
-    console.log(newImages);
+    const res = await fetch(`/api/upload/image`, {
+      method: 'POST',
+      credentials: 'include',
+      body: formData,
+    });
+    const data = await res.json();
+
     setImages(newImages);
-    setImagesURL(newImagesURL);
+    setImagesURL(data);
   };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,19 +111,22 @@ export function CertificationCreatePage() {
 
   const addPost = async () => {
     const reqBody = {
-      user: '6563f3569187c8fe58c24105',
-      matchingPost: '656440af540546c344ee6f21',
       sublocation: address.trim(),
       postText: postText.trim(),
-      review: '',
-      deletedAt: null,
+      certificationImg: imagesURL || [],
     };
 
-    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/certificationRouter/postCertificationPost`, {
+    console.log(imagesURL);
+    const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
       method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
       body: JSON.stringify(reqBody),
     });
     const data = await res.json();
+    console.log(data, res);
 
     nav('/certification');
   };
@@ -123,29 +145,38 @@ export function CertificationCreatePage() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const pathArr = loc.pathname.split('/');
     const postId = pathArr[pathArr.length - 1];
 
     (async () => {
       const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
       const data = await res.json();
-      // console.log(data[0]);
+      console.log(data);
 
       if (!data.length) {
         setIsNotFound(true);
       }
 
       setMatchingPost(data[0]);
-      //
-      if (data[0].matchingHandler._id !== user._id) {
-        setIsForbidden(true);
-      }
+      setIsLoading(false);
     })();
   }, []);
 
+  useEffect(() => {
+    console.log(matchingPost?.matchingHandler, user._id);
+    if (matchingPost?.matchingHandler !== user._id) {
+      setIsForbidden(true);
+    } else {
+      setIsForbidden(false);
+    }
+  }, [isLoading, matchingPost]);
+
   return (
     <>
-      {isNotFound ? (
+      {isLoading || _isLoading ? (
+        <LoadingPage />
+      ) : isNotFound ? (
         <NotFound />
       ) : isForbidden ? (
         <Forbidden />

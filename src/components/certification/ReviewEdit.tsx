@@ -48,12 +48,14 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
 
     const res = await fetch(`${certificationUrl}/newCertificationPostReview/${_id}`, {
       method: 'PUT',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ review: newReview }),
     });
     const data = await res.json();
+    console.log(res);
 
     dispatch(setCertificationReview(data.review));
     dispatch(setCertificationPostOne({ index: certificationDetailPostIndex, post: { ...certificationDetailPost, review: data.review } }));

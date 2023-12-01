@@ -1,13 +1,18 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { MoreVert } from '@mui/icons-material';
+import { AlertError } from 'common/alert/AlertError';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from 'store/store';
 
 interface EditMenuProps {
   handleEdit: () => void;
   handleRemove?: () => void;
+  _id?: string;
 }
 
-export function EditMenu({ handleEdit, handleRemove }: EditMenuProps) {
+export function EditMenu({ handleEdit, handleRemove, _id }: EditMenuProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
 
   const handleStopPropagation = (e: React.MouseEvent) => {
@@ -23,15 +28,17 @@ export function EditMenu({ handleEdit, handleRemove }: EditMenuProps) {
   };
 
   return (
-    <IconBox onClick={handleStopPropagation} onMouseLeave={handleClose}>
-      <MoreVert className="icon" onClick={handleOpen} />
-      {open && (
-        <ul className="menu">
-          <li onClick={handleEdit}>수정하기</li>
-          {handleRemove && <li onClick={handleRemove}>삭제하기</li>}
-        </ul>
-      )}
-    </IconBox>
+    <>
+      <IconBox onClick={handleStopPropagation} onMouseLeave={handleClose}>
+        <MoreVert className="icon" onClick={handleOpen} />
+        {open && (
+          <ul className="menu">
+            <li onClick={handleEdit}>수정하기</li>
+            {handleRemove && <li onClick={handleRemove}>삭제하기</li>}
+          </ul>
+        )}
+      </IconBox>
+    </>
   );
 }
 

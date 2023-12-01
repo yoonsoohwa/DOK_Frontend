@@ -16,10 +16,11 @@ interface CertificationPostDetailProps {
 }
 
 export function CertificationPostDetail({ handleClose }: CertificationPostDetailProps) {
+  const { user: _user } = useSelector((state: RootState) => state.user);
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
   let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
 
-  const [isEditable, setIsEditable] = useState(true); //default false
+  const [isEditable, setIsEditable] = useState(false); //default false
   const [isEditing, setIsEditing] = useState(false);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const maxSteps = certificationImg.length;
@@ -34,11 +35,21 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
 
   useEffect(() => {
     // 로그인한 사용자가 user라면 isEditable = true
+    if (_user._id === matchingPost.user._id) {
+      setIsEditable(true);
+
+      if (!review.rating) {
+        setIsEditing(true);
+      }
+    }
     // isEditable하고 review.rating이 없다면 isEditing = true
   }, []);
 
   return (
     <DetailBox className="certifiDetail">
+      <IconButton className="close" onClick={handleClose}>
+        <Clear />
+      </IconButton>
       <Left className="detail-left">
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
           {Children.toArray(
@@ -82,9 +93,6 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
         <div>
           <Top>
             <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} />
-            <IconButton onClick={handleClose}>
-              <Clear />
-            </IconButton>
           </Top>
 
           <Contents>
@@ -114,7 +122,7 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
             <div className="text detail">{postText}</div>
           </Contents>
         </div>
-        {isEditing ? <ReviewEdit setIsEditing={setIsEditing} /> : review.rating && <Review isEditable={isEditable} setIsEditing={setIsEditing} />}
+        {isEditing ? <ReviewEdit setIsEditing={setIsEditing} /> : review.rating !== 0 && <Review isEditable={isEditable} setIsEditing={setIsEditing} />}
       </Right>
     </DetailBox>
   );
@@ -125,14 +133,30 @@ const DetailBox = styled.div`
   max-width: 180vh;
   height: calc(100vh - 100px);
   display: flex;
+  position: relative;
 
   &.hidden {
     display: none;
   }
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+  }
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+
+    > div {
+      width: 100%;
+    }
+  }
 `;
 
 const Left = styled.div`
-  width: 48%;
+  width: 45%;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -141,6 +165,7 @@ const Left = styled.div`
   align-items: end;
 
   .image-box {
+    width: 100%;
     height: 100%;
     position: absolute;
   }
@@ -182,7 +207,7 @@ const SlideIconButton = styled(IconButton)`
 `;
 
 const Right = styled.div`
-  flex-grow: 1;
+  width: 55%;
   height: 100%;
   overflow-y: auto;
   position: relative;

@@ -1,23 +1,24 @@
-import { Button } from "@mui/material";
-import React from "react";
-import { styled } from "styled-components";
-import { ButtonMain } from "common/button/ButtonMain";
-import { ButtonGray } from "common/button/ButtonGray";
+import { Button } from '@mui/material';
+import React from 'react';
+import { styled } from 'styled-components';
+import { ButtonMain } from 'common/button/ButtonMain';
+import { ButtonGray } from 'common/button/ButtonGray';
 
 interface PostCreateFormLayoutProps {
   title: string;
   children: React.ReactNode;
   onSubmit: () => void;
   onReset: () => void;
+  buttonText?: string;
 }
 
-export function PostCreateFormLayout({ title, children, onSubmit, onReset }: PostCreateFormLayoutProps) {
+export function PostCreateFormLayout({ title, children, onSubmit, onReset, buttonText }: PostCreateFormLayoutProps) {
   return (
     <FormLayout>
       <h2>{title}</h2>
       <div className="contents">{children}</div>
       <Buttons>
-        <ButtonMain text="작성하기" onClick={onSubmit} />
+        <ButtonMain text={buttonText || '작성하기'} onClick={onSubmit} />
         <ButtonGray text="취소" onClick={onReset} />
       </Buttons>
     </FormLayout>
