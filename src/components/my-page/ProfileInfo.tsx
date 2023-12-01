@@ -57,7 +57,6 @@ const Name = styled.div`
 `
 
 const Adress = styled.div`
-    /* 최종확인할 때 해당 style component에 추가되는 사항 없으면 삭제 */
 `
 
 const WalkInfo = styled.div`

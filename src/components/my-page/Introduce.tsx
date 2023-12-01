@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 export const Introduce = () => {
     const [clicked, setClicked] = useState(false);
 
-    const writingData = `안녕하세요! 뽀삐엄마 입니다.\n5년차 댕주입니다~~\n소통 환영해요!!!`;
+    // const writingData = `안녕하세요! 뽀삐엄마 입니다.\n5년차 댕주입니다~~\n소통 환영해요!!!`;
 // <Button variant="contained" color="mainB" sx={{width:"60%", margin:"15% 0 0 0", borderRadius:"50px"}}>로그인</Button>
+
     return (
         <>
             <Writing>

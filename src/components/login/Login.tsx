@@ -37,6 +37,7 @@ export function Login() {
 
     const data = await login.json();
     console.log(login.status);
+    console.log(data);
     if (login.status === 201) {
       dispatch(setUser(data));
       nav('/');

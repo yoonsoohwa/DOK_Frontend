@@ -10,6 +10,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { DogButton } from "./DogButton";
+import { title } from "process";
+import { AlertError } from "common/alert/AlertError";
 
 export const DogDetail = () => {
     const [clicked, setClicked] = useState(false);
@@ -32,7 +34,7 @@ export const DogDetail = () => {
 
         // console.log(user.userId);
         // console.log(user._id);
-        console.log(birth);
+        // console.log(birth);
 
         const req = await fetch('/api/users/myDog',{
             method:"POST",
@@ -64,8 +66,16 @@ export const DogDetail = () => {
         // }else if(req.status === 201){
             
         // }
+        setClicked(!clicked);
+
+    }
 
 
+    const handleCancle = () => {
+        // alert("취소하시겠습니까?");
+        // AlertError(open="true" buttonText="확인");
+        <AlertError open={false} title="작성을 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
+        setClicked(!clicked)
     }
 
     const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,7 +138,7 @@ export const DogDetail = () => {
                         alt="Selected"
                         id="selectedImage"
                         onClick={handleImageClick}
-                        style={{ cursor: 'pointer' }} // 마우스 커서가 포인터로 변경되도록 스타일 지정
+                        style={{ cursor: 'pointer'  }} // 마우스 커서가 포인터로 변경되도록 스타일 지정
                     />
                 </div>
                 <InfoFrame>
@@ -268,7 +278,7 @@ export const DogDetail = () => {
                     </div>
                     <div className="button">
                         <Button variant="contained" color="mainB" onClick={() => handleAddDog()}>등록하기</Button>
-                        <Button variant="contained" color="mainB" onClick={() => setClicked(!clicked)}>취소하기</Button>
+                        <Button variant="contained" color="mainB" onClick={() => handleCancle()}>취소하기</Button>
                     </div>
                 </InfoFrame>
             </TotalFrame>
@@ -278,6 +288,8 @@ export const DogDetail = () => {
         </>
     )
 }
+
+
 
 const AddButton = styled.button`    
     display: flex;
@@ -313,14 +325,15 @@ const TotalFrame = styled.div`
     div.image {         
         width: 280px;
         height: 220px;
-
         > img {
             width: 100%;
             height: 100%;   
-            object-fit: contain;     
+            object-fit: contain;    
+            
         }
     }
 `
+
 
 const InfoFrame = styled.div`
     display: flex;
