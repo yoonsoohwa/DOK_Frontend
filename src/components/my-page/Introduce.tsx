@@ -2,25 +2,21 @@ import {styled} from "styled-components";
 import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
 import { DogDetail } from "./DogDetail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Introduce = () => {
     const [clicked, setClicked] = useState(false);
+
     const writingData = `안녕하세요! 뽀삐엄마 입니다.\n5년차 댕주입니다~~\n소통 환영해요!!!`;
 // <Button variant="contained" color="mainB" sx={{width:"60%", margin:"15% 0 0 0", borderRadius:"50px"}}>로그인</Button>
     return (
         <>
             <Writing>
-                <div>{writingData}</div>
-                <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div>
+                {/* <div>{writingData}</div>
+                <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div> */}
             </Writing>
-            <License>
-                <div><img src="/svg/profile_badge.svg"/></div>
-                <div>자격증을 등록하면 뱃지를 획득할 수 있습니다 !</div>
-                <div><Button variant="contained" color="mainB" sx={{}}>자격증 등록</Button></div>
-            </License>
             <Dog>
-                <p>나의 반려견을 소개합니다</p>
+                <p>나의 반려견</p>
                 <Add>
                     <DogButton />
                 </Add>

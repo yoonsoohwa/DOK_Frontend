@@ -2,22 +2,36 @@ import { styled } from 'styled-components';
 import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from '@mui/icons-material';
 import { HandlerRequestButton } from './HandlerRequestButton';
 import { HandlerSelectContainer } from './HandlerSelectContainer';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
 import { LocationMap } from './LocationMap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import calculateWalkingTime from '../../utils/calculateWalkingTime';
-import { duration } from '@mui/material';
+import { matchingPostDetailUrl } from '../../api/apiUrls';
 
 export function WalkDetailInfo() {
+  const dispatch = useDispatch<AppDispatch>();
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
   if (!matchingDetailPost) return <></>;
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus, user: postUser } = matchingDetailPost;
-//   const isAuthor = user._id === postUser._id;
-const isAuthor = true;
+  const isAuthor = user._id === postUser._id;
+
+  useEffect(() => {
+    const RequestHandlerList = async () => {
+      try {
+        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingDetailPost?._id}`);
+        const data = await res.json();
+
+        dispatch(setRequestHandlers(data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    RequestHandlerList();
+  }, [isAuthor, matchingDetailPost]);
 
   return (
     <WalkDetailLayout>
@@ -34,14 +48,16 @@ const isAuthor = true;
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>{calculateWalkingTime(walkingDate.toString(), walkingDuration)} ({durationTimeFormat(walkingDuration)})</p>
+          <p>
+            {calculateWalkingTime(walkingDate.toString(), walkingDuration)} ({durationTimeFormat(walkingDuration)})
+          </p>
         </WalkInfoItem>
         <WalkInfoItem>
           <MapLayout>
             <TextAlignLayout>
               <LocationOn />
               <span>만남 장소</span>
-              <p>{`${location?.text} (${locationDetail})`}</p>
+              <p>{`${location?.text} ${locationDetail && `(${locationDetail})`}`}</p>
             </TextAlignLayout>
             <LocationMap></LocationMap>
           </MapLayout>
@@ -61,11 +77,7 @@ const isAuthor = true;
           <p>{requestText}</p>
         </WalkInfoItem>
       </WalkInfoBox>
-      {matchingStatus === 'process' && (
-        <HandlerContainer>
-          {isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}
-        </HandlerContainer>
-      )}
+      {matchingStatus === 'process' && <HandlerContainer>{isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}</HandlerContainer>}
     </WalkDetailLayout>
   );
 }

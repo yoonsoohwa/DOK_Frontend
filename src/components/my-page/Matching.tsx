@@ -6,16 +6,16 @@ import { CardListContainer } from "../../styles/CardListContainer";
 import { Children, useEffect, useState } from "react";
 import { AlertError } from "common/alert/AlertError";
 import { ScrollToTopButton } from "common/button/ScrollTopButton";
-import { addMatchingPosts, setMatchingPostCount } from "store/matchingSlice";
+import { addMatchingPosts, resetMatchingPosts, setMatchingPostCount } from "store/matchingSlice";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "store/index";
-
+import { EmptyData } from "common/state/EmptyData";
+import { Loading } from "common/state/Loading";
 
 export const Matching = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
-  const { filter } = useSelector((state: RootState) => state.filter);
+  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);  
   const { user } = useSelector((state: RootState) => state.user);
 
   const [scrollRef, inView] = useInView();
@@ -30,36 +30,36 @@ export const Matching = () => {
     }
 
     const _page = matchingPosts.length ? page : 1;
-    // let url = `/api/mypage/myMatchingPosts/:${user._id}`;
-    let url = `http://kdt-sw-6-team01.elicecoding.com/api/mypage/myMatchingPosts/:6563f3569187c8fe58c24105`;
-
-    // if (filter.locationCode) {
-    //   url += `&locationCode=${filter.locationCode}`;
-    // }
-
-    // if (filter.walkingTime) {
-    //   url += `&walkingTime=${dayjs(filter.walkingTime).format('YYYY-MM-DD')}`;
-    // }
-
+    // let url = `/api/mypage/myMatchingPosts/${user._id}`;
+    let url = `/api/mypage/myMatchingPosts/`;
+    // const res = await fetch(url,{credentials:"include"});
     const res = await fetch(url);
     const data = await res.json();
+    
+    console.log(`매칭테스트:::::::`);
     console.log(url, data);
-
+    console.log(`::::::::::::::::`);
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);
   };
+
 
   const handleAlert = () => {
     setOpenAlert(false);
   };
 
   useEffect(() => {
+    dispatch(resetMatchingPosts());
+    addMatchingCardList();
+  }, []);
+
+  useEffect(() => {
     if (inView) {
       addMatchingCardList();
     }
-  }, [filter, inView]);
-
+  }, [inView]);
+  
   return (
     <>
     <MainFrame>
@@ -68,12 +68,19 @@ export const Matching = () => {
       </TitleFrame>
       {/* <CardFrame> */}
         {/* 여기부터 ~ */}
-        
         {/* ~ 여기까지 */}
       {/* </CardFrame> */}
     </MainFrame>
     <SubFrame>
     <Section>
+
+    {!matchingPostsCount ? (
+            matchingPostsCount === undefined ? (
+              <Loading />
+            ) : (
+              <EmptyData />
+            )
+          ) : (
         <CardListContainer>
           {Children.toArray(
             matchingPosts.map((post) => {
@@ -83,6 +90,7 @@ export const Matching = () => {
             }),
           )}
         </CardListContainer>
+          )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <AlertError open={openAlert} onClick={handleAlert} desc={'핸들러 지원 요청이 있는 글은 수정/삭제가 불가능 합니다.'} />

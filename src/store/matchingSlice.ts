@@ -53,13 +53,19 @@ const matchingSlice = createSlice({
       state.matchingComments = action.payload;
     },
     addMatchingComment: (state, action) => {
-      state.matchingComments.push(...action.payload);
+      state.matchingComments.unshift(action.payload);
     },
     deleteMatchingComment: (state, action) => {
       state.matchingComments = state.matchingComments.filter((comment) => comment._id !== action.payload);
     },
     setMatchingPostEditId: (state, action) => {
       state.matchingPostEditId = action.payload;
+    },
+    updateMatchingComment: (state, action) => {
+      const { commentId, commentData } = action.payload;
+      console.log(commentData);
+      const commentIdx = state.matchingComments.findIndex((comment) => comment._id === commentId);
+      state.matchingComments.splice(commentIdx, 1, commentData);
     },
   },
 });
@@ -76,5 +82,6 @@ export const {
   updateMatchingStatus,
   deleteMatchingComment,
   setMatchingPostEditId,
+  updateMatchingComment,
 } = matchingSlice.actions;
 export default matchingSlice;

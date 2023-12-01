@@ -25,7 +25,7 @@ export function CommentList() {
     };
 
     getMatchingComment();
-  }, [matchingComments]);
+  }, []);
 
   return (
     <CommentLayout>
