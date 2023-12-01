@@ -12,10 +12,11 @@ import { MatchingPostType } from '../types/index';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
+import { RootState } from 'store/index';
 import { Forbidden } from 'common/state/Forbidden';
 import { NotFound } from 'common/state/NotFoundPage';
 import { LoadingPage } from 'common/state/LoadingPage';
+import { AlertError } from 'common/alert/AlertError';
 
 export function CertificationCreatePage() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -34,6 +35,7 @@ export function CertificationCreatePage() {
 
   const [openError, setOpenError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
+  const [openCancle, setOpenCancle] = useState(false);
   const [isForbidden, setIsForbidden] = useState(false);
   const [_isLoading, setIsLoading] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
@@ -140,8 +142,11 @@ export function CertificationCreatePage() {
     setOpenSubmit(true);
   };
 
-  const handleReset = () => {
-    throw new Error('Function not implemented.');
+  const handleOpenCancle = () => {
+    if (postText || address || images.length) {
+      return setOpenCancle(true);
+    }
+    nav(`/certification`);
   };
 
   useEffect(() => {
@@ -184,8 +189,15 @@ export function CertificationCreatePage() {
         <CertifiCreate>
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
           <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={addPost} title="글을 작성하시겠습니까?" desc={``} />
+          <AlertError
+            open={openCancle}
+            onClose={() => setOpenCancle(false)}
+            onClick={() => nav(`/certification`)}
+            title="정말 취소하시겠습니까?"
+            desc="작성한 내용은 저장되지 않습니다."
+          />
           <div className="body">
-            <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleReset} title="인증 등록하기">
+            <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleOpenCancle} title="인증 등록하기">
               <PostCreateGroup title="Link">
                 <Contents>
                   <Pets className="icon" />

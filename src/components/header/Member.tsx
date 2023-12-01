@@ -6,33 +6,34 @@ import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
+import { CertificationCreateIcon } from './CertificationCreate';
 
 export const MemberHeader = () => {
   // 유저가 로그인 됐는지 확인하는 로직
   const { user } = useSelector((state: RootState) => state.user);
 
-    const headerHover = "/svg/header_hover.svg";
-    const { pathname } = useLocation();
-    
-    // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
-    // header 로고에만 Link고 나머지는 StyledLink로 작성
-    
-    const logOut = async () => {
-      await fetch("/api/users/signOut",{
-        method: "POST", 
-            headers: {
-                "Content-Type": "application/json",
-            },
-            credentials: 'include',
-      })
-      window.location.reload()
-    }
+  const headerHover = '/svg/header_hover.svg';
+  const { pathname } = useLocation();
 
-    return (
-      <>
-        <BorderDiv>
-          <MainDiv>
-          <Link to={"/"}>
+  // 그냥 Link로 작성 시 nav바(매칭,인증,마이페이지 카테고리)에서 작업한 css가 깨짐에 따라
+  // header 로고에만 Link고 나머지는 StyledLink로 작성
+
+  const logOut = async () => {
+    await fetch('/api/users/signOut', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <BorderDiv>
+        <MainDiv>
+          <Link to={'/'}>
             <img src={header_logo} />
           </Link>
           <CatagoryDiv>
@@ -59,15 +60,13 @@ export const MemberHeader = () => {
           </CatagoryDiv>
           {user._id ? (
             <SubCatagoryImg>
-            <div>
-              {/* <Bookmark /> */}
-            </div>
-            <StyledLink to={"/"}>
-            <div onClick={logOut}>로그아웃</div>
-            </StyledLink>
-          </SubCatagoryImg>
-          ) 
-          : (
+              <div>{/* <Bookmark /> */}</div>
+              <CertificationCreateIcon />
+              <StyledLink to={'/'}>
+                <div onClick={logOut}>로그아웃</div>
+              </StyledLink>
+            </SubCatagoryImg>
+          ) : (
             <SubCatagoryDiv>
               <LogOutStyledLink to={'/login'}>
                 <div className="login">로그인</div>
@@ -90,15 +89,19 @@ const BorderDiv = styled.div`
   height: 80px;
   z-index: 999;
   /* 그림자의 수평 수직 흐림 //불투명도      그림자 투명도 */
-  box-shadow: 0 1px 6px 0 #d3d3d3;
+  box-shadow: 0 1px 6px 0 #00000010;
   background-color: #ffffff;
 `;
 
 const MainDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  max-width: 1024px;
+  width: 100%;
+  max-width: 1044px;
   margin: 0 auto;
+  flex-shrink: 1;
+  padding-right: 6px;
+  box-sizing: border-box;
 
   > img {
     margin-bottom: 3.5%;
@@ -170,7 +173,7 @@ const SubCatagoryImg = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: black;
+  color: #333333;
 
   &:hover {
     > img {

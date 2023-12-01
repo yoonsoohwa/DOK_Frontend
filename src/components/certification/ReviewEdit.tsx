@@ -52,10 +52,10 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ review: newReview }),
+      body: JSON.stringify({ matchingPost: matchingPost._id, review: newReview }),
     });
     const data = await res.json();
-    console.log(res);
+    console.log(data);
 
     dispatch(setCertificationReview(data.review));
     dispatch(setCertificationPostOne({ index: certificationDetailPostIndex, post: { ...certificationDetailPost, review: data.review } }));

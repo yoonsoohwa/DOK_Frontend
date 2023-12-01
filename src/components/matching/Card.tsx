@@ -9,7 +9,7 @@ import { EditMenu } from 'common/user/EditMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppDispatch, RootState, setCertificationDetail, setMatchingPostEditId } from 'store/index';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { matchingFormUrl, matchingPostDetailUrl } from 'api/apiUrls';
 
 interface MatchingCardProps {
@@ -42,7 +42,7 @@ export function MatchingCard({ post, setOpenAlert }: MatchingCardProps) {
     dispatch(setMatchingPostEditId(_id));
   };
 
-  const handleToDetail = () => {
+  const handleToDetail = (e: React.MouseEvent) => {
     navigate(`/matching/${_id}`);
   };
 
