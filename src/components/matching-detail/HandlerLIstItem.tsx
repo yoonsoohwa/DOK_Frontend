@@ -11,8 +11,7 @@ interface type {
 
 export function HandlerListItem({ handler }: type) {
   const dispatch = useDispatch<AppDispatch>();
-
-  const { nickname, _id: id, userImg } = handler.user;
+  const { nickname, _id: id, userImg, address } = handler.user;
 
   const onClickHandler = () => {
     dispatch(setSelectedHandler(handler));
@@ -28,11 +27,11 @@ export function HandlerListItem({ handler }: type) {
         <UserImg src={userImg || userImage} className='user-img' />
         <UserInfo>
           <span>{nickname}</span>
-          <span>"ddd"</span>
+          <span>{address.text}</span>
         </UserInfo>
-        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
+        {/* <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
-        </Button>
+        </Button> */}
       </ItemLayout>
     </ItemContainer>
   );
@@ -61,16 +60,15 @@ const UserImg = styled.img`
 `;
 
 const UserInfo = styled(ItemLayout)`
-  flex-direction: column;
-  align-items: flex-start;
   padding: 0 5px;
-  justify-content: center;
+  justify-content: space-between;
 
   > span:first-of-type {
     font-size: 16px;
+    font-weight: 500;
   }
 
   > span:last-of-type {
-    font-size: 10px;
+    font-size: 12px;
   }
 `;

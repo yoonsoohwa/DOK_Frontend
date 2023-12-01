@@ -61,8 +61,10 @@ export function CommentItem({ comment, commentType }: type) {
 
       <div>
         <CommentInfo>
-          <UserNickname nickname={commentUser.nickname} badge={true} />
-          <span>{timeDiff(createdAt)} {updatedAt !== createdAt && '(수정됨)'}</span>
+          <span>{commentUser.nickname}</span>
+          <span>
+            {timeDiff(createdAt)} {updatedAt !== createdAt && '(수정됨)'}
+          </span>
         </CommentInfo>
         <p>{text}</p>
         <CommentItemLayout>
@@ -114,7 +116,7 @@ const CommentInfo = styled(CommentItemLayout)`
   align-items: center;
   width: fit-content;
 
-  > div > span:first-of-type {
+  > span:first-of-type {
     font-weight: 600;
   }
 
