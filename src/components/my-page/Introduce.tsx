@@ -3,12 +3,42 @@ import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
 import { DogDetail } from "./DogDetail";
 import { useEffect, useState } from "react";
+import { AppDispatch, RootState, setDog } from "store/index";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Introduce = () => {
     const [clicked, setClicked] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const {user, dog } = useSelector((state: RootState) => state.user);
 
-    // const writingData = `안녕하세요! 뽀삐엄마 입니다.\n5년차 댕주입니다~~\n소통 환영해요!!!`;
-// <Button variant="contained" color="mainB" sx={{width:"60%", margin:"15% 0 0 0", borderRadius:"50px"}}>로그인</Button>
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await fetch('/api/users/myInfo', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+            });
+    
+            // 데이터가 undefined면 로그인 안한거니까 할 필요 없음
+            // 응답의 상태를 체크해야함 reponse.ok
+            if (response.status === 200) {
+              const data = await response.json();
+              dispatch(setDog(data.userDogs));
+              console.log(data.userDogs);
+              
+            } else {
+              console.log('dog추가 오류');
+            }
+          } catch (error) {
+            console.error('dog데이터 조회 오류:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     return (
         <>

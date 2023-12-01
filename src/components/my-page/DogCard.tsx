@@ -154,7 +154,7 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note, dogI
                         </div>
                         <div>
                             {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
-                            <TextField placeholder="특이사항을 작성해주세요" 
+                            <TextField placeholder="특이사항이 없습니다." 
                             disabled
                             value={note}
                             multiline rows={2}
