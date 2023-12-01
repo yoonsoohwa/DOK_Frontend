@@ -3,20 +3,30 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled } from 'styled-components';
 import { MatchingCard } from '../matching/Card';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function MainSection2() {
   const { matchingPosts } = useSelector((state: RootState) => state.main);
+  const nav = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    nav('/matching');
+  };
 
   return (
     <Section>
       <InnerBox>
         <Title>
-          <h2>오늘의 매칭 글</h2>
-          <div className="send-text">자세히 보러가기</div>
+          <h2 className="pointer" onClick={handleClick}>
+            오늘의 매칭 글
+          </h2>
+          <div onClick={handleClick} className="send-text pointer">
+            자세히 보러가기
+          </div>
         </Title>
-        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard openAlert={false} setOpenAlert={() => {}} post={data} />))}</Contents>
+        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard setOpenAlert={() => {}} post={data} />))}</Contents>
       </InnerBox>
-      <BackgroundBox></BackgroundBox>
+      <img src="https://capsule-render.vercel.app/api?type=waving&color=FCD11E&height=240&section=footer" />
     </Section>
   );
 }
@@ -32,6 +42,13 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;
+
+  > img {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: -10;
+  }
 `;
 
 const InnerBox = styled.div`
@@ -49,19 +66,36 @@ const Title = styled.div`
   text-align: center;
   align-self: flex-start;
   margin: 0 20px;
+  transition: all 300ms;
 
   h2 {
     font-size: 40px;
     margin: 0;
-    padding-top: 90px;
+    margin-top: 110px;
     color: ${({ theme }) => theme.main};
+    transition: all 300ms;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
   }
 
   .send-text {
     font-size: 20px;
     font-weight: 500;
-    padding: 14px 0;
+    margin: 14px 0;
     color: #fff;
+    transition: all 300ms;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media screen and (max-width: 1156px) {
+    .send-text {
+      display: none;
+    }
   }
 `;
 

@@ -3,19 +3,30 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled } from 'styled-components';
 import { CertifiPostCard } from '../certification/PostCard';
+import { useNavigate } from 'react-router-dom';
 
 export function MainSection3() {
   const { certificationPosts } = useSelector((state: RootState) => state.main);
+  const nav = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    nav('/certification');
+  };
 
   return (
     <Section>
       <InnerBox>
         <Title>
-          <h2>믿음직한 인증 글</h2>
-          <div className="send-text">자세히 보러가기</div>
+          <h2 className="pointer" onClick={handleClick}>
+            믿음직한 인증 글
+          </h2>
+          <div className="send-text pointer" onClick={handleClick}>
+            자세히 보러가기
+          </div>
         </Title>
-        <Contents>{Children.toArray(certificationPosts.map((data, index) => <CertifiPostCard index={index} onClick={() => {}} contents={data} />))}</Contents>
+        <Contents onClick={handleClick}>{Children.toArray(certificationPosts.map((data, index) => <CertifiPostCard index={index} onClick={() => {}} contents={data} />))}</Contents>
       </InnerBox>
+      <img src="https://capsule-render.vercel.app/api?type=waving&color=4194CB&height=250&section=footer" />
       <BackgroundBox></BackgroundBox>
     </Section>
   );
@@ -32,6 +43,13 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;
+
+  > img {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: -10;
+  }
 `;
 
 const InnerBox = styled.div`
@@ -54,15 +72,31 @@ const Title = styled.div`
   h2 {
     font-size: 40px;
     margin: 0;
-    padding-top: 110px;
+    margin-top: 110px;
     color: ${({ theme }) => theme.sub};
+    transition: all 300ms;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
   }
 
   .send-text {
     font-size: 20px;
     font-weight: 500;
-    padding: 14px 0;
+    margin: 14px 0;
     color: #fff;
+    transition: all 300ms;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media screen and (max-width: 1156px) {
+    .send-text {
+      display: none;
+    }
   }
 `;
 
@@ -83,6 +117,7 @@ const Contents = styled.div`
 `;
 
 const BackgroundBox = styled.div`
+  display: none;
   width: 100%;
   height: ${bottom}px;
   background-color: ${({ theme }) => theme.sub};
