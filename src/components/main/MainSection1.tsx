@@ -41,7 +41,7 @@ export function MainSection1() {
 const Section = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 174vw;
+  height: 172vw;
   background-color: ${({ theme }) => theme.main3};
 `;
 

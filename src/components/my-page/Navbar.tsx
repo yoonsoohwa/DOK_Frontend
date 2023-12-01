@@ -1,15 +1,15 @@
-import React from "react";
-import { styled } from "styled-components";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Tab, Box } from "@mui/material";
+import React from 'react';
+import { styled } from 'styled-components';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
+import { Tab, Box } from '@mui/material';
 
-import { Introduce } from "./Introduce";
-import { Matching } from "./Matching";
-import { Certification } from "./Certification";
-import { Modify } from "./information-modify/Modify";
+import { Introduce } from './Introduce';
+import { Matching } from './Matching';
+import { Certification } from './Certification';
+import { Modify } from './information-modify/Modify';
 
 export const Navbar = () => {
-  const [value, setValue] = React.useState("1");
+  const [value, setValue] = React.useState('1');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -17,10 +17,10 @@ export const Navbar = () => {
 
   return (
     <TotalFrame>
-      <Box sx={{ width: "100%", typography: "body1" }}>
+      <Box sx={{ width: '100%', typography: 'body1' }}>
         <TabContext value={value}>
-          <Box sx={{ borderBottom: 3, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <Box sx={{ borderBottom: 2, borderColor: 'divider' }}>
+            <TabList indicatorColor="secondary" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="소개" value="1" />
               <Tab label="매칭" value="2" />
               <Tab label="인증" value="3" />
@@ -48,7 +48,7 @@ export const Navbar = () => {
 const TotalFrame = styled.div`
   /* display: flex; */
   /* justify-content: flex-start; */
-  max-width: 900px;
+  max-width: 1024px;
   margin: 0% auto 5% auto;
   /* border: black solid 1px; */
 `;

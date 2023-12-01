@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import mainTopImage from '/svg/main_header_image.svg';
 import logoImage from '/dok_logo.png';
 import { Pets } from '@mui/icons-material';
@@ -8,8 +8,30 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
+const easeOutExpo = (t: number) => {
+  return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+};
+
 export function MainInfo() {
   const { matchingPostCount } = useSelector((state: RootState) => state.main);
+  const [count, setCount] = useState(0);
+  const frameRate = 1000 / 60;
+  const totalFrame = Math.round(2000 / frameRate);
+
+  useEffect(() => {
+    if (matchingPostCount) {
+      let currentNumber = 0;
+      const counter = setInterval(() => {
+        const progressRate = easeOutExpo(++currentNumber / totalFrame);
+        setCount(Math.round(matchingPostCount * progressRate));
+
+        // 진행 완료시 interval 해제
+        if (progressRate === 1) {
+          clearInterval(counter);
+        }
+      }, frameRate);
+    }
+  }, [matchingPostCount]);
 
   return (
     <Section>
@@ -27,7 +49,7 @@ export function MainInfo() {
             믿을만한 내 이웃이 기다리고 있습니다
           </div>
           <div>
-            <div className="color-sub">{matchingPostCount}</div>
+            <div className="color-sub">{count}</div>
             <div>현재 매칭 신청 수</div>
           </div>
           <div>

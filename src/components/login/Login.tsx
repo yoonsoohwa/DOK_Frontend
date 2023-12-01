@@ -4,7 +4,7 @@ import { ButtonMain } from 'common/button/ButtonMain';
 import { ButtonSub } from 'common/button/ButtonSub';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setUser } from 'store/index';
+import { AppDispatch, RootState, setDog, setUser } from 'store/index';
 import { useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 
@@ -14,7 +14,7 @@ export function Login() {
   const [isAlertSnackbar, setIsAlertSnackbar] = useState<boolean>(false);
   // dispatch써야 user 수정가능
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, dog } = useSelector((state: RootState) => state.user);
   const nav = useNavigate();
 
   const handleLogin = async () => {
@@ -37,9 +37,12 @@ export function Login() {
 
     const data = await login.json();
     console.log(login.status);
+    console.log(data);
+    
     if (login.status === 201) {
       dispatch(setUser(data));
       nav('/');
+
     } else {
         setIsAlertSnackbar(true);
 
