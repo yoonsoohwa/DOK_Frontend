@@ -1,13 +1,22 @@
 import styled from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { MemberHeader } from './components/header/Member';
 import { Footer } from './components/footer/Footer';
 
-import { CertificationCreatePage, CertificationListPage, LoginPage, MainPage, MatchingCreatePage, MatchingDetailPage, MatchingListPage, MyPage, SignUpPage } from './pages';
+import {
+  CertificationCreatePage,
+  MatchingUpdatePage,
+  CertificationListPage,
+  LoginPage,
+  MainPage,
+  MatchingCreatePage,
+  MatchingDetailPage,
+  MatchingListPage,
+  MyPage,
+  SignUpPage,
+} from './pages';
 import { useScrollTop } from './hooks/useScrollTop';
 import { NotFound } from 'common/state/NotFoundPage';
-import { MatchingUpdatePage } from './pages/MatchingUpdate';
-import { useEffect } from 'react';
 import { useLoginCheck } from './hooks/useLoginCheck';
 
 export function AppRoutes() {

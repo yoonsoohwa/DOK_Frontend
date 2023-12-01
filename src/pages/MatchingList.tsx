@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { MatchingBanner } from '../components/matching/Banner';
 import { useState, useEffect, Children } from 'react';
-import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts, setFilter, setMatchingPostCount } from '../store';
+import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts, setFilter, setMatchingPostCount, setMatchingPostEditId } from '../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { MatchingCard } from '../components/matching/Card';
 import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
@@ -12,16 +12,17 @@ import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
-import { matchingPostListUrl } from '../api/apiUrls';
+import { matchingFormUrl, matchingPostListUrl } from 'api/apiUrls';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
+  const { matchingPosts, matchingPostsCount, matchingPostEditId } = useSelector((state: RootState) => state.matching);
   const { filter } = useSelector((state: RootState) => state.filter);
 
   const [scrollRef, inView] = useInView();
   const [page, setPage] = useState(1);
-  const [openAlert, setOpenAlert] = useState(false);
+  const [openEditAlert, setOpenEditAlert] = useState(false);
+  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
@@ -50,9 +51,23 @@ export function MatchingListPage() {
     setPage(_page + 1);
   };
 
-  const handleAlert = () => {
-    setOpenAlert(false);
+  const handleEditAlert = () => {
+    setOpenEditAlert(false);
   };
+
+  const handleDelete = async () => {
+    const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
+    const data = await res.json();
+    console.log(data);
+    setOpenDeleteAlert(false);
+    dispatch(setMatchingPostEditId(''));
+  };
+
+  useEffect(() => {
+    if (matchingPostEditId) {
+      setOpenDeleteAlert(true);
+    }
+  }, [matchingPostEditId]);
 
   useEffect(() => {
     if (inView) {
@@ -80,14 +95,23 @@ export function MatchingListPage() {
           <CardListContainer>
             {Children.toArray(
               matchingPosts.map((post) => {
-                return <MatchingCard post={post} openAlert={openAlert} setOpenAlert={setOpenAlert} />;
+                return <MatchingCard post={post} setOpenAlert={setOpenEditAlert} />;
               }),
             )}
           </CardListContainer>
         )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
-      <AlertError open={openAlert} onClick={handleAlert} desc={'핸들러 지원 요청이 있는 글은 수정/삭제가 불가능 합니다.'} />
+      <AlertError open={openEditAlert} onClick={handleEditAlert} desc={'핸들러 지원 요청이 있는 글은 수정이 불가능 합니다.'} />
+      <AlertError
+        open={openDeleteAlert}
+        onClick={handleDelete}
+        onClose={() => {
+          setOpenDeleteAlert(false);
+          dispatch(setMatchingPostEditId(''));
+        }}
+        desc={'정말 삭제하시겠습니까?'}
+      />
       <ScrollToTopButton />
     </MatchingList>
   );

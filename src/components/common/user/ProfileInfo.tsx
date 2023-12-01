@@ -1,22 +1,31 @@
 import { styled } from 'styled-components';
-import userImage from '/svg/user_image1.svg';
+import defaultImg from '/svg/user_image1.svg';
 import { UserNickname } from './UserNickname';
 import timeDiff from '../../../utils/timeDiff';
+import { useEffect, useState } from 'react';
 
 interface ProfileInfoProps {
   userImg?: string;
   nickname: string;
-  time: string;
+  time: Date | string;
   size?: 'small';
 }
 
 export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps) {
+  const [userImage, setUserImage] = useState(userImg);
+  useEffect(() => {
+    const arr = userImg?.split('.');
+    const type = arr?.[arr.length - 1];
+    if (type !== 'jpg' && type !== 'jpeg' && type !== 'png') {
+      setUserImage(defaultImg);
+    }
+  }, []);
   return (
     <PostUser className={size}>
-      <img className="user-img" src={userImg || userImage} />
+      <img className="user-img" src={userImage} />
       <UserInfo>
         <UserNickname nickname={nickname} />
-        <span>{timeDiff(time)}</span>
+        <span>{timeDiff(time.toString())}</span>
       </UserInfo>
     </PostUser>
   );

@@ -1,15 +1,25 @@
 import { FormLabel, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setRequestText } from '../../store';
+import { AppDispatch, RootState, setErrorRequestText, setRequestText } from '../../store';
 import { ChatOutlined } from '@mui/icons-material';
 import { useEffect } from 'react';
 
-export function RequestTextField() {
-  const { requestText } = useSelector((state: RootState) => state.matchingForm);
+export function RequestTextField({ isUpdate }: { isUpdate?: boolean }) {
+  const { requestText, errorRequestText } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (e.target.value.length < 5) {
+      dispatch(setErrorRequestText(true));
+    } else {
+      dispatch(setErrorRequestText(false));
+    }
+    dispatch(setRequestText(e.target.value));
+  };
+
   useEffect(() => {
-    dispatch(setRequestText(''));
+    dispatch(setRequestText(undefined));
+    dispatch(setErrorRequestText(true));
   }, []);
 
   return (
@@ -21,11 +31,10 @@ export function RequestTextField() {
       <TextField
         multiline
         rows={4}
+        error={!isUpdate && errorRequestText && requestText !== undefined}
         fullWidth
-        value={requestText}
-        onChange={(e) => {
-          dispatch(setRequestText(e.target.value));
-        }}
+        value={requestText === undefined ? '' : requestText}
+        onChange={handleChange}
       />
     </>
   );

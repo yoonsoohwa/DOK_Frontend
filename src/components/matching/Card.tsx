@@ -8,23 +8,23 @@ import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, RootState, setCertificationDetail } from 'store/index';
+import { AppDispatch, RootState, setCertificationDetail, setMatchingPostEditId } from 'store/index';
 import { useState } from 'react';
+import { matchingFormUrl, matchingPostDetailUrl } from 'api/apiUrls';
 
 interface MatchingCardProps {
   post: MatchingPostType;
-  openAlert: boolean;
   setOpenAlert: (arg: boolean) => void;
 }
 
-export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProps) {
+export function MatchingCard({ post, setOpenAlert }: MatchingCardProps) {
   const { _id, user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const handleEdit = async () => {
-    const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/matchingPostDetail/handler/${_id}`);
+    const res = await fetch(`${matchingPostDetailUrl}/handler/${_id}`, { credentials: 'include' });
     const data = await res.json();
     console.log('?', data);
     if (data.length) {
@@ -34,14 +34,22 @@ export function MatchingCard({ post, openAlert, setOpenAlert }: MatchingCardProp
     navigate(`/matching/write/${_id}`, { state: { post } });
   };
 
+  const handleRemove = async () => {
+    // const res = await fetch(`${matchingFormUrl}/handler/${_id}`, { credentials: 'include' });
+    // const data = await res.json();
+    // console.log(data);
+
+    dispatch(setMatchingPostEditId(_id));
+  };
+
   const handleToDetail = () => {
     navigate(`/matching/${_id}`);
   };
 
   return (
     <CardContainer className={`pointer ${matchingStatus !== 'process' && 'ended'}`} onClick={handleToDetail}>
-      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt.toString()} size="small" />
-      {_user._id === user._id && matchingStatus === 'process' && <EditMenu handleEdit={handleEdit} />}
+      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
+      {_user._id === user._id && matchingStatus === 'process' && <EditMenu _id={_id} handleEdit={handleEdit} handleRemove={handleRemove} />}
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>

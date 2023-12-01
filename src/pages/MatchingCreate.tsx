@@ -19,15 +19,18 @@ import dayjs from 'dayjs';
 import { AlertError } from 'common/alert/AlertError';
 import { matchingFormUrl } from 'api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
+import { useLoginCheck } from '../hooks/useLoginCheck';
+import dateTimeFormat from '../utils/dateTimeFormat';
+import durationTimeFormat from '../utils/durationTimeFormat';
 
 export function MatchingCreatePage() {
-  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
-    (state: RootState) => state.matchingForm,
-  );
+  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
+    useSelector((state: RootState) => state.matchingForm);
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [initData, setInitData] = useState({ dateSelect, durationSelect, paySelect, locationSelect });
   const [openError, setOpenError] = useState(false);
+  const [validateText, setValidateText] = useState('');
   const [openDogError, setOpenDogError] = useState(false);
   const [openSubmit, setOpenSubmit] = useState(false);
   const [openCancle, setOpenCancle] = useState(false);
@@ -44,7 +47,7 @@ export function MatchingCreatePage() {
       requestText,
     };
 
-    const res = await fetch(`${matchingFormUrl}/matchingRequest/${_user._id}`, {
+    const res = await fetch(`/api/matchingRequestRouter/matchingRequest`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -63,8 +66,20 @@ export function MatchingCreatePage() {
   };
 
   const handleOpenSubmit = () => {
-    if (errorDogSelect || errorDateSelect || errorPaySelect) {
-      console.log(errorDogSelect, errorDateSelect, errorPaySelect);
+    if (errorDogSelect) {
+      setValidateText('강아지를 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (errorDateSelect) {
+      setValidateText('날짜를 다시 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (errorPaySelect) {
+      setValidateText('알바 가격을 선택해주세요.');
+      return setOpenError(true);
+    }
+    if (errorRequestText) {
+      setValidateText('요청 메시지를 작성해주세요.');
       return setOpenError(true);
     }
     setOpenSubmit(true);
@@ -94,6 +109,7 @@ export function MatchingCreatePage() {
     // 로그인 했는지 확인
     if (!_user._id) {
       dispatch(setOpenAlertLogin(true));
+      return;
     }
 
     // 유저에게 강아지가 없는지 확인
@@ -109,14 +125,16 @@ export function MatchingCreatePage() {
 
   return (
     <CertifiCreate>
-      <AlertLogin isBack={true} />
-      <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
+      {!_user._id && <AlertLogin isBack={true} />}
+      <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
       <AlertSuccess
         open={openSubmit}
         onClose={() => setOpenSubmit(false)}
         onClick={handleSubmit}
         title="글을 작성하시겠습니까?"
-        desc={`${dogSelect?.dogName} | ${dateSelect} | ${durationSelect} | ${paySelect}\n요청 사항 : ${requestText}\n만남 위치 : ${locationSelect}\n상세 위치 : ${locationDetailSelect}`}
+        desc={`${dogSelect?.dogName} | ${dateTimeFormat(dateSelect || '', 'date-time')} | ${durationTimeFormat(
+          durationSelect,
+        )} | ${paySelect}원\n요청 사항 : ${requestText}\n만남 위치 : ${locationSelect?.text} ${locationDetailSelect || ''}`}
       />
       <AlertError open={openCancle} onClose={() => setOpenCancle(false)} onClick={handleCancle} title="정말 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
       <AlertError

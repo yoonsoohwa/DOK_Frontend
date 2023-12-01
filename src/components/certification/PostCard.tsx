@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from 'styled-components';
 import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
@@ -9,6 +9,7 @@ import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
 import { useNavigate } from 'react-router';
+import notfoundimg from '/svg/notfoundimage.svg';
 
 interface CertifiPostCardProps {
   contents: CertificationPostType;
@@ -31,25 +32,26 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
   const handleEdit = () => {
     dispatch(setCertificationDetail(contents));
     dispatch(setCertificationDetailIndex(index));
-    navigate('write');
+    navigate(`/certification/update/${_id}`);
   };
 
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
-      {_user._id === user._id && <EditMenu handleEdit={handleEdit} />}
+      {/* {_user._id === user._id &&  */}
+      {/* <EditMenu handleEdit={handleEdit} /> */}
       <Tooltip
         title={
           <div style={{ fontSize: '14px' }}>
             <Pets fontSize="inherit" />
-            {` ${matchingPost.userDog.dogName}`}
+            {matchingPost.userDog?.dogName || ''}
           </div>
         }
         placement="top"
         followCursor
         arrow
       >
-        <img className="main-img" src={certificationImg[0]} />
+        <img className="main-img" src={certificationImg[0] || notfoundimg} />
       </Tooltip>
       <Contents>
         <div>
