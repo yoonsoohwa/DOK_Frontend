@@ -15,7 +15,6 @@ import { Loading } from "common/state/Loading";
 
 export const Matching = () => {
   const dispatch = useDispatch<AppDispatch>();
-  
   const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);  
   const { user } = useSelector((state: RootState) => state.user);
 
@@ -33,12 +32,13 @@ export const Matching = () => {
     const _page = matchingPosts.length ? page : 1;
     // let url = `/api/mypage/myMatchingPosts/${user._id}`;
     let url = `/api/mypage/myMatchingPosts/`;
-    
     // const res = await fetch(url,{credentials:"include"});
     const res = await fetch(url);
     const data = await res.json();
-    console.log(url, data);
     
+    console.log(`매칭테스트:::::::`);
+    console.log(url, data);
+    console.log(`::::::::::::::::`);
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);

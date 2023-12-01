@@ -12,6 +12,7 @@ export const DogButton = () => {
     return (
         <>
             {dog ? dog.map((item) => <DogCard 
+                dogImg={item.dogImg}
                 key={item._id} 
                 dogName={item.dogName} 
                 birth={item.birth}

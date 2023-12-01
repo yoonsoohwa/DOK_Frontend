@@ -6,6 +6,10 @@ import { DogButton } from "./DogButton";
 import { Height, Padding } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { RootState } from "store/index";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import dayjs from "dayjs";
 
 interface DogType {
     dogName : string,
@@ -14,20 +18,22 @@ interface DogType {
     dogType : string,
     personality : string,
     note : string,
-    // dogImg : string,
+    dogImg : string,
 }
 
-export const DogCard = ({dogName, gender,birth, dogType, personality, note}: DogType)  => {
+export const DogCard = ({dogName, gender,birth, dogType, personality, note, dogImg}: DogType)  => {
     
     const [imagePath, setImagePath] = useState<string>('/dok_logo.png'); // 기본 이미지 설정
 
     
     return (
         <>
+
             <TotalFrame>
                 <div className="image">
                     <img
                         src={imagePath} // 기본 이미지 설정 (선택된 이미지가 없을 때 표시될 이미지)
+                        // src={dogImg} 
                     />
                 </div>
                 <InfoFrame>
@@ -38,7 +44,7 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note}: Dog
                         <div>
                             <TextField
                             disabled
-                            value={dogName}                           
+                            value={dogName}                          
                             sx={{
                                 '& .MuiInputBase-input': {                                
                                 padding: "5% 5% 5% 5%",                                
@@ -58,7 +64,7 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note}: Dog
                             견종
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 견종을 작성해주세요" 
+                            <TextField
                             disabled
                             value={dogType}
                             sx={{
@@ -79,9 +85,10 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note}: Dog
                             나이
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 나이를 작성해주세요" 
+                            <TextField
                             disabled
                             value={birth}
+                            // value="테스트"
                             sx={{
                                 '& .MuiInputBase-input': {
                                 padding: "5% 5% 5% 5%",
@@ -100,9 +107,11 @@ export const DogCard = ({dogName, gender,birth, dogType, personality, note}: Dog
                             성별
                         </div>
                         <div>
-                            <TextField placeholder="반려견의 나이를 작성해주세요" 
+                            <TextField 
                                 disabled
-                                value={gender}
+                                value={gender === "male" || gender === "Male" ? "남자" 
+                                : (gender === "female" || gender === "Female" ? "여자" 
+                                : (gender === "other" || gender === "Other" ? "중성" : gender))}
                                 sx={{
                                     '& .MuiInputBase-input': {
                                     padding: "5% 5% 5% 5%",

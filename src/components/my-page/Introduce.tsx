@@ -12,11 +12,11 @@ export const Introduce = () => {
     return (
         <>
             <Writing>
-                <div>{writingData}</div>
-                <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div>
+                {/* <div>{writingData}</div>
+                <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div> */}
             </Writing>
             <Dog>
-                <p>나의 반려견을 소개합니다</p>
+                <p>나의 반려견</p>
                 <Add>
                     <DogButton />
                 </Add>
