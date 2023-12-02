@@ -13,11 +13,18 @@ import { Link } from 'react-router-dom';
 export function CertificationCreateIcon() {
   const { user } = useSelector((state: RootState) => state.user);
   const [myCertification, setMyCertification] = useState<MatchingPostType[]>([]);
-  const [show, setShow] = useState(false);
   const [openBox, setOpenBox] = useState(false);
-  const navigate = useNavigate();
 
   const handleClickIcon = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!openBox) {
+      (async () => {
+        const res = await fetch(`/api/myPage/myCertification`, { credentials: 'include' });
+        const data = await res.json();
+        console.log(data);
+
+        setMyCertification(data);
+      })();
+    }
     setOpenBox(!openBox);
   };
 
@@ -37,7 +44,7 @@ export function CertificationCreateIcon() {
         setMyCertification(data);
       })();
     }
-  }, [user]);
+  }, []);
 
   return (
     <>
