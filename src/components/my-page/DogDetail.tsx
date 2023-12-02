@@ -38,11 +38,11 @@ export const DogDetail = () => {
         // console.log(birth);
 
         if(gender === "male" || gender === "Male"){
-            setGender("남자");
+            setGender("Male");
         }else if(gender === "female" || gender === "Female"){
-            setGender("여자");
+            setGender("Female");
         }else if(gender === "other" || gender === "Other"){
-            setGender("중성");
+            setGender("Male");
         }
 
         if(personality === "active" || gender === "Active"){
@@ -52,7 +52,6 @@ export const DogDetail = () => {
         }else if(gender === "calm" || gender === "Calm"){
             setGender("얌전");
         }
-
 
         const req = await fetch('/api/users/myDog',{
             method:"POST",
