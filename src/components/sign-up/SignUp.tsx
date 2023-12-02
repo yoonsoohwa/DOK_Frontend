@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { Box, Button, TextField, FormControlLabel, Checkbox, colors } from '@mui/material';
+import { Box, Button, TextField, FormControlLabel, Checkbox, colors, Modal } from '@mui/material';
 import { PersonInformation, TrilateralAgreement } from './Agreement';
-import Modal from 'react-modal';
 import DaumPostcode from 'react-daum-postcode';
 import { AddressAPI } from './AddressAPI';
 import { PhoneCertification } from './PhoneCertification';
@@ -193,26 +192,25 @@ export function SignUp() {
             disabled
             sx={{ width: '60%', margin: '0 0 5% 0' }}
           />
-          <Button variant="contained" color="mainB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleAddressSearch}>
+          <Button className="button" variant="outlined" color="subB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleAddressSearch}>
             주소검색
           </Button>
 
-          <Modal
-            isOpen={isOpen}
-            ariaHideApp={false}
-            style={{
-              content: {
-                width: '50%',
-                height: '50%',
-                margin: 'auto',
-              },
-              overlay: {
-                zIndex: 1,
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              },
-            }}
-          >
-            <DaumPostcode onComplete={handleSelectAddress} />
+          <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+            <Box
+              sx={{
+                position: 'absolute' as 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 700,
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <DaumPostcode onComplete={handleSelectAddress} />
+            </Box>
           </Modal>
         </ButtonDiv>
 
@@ -295,6 +293,12 @@ const ButtonDiv = styled.div`
   align-items: center;
 
   margin: 0 0 0 40%;
+  position: relative;
+
+  .button {
+    position: absolute;
+    left: 310px;
+  }
 `;
 const Agreement = styled.div`
   display: flex;
