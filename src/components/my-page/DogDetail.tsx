@@ -40,11 +40,11 @@ export const DogDetail = () => {
     // console.log(birth);
 
     if (gender === 'male' || gender === 'Male') {
-      setGender('남자');
+      setGender('Male');
     } else if (gender === 'female' || gender === 'Female') {
-      setGender('여자');
+      setGender('Female');
     } else if (gender === 'other' || gender === 'Other') {
-      setGender('중성');
+      setGender('Male');
     }
 
     if (personality === 'active' || gender === 'Active') {
@@ -300,7 +300,8 @@ export const DogDetail = () => {
               <div>
                 {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
                 <TextField
-                  placeholder="특이사항을 작성해주세요"
+                  placeholder={'특이사항을 작성해주세요.최대 45자까지 작성 가능합니다.'}
+                  InputProps={{ inputProps: { maxLength: 45 } }}
                   defaultValue={note}
                   onChange={(e) => setNote(e.target.value)}
                   multiline
