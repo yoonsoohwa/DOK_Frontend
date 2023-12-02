@@ -54,10 +54,10 @@ const AddButton = styled.button`
   border-radius: 10px;
 
   width: 30%;
-  height: 600px;
+  height: 620px;
   font-size: 200px;
   color: gray;
   background-color: #ffffff;
 
-  margin: 3% auto;
+  margin: 3% 1%;
 `;
