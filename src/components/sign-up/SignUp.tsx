@@ -154,9 +154,10 @@ export function SignUp() {
           onChange={(event) => setPwdValue(event.target.value)}
           id="testTest2"
           label="비밀번호"
+          type="password"
           placeholder="비밀번호를 작성해주세요"
           helperText="* 최소 8자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다."
-          sx={{ width: '60%', margin: '0 0 1% 0' }}
+          sx={{ width: '60%', margin: '0 0 5% 0' }}
         />
 
         <TextField
@@ -165,6 +166,7 @@ export function SignUp() {
           defaultValue={pwdConfirmValue}
           onChange={(event) => setPwdConfirmValue(event.target.value)}
           label="비밀번호 확인"
+          type="password"
           placeholder="비밀번호를 다시 한 번 작성해주세요"
           helperText={pwdConfirmValue !== undefined && !(pwdConfirmValue === pwdValue) ? '입력하신 비밀번호가 다릅니다.' : ''}
           sx={{ width: '60%', margin: '0 0 5% 0' }}
@@ -188,7 +190,7 @@ export function SignUp() {
             error={addressValue !== undefined && !addressCheck ? true : false}
             label={addressValue}
             onChange={(e) => setAddressValue(e.target.value)}
-            // disabled
+            disabled
             sx={{ width: '60%', margin: '0 0 5% 0' }}
           />
           <Button variant="contained" color="mainB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleAddressSearch}>
@@ -267,7 +269,7 @@ export function SignUp() {
 
 const MainDiv = styled.div`
   margin: 10% auto;
-  width: 600px;
+  width: 700px;
   height: 100%;
   border: black solid 1px;
   border-radius: 16px;
