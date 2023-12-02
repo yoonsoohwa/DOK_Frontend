@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 export function SignUp() {
   // 약관 동의하는 부분의 코드~
-  const [checked, setChecked] = React.useState([true, true]);
+  const [checked, setChecked] = React.useState([true, false]);
 
   const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked([event.target.checked, event.target.checked]);
