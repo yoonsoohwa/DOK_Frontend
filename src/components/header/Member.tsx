@@ -4,13 +4,15 @@ import { styled } from 'styled-components';
 import { Bookmark } from './Bookmark';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, setUser } from 'store/index';
+import { initUserType } from '../../types';
 import { CertificationCreateIcon } from './CertificationCreate';
 
 export const MemberHeader = () => {
   // 유저가 로그인 됐는지 확인하는 로직
   const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
 
   const headerHover = '/svg/header_hover.svg';
   const { pathname } = useLocation();
@@ -26,6 +28,7 @@ export const MemberHeader = () => {
       },
       credentials: 'include',
     });
+    dispatch(setUser(initUserType));
     window.location.reload();
   };
 
