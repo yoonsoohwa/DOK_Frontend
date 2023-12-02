@@ -37,13 +37,13 @@ export const ProfileInfo = () => {
 const TotalFrame = styled.div`
   display: flex;
   justify-content: flex-start;
-  max-width: 1024px;
+  max-width: 1100px;
   margin: 5% auto 40px auto;
 `;
 
 const Img = styled.div`
   align-self: center;
-  margin-right: 3%;
+  margin: 0 3% 0 1%;
   width: 140px;
   height: 140px;
 

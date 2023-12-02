@@ -26,7 +26,7 @@ export function MainSection3() {
         </Title>
         <Contents onClick={handleClick}>{Children.toArray(certificationPosts.map((data, index) => <CertifiPostCard index={index} onClick={() => {}} contents={data} />))}</Contents>
       </InnerBox>
-      <img src="https://capsule-render.vercel.app/api?type=waving&color=4194CB&height=250&section=footer" />
+      <img src={`https://capsule-render.vercel.app/api?type=waving&color=4194CB&height=${window.innerWidth}&section=footer`} />
       <BackgroundBox></BackgroundBox>
     </Section>
   );
@@ -43,12 +43,13 @@ const Section = styled.div`
   display: flex;
   justify-content: center;
   align-items: end;
+  overflow: hidden;
 
   > img {
     position: absolute;
     width: 100%;
-    bottom: 0;
-    z-index: -10;
+    top: 280px;
+    z-index: -1;
   }
 `;
 
@@ -97,6 +98,10 @@ const Title = styled.div`
     .send-text {
       display: none;
     }
+
+    h2 {
+      margin-bottom: 40px;
+    }
   }
 `;
 
@@ -119,9 +124,9 @@ const Contents = styled.div`
 const BackgroundBox = styled.div`
   display: none;
   width: 100%;
-  height: ${bottom}px;
-  background-color: ${({ theme }) => theme.sub};
+  height: 10vw;
+  background-color: #9fc1e4b7;
   position: absolute;
-  top: ${top}px;
+  bottom: 0;
   z-index: -1;
 `;

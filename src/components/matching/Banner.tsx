@@ -15,8 +15,16 @@ export function MatchingBanner() {
         <Button
           onClick={() => navigate('write')}
           variant="contained"
-          color="mainW"
-          sx={{ width: '100%', height: '56px', borderRadius: '50px', fontSize: '20px', fontWeight: '600', color: 'white' }}
+          sx={{
+            backgroundColor: '#ff9d00',
+            ':hover': { backgroundColor: '#ffae00' },
+            width: '100%',
+            height: '56px',
+            borderRadius: '50px',
+            fontSize: '20px',
+            fontWeight: '600',
+            color: 'white',
+          }}
         >
           매칭 신청하기
         </Button>

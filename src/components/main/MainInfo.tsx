@@ -44,9 +44,9 @@ export function MainInfo() {
             강아지 산책 핸들러 매칭 전문 사이트, <span className="color-sub">도크</span>
           </div>
           <div>
-            지금 내 반려동물과 산책할 파트너를 만나보세요
+            지금 내 반려동물과 산책할
             <br />
-            믿을만한 내 이웃이 기다리고 있습니다
+            파트너를 만나보세요
           </div>
           <div>
             <div className="color-sub">{count}</div>
@@ -106,7 +106,9 @@ const Contents = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap-reverse;
-  padding: 80px 0;
+  padding: 80px 80px;
+  transition: all 200ms;
+  box-sizing: border-box;
 
   img {
     align-self: center;
@@ -127,7 +129,7 @@ const LeftBox = styled.div`
 
   > div:nth-child(2) {
     font-weight: 800;
-    font-size: 32px;
+    font-size: 44px;
     letter-spacing: 0.02em;
 
     margin-top: 10px;

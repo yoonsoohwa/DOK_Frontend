@@ -46,6 +46,7 @@ const IconBox = styled.div`
   position: absolute;
   right: 10px;
   padding: 6px 0;
+  padding-left: 20px;
 
   .icon {
     color: #747474;

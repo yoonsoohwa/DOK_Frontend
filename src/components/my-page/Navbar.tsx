@@ -21,7 +21,7 @@ export const Navbar = () => {
         <TabContext value={value}>
           <Box sx={{ borderBottom: 2, borderColor: 'divider' }}>
             <TabList indicatorColor="secondary" onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="소개" value="1" />
+              <Tab label="반려견" value="1" />
               <Tab label="매칭" value="2" />
               <Tab label="인증" value="3" />
               <Tab label="개인정보 수정" value="4" />
@@ -48,7 +48,11 @@ export const Navbar = () => {
 const TotalFrame = styled.div`
   /* display: flex; */
   /* justify-content: flex-start; */
-  max-width: 1024px;
+  max-width: 1110px;
   margin: 0% auto 5% auto;
   /* border: black solid 1px; */
+
+  .MuiTabPanel-root {
+    padding: 0;
+  }
 `;

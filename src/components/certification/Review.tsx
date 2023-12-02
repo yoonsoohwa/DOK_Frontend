@@ -3,7 +3,7 @@ import { IconButton, Rating, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import styled from 'styled-components';
-import userImage from '/temp/뽀삐.png';
+import userImage from '/svg/user_image1.svg';
 import { useEffect, useState } from 'react';
 
 interface ReviewProps {
@@ -24,7 +24,7 @@ export function Review({ isEditable, setIsEditing }: ReviewProps) {
       <div className="top">
         <div className="label">견주의 후기</div>
         <div className="left">
-          <img src={userImage} className="user-img" />
+          <img src={matchingPost.user.userImg || userImage} className="user-img" />
           <div>{matchingPost.user.nickname}</div>
           <Rating readOnly={true} value={review.rating}></Rating>
         </div>

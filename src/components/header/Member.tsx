@@ -100,7 +100,7 @@ const MainDiv = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1044px;
+  max-width: 1100px;
   margin: 0 auto;
   flex-shrink: 1;
   padding-right: 6px;
@@ -117,7 +117,7 @@ const CatagoryDiv = styled.div`
   position: relative;
   justify-content: flex-start;
   flex: 2;
-  margin: 27px 0 0 4vw;
+  margin: 24px 0 0 4vw;
   font-size: 24px;
   font-weight: 700;
 
@@ -163,7 +163,7 @@ const SubCatagoryImg = styled.div`
   display: flex;
   justify-content: flex-end;
   flex: 1;
-  margin: 32px 0 0 0;
+  margin: 25px 0 0 0;
   font-size: 18px;
 
   & > div {
