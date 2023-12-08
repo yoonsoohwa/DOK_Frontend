@@ -94,8 +94,6 @@ const BorderDiv = styled.div`
   /* 그림자의 수평 수직 흐림 //불투명도      그림자 투명도 */
   box-shadow: 0 1px 6px 0 #00000010;
   background-color: #ffffff;
-  padding-right: 19px;
-  overflow: hidden;
 `;
 
 const MainDiv = styled.div`
