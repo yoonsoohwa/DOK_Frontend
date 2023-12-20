@@ -14,9 +14,10 @@ interface ProfileInfoProps {
 export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps) {
   const [userImage, setUserImage] = useState(userImg);
   useEffect(() => {
+    console.log(userImage, nickname);
     const arr = userImg?.split('.');
     const type = arr?.[arr.length - 1];
-    if (type !== 'jpg' && type !== 'jpeg' && type !== 'png') {
+    if (type !== 'jpg' && type !== 'jpeg' && type !== 'png' && type !== 'svg') {
       setUserImage(defaultImg);
     }
   }, []);
