@@ -74,7 +74,12 @@ export function CertificationCreatePage() {
     setErrorImages(false);
 
     if (!images) return;
-    if (images.length <= 1) setErrorImages(true);
+    if (images.length <= 1) {
+      setImages([]);
+      setImagesURL([]);
+      setErrorImages(true);
+      return;
+    }
 
     const newImages = images.filter((file, _idx) => idx !== _idx);
     let formData = new FormData();
@@ -273,7 +278,12 @@ export function CertificationCreatePage() {
                         imagesURL.map((url, idx) => (
                           <div className="preview-image">
                             <img src={url} />
-                            <IconButton id={idx.toString()} className="icon" onClick={handleRemoveImage}>
+                            <IconButton
+                              id={idx.toString()}
+                              className="icon"
+                              onClick={handleRemoveImage}
+                              sx={{ backgroundColor: '#00000021', padding: '12px', ':hover': { backgroundColor: '#00000030' } }}
+                            >
                               <Close />
                             </IconButton>
                           </div>
@@ -317,18 +327,19 @@ const CertifiCreate = styled.div`
     overflow: auto;
 
     .preview-image {
-      height: calc(100% - 4px);
-      margin: 0 10px 4px 0;
+      height: calc(100% - 8px);
+      padding: 4px 6px;
       position: relative;
 
       img {
         height: 99%;
+        box-shadow: 1px 1px 5px #00000030;
       }
 
       .icon {
         position: absolute;
-        top: -2px;
-        right: 4px;
+        top: 8px;
+        right: 6px;
         color: #fff;
       }
     }
@@ -345,7 +356,7 @@ const Contents = styled.div`
   .icon {
     color: #959595;
     width: 18px;
-    height: auto;
+    height: 18px;
     margin-right: 4px;
   }
 
