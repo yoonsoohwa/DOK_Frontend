@@ -12,17 +12,15 @@ import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
-import { matchingFormUrl, matchingPostListUrl } from 'api/apiUrls';
+import { matchingPostListUrl } from 'api/apiUrls';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts, matchingPostsCount, matchingPostEditId } = useSelector((state: RootState) => state.matching);
+  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
   const { filter } = useSelector((state: RootState) => state.filter);
 
   const [scrollRef, inView] = useInView();
   const [page, setPage] = useState(1);
-  const [openEditAlert, setOpenEditAlert] = useState(false);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
@@ -51,24 +49,6 @@ export function MatchingListPage() {
     setPage(_page + 1);
   };
 
-  const handleEditAlert = () => {
-    setOpenEditAlert(false);
-  };
-
-  const handleDelete = async () => {
-    const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
-    const data = await res.json();
-    console.log(data);
-    setOpenDeleteAlert(false);
-    dispatch(setMatchingPostEditId(''));
-  };
-
-  useEffect(() => {
-    if (matchingPostEditId) {
-      setOpenDeleteAlert(true);
-    }
-  }, [matchingPostEditId]);
-
   useEffect(() => {
     if (inView) {
       addMatchingCardList();
@@ -77,6 +57,7 @@ export function MatchingListPage() {
 
   useEffect(() => {
     dispatch(resetMatchingPosts());
+    dispatch(setMatchingPostEditId(''));
     dispatch(setFilter({ locationCode: '', walkingTime: '' }));
   }, []);
 
@@ -95,23 +76,13 @@ export function MatchingListPage() {
           <CardListContainer>
             {Children.toArray(
               matchingPosts.map((post) => {
-                return <MatchingCard post={post} setOpenAlert={setOpenEditAlert} />;
+                return <MatchingCard post={post} />;
               }),
             )}
           </CardListContainer>
         )}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
-      <AlertError open={openEditAlert} onClick={handleEditAlert} desc={'핸들러 지원 요청이 있는 글은 수정이 불가능 합니다.'} />
-      <AlertError
-        open={openDeleteAlert}
-        onClick={handleDelete}
-        onClose={() => {
-          setOpenDeleteAlert(false);
-          dispatch(setMatchingPostEditId(''));
-        }}
-        desc={'정말 삭제하시겠습니까?'}
-      />
       <ScrollToTopButton />
     </MatchingList>
   );

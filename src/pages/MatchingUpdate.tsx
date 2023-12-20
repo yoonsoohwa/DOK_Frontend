@@ -108,14 +108,19 @@ export function MatchingUpdatePage() {
     }
 
     const { _id, user, userDog, price, location, locationDetail, requestText, walkingDate, walkingDuration } = loc.state.post;
+    console.log(location);
 
     dispatch(setDogSelect(userDog));
     dispatch(setDateSelect(walkingDate));
     dispatch(setDurationSelect(walkingDuration));
     dispatch(setPaySelect(price));
-    dispatch(setLocation(location));
     dispatch(setLocationDetail(locationDetail));
     dispatch(setRequestText(requestText));
+
+    return () => {
+      console.log('unmount');
+      dispatch(setLocation(undefined));
+    };
   }, []);
 
   return (
@@ -159,7 +164,7 @@ export function MatchingUpdatePage() {
                       <PaySelect />
                     </Contents>
                     <Contents>
-                      <LocationSelect />
+                      <LocationSelect editLocation={{ text: loc.state.post.location.text, code: loc.state.post.location.code }} />
                     </Contents>
                   </div>
                 </div>

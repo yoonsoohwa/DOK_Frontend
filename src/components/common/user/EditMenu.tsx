@@ -4,19 +4,24 @@ import { MoreVert } from '@mui/icons-material';
 import { AlertError } from 'common/alert/AlertError';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store/store';
+import { setMatchingPostEditId, setOpenDeleteAlert, setOpenEditAlert } from 'store/index';
+import { matchingPostDetailUrl } from 'api/apiUrls';
+import { useNavigate } from 'react-router-dom';
+import { MatchingPostType } from 'src/types';
 
 interface EditMenuProps {
-  handleEdit: () => void;
-  handleRemove?: () => void;
-  _id?: string;
+  post: MatchingPostType;
+  size?: 'small';
 }
 
-export function EditMenu({ handleEdit, handleRemove, _id }: EditMenuProps) {
+export function EditMenu({ post, size }: EditMenuProps) {
   const dispatch = useDispatch<AppDispatch>();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleStopPropagation = (e: React.MouseEvent) => {
+  const handleClickEditIcon = (e: React.MouseEvent) => {
     e.stopPropagation();
+    dispatch(setMatchingPostEditId(post._id));
   };
 
   const handleOpen = (e: React.MouseEvent) => {
@@ -27,12 +32,32 @@ export function EditMenu({ handleEdit, handleRemove, _id }: EditMenuProps) {
     setOpen(false);
   };
 
+  const handleEdit = async () => {
+    const res = await fetch(`${matchingPostDetailUrl}/handler/${post._id}`, { credentials: 'include' });
+    const data = await res.json();
+    console.log('?', data);
+    if (data.length) {
+      console.log('data: ', data);
+      return dispatch(setOpenEditAlert(true));
+    }
+    navigate(`/matching/write/${post._id}`, { state: { post } });
+  };
+
+  const handleRemove = async () => {
+    // const res = await fetch(`${matchingFormUrl}/handler/${_id}`, { credentials: 'include' });
+    // const data = await res.json();
+    // console.log(data);
+
+    dispatch(setOpenDeleteAlert(true));
+    dispatch(setMatchingPostEditId(post._id));
+  };
+
   return (
     <>
-      <IconBox onClick={handleStopPropagation} onMouseLeave={handleClose}>
-        <MoreVert className="icon" onClick={handleOpen} />
+      <IconBox className={size && 'small'} onClick={handleClickEditIcon} onMouseLeave={handleClose}>
+        <MoreVert className="icon pointer" onClick={handleOpen} />
         {open && (
-          <ul className="menu">
+          <ul className="menu pointer">
             <li onClick={handleEdit}>수정하기</li>
             {handleRemove && <li onClick={handleRemove}>삭제하기</li>}
           </ul>
@@ -44,15 +69,25 @@ export function EditMenu({ handleEdit, handleRemove, _id }: EditMenuProps) {
 
 const IconBox = styled.div`
   position: absolute;
-  right: 10px;
-  padding: 6px 0;
-  padding-left: 20px;
+  right: 8px;
+  padding: 12px 10px;
 
   .icon {
     color: #747474;
+    width: 30px;
+    height: 30px;
 
     &:hover {
       color: ${({ theme }) => theme.sub};
+    }
+  }
+
+  &.small {
+    padding: 6px 0px 6px 20px;
+
+    .icon {
+      width: 24px;
+      height: 24px;
     }
   }
 

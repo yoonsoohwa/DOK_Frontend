@@ -11,7 +11,11 @@ const geocoder = new kakao.maps.services.Geocoder();
 // 키워드 검색
 // const ps = new kakao.maps.services.Places();
 
-export function LocationSelect() {
+interface LocationSelectProps {
+  editLocation?: { text: string; code: string };
+}
+
+export function LocationSelect({ editLocation }: LocationSelectProps) {
   const { locationSelect, locationDetailSelect } = useSelector((state: RootState) => state.matchingForm);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
@@ -71,9 +75,11 @@ export function LocationSelect() {
   }, [position]);
 
   useEffect(() => {
+    // dispatch(setLocation(undefined));
+
     //사용자 위치 정보로 초기화
     console.log(user.address);
-    let userLocation = user.address.text || '서울특별시 서초구 강남대로 399';
+    let userLocation = editLocation?.text || user.address.text;
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
@@ -101,7 +107,9 @@ export function LocationSelect() {
         }
       });
     });
-  }, []);
+
+    dispatch(setLocationDetail(''));
+  }, [user]);
 
   return (
     <LocationLayout>
