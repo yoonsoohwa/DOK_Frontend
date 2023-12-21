@@ -22,7 +22,17 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
   const [text, setText] = useState(editText || '');
   const isLogined = user._id !== '';
 
-  const onClickHandler = async () => {
+  const onClickHandler = () => {
+    addComment();
+  };
+
+  const onKeyDownHandler = (e: React.KeyboardEvent) => {
+    if ((e.key === 'Enter')) {
+        addComment();
+    }
+  };
+
+  const addComment = async () => {
     if (!isLogined) {
       dispatch(setOpenAlertLogin(true));
       return;
@@ -49,21 +59,21 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
         console.log(err);
       }
     } else {
-        try {
-            const res = await fetch(`${matchingPostDetailUrl}/comment/${commentId}`, {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'comment': text
-                })
-            });
-            const data = await res.json();
-            dispatch(updateMatchingComment({commentId, commentData: {...data, user}}));
-        } catch(err) {
-            console.log(err);
-        }
+      try {
+        const res = await fetch(`${matchingPostDetailUrl}/comment/${commentId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            comment: text,
+          }),
+        });
+        const data = await res.json();
+        dispatch(updateMatchingComment({ commentId, commentData: { ...data, user } }));
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -81,6 +91,7 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
         sx={{ width: '100%' }}
         autoFocus={Boolean(editText)}
         onChange={onChangeHandler}
+        onKeyDown={(e) => onKeyDownHandler(e)}
         disabled={matchingDetailPost?.matchingStatus !== 'process'}
       />
       <IconButton size="small" onClick={onClickHandler}>
