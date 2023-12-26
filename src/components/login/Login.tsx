@@ -96,6 +96,11 @@ export function Login() {
             defaultValue={password}
             onChange={(e) => setPassword(e.target.value)}
             // defaultValue=""
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleLogin(); // 엔터 키를 눌렀을 때 handleLogin 호출
+              }
+            }}
             sx={{ margin: '0 0 5% 0' }}
           />
           <div>

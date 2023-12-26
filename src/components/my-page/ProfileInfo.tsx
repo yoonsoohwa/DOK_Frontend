@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import { styled } from 'styled-components';
@@ -6,6 +7,17 @@ import { styled } from 'styled-components';
 // "프로필"인포기 때문에 프로필인포로 지음
 export const ProfileInfo = () => {
   const { user } = useSelector((state: RootState) => state.user);
+  // const [isUser, setIsUser] = useState<boolean>(true);
+
+  // useEffect(() => {
+  //   if (user._id === "") {
+  //     console.log('유저가없어요');
+  //     setIsUser(false);
+  //   } else {
+      
+  //     console.log('유저가있네용:', user);
+  //   }
+  // }, []);
 
   return (
     <>
