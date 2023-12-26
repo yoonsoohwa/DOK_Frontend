@@ -83,10 +83,17 @@ export function SignUp() {
     return check.test(`${pwdValue}`);
   };
 
+  // 이메일 인증
+  const handleEmailCertification = () => {
+    
+  };
+
+
   // 주소 검색
   const handleAddressSearch = () => {
     setIsOpen(true);
   };
+
   const handleSelectAddress = (data: any) => {
     setAddressBCode(data.bcode);
     setAddressValue(data.address);
@@ -139,12 +146,15 @@ export function SignUp() {
           <TextField
             error={idValue !== undefined && !idCheck ? true : false}
             id="testTest"
-            label="아이디"
+            label="이메일"
             defaultValue={idValue}
             onChange={(event) => setIdValue(event.target.value)}
-            placeholder="아이디를 작성해주세요"
+            placeholder="이메일을 작성해주세요"
             sx={{ width: '60%', margin: '10% 0 5% 0' }}
           />
+          <Button className="emailButton" variant="outlined" color="subB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleEmailCertification}>
+            메일인증
+          </Button>
         </ButtonDiv>
 
         <TextField
@@ -192,7 +202,7 @@ export function SignUp() {
             disabled
             sx={{ width: '60%', margin: '0 0 5% 0' }}
           />
-          <Button className="button" variant="outlined" color="subB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleAddressSearch}>
+          <Button className="addressButton" variant="outlined" color="subB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleAddressSearch}>
             주소검색
           </Button>
 
@@ -295,7 +305,13 @@ const ButtonDiv = styled.div`
   margin: 0 0 0 40%;
   position: relative;
 
-  .button {
+  .emailButton {
+    position: absolute;
+    left: 310px;
+    top: 79px;
+  }
+
+  .addressButton {
     position: absolute;
     left: 310px;
   }

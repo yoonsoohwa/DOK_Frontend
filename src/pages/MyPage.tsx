@@ -20,7 +20,7 @@ export function MyPage() {
       // console.log('유저가있어요:', user);
       setIsUser(true);
     }
-  }, []);
+  }, [user]);
 
   return (
     <>

@@ -48,31 +48,6 @@ export function Login() {
 
     }
 
-    // try{
-    //   const response = await fetch("http://kdt-sw-6-team01.elicecoding.com/api/users/signIn", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       "userId": userId,
-    //       "password": password,
-    //     }),
-    //     credentials: 'include',
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error('Network response was not ok.');
-    //   }
-
-    //   const data = await response.json();
-    //   console.log(data);
-
-    //   const dateHeader = response.headers.get('Date');
-    //   console.log('Date 헤더 정보:', dateHeader);
-    // } catch (error) {
-    //   console.error('There was a problem with the fetch operation:', error);
-    // }
   };
 
   return (
