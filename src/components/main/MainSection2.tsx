@@ -24,7 +24,7 @@ export function MainSection2() {
             자세히 보러가기
           </div>
         </Title>
-        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard setOpenAlert={() => {}} post={data} />))}</Contents>
+        <Contents>{Children.toArray(matchingPosts.map((data) => <MatchingCard post={data} />))}</Contents>
       </InnerBox>
       <img src={`https://capsule-render.vercel.app/api?type=waving&color=FCD11E&height=${window.innerWidth}&section=footer`} />
     </Section>

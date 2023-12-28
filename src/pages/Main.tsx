@@ -29,8 +29,8 @@ export function MainPage() {
     <MainPageComponent>
       <MainInfo />
       <MainSection1 />
-      <MainSection2 title="오늘의 매칭 글" color="main" />
-      <MainSection3 title="따뜻한 후기" color="sub" />
+      <MainSection2 />
+      <MainSection3 />
     </MainPageComponent>
   );
 }
