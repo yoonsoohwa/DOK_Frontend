@@ -4,7 +4,7 @@ import { Input, IconButton } from '@mui/material';
 import { Bolt, Send } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setOpenAlertLogin, addMatchingComment, updateMatchingComment } from 'store/index';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
 
@@ -20,15 +20,22 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [text, setText] = useState(editText || '');
+  const inputRef = useRef<HTMLInputElement>(null);
   const isLogined = user._id !== '';
+
+  useEffect(() => {
+    if (commentType === 'reply' && inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, [commentType, inputRef]);
 
   const onClickHandler = () => {
     addComment();
   };
 
   const onKeyDownHandler = (e: React.KeyboardEvent) => {
-    if ((e.key === 'Enter')) {
-        addComment();
+    if (e.key === 'Enter') {
+      addComment();
     }
   };
 
@@ -88,6 +95,7 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
       <Input
         placeholder="댓글 추가"
         value={text}
+        inputRef={inputRef}
         sx={{ width: '100%' }}
         autoFocus={Boolean(editText)}
         onChange={onChangeHandler}
