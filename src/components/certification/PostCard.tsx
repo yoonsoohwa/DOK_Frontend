@@ -17,10 +17,9 @@ interface CertifiPostCardProps {
 }
 
 export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardProps) {
-  const { _id, user, matchingPost, postText, certificationImg, review, createdAt } = contents;
+  const { user, matchingPost, postText, certificationImg, review, createdAt } = contents;
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   const handleOpenDetail = (e: React.MouseEvent) => {
     dispatch(setCertificationDetail(contents));

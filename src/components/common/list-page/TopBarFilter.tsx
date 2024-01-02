@@ -84,7 +84,6 @@ export function TopBarFilter() {
 
   const handleFilter = () => {
     const filter = { locationCode: districtCode, walkingTime: date?.format() };
-    console.log('set filter : ', filter);
     dispatch(setFilter(filter));
     dispatch(resetMatchingPosts());
     dispatch(resetCertificationPosts());
@@ -93,7 +92,6 @@ export function TopBarFilter() {
   };
 
   useEffect(() => {
-    //districtCode
     dispatch(setFilter({ locationCode: districtCode, walkingTime: '' }));
   }, []);
 

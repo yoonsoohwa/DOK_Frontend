@@ -46,7 +46,6 @@ export function CertificationListPage() {
 
     const res = await fetch(url);
     const data = await res.json();
-    console.log(url, data);
 
     dispatch(setCertificationPostsCount(Number(data[0])));
     dispatch(addCertificationPosts(data[1]));

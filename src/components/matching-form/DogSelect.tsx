@@ -21,7 +21,6 @@ export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
 
     dispatch(setDogSelect(selected));
     dispatch(setErrorDogSelect(false));
-    console.log(dogSelect);
   };
 
   useEffect(() => {
@@ -33,7 +32,6 @@ export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
       }
     })();
     if (isUpdate) {
-      console.log('??');
       dispatch(setErrorDogSelect(false));
       return;
     }

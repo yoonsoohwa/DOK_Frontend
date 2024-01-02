@@ -116,7 +116,6 @@ export function MatchingUpdatePage() {
     dispatch(setRequestText(requestText));
 
     return () => {
-      console.log('unmount');
       dispatch(setLocation(undefined));
     };
   }, []);

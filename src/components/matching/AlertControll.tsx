@@ -17,7 +17,6 @@ export function AlertControll() {
   const handleDelete = async () => {
     const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
     const data = await res.json();
-    console.log(data);
     dispatch(setOpenDeleteAlert(false));
     dispatch(setMatchingPostEditId(''));
     navigate(`/matching`);

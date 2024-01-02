@@ -56,7 +56,6 @@ export function MatchingCreatePage() {
     });
 
     const data = await res.json();
-    console.log(data);
 
     navigate('/matching');
   };
@@ -86,7 +85,6 @@ export function MatchingCreatePage() {
   };
 
   const handleOpenCancle = () => {
-    console.log(initData, dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect);
     if (
       dogSelect ||
       dateSelect !== initData.dateSelect ||
@@ -116,7 +114,6 @@ export function MatchingCreatePage() {
     (async () => {
       const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
       const data = await res.json();
-      console.log(data);
       if (!data.length) {
         setOpenDogError(true);
       }

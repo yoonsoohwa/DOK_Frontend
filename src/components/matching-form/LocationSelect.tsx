@@ -87,7 +87,6 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
         lng = Number(result[0].x);
 
         setPosition({ lat, lng });
-        console.log(lng, lat);
         handleChangeLocation(lng, lat);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         console.log('검색 결과가 존재하지 않습니다.');
@@ -98,8 +97,6 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
       geocoder.coord2RegionCode(lng, lat, (res, status) => {
         if (status === kakao.maps.services.Status.OK) {
           setLocationCode(res[0].code);
-          console.log(res[0].code);
-          console.log({ text: userLocation, code: res[0].code });
           dispatch(setLocation({ text: userLocation, code: res[0].code }));
         }
       });

@@ -34,9 +34,7 @@ export function EditMenu({ post, size }: EditMenuProps) {
   const handleEdit = async () => {
     const res = await fetch(`${matchingPostDetailUrl}/handler/${post._id}`, { credentials: 'include' });
     const data = await res.json();
-    console.log('?', data);
     if (data.length) {
-      console.log('data: ', data);
       return dispatch(setOpenEditAlert(true));
     }
     navigate(`/matching/write/${post._id}`, { state: { post } });

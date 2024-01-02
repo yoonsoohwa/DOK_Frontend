@@ -44,7 +44,6 @@ export function CertificationCreatePage() {
   const loc = useLocation();
 
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(!e.target.files?.[0], (images?.length || 0) + (e.target.files?.length || 0) > 6);
     if (!e.target.files?.[0] || (images?.length || 0) + e.target.files.length > 6) {
       setErrorImages(true);
       return;
@@ -125,7 +124,6 @@ export function CertificationCreatePage() {
       certificationImg: imagesURL || [],
     };
 
-    console.log(imagesURL);
     const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
       method: 'POST',
       credentials: 'include',
@@ -135,7 +133,6 @@ export function CertificationCreatePage() {
       body: JSON.stringify(reqBody),
     });
     const data = await res.json();
-    console.log(data, res);
 
     nav('/certification');
   };
@@ -143,7 +140,6 @@ export function CertificationCreatePage() {
   const handleSubmit = () => {
     setIsSubmit(true);
     if (errorPostText || errorAddress || errorImages) {
-      console.log(errorPostText, errorAddress, errorImages);
       return setOpenError(true);
     }
     setOpenSubmit(true);
@@ -164,7 +160,6 @@ export function CertificationCreatePage() {
     (async () => {
       const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
       const data = await res.json();
-      console.log(data);
 
       if (!data.length) {
         setIsNotFound(true);
@@ -176,7 +171,6 @@ export function CertificationCreatePage() {
   }, []);
 
   useEffect(() => {
-    console.log(matchingPost?.matchingHandler, user._id);
     if (matchingPost?.matchingHandler !== user._id) {
       setIsForbidden(true);
     } else {

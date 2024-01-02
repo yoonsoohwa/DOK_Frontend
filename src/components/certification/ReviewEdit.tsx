@@ -53,7 +53,6 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
       body: JSON.stringify({ matchingPost: matchingPost._id, review: newReview }),
     });
     const data = await res.json();
-    console.log(data);
 
     dispatch(setCertificationReview(data.review));
     dispatch(setCertificationPostOne({ index: certificationDetailPostIndex, post: { ...certificationDetailPost, review: data.review } }));
