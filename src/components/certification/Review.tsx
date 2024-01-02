@@ -1,10 +1,9 @@
 import { Edit } from '@mui/icons-material';
-import { IconButton, Rating, TextField } from '@mui/material';
+import { IconButton, Rating } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import styled from 'styled-components';
 import userImage from '/svg/user_image1.svg';
-import { useEffect, useState } from 'react';
 
 interface ReviewProps {
   isEditable: boolean;
@@ -13,7 +12,7 @@ interface ReviewProps {
 
 export function Review({ isEditable, setIsEditing }: ReviewProps) {
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
-  let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
+  let { matchingPost, review } = certificationDetailPost;
 
   const handleClick = () => {
     setIsEditing(true);

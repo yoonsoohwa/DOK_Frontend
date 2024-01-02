@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
 import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setCertificationDetail, setCertificationDetailIndex } from '../../store';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
-import { EditMenu } from 'common/user/EditMenu';
 import { useNavigate } from 'react-router';
 import notfoundimg from '/svg/notfoundimage.svg';
 
@@ -29,17 +28,9 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
     onClick();
   };
 
-  const handleEdit = () => {
-    dispatch(setCertificationDetail(contents));
-    dispatch(setCertificationDetailIndex(index));
-    navigate(`/certification/update/${_id}`);
-  };
-
   return (
     <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
-      {/* {_user._id === user._id &&  */}
-      {/* <EditMenu handleEdit={handleEdit} /> */}
       <Tooltip
         title={
           <div style={{ fontSize: '14px' }}>

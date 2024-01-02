@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from 'styled-components';
 import { TopBarTitle } from './TopBarTitle';
 import { TopBarFilter } from './TopBarFilter';

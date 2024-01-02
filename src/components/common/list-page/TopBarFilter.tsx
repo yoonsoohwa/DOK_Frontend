@@ -20,7 +20,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { Clear, SimCardDownload } from '@mui/icons-material';
+import { Clear } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 import beobjeongdong from 'api/beobjeongdong';
 import { useDispatch } from 'react-redux';
@@ -210,7 +210,6 @@ export function TopBarFilter() {
         )}
       </DateSection>
 
-      {/* <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton> */}
       <SearchButton onClick={handleFilter} />
     </Section>
   );

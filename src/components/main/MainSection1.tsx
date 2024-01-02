@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import { Children } from 'react';
 import { styled } from 'styled-components';
 import { MainPetBox } from './MainPetBox';
 import { useSelector } from 'react-redux';

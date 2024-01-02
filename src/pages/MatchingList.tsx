@@ -8,7 +8,6 @@ import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CardListContainer } from '../styles/CardListContainer';
 import { useInView } from 'react-intersection-observer';
-import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
@@ -24,7 +23,6 @@ export function MatchingListPage() {
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
-    // console.log(matchingPostsCount, matchingPosts);
     if (matchingPostsCount && matchingPostsCount <= matchingPosts.length) {
       return;
     }
@@ -42,7 +40,6 @@ export function MatchingListPage() {
 
     const res = await fetch(url);
     const data = await res.json();
-    // console.log(url, data);
 
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));

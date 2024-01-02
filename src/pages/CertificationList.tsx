@@ -11,10 +11,8 @@ import { CardListContainer } from '../styles/CardListContainer';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { useInView } from 'react-intersection-observer';
 import { Loading } from 'common/state/Loading';
-import { LoadingPage } from 'common/state/LoadingPage';
 import { EmptyData } from 'common/state/EmptyData';
 import { certificationUrl } from 'api/apiUrls';
-import { test } from 'api/test';
 import dayjs from 'dayjs';
 
 export function CertificationListPage() {
@@ -59,8 +57,6 @@ export function CertificationListPage() {
     if (inView) {
       addPostList();
     }
-
-    // test();
   }, [filter, inView]);
 
   useEffect(() => {

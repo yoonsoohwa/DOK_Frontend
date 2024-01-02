@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { MoreVert } from '@mui/icons-material';
-import { AlertError } from 'common/alert/AlertError';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'store/store';
 import { setMatchingPostEditId, setOpenDeleteAlert, setOpenEditAlert } from 'store/index';
@@ -44,10 +43,6 @@ export function EditMenu({ post, size }: EditMenuProps) {
   };
 
   const handleRemove = async () => {
-    // const res = await fetch(`${matchingFormUrl}/handler/${_id}`, { credentials: 'include' });
-    // const data = await res.json();
-    // console.log(data);
-
     dispatch(setOpenDeleteAlert(true));
     dispatch(setMatchingPostEditId(post._id));
   };

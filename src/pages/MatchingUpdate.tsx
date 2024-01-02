@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import { ChatOutlined, Info, AddBox, LocationOn, Event, AccessTime, MonetizationOnOutlined, Pets } from '@mui/icons-material';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -25,8 +24,9 @@ import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
 
 export function MatchingUpdatePage() {
-  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
-    useSelector((state: RootState) => state.matchingForm);
+  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
+    (state: RootState) => state.matchingForm,
+  );
   const [initData, setInitData] = useState({ dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect });
   const dispatch = useDispatch<AppDispatch>();
   const [isForbidden, setIsForbidden] = useState(false);
@@ -58,7 +58,6 @@ export function MatchingUpdatePage() {
       body: JSON.stringify(reqBody),
     });
     const data = await res.json();
-    console.log(data);
 
     nav('/matching');
   };
@@ -107,8 +106,7 @@ export function MatchingUpdatePage() {
       return setIsForbidden(true);
     }
 
-    const { _id, user, userDog, price, location, locationDetail, requestText, walkingDate, walkingDuration } = loc.state.post;
-    console.log(location);
+    const { userDog, price, locationDetail, requestText, walkingDate, walkingDuration } = loc.state.post;
 
     dispatch(setDogSelect(userDog));
     dispatch(setDateSelect(walkingDate));

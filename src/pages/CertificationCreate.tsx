@@ -7,7 +7,7 @@ import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { matchingFormUrl, matchingPostDetailUrl } from 'api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { MatchingPostType } from '../types/index';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';

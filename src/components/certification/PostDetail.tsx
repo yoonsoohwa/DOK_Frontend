@@ -1,13 +1,11 @@
 import { styled } from 'styled-components';
-import React, { Children, useEffect, useState } from 'react';
-import userImage from '/temp/뽀삐.png';
-import { Box, IconButton, MobileStepper, Rating, TextField } from '@mui/material';
-import { AccessTime, ChatOutlined, Clear, Edit, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
+import { Children, useEffect, useState } from 'react';
+import { Box, IconButton, MobileStepper } from '@mui/material';
+import { AccessTime, ChatOutlined, Clear, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import dayjs from 'dayjs';
-import { certificationUrl } from 'api/apiUrls';
 import { ReviewEdit } from './ReviewEdit';
 import { Review } from './Review';
 
@@ -34,7 +32,6 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   };
 
   useEffect(() => {
-    // 로그인한 사용자가 user라면 isEditable = true
     if (_user._id === matchingPost.user._id) {
       setIsEditable(true);
 

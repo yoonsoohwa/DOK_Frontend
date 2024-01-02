@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import mainTopImage from '/svg/main_header_image.svg';
 import logoImage from '/dok_logo.png';
 import { Pets } from '@mui/icons-material';

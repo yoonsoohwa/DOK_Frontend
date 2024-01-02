@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { styled } from 'styled-components';
 import defaultImg from '/svg/dog_default_white.svg';
 import Female from '/svg/gender_female.svg';
@@ -15,13 +15,6 @@ interface MainPetBoxProps {
 
 export function MainPetBox({ petData, className }: MainPetBoxProps) {
   const [petImg, setPetImg] = useState(true);
-  // useEffect(() => {
-  //   const arr = petData.dogImg.split('.');
-  //   const type = arr[arr.length - 1];
-  //   if (type !== 'jpg' && type !== 'jpeg' && type !== 'png') {
-  //     setPetImg(false);
-  //   }
-  // }, []);
 
   return (
     <Pet className={`pet-box ${className}`}>

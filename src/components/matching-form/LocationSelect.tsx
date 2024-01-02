@@ -1,10 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormLabel, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setLocation, setLocationDetail } from 'store/index';
 import styled from 'styled-components';
-import { LocationOn, Search } from '@mui/icons-material';
+import { LocationOn } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 
 const geocoder = new kakao.maps.services.Geocoder();
@@ -75,10 +75,7 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
   }, [position]);
 
   useEffect(() => {
-    // dispatch(setLocation(undefined));
-
     //사용자 위치 정보로 초기화
-    console.log(user.address);
     let userLocation = editLocation?.text || user.address.text;
 
     geocoder.addressSearch(userLocation, function (result, status) {

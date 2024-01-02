@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { MainInfo } from '../components/main/MainInfo';
 import { MainSection1 } from '../components/main/MainSection1';
 import { MainSection2 } from '../components/main/MainSection2';
@@ -14,7 +14,6 @@ export function MainPage() {
     (async () => {
       const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/main`);
       const data = await res.json();
-      console.log(data);
 
       const [mathingPostCount, dogs, matchingPosts, certificationPosts] = data;
 

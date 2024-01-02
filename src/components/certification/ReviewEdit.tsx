@@ -1,10 +1,8 @@
-import { Edit } from '@mui/icons-material';
-import { Button, IconButton, Rating, TextField } from '@mui/material';
+import { Button, Rating, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setCertificationDetail, setCertificationPostOne, setCertificationReview } from 'store/index';
+import { AppDispatch, RootState, setCertificationPostOne, setCertificationReview } from 'store/index';
 import styled from 'styled-components';
 import userImage from '/temp/뽀삐.png';
-import { ButtonMain } from 'common/button/ButtonMain';
 import { useState } from 'react';
 import { certificationUrl } from 'api/apiUrls';
 
@@ -14,7 +12,7 @@ interface ReviewEditProps {
 
 export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
   const { certificationDetailPost, certificationDetailPostIndex } = useSelector((state: RootState) => state.certification);
-  let { _id, user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
+  let { _id, matchingPost, review } = certificationDetailPost;
   const dispatch = useDispatch<AppDispatch>();
 
   const [rating, setRating] = useState(review.rating || 0);

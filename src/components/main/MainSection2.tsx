@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled } from 'styled-components';
 import { MatchingCard } from '../matching/Card';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export function MainSection2() {
   const { matchingPosts } = useSelector((state: RootState) => state.main);
