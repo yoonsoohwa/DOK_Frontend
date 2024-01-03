@@ -19,7 +19,7 @@ export function MatchingListPage() {
   const { filter } = useSelector((state: RootState) => state.filter);
 
   const [scrollRef, inView] = useInView();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
 
   const addMatchingCardList = async () => {
     // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청

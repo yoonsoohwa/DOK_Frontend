@@ -20,8 +20,8 @@ export function CertificationListPage() {
   const { certificationPosts, certificationPostsCount } = useSelector((state: RootState) => state.certification);
   const { filter } = useSelector((state: RootState) => state.filter);
 
-  const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [open, setOpen] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const [scrollRef, inView] = useInView({ threshold: 0.5 });
 
   const handleClose = () => {

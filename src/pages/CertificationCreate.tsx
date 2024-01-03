@@ -24,21 +24,21 @@ export function CertificationCreatePage() {
   // 인증 글 작성은 리덕스 사용 X
   // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
   const [matchingPost, setMatchingPost] = useState<MatchingPostType | undefined>();
-  const [postText, setPostText] = useState('');
-  const [errorPostText, setErrorPostText] = useState(true);
-  const [address, setAddress] = useState('');
-  const [errorAddress, setErrorAddress] = useState(true);
+  const [postText, setPostText] = useState<string>('');
+  const [errorPostText, setErrorPostText] = useState<boolean>(true);
+  const [address, setAddress] = useState<string>('');
+  const [errorAddress, setErrorAddress] = useState<boolean>(true);
   const [images, setImages] = useState<File[]>([]);
   const [imagesURL, setImagesURL] = useState<string[] | null>();
   const [errorImages, setErrorImages] = useState<boolean | string>('init');
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
-  const [openError, setOpenError] = useState(false);
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
-  const [isForbidden, setIsForbidden] = useState(false);
-  const [_isLoading, setIsLoading] = useState(false);
-  const [isNotFound, setIsNotFound] = useState(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [isForbidden, setIsForbidden] = useState<boolean>(false);
+  const [_isLoading, setIsLoading] = useState<boolean>(false);
+  const [isNotFound, setIsNotFound] = useState<boolean>(false);
 
   const nav = useNavigate();
   const loc = useLocation();

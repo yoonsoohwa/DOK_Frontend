@@ -21,6 +21,7 @@ import { matchingFormUrl } from 'api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
+import { MatchingPostType } from 'src/types';
 
 export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
@@ -28,11 +29,11 @@ export function MatchingCreatePage() {
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [initData, setInitData] = useState({ dateSelect, durationSelect, paySelect, locationSelect });
-  const [openError, setOpenError] = useState(false);
-  const [validateText, setValidateText] = useState('');
-  const [openDogError, setOpenDogError] = useState(false);
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [validateText, setValidateText] = useState<string>('');
+  const [openDogError, setOpenDogError] = useState<boolean>(false);
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {

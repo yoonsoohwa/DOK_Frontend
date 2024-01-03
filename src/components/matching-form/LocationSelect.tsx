@@ -19,10 +19,10 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
   const { locationSelect, locationDetailSelect } = useSelector((state: RootState) => state.matchingForm);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const [locationText, setLocationText] = useState('');
-  const [locationCode, setLocationCode] = useState('');
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
-  const [mapOpen, setMapOpen] = useState(false);
+  const [locationText, setLocationText] = useState<string>('');
+  const [locationCode, setLocationCode] = useState<string>('');
+  const [position, setPosition] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [mapOpen, setMapOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
     setMapOpen(true);

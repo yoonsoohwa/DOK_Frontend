@@ -29,11 +29,11 @@ export function MatchingUpdatePage() {
   );
   const [initData, setInitData] = useState({ dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect });
   const dispatch = useDispatch<AppDispatch>();
-  const [isForbidden, setIsForbidden] = useState(false);
-  const [openError, setOpenError] = useState(false);
-  const [validateText, setValidateText] = useState('');
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
+  const [isForbidden, setIsForbidden] = useState<boolean>(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [validateText, setValidateText] = useState<string>('');
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
   const nav = useNavigate();
   const loc = useLocation();
 

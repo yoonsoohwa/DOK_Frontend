@@ -15,9 +15,9 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
   let { _id, matchingPost, review } = certificationDetailPost;
   const dispatch = useDispatch<AppDispatch>();
 
-  const [rating, setRating] = useState(review.rating || 0);
-  const [text, setText] = useState(review.reviewText || '');
-  const [errorText, setErrorText] = useState(false);
+  const [rating, setRating] = useState<number>(review.rating || 0);
+  const [text, setText] = useState<string>(review.reviewText || '');
+  const [errorText, setErrorText] = useState<boolean>(false);
 
   const handleChangeRating = (e: React.SyntheticEvent<Element, Event>, newValue: number | null) => {
     setRating(Number(newValue));

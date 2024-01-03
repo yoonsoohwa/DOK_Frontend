@@ -18,9 +18,9 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
   let { user, matchingPost, certificationImg, postText, sublocation, review, createdAt } = certificationDetailPost;
 
-  const [isEditable, setIsEditable] = useState(false); //default false
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [isEditable, setIsEditable] = useState<boolean>(false); //default false
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [currentImgIndex, setCurrentImgIndex] = useState<number>(0);
   const maxSteps = certificationImg.length;
 
   const handleNext = () => {
