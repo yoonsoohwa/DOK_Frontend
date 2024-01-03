@@ -59,8 +59,6 @@ export function CertificationListPage() {
     if (inView) {
       addPostList();
     }
-
-    // test();
   }, [filter, inView]);
 
   useEffect(() => {

@@ -12,7 +12,6 @@ export function Login() {
   const [userId, setUserId] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isAlertSnackbar, setIsAlertSnackbar] = useState<boolean>(false);
-  // dispatch써야 user 수정가능
   const dispatch = useDispatch<AppDispatch>();
   const { user, dog } = useSelector((state: RootState) => state.user);
   const nav = useNavigate();
@@ -29,20 +28,12 @@ export function Login() {
       }),
       credentials: 'include',
     });
-    // .then(response => response.json())
-    // .then(data => {
-    //   // action준거를 수정하는거라 setUser로 받아야함
-    //   dispatch(setUser(data));
-    // });
 
-    const data = await login.json();
-    console.log(login.status);
-    console.log(data);
+    const data = await login.json();    
     
     if (login.status === 201) {
       dispatch(setUser(data));
       nav('/');
-
     } else {
         setIsAlertSnackbar(true);
 
@@ -60,8 +51,6 @@ export function Login() {
             placeholder="아이디를 작성해주세요"
             defaultValue={userId}
             onChange={(e) => setUserId(e.target.value)}
-            // defaultValue=""
-            // helperText="Some important text"
             sx={{ margin: '5% 0 2% 0' }}
           />
           <TextField
@@ -70,16 +59,14 @@ export function Login() {
             placeholder="비밀번호를 작성해주세요"
             defaultValue={password}
             onChange={(e) => setPassword(e.target.value)}
-            // defaultValue=""
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                handleLogin(); // 엔터 키를 눌렀을 때 handleLogin 호출
+                handleLogin();
               }
             }}
             sx={{ margin: '0 0 5% 0' }}
           />
           <div>
-            {/* {user.nickname} */}
             <ButtonMain text="로그인" onClick={handleLogin} fill={true} />
           </div>
           <div>
@@ -96,7 +83,6 @@ const MainFrame = styled.div`
   display: flex;
   flex-direction: column;
   align-self: center;
-  /* text-align: center; */
   justify-self: center;
   margin: 10% auto;
   width: 600px;

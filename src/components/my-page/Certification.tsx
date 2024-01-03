@@ -2,8 +2,6 @@ import { styled } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, addCertificationPosts, resetCertificationPosts, setCertificationPostsCount } from 'store/index';
 import { Children, useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { ListPageTopBar } from 'common/list-page/ListPageTopBar';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
 import { CertificationPostDetail } from '../certification/PostDetail';

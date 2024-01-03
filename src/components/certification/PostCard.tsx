@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setCertificationDetail, setCertificationDetailIndex } from '../../store';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
-import { EditMenu } from 'common/user/EditMenu';
 import { useNavigate } from 'react-router';
 import notfoundimg from '/svg/notfoundimage.svg';
 

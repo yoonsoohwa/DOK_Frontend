@@ -40,6 +40,14 @@ export const MemberHeader = () => {
             <img src={header_logo} />
           </Link>
           <CatagoryDiv>
+            {/* 240102 */}
+            <div>
+              <StyledLink to={'/userinfo'}>
+                유저마이페이지
+                {pathname === '/userinfo' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
+              </StyledLink>
+            </div>
+            {/* 240102 */}
             <div>
               <StyledLink to={'/matching'}>
                 매칭
@@ -54,7 +62,7 @@ export const MemberHeader = () => {
             </div>
             {user._id && (
               <div>
-                <StyledLink to={'/mypage'}>
+                <StyledLink to={'/mypage'}>                
                   마이페이지
                   {pathname === '/mypage' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
                 </StyledLink>
