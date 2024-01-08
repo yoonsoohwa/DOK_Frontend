@@ -11,6 +11,7 @@ type matchingType = {
   selectedHandler: RequestHandlerType | null;
   matchingComments: MatchingCommentType[];
   matchingPostEditId: string;
+  isOpenCommentInput: { [key: string]: boolean };
 };
 
 const initialState: matchingType = {
@@ -21,6 +22,7 @@ const initialState: matchingType = {
   selectedHandler: null,
   matchingComments: [],
   matchingPostEditId: '',
+  isOpenCommentInput: {},
 };
 
 const matchingSlice = createSlice({
@@ -67,6 +69,15 @@ const matchingSlice = createSlice({
       const commentIdx = state.matchingComments.findIndex((comment) => comment._id === commentId);
       state.matchingComments.splice(commentIdx, 1, commentData);
     },
+    setIsOpenCommentInput: (state, action) => {
+      state.isOpenCommentInput[action.payload] = false;
+    },
+    toggleIsOpenCommentInput: (state, action) => {
+      state.isOpenCommentInput[action.payload] = !state.isOpenCommentInput[action.payload];
+    },
+    deleteIsOpenCommentInput: (state, action) => {
+      delete state.isOpenCommentInput[action.payload];
+    },
   },
 });
 
@@ -83,5 +94,8 @@ export const {
   deleteMatchingComment,
   setMatchingPostEditId,
   updateMatchingComment,
+  setIsOpenCommentInput,
+  toggleIsOpenCommentInput,
+  deleteIsOpenCommentInput,
 } = matchingSlice.actions;
 export default matchingSlice;

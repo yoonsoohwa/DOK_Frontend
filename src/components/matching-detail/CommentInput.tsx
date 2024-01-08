@@ -20,14 +20,7 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [text, setText] = useState(editText || '');
-  const inputRef = useRef<HTMLInputElement>(null);
   const isLogined = user._id !== '';
-
-  useEffect(() => {
-    if (commentType === 'reply' && inputRef.current !== null) {
-      inputRef.current.focus();
-    }
-  }, [commentType, inputRef]);
 
   const onClickHandler = () => {
     addComment();
@@ -43,6 +36,10 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
     if (!isLogined) {
       dispatch(setOpenAlertLogin(true));
       return;
+    }
+
+    if(text === '') {
+        return;
     }
 
     if (!editText) {
@@ -95,7 +92,6 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
       <Input
         placeholder="댓글 추가"
         value={text}
-        inputRef={inputRef}
         sx={{ width: '100%' }}
         autoFocus={Boolean(editText)}
         onChange={onChangeHandler}
