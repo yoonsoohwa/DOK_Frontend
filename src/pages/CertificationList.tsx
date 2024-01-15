@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import * as styled from './CertificationList.styled';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
 import { CertifiBanner } from '../components/certification/Banner';
 import { Children, useEffect, useState } from 'react';
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, addCertificationPosts, resetCertificationPosts, setCertificationPostsCount, setFilter } from '../store';
 import { CertifiPostCard } from '../components/certification/PostCard';
 import { CertificationPostDetail } from '../components/certification/PostDetail';
-import { Dialog } from '@mui/material';
 import { CardListContainer } from '../styles/CardListContainer';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { useInView } from 'react-intersection-observer';
@@ -64,9 +63,9 @@ export function CertificationListPage() {
   }, []);
 
   return (
-    <CertificationList>
+    <styled.CertificationList>
       <CertifiBanner />
-      <Section>
+      <styled.Section>
         <ListPageTopBar yellow={certificationPostsCount?.toString() || '0'} black="개의 산책 인증이 있습니다." />
         {!certificationPostsCount ? (
           certificationPostsCount === undefined ? (
@@ -77,37 +76,14 @@ export function CertificationListPage() {
         ) : (
           <CardListContainer>
             {Children.toArray(certificationPosts.map((post, index) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} index={index} />))}
-            <MyDialog onClose={handleClose} open={open} maxWidth={false}>
+            <styled.MyDialog onClose={handleClose} open={open} maxWidth={false}>
               <CertificationPostDetail handleClose={handleClose} />
-            </MyDialog>
+            </styled.MyDialog>
           </CardListContainer>
         )}
-      </Section>
+      </styled.Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <ScrollToTopButton />
-    </CertificationList>
+    </styled.CertificationList>
   );
 }
-
-const CertificationList = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  position: relative;
-
-  .scroll-ref {
-    height: 1px;
-    position: relative;
-    bottom: 100px;
-  }
-`;
-
-export const Section = styled.div`
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-`;
-
-const MyDialog = styled(Dialog)`
-  max-width: none;
-  margin: 0 auto;
-`;

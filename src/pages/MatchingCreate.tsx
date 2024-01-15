@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
+import * as styled from './MatchingForm.styled';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -21,7 +21,6 @@ import { matchingFormUrl } from 'api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
-import { MatchingPostType } from 'src/types';
 
 export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
@@ -122,7 +121,7 @@ export function MatchingCreatePage() {
   }, []);
 
   return (
-    <CertifiCreate>
+    <styled.CertifiCreate>
       {!_user._id && <AlertLogin isBack={true} />}
       <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
       <AlertSuccess
@@ -150,75 +149,39 @@ export function MatchingCreatePage() {
       <div className="body">
         <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleOpenSubmit} onReset={handleOpenCancle}>
           <PostCreateGroup title="Pet">
-            <Contents>
+            <styled.Contents>
               <DogSelect />
-            </Contents>
+            </styled.Contents>
           </PostCreateGroup>
 
           <PostCreateGroup title="Infomation">
             <div className="flex">
               <div className="half">
-                <Contents>
+                <styled.Contents>
                   <DateSelect />
-                </Contents>
-                <Contents>
+                </styled.Contents>
+                <styled.Contents>
                   <DurationSelect />
-                </Contents>
+                </styled.Contents>
               </div>
               <div className="half">
-                <Contents>
+                <styled.Contents>
                   <PaySelect />
-                </Contents>
-                <Contents>
+                </styled.Contents>
+                <styled.Contents>
                   <LocationSelect />
-                </Contents>
+                </styled.Contents>
               </div>
             </div>
           </PostCreateGroup>
 
           <PostCreateGroup title="Addition">
-            <Contents>
+            <styled.Contents>
               <RequestTextField />
-            </Contents>
+            </styled.Contents>
           </PostCreateGroup>
         </PostCreateFormLayout>
       </div>
-    </CertifiCreate>
+    </styled.CertifiCreate>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 40px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: auto;
-    margin-right: 4px;
-  }
-`;

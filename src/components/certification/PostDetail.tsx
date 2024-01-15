@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import * as styled from './PostDetail.styled';
 import { Children, useEffect, useState } from 'react';
 import { Box, IconButton, MobileStepper } from '@mui/material';
 import { AccessTime, ChatOutlined, Clear, KeyboardArrowLeft, KeyboardArrowRight, LocationOn } from '@mui/icons-material';
@@ -43,11 +43,11 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   }, []);
 
   return (
-    <DetailBox className="certifiDetail">
+    <styled.DetailBox className="certifiDetail">
       <IconButton className="close" onClick={handleClose}>
         <Clear />
       </IconButton>
-      <Left className="detail-left">
+      <styled.Left className="detail-left">
         <div className="image-box" style={{ width: `${maxSteps * 100}%` }}>
           {Children.toArray(
             certificationImg.map((step) => (
@@ -73,26 +73,26 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
           position="static"
           activeStep={currentImgIndex}
           nextButton={
-            <SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
+            <styled.SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
               <KeyboardArrowRight />
-            </SlideIconButton>
+            </styled.SlideIconButton>
           }
           backButton={
-            <SlideIconButton onClick={handleBack} disabled={currentImgIndex === 0 || maxSteps === 0}>
+            <styled.SlideIconButton onClick={handleBack} disabled={currentImgIndex === 0 || maxSteps === 0}>
               <KeyboardArrowLeft />
-            </SlideIconButton>
+            </styled.SlideIconButton>
           }
           sx={{ background: 'none', width: '100%', height: '100%', alignSelf: 'end' }}
         />
-      </Left>
+      </styled.Left>
 
-      <Right className="custom-scrollbar">
+      <styled.Right className="custom-scrollbar">
         <div>
-          <Top>
+          <styled.Top>
             <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} />
-          </Top>
+          </styled.Top>
 
-          <Contents>
+          <styled.Contents>
             <div>
               <img className="icon" src="/svg/card_dog_icon.svg" />
               <div className="title">강아지</div>
@@ -117,165 +117,10 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
               <div className="title">인증 내용</div>
             </div>
             <div className="text detail">{postText}</div>
-          </Contents>
+          </styled.Contents>
         </div>
         {isEditing ? <ReviewEdit setIsEditing={setIsEditing} /> : review.rating !== 0 && <Review isEditable={isEditable} setIsEditing={setIsEditing} />}
-      </Right>
-    </DetailBox>
+      </styled.Right>
+    </styled.DetailBox>
   );
 }
-
-const DetailBox = styled.div`
-  width: 80vw;
-  max-width: 180vh;
-  height: calc(100vh - 100px);
-  display: flex;
-  position: relative;
-
-  &.hidden {
-    display: none;
-  }
-
-  .close {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    z-index: 10;
-  }
-
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
-
-    > div {
-      width: 100%;
-    }
-  }
-`;
-
-const Left = styled.div`
-  width: 45%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  background-color: #f4f4f4;
-  display: flex;
-  align-items: end;
-
-  .image-box {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-
-  .image {
-    float: left;
-    height: 100%;
-    transition: all 0.4s ease-in-out;
-  }
-
-  .MuiMobileStepper {
-    &-dots {
-      align-self: end;
-      z-index: 999;
-    }
-    &-dot {
-      width: 0.6em;
-      height: 0.6em;
-      margin: 0 4px;
-    }
-    &-dotActive {
-      background-color: ${({ theme }) => theme.main};
-    }
-  }
-`;
-
-const SlideIconButton = styled(IconButton)`
-  svg {
-    width: 1.5em;
-    height: 1.5em;
-    background-color: ${({ theme }) => theme.main};
-    opacity: 70%;
-    border-radius: 50%;
-  }
-  &.Mui-disabled svg {
-    background-color: ${({ theme }) => theme.main2};
-    opacity: 60%;
-  }
-`;
-
-const Right = styled.div`
-  width: 55%;
-  height: 100%;
-  overflow-y: auto;
-  position: relative;
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const Top = styled.div`
-  margin: 30px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: calc(100% - 40px);
-`;
-
-const Contents = styled.div`
-  font-size: 16px;
-  margin: 0 30px 40px;
-  line-height: 26px;
-  font-weight: 500;
-  box-sizing: border-box;
-
-  > div {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 20px 0;
-    box-sizing: border-box;
-
-    .icon {
-      width: 28px;
-      height: 28px;
-      margin-right: 6px;
-      color: #3e3e3e;
-    }
-
-    .title {
-      width: 80px;
-      margin-right: 24px;
-      color: #6b6b6b;
-    }
-  }
-
-  .detail {
-    width: 100%;
-    margin: 6px 0 0;
-    padding: 30px 26px;
-    box-sizing: border-box;
-    line-height: 170%;
-
-    font-weight: 400;
-    font-family: sans-serif;
-
-    position: relative;
-    background: linear-gradient(-135deg, transparent 1.3em, #eff5f8 0);
-
-    border-radius: 0.5em;
-  }
-
-  .detail::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    width: 0;
-    height: 0;
-    border-bottom: 30px solid #d5e5f0;
-    border-right: 30px solid transparent;
-    box-shadow: -0.2em 0.2em 0.3em -0.1em rgba(0, 0, 0, 0.15);
-  }
-`;

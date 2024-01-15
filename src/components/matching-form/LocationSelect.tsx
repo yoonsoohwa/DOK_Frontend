@@ -1,15 +1,13 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormLabel, TextField } from '@mui/material';
+import * as styled from './LocationSelect.styled';
+import { Button, Dialog, DialogActions, FormLabel, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setLocation, setLocationDetail } from 'store/index';
-import styled from 'styled-components';
 import { LocationOn } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 
 const geocoder = new kakao.maps.services.Geocoder();
-// 키워드 검색
-// const ps = new kakao.maps.services.Places();
 
 interface LocationSelectProps {
   editLocation?: { text: string; code: string };
@@ -45,19 +43,6 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
       if (status === kakao.maps.services.Status.OK && res[0]) {
         var addr = res[0].road_address?.address_name || res[0].address.address_name;
         setLocationText(addr);
-        /*
-        검색 기능(추가기능) 구현 시 필요한 부분
-
-        dispatch(setLocation(addr));
-
-        마커를 클릭한 위치에 표시
-        marker.setPosition(mouseEvent.latLng);
-        marker.setMap(map);
-
-        인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보 표시
-        infowindow.setContent(content);
-        infowindow.open(map, marker);
-         */
       }
     });
 
@@ -106,7 +91,7 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
   }, [user]);
 
   return (
-    <LocationLayout>
+    <styled.LocationLayout>
       <FormLabel component="legend">
         <LocationOn className="icon" />
         만남 위치
@@ -126,8 +111,8 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
       />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
-        <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>
-        <DialogContentBox dividers>
+        <styled.DialogTitleBox>만남 장소를 선택해주세요</styled.DialogTitleBox>
+        <styled.DialogContentBox dividers>
           <div className="location-text">
             <LocationOn className="icon" color="primary" />
             <span>{locationText}</span>
@@ -169,41 +154,8 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
               확인
             </Button>
           </DialogActions>
-        </DialogContentBox>
+        </styled.DialogContentBox>
       </Dialog>
-    </LocationLayout>
+    </styled.LocationLayout>
   );
 }
-
-const LocationLayout = styled.div`
-  .flex {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .location-text {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const DialogTitleBox = styled(DialogTitle)`
-  /* background-color: ${({ theme }) => theme.sub}; */
-  color: #5e5e5e;
-`;
-
-const DialogContentBox = styled(DialogContent)`
-  .location-text {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    font-size: 28px;
-    font-weight: 500;
-    margin: 10px 0 30px;
-
-    .icon {
-      width: inherit;
-      height: inherit;
-    }
-  }
-`;

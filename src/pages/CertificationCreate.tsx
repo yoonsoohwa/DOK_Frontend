@@ -1,5 +1,5 @@
 import React, { Children, useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+import * as styled from './CertificationCreate.styled';
 import { PostCreateFormLayout } from '../components/common/create-page/PostCreateFormLayout';
 import { AddPhotoAlternateOutlined, ChatOutlined, Close, LocationOn, Pets } from '@mui/icons-material';
 import { FormLabel, IconButton, TextField } from '@mui/material';
@@ -187,7 +187,7 @@ export function CertificationCreatePage() {
       ) : isForbidden ? (
         <Forbidden />
       ) : (
-        <CertifiCreate>
+        <styled.CertifiCreate>
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
           <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={addPost} title="글을 작성하시겠습니까?" desc={``} />
           <AlertError
@@ -200,18 +200,18 @@ export function CertificationCreatePage() {
           <div className="body">
             <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleOpenCancle} title="인증 등록하기">
               <PostCreateGroup title="Link">
-                <Contents>
+                <styled.Contents>
                   <Pets className="icon" />
                   <Link to={`/matching/${matchingPost?._id}`}>
                     {`${matchingPost?.userDog.dogName} | ${matchingPost?.walkingDate && dateTimeFormat(matchingPost.walkingDate, 'date')} | ${
                       matchingPost?.walkingDate && durationTimeFormat(matchingPost?.walkingDuration)
                     }`}
                   </Link>
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
 
               <PostCreateGroup title="Contents">
-                <Contents>
+                <styled.Contents>
                   <FormLabel component="legend">
                     <LocationOn className="icon" />
                     산책 장소
@@ -225,9 +225,9 @@ export function CertificationCreatePage() {
                     helperText={isSubmit && errorAddress && '5글자 이상 작성해주세요.'}
                     fullWidth
                   />
-                </Contents>
+                </styled.Contents>
 
-                <Contents>
+                <styled.Contents>
                   <FormLabel component="legend">
                     <ChatOutlined className="icon" />
                     인증 내용
@@ -242,9 +242,9 @@ export function CertificationCreatePage() {
                     rows={4}
                     fullWidth
                   />
-                </Contents>
+                </styled.Contents>
 
-                <Contents className="file-input ">
+                <styled.Contents className="file-input ">
                   <FormLabel component="legend">
                     <AddPhotoAlternateOutlined className="icon" />
                     사진
@@ -285,134 +285,12 @@ export function CertificationCreatePage() {
                       )}
                     </div>
                   )}
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
             </PostCreateFormLayout>
           </div>
-        </CertifiCreate>
+        </styled.CertifiCreate>
       )}
     </>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-
-  .preview {
-    height: 200px;
-    margin: 20px 0 40px;
-    overflow: auto;
-
-    .preview-image {
-      height: calc(100% - 8px);
-      padding: 4px 6px;
-      position: relative;
-
-      img {
-        height: 99%;
-        box-shadow: 1px 1px 5px #00000030;
-      }
-
-      .icon {
-        position: absolute;
-        top: 8px;
-        right: 6px;
-        color: #fff;
-      }
-    }
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 36px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: 18px;
-    margin-right: 4px;
-  }
-
-  &.file-input {
-    margin-bottom: 40px;
-    display: block;
-
-    > div {
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .pointer {
-      color: rgba(0, 0, 0, 0.23);
-    }
-
-    label {
-      min-width: 300px;
-      border: solid 1px rgba(0, 0, 0, 0.23);
-      border-radius: 4px;
-      padding: 8.5px 14px;
-      justify-content: space-between;
-
-      font-size: 1rem;
-      line-height: 1.4375em;
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-
-      span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-right: 4px;
-      }
-
-      &.error {
-        border-color: #d32f2f;
-      }
-    }
-
-    input#photo {
-      display: none;
-    }
-  }
-
-  .helper-text {
-    color: #959595;
-    font-family: Noto Sans KR;
-    font-weight: 400;
-    font-size: 0.75rem;
-    line-height: 1.66;
-    text-align: left;
-    margin-top: 3px;
-    margin-right: 14px;
-    margin-bottom: 0;
-    margin-left: 14px;
-    &.error {
-      color: #d32f2f;
-    }
-  }
-
-  a:hover {
-    color: ${({ theme }) => theme.sub};
-  }
-`;

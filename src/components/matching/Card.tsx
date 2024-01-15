@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { LocationOn, AccessTime } from '@mui/icons-material';
-import { CardContainer } from '../certification/PostCard';
+import { CardContainer } from '../certification/PostCard.styled';
 import { MatchingPostType } from '../../types';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import durationTimeFormat from '../../utils/durationTimeFormat';

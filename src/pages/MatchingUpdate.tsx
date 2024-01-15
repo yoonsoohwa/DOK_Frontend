@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+import * as styled from './MatchingForm.styled';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -125,7 +125,7 @@ export function MatchingUpdatePage() {
       {isForbidden ? (
         <Forbidden />
       ) : (
-        <CertifiCreate>
+        <styled.CertifiCreate>
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
           <AlertSuccess
             open={openSubmit}
@@ -141,77 +141,41 @@ export function MatchingUpdatePage() {
           <div className="body">
             <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleSubmit} onReset={handleOpenCancle}>
               <PostCreateGroup title="Pet">
-                <Contents>
+                <styled.Contents>
                   <DogSelect isUpdate={true} />
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
 
               <PostCreateGroup title="Infomation">
                 <div className="flex">
                   <div className="half">
-                    <Contents>
+                    <styled.Contents>
                       <DateSelect />
-                    </Contents>
-                    <Contents>
+                    </styled.Contents>
+                    <styled.Contents>
                       <DurationSelect />
-                    </Contents>
+                    </styled.Contents>
                   </div>
                   <div className="half">
-                    <Contents>
+                    <styled.Contents>
                       <PaySelect />
-                    </Contents>
-                    <Contents>
+                    </styled.Contents>
+                    <styled.Contents>
                       <LocationSelect editLocation={{ text: loc.state.post.location.text, code: loc.state.post.location.code }} />
-                    </Contents>
+                    </styled.Contents>
                   </div>
                 </div>
               </PostCreateGroup>
 
               <PostCreateGroup title="Addition">
-                <Contents>
+                <styled.Contents>
                   <RequestTextField isUpdate={true} />
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
             </PostCreateFormLayout>
           </div>
-        </CertifiCreate>
+        </styled.CertifiCreate>
       )}
     </>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 40px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: auto;
-    margin-right: 4px;
-  }
-`;
