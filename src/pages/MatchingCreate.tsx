@@ -64,7 +64,7 @@ export function MatchingCreatePage() {
     navigate('/matching');
   };
 
-  const handleOpenSubmit = () => {
+  const handleClickSubmit = () => {
     if (errorDogSelect) {
       setValidateText('강아지를 선택해주세요.');
       return setOpenError(true);
@@ -84,7 +84,7 @@ export function MatchingCreatePage() {
     setOpenSubmit(true);
   };
 
-  const handleOpenCancle = () => {
+  const handleClickCancle = () => {
     if (
       dogSelect ||
       dateSelect !== initData.dateSelect ||
@@ -99,6 +99,7 @@ export function MatchingCreatePage() {
     handleCancle();
   };
 
+  // 마이페이지 이동하기 버튼 클릭 이벤트
   const handleGoToMypage = () => {
     navigate('/mypage');
   };
@@ -147,7 +148,7 @@ export function MatchingCreatePage() {
       />
 
       <div className="body">
-        <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleOpenSubmit} onReset={handleOpenCancle}>
+        <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleClickSubmit} onReset={handleClickCancle}>
           <PostCreateGroup title="Pet">
             <styled.Contents>
               <DogSelect />

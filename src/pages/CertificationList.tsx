@@ -23,11 +23,19 @@ export function CertificationListPage() {
   const [page, setPage] = useState<number>(1);
   const [scrollRef, inView] = useInView({ threshold: 0.5 });
 
+  // 디테일 모달 열기
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  // 디테일 모달 닫기
   const handleClose = () => {
     setOpen(false);
   };
 
+  // 인증 글 데이터 불러오기
   const addPostList = async () => {
+    // 모든 데이터를 다 불러왔을 경우 리턴
     if (certificationPostsCount && certificationPostsCount <= certificationPosts.length) {
       return;
     }
@@ -51,6 +59,7 @@ export function CertificationListPage() {
     setPage(_page + 1);
   };
 
+  // 무한 스크롤 감지
   useEffect(() => {
     if (inView) {
       addPostList();
@@ -75,7 +84,7 @@ export function CertificationListPage() {
           )
         ) : (
           <CardListContainer>
-            {Children.toArray(certificationPosts.map((post, index) => <CertifiPostCard contents={post} onClick={() => setOpen(true)} index={index} />))}
+            {Children.toArray(certificationPosts.map((post, index) => <CertifiPostCard contents={post} onClick={handleOpen} index={index} />))}
             <styled.MyDialog onClose={handleClose} open={open} maxWidth={false}>
               <CertificationPostDetail handleClose={handleClose} />
             </styled.MyDialog>

@@ -23,18 +23,24 @@ export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
     dispatch(setErrorDogSelect(false));
   };
 
+  // 로그인 한 유저의 강아지 정보 가져오기
+  const getUserDog = async () => {
+    const res = await fetch(`${userUrl}/myDog`, { credentials: 'include' });
+    const data = await res.json();
+    if (res.ok) {
+      setDogs(data);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`${userUrl}/myDog`, { credentials: 'include' });
-      const data = await res.json();
-      if (res.ok) {
-        setDogs(data);
-      }
-    })();
+    getUserDog();
+
+    // 수정 페이지일 때
     if (isUpdate) {
       dispatch(setErrorDogSelect(false));
       return;
     }
+
     dispatch(setDogSelect(undefined));
     dispatch(setErrorDogSelect(true));
   }, []);

@@ -22,7 +22,7 @@ export function CertificationCreatePage() {
   const { user } = useSelector((state: RootState) => state.user);
   const { isLoading } = useSelector((state: RootState) => state.alert);
   // 인증 글 작성은 리덕스 사용 X
-  // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
+  // -> useState 사용(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
   const [matchingPost, setMatchingPost] = useState<MatchingPostType | undefined>();
   const [postText, setPostText] = useState<string>('');
   const [errorPostText, setErrorPostText] = useState<boolean>(true);
@@ -43,6 +43,7 @@ export function CertificationCreatePage() {
   const nav = useNavigate();
   const loc = useLocation();
 
+  // 이미지 선택 시 상태 변경
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0] || (images?.length || 0) + e.target.files.length > 6) {
       setErrorImages(true);
@@ -68,6 +69,7 @@ export function CertificationCreatePage() {
     setErrorImages(false);
   };
 
+  // 선택한 이미지 하나씩 삭제하는 기능
   const handleRemoveImage = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const idx = Number(e.currentTarget.id);
     setErrorImages(false);
@@ -117,7 +119,8 @@ export function CertificationCreatePage() {
     }
   };
 
-  const addPost = async () => {
+  // 인증 글 생성
+  const handleSubmit = async () => {
     const reqBody = {
       sublocation: address.trim(),
       postText: postText.trim(),
@@ -137,7 +140,7 @@ export function CertificationCreatePage() {
     nav('/certification');
   };
 
-  const handleSubmit = () => {
+  const handleClickSubmit = () => {
     setIsSubmit(true);
     if (errorPostText || errorAddress || errorImages) {
       return setOpenError(true);
@@ -145,7 +148,7 @@ export function CertificationCreatePage() {
     setOpenSubmit(true);
   };
 
-  const handleOpenCancle = () => {
+  const handleClickCancle = () => {
     if (postText || address || images.length) {
       return setOpenCancle(true);
     }
@@ -157,6 +160,7 @@ export function CertificationCreatePage() {
     const pathArr = loc.pathname.split('/');
     const postId = pathArr[pathArr.length - 1];
 
+    // 해당 인증에 대한 매칭 글이 있는지 확인
     (async () => {
       const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
       const data = await res.json();
@@ -170,6 +174,7 @@ export function CertificationCreatePage() {
     })();
   }, []);
 
+  // 로그인 및 접근 권환 확인
   useEffect(() => {
     if (matchingPost?.matchingHandler !== user._id) {
       setIsForbidden(true);
@@ -189,7 +194,7 @@ export function CertificationCreatePage() {
       ) : (
         <styled.CertifiCreate>
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
-          <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={addPost} title="글을 작성하시겠습니까?" desc={``} />
+          <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={handleSubmit} title="글을 작성하시겠습니까?" desc={``} />
           <AlertError
             open={openCancle}
             onClose={() => setOpenCancle(false)}
@@ -198,7 +203,7 @@ export function CertificationCreatePage() {
             desc="작성한 내용은 저장되지 않습니다."
           />
           <div className="body">
-            <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleOpenCancle} title="인증 등록하기">
+            <PostCreateFormLayout onSubmit={handleClickSubmit} onReset={handleClickCancle} title="인증 등록하기">
               <PostCreateGroup title="Link">
                 <styled.Contents>
                   <Pets className="icon" />

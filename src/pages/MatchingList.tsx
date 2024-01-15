@@ -21,8 +21,9 @@ export function MatchingListPage() {
   const [scrollRef, inView] = useInView();
   const [page, setPage] = useState<number>(1);
 
+  // 매칭 글 데이터 불러오기
   const addMatchingCardList = async () => {
-    // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
+    // 모든 데이터를 다 불러왔을 경우 리턴
     if (matchingPostsCount && matchingPostsCount <= matchingPosts.length) {
       return;
     }
@@ -46,6 +47,7 @@ export function MatchingListPage() {
     setPage(_page + 1);
   };
 
+  // 무한 스크롤 감지
   useEffect(() => {
     if (inView) {
       addMatchingCardList();

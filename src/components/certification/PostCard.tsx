@@ -20,6 +20,7 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
 
+  // 상세 페이지 오픈
   const handleOpenDetail = (e: React.MouseEvent) => {
     dispatch(setCertificationDetail(contents));
     dispatch(setCertificationDetailIndex(index));

@@ -19,10 +19,12 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
   const [text, setText] = useState<string>(review.reviewText || '');
   const [errorText, setErrorText] = useState<boolean>(false);
 
+  // 별점 변경 이벤트
   const handleChangeRating = (e: React.SyntheticEvent<Element, Event>, newValue: number | null) => {
     setRating(Number(newValue));
   };
 
+  // 리뷰 글(내용) 변경 이벤트
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
@@ -37,6 +39,7 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
     setText(value);
   };
 
+  // 리뷰 변경사항 저장
   const handleSubmit = async () => {
     if (text.trim().length < 5) {
       return setErrorText(true);

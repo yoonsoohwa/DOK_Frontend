@@ -15,9 +15,11 @@ export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps)
   const [userImage, setUserImage] = useState(userImg);
 
   useEffect(() => {
+    // 이미지 데이터가 정상인지 확인
     const arr = userImg?.split('.');
     const type = arr?.[arr.length - 1];
     if (type !== 'jpg' && type !== 'jpeg' && type !== 'png' && type !== 'svg') {
+      // 정상적인 데이터가 아니면 기본 이미지로 변경
       setUserImage(defaultImg);
     }
   }, []);

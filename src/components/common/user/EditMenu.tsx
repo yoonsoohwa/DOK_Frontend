@@ -23,24 +23,32 @@ export function EditMenu({ post, size }: EditMenuProps) {
     dispatch(setMatchingPostEditId(post._id));
   };
 
+  // 메뉴 오픈
   const handleOpen = (e: React.MouseEvent) => {
     setOpen(true);
   };
 
+  // 메뉴 닫기
   const handleClose = (e: React.MouseEvent) => {
     setOpen(false);
   };
 
-  const handleEdit = async () => {
+  // 수정하기 버튼 클릭
+  const handleClickEditButton = async () => {
+    // 해당 글에 핸들러 지원자가 있는지 확인
     const res = await fetch(`${matchingPostDetailUrl}/handler/${post._id}`, { credentials: 'include' });
     const data = await res.json();
+
     if (data.length) {
+      // 지원자가 있다면 수정 불가 경고창 띄우기
       return dispatch(setOpenEditAlert(true));
     }
+
     navigate(`/matching/write/${post._id}`, { state: { post } });
   };
 
-  const handleRemove = async () => {
+  // 삭제하기 버튼 클릭
+  const handleClickRemoveButton = async () => {
     dispatch(setOpenDeleteAlert(true));
     dispatch(setMatchingPostEditId(post._id));
   };
@@ -51,8 +59,8 @@ export function EditMenu({ post, size }: EditMenuProps) {
         <MoreVert className="icon pointer" onClick={handleOpen} />
         {open && (
           <ul className="menu pointer">
-            <li onClick={handleEdit}>수정하기</li>
-            {handleRemove && <li onClick={handleRemove}>삭제하기</li>}
+            <li onClick={handleClickEditButton}>수정하기</li>
+            {handleClickRemoveButton && <li onClick={handleClickRemoveButton}>삭제하기</li>}
           </ul>
         )}
       </styled.IconBox>

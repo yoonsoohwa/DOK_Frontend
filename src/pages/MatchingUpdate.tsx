@@ -37,7 +37,8 @@ export function MatchingUpdatePage() {
   const nav = useNavigate();
   const loc = useLocation();
 
-  const updatePost = async () => {
+  // 매칭 글 업데이트
+  const handleSubmit = async () => {
     const reqBody = {
       userDog: dogSelect?._id,
       price: paySelect,
@@ -62,7 +63,7 @@ export function MatchingUpdatePage() {
     nav('/matching');
   };
 
-  const handleSubmit = () => {
+  const handleClickSubmit = () => {
     if (errorDogSelect) {
       setValidateText('강아지를 선택해주세요.');
       return setOpenError(true);
@@ -86,7 +87,7 @@ export function MatchingUpdatePage() {
     nav('/matching');
   };
 
-  const handleOpenCancle = () => {
+  const handleClickCancle = () => {
     if (
       dogSelect?._id !== initData.dogSelect?._id ||
       dateSelect !== initData.dateSelect ||
@@ -130,7 +131,7 @@ export function MatchingUpdatePage() {
           <AlertSuccess
             open={openSubmit}
             onClose={() => setOpenSubmit(false)}
-            onClick={updatePost}
+            onClick={handleSubmit}
             title="글을 수정하시겠습니까?"
             desc={`${dogSelect?.dogName} | ${dateTimeFormat(dateSelect || '', 'date-time')} | ${durationTimeFormat(
               durationSelect,
@@ -139,7 +140,7 @@ export function MatchingUpdatePage() {
           <AlertError open={openCancle} onClose={() => setOpenCancle(false)} onClick={handleCancle} title="수정을 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
 
           <div className="body">
-            <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleSubmit} onReset={handleOpenCancle}>
+            <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleClickSubmit} onReset={handleClickCancle}>
               <PostCreateGroup title="Pet">
                 <styled.Contents>
                   <DogSelect isUpdate={true} />

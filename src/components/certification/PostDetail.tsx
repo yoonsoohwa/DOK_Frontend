@@ -23,11 +23,13 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
   const [currentImgIndex, setCurrentImgIndex] = useState<number>(0);
   const maxSteps = certificationImg.length;
 
-  const handleNext = () => {
+  // 다음 사진 보기
+  const handleNextButtonClick = () => {
     setCurrentImgIndex((cur) => cur + 1);
   };
 
-  const handleBack = () => {
+  // 이전 사진 보기
+  const handleBackButtonClick = () => {
     setCurrentImgIndex((cur) => cur - 1);
   };
 
@@ -37,9 +39,9 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
 
       if (!review.rating) {
         setIsEditing(true);
+        // isEditable하고 review.rating이 없다면 isEditing = true
       }
     }
-    // isEditable하고 review.rating이 없다면 isEditing = true
   }, []);
 
   return (
@@ -73,12 +75,12 @@ export function CertificationPostDetail({ handleClose }: CertificationPostDetail
           position="static"
           activeStep={currentImgIndex}
           nextButton={
-            <styled.SlideIconButton onClick={handleNext} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
+            <styled.SlideIconButton onClick={handleNextButtonClick} disabled={currentImgIndex === maxSteps - 1 || maxSteps === 0} sx={{ alignItems: 'end' }}>
               <KeyboardArrowRight />
             </styled.SlideIconButton>
           }
           backButton={
-            <styled.SlideIconButton onClick={handleBack} disabled={currentImgIndex === 0 || maxSteps === 0}>
+            <styled.SlideIconButton onClick={handleBackButtonClick} disabled={currentImgIndex === 0 || maxSteps === 0}>
               <KeyboardArrowLeft />
             </styled.SlideIconButton>
           }

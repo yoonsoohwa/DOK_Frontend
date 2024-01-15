@@ -26,19 +26,20 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
     setMapOpen(true);
   };
 
-  const handleSubmit = () => {
-    const newLocation = { text: locationText, code: locationCode };
-    dispatch(setLocation(newLocation));
-    setMapOpen(false);
-  };
-
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
     if (reason !== 'backdropClick') {
       setMapOpen(false);
     }
   };
 
-  const handleChangeLocation = (lng: number, lat: number) => {
+  const handleSubmit = () => {
+    const newLocation = { text: locationText, code: locationCode };
+    dispatch(setLocation(newLocation));
+    setMapOpen(false);
+  };
+
+  const changeLocation = (lng: number, lat: number) => {
+    // 위치 텍스트 변경
     geocoder.coord2Address(lng, lat, (res, status) => {
       if (status === kakao.maps.services.Status.OK && res[0]) {
         var addr = res[0].road_address?.address_name || res[0].address.address_name;
@@ -46,6 +47,7 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
       }
     });
 
+    // 위치 (법정동)코드 변경
     geocoder.coord2RegionCode(lng, lat, (res, status) => {
       if (status === kakao.maps.services.Status.OK) {
         setLocationCode(res[0].code);
@@ -53,12 +55,14 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
     });
   };
 
+  // 맵 마커 변경 시 위치 정보 저장
   useEffect(() => {
     if (position.lng && position.lat) {
-      handleChangeLocation(position.lng, position.lat);
+      changeLocation(position.lng, position.lat);
     }
   }, [position]);
 
+  // 로그인이 확인 됐을 시 사용자 정보로 초기화
   useEffect(() => {
     //사용자 위치 정보로 초기화
     let userLocation = editLocation?.text || user.address.text;
@@ -72,7 +76,7 @@ export function LocationSelect({ editLocation }: LocationSelectProps) {
         lng = Number(result[0].x);
 
         setPosition({ lat, lng });
-        handleChangeLocation(lng, lat);
+        changeLocation(lng, lat);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         console.log('검색 결과가 존재하지 않습니다.');
       } else if (status === kakao.maps.services.Status.ERROR) {

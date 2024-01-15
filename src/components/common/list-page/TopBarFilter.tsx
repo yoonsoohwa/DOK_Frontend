@@ -56,17 +56,20 @@ export function TopBarFilter() {
     setDong(value);
   };
 
+  // 지역 선택 초기화
   const resetDistrict = () => {
     setSido('');
     setSigugun('');
     setDong('');
   };
 
+  // 지역 선택 모달 오픈
   const handleClickOpen = () => {
     setOpen(true);
     focus();
   };
 
+  // 지역 선택 모달 닫기
   const handleClickClose = (event: React.SyntheticEvent<unknown>) => {
     setOpen(false);
     resetDistrict();
@@ -82,7 +85,7 @@ export function TopBarFilter() {
     resetDistrict();
   };
 
-  const handleFilter = () => {
+  const handleSearchButtonClick = () => {
     const filter = { locationCode: districtCode, walkingTime: date?.format() };
     dispatch(setFilter(filter));
     dispatch(resetMatchingPosts());
@@ -208,7 +211,7 @@ export function TopBarFilter() {
         )}
       </styled.DateSection>
 
-      <SearchButton onClick={handleFilter} />
+      <SearchButton onClick={handleSearchButtonClick} />
     </styled.Section>
   );
 }

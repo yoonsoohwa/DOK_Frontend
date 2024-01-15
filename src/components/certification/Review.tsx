@@ -14,7 +14,8 @@ export function Review({ isEditable, setIsEditing }: ReviewProps) {
   const { certificationDetailPost } = useSelector((state: RootState) => state.certification);
   let { matchingPost, review } = certificationDetailPost;
 
-  const handleClick = () => {
+  // 편집 모드로 변환
+  const handleEditButtonClick = () => {
     setIsEditing(true);
   };
 
@@ -29,7 +30,7 @@ export function Review({ isEditable, setIsEditing }: ReviewProps) {
         </div>
         {isEditable && (
           <div className="right">
-            <IconButton size="small" onClick={handleClick}>
+            <IconButton size="small" onClick={handleEditButtonClick}>
               <Edit fontSize="small" />
             </IconButton>
           </div>

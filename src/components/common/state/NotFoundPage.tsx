@@ -1,4 +1,4 @@
-import * as styled from './state.styled';
+import * as styled from './States.styled';
 
 export function NotFound() {
   return (
