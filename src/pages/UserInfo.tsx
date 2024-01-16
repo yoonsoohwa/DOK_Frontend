@@ -8,9 +8,7 @@ import { Forbidden } from 'common/state/Forbidden';
 import { useParams } from "react-router-dom";
 import { initUserType } from "../types";
 
-
 // 유저 마이페이지
-// 네이밍 딱히 생각이 안남...
 export function UserInfo() {
 
   const { user } = useSelector((state: RootState) => state.user);

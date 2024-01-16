@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch  } from 'react-redux';
 import { initUserType } from '../types';
-import { AppDispatch, RootState, setDog, setIsLoading, setUser } from 'store/index';
+import { AppDispatch, setDog, setIsLoading, setUser } from 'store/index';
 
 export const useLoginCheck = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user, dog } = useSelector((state: RootState) => state.user);
+  // const { user, dog } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,12 +24,12 @@ export const useLoginCheck = () => {
           dispatch(setDog(data.userDogs));
           
         } else {
-          console.log('로그인 오류');
+          // console.log('로그인 오류');
           dispatch(setUser(initUserType));
         }
         dispatch(setIsLoading(false));
       } catch (error) {
-        console.error('로그인 조회 오류:', error);
+        // console.error('로그인 조회 오류:', error);
       }
     };
 

@@ -6,15 +6,18 @@ interface Chk {
     addressCheck? : boolean | undefined;
 }
 
+// 주소 API 연동하기위해 만듦
 export const AddressAPI = (addressCheck : Chk): JSX.Element => {
 
     const [openPostcode, setOpenPostcode] = useState<boolean>(false);
     const [addressName, setAddressName] = useState("");
 
+    // 주소 검색
     const handleSearch = () => {
         setOpenPostcode(current => !current);
     }
 
+    // 주소 값을 선택할 경우 실행되는 이벤트
     const handleSelectAddress = (data : any) => {            
             setAddressName(data.address);
             setOpenPostcode(false);
@@ -23,18 +26,15 @@ export const AddressAPI = (addressCheck : Chk): JSX.Element => {
     
     return (
         <>
-        {/* addressCheck값이 있는 경우 = 참인 경우 = 제대로 작성한 경우 */}
         {addressCheck !== null
         ? <TextField
-            // error
             label={addressName}                    
             disabled
             sx={{width:"60%", margin:"0 0 5% 0"}}
         />
         : <TextField
             error
-            label={addressName} 
-            // disabled
+            label={addressName}             
             sx={{width:"60%", margin:"0 0 5% 0"}}
         />
         }
@@ -42,7 +42,7 @@ export const AddressAPI = (addressCheck : Chk): JSX.Element => {
 
             {openPostcode && 
                 <DaumPostcode 
-                    onComplete={handleSelectAddress}  // 값을 선택할 경우 실행되는 이벤트
+                    onComplete={handleSelectAddress}  // 
                     autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
                     defaultQuery='' // 팝업을 열때 기본적으로 입력되는 검색어 
             />}

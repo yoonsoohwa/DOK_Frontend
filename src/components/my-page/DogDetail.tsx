@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import Button from '@mui/material/Button';
 import { TextField, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
@@ -9,23 +8,18 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import dayjs from 'dayjs';
-import { DogButton } from './DogButton';
-import { title } from 'process';
 import { AlertError } from 'common/alert/AlertError';
 import defaultImage from '/image/dogDefaultImage.png';
-import { ImageSearchRounded } from '@mui/icons-material';
+import { AddButton, InfoFrame, TotalFrame } from './DogDetail.style';
+import { myDogUrl, myInfoUrl, uploadImageUrl } from 'api/apiUrls';
 
 export const DogDetail = () => {
+
   const [clicked, setClicked] = useState(false);
   const [addCard, setAddCard] = useState(true);
-  const [open, setOpen] = useState(true);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const inputRef = useRef<HTMLInputElement>(null);
-
   const [imagePath, setImagePath] = useState<string>(''); // 기본 이미지 설정
-  const { user, dog } = useSelector((state: RootState) => state.user);
-
+  const { user } = useSelector((state: RootState) => state.user);
   const [dogName, setDogName] = useState('');
   const [dogImg, setDogImg] = useState<string>('');
   const [birth, setBirth] = useState('2023/01/01');
@@ -33,12 +27,12 @@ export const DogDetail = () => {
   const [dogType, setDogType] = useState('');
   const [personality, setPersonality] = useState('active');
   const [note, setNote] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleAddDog = async () => {
-    // console.log(user.userId);
-    // console.log(user._id);
-    // console.log(birth);
-
+// 백엔드에 데이터 보내기 전 최종 가공 
+// 데이터 받는 형태로 가공
+  const processingData = () => {
     if (gender === 'male' || gender === 'Male') {
       setGender('Male');
     } else if (gender === 'female' || gender === 'Female') {
@@ -54,8 +48,11 @@ export const DogDetail = () => {
     } else if (gender === 'calm' || gender === 'Calm') {
       setGender('얌전');
     }
+  }
 
-    const req = await fetch('/api/users/myDog', {
+  // 실제로 API 연동하는 부분
+  const addMyDog = async () => {
+    const req = await fetch(`${myDogUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -63,7 +60,6 @@ export const DogDetail = () => {
       body: JSON.stringify({
         user: user.userId,
         dogName: dogName,
-        // "dogImg":user._id,
         dogImg: dogImg,
         birth: birth,
         gender: gender,
@@ -73,15 +69,11 @@ export const DogDetail = () => {
       }),
       credentials: 'include',
     });
-    const res = await req.json();
-    console.log(`=====등록하기 res=====`);
-    console.log(res);
-    console.log(`=====등록하기 res=====`);
 
     if (req.status === 201) {
       const fetchData = async () => {
         try {
-          const response = await fetch('/api/users/myInfo', {
+          const response = await fetch(`${myInfoUrl}`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -92,19 +84,24 @@ export const DogDetail = () => {
           if (response.status === 200) {
             const data = await response.json();
             dispatch(setDog(data.userDogs));
-            console.log(data.userDogs);
+            // console.log(data.userDogs);
           } else {
-            console.log('dog추가 오류');
+            // console.log('dog추가 오류');
           }
         } catch (error) {
-          console.error('dog데이터 조회 오류:', error);
+          // console.error('dog데이터 조회 오류:', error);
         }
       };
 
       fetchData();
     }
+  }
 
+  // 데이터 초기화
+  // 하기 useEffect의 데이터 초기화랑은 다르게 사용됨.
+  const initializeData = () => {
     setDogName('');
+    setImagePath(defaultImage);
     setImagePath('');
     setBirth('2023/01/01');
     setGender('male');
@@ -113,13 +110,21 @@ export const DogDetail = () => {
     setNote('');
     setClicked(!clicked);
     setAddCard(true);
+  }
+
+  // 강아지 등록 API 연동을 위함
+  const handleAddDog = () => {
+    processingData();
+    addMyDog();
+    initializeData();
   };
 
+  // 카드등록 취소했을 경우
   const handleCancle = () => {
     setOpenErrorAlert(true);
-    // setClicked(!clicked)
   };
 
+  // 이미지 업로드 관리하는 함수
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -127,14 +132,14 @@ export const DogDetail = () => {
       reader.onload = function (e: ProgressEvent<FileReader>) {
         const image = e.target?.result as string;
         setImagePath(image);
-        console.log(imagePath);
+        // console.log(imagePath);
       };
       reader.readAsDataURL(file);
 
       const formData = new FormData();
       formData.append('image', file);
 
-      await fetch('/api/upload/image', {
+      await fetch(`${uploadImageUrl}`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -142,24 +147,28 @@ export const DogDetail = () => {
         .then((response) => response.json())
         .then((data) => setDogImg(data[0]))
         .catch((error) => {
-          // 에러 처리
-          console.error('이미지 업로드 에러:', error);
+          // console.error('이미지 업로드 에러:', error);
         });
     }
   };
 
+  // 이미지 클릭 시 
   const handleImageClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
     }
   };
 
+  // 카드 등록하기 버튼은 기본적으로 클릭 안되게
+  // 이미지, 강아지이름, 견종 모두 입력시에만 등록 버튼이 활성화 되어야함.
   useEffect(() => {
     !imagePath || !dogName || !dogType ? null : setAddCard(false);
   }, [imagePath, dogName, dogType]);
 
+  // 클릭될 때 마다 카드에 입력된 데이터 초기화(취소했을 때 데이터 남아있는것 방지) 
   useEffect(() => {
     setDogName('');
+    setImagePath(defaultImage);
     setDogImg('');
     setBirth('2023/01/01');
     setGender('male');
@@ -227,19 +236,8 @@ export const DogDetail = () => {
             <div className="age">
               <div>나이</div>
               <div>
-                {/* <TextField placeholder="반려견의 나이를 작성해주세요" 
-                            
-                            sx={{
-                                '& .MuiInputBase-input': {
-                                padding: "5% 5% 5% 5%",
-                                fontSize: "15px",
-                                width:"210px"
-                                },
-                            }}/> */}
-
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['DatePicker']}>
-                    {/* <DemoItem label="나이를 입력해주세요"> */}
                     <DatePicker
                       onChange={(date) => setBirth(date ? date.format('YYYY-MM-DD') : '')}
                       value={dayjs('01/01/2023')}
@@ -250,7 +248,6 @@ export const DogDetail = () => {
                         },
                       }}
                     />
-                    {/* </DemoItem> */}
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
@@ -262,7 +259,6 @@ export const DogDetail = () => {
                   <RadioGroup
                     row
                     aria-labelledby="demo-radio-buttons-group-label"
-                    // defaultValue={gender}
                     defaultValue="male"
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
@@ -282,7 +278,6 @@ export const DogDetail = () => {
                   <RadioGroup
                     row
                     aria-labelledby="demo-radio-buttons-group-label"
-                    // defaultValue={personality}
                     defaultValue="active"
                     value={personality}
                     onChange={(e) => setPersonality(e.target.value)}
@@ -298,7 +293,6 @@ export const DogDetail = () => {
             <div className="note">
               <div>특이사항</div>
               <div>
-                {/* 해당 부분 글이 길어지면 해당 부분에만 스크롤 생기게끔 해야함. 전체적인 틀이 무너지면 안됨. */}
                 <TextField
                   placeholder={'특이사항을 작성해주세요.최대 45자까지 작성 가능합니다.'}
                   InputProps={{ inputProps: { maxLength: 45 } }}
@@ -330,171 +324,6 @@ export const DogDetail = () => {
         </TotalFrame>
       )}
       {clicked && <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>}
-      {/* {addCard && <AddButton onClick={() => setClicked(!clicked)}>+</AddButton>} */}
     </>
   );
 };
-
-const AddButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: black dashed 3px;
-  border-radius: 10px;
-
-  width: 30%;
-  height: 620px;
-  font-size: 200px;
-  color: gray;
-  background-color: #ffffff;
-
-  margin: 3% auto;
-`;
-
-const TotalFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  border: #fcd11e dashed 3px;
-  border-radius: 10px;
-
-  width: 30%;
-  height: 620px;
-  padding: 20px 10px;
-  box-sizing: border-box;
-
-  margin: 3% 1%;
-
-  .image {
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-    position: relative;
-    border-radius: 4px;
-    > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-
-      &:hover {
-        filter: blur(1.5px);
-      }
-    }
-    .selectedImage {
-      cursor: pointer;
-    }
-
-    .icon {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-    }
-  }
-`;
-
-const InfoFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 90%;
-
-  div.name {
-    display: flex;
-    margin-top: 1%;
-    align-items: center;
-
-    div img {
-      display: flex;
-      justify-self: center;
-      align-self: center;
-      width: 41px;
-      height: 48px;
-      object-fit: contain;
-      padding-right: 12px;
-    }
-  }
-
-  div.species {
-    display: flex;
-    margin-top: 3%;
-    & > div:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 48px;
-    }
-    div:nth-child(2) {
-      margin-left: 3%;
-    }
-  }
-
-  div.age {
-    display: flex;
-    margin-top: 3%;
-
-    & > div:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 48px;
-    }
-    div:nth-child(2) {
-      margin-left: 3%;
-    }
-  }
-
-  div.gender {
-    display: flex;
-    margin-top: 3%;
-    width: 100%;
-    & > div:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 48px;
-    }
-    div:nth-child(2) {
-      margin-left: 3%;
-    }
-  }
-
-  div.character {
-    display: flex;
-    margin-top: 3%;
-    & > div:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 48px;
-    }
-    div:nth-child(2) {
-      margin-left: 3%;
-    }
-  }
-
-  div.note {
-    display: flex;
-    margin-top: 3%;
-    flex-direction: column;
-    & > div:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 78px;
-    }
-    div:nth-child(2) {
-      margin: 2% 0 0 4%;
-    }
-  }
-
-  div.button {
-    display: flex;
-    justify-content: end;
-
-    margin: 3% 20px 0 0;
-    button {
-      margin-left: 10px;
-    }
-  }
-`;

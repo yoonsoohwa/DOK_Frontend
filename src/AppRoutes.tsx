@@ -13,7 +13,6 @@ import {
   MatchingDetailPage,
   MatchingListPage,
   MyPage,
-  // UserMyPage,
   SignUpPage,
 } from './pages';
 import { useScrollTop } from './hooks/useScrollTop';

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
 import { DogDetail } from './DogDetail';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import { DogCard } from './DogCard';
 import { Loading } from 'common/state/Loading';
 import { useLocation } from 'react-router-dom';
+import { AddButton } from './DogButton.style';
 
 export const DogButton = () => {
   const [clicked, setClicked] = useState(false);
   const [isLoding, setIsLoding] = useState(true);
   const { pathname } = useLocation();
-  const { user, dog } = useSelector((state: RootState) => state.user);
+  const { dog } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     setIsLoding(false);
@@ -57,20 +57,3 @@ export const DogButton = () => {
     </>
   );
 };
-
-const AddButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border: black dashed 3px;
-  border-radius: 10px;
-
-  width: 30%;
-  height: 620px;
-  font-size: 200px;
-  color: gray;
-  background-color: #ffffff;
-
-  margin: 3% 1%;
-`;

@@ -1,23 +1,24 @@
-import { styled } from 'styled-components';
 import TextField from '@mui/material/TextField';
 import { ButtonMain } from 'common/button/ButtonMain';
 import { ButtonSub } from 'common/button/ButtonSub';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setDog, setUser } from 'store/index';
+import { useDispatch} from 'react-redux';
+import { AppDispatch, setUser } from 'store/index';
 import { useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
+import { MainFrame, SubFrame } from './Login.style';
+import { logInUrl } from 'api/apiUrls';
 
 export function Login() {
   const [userId, setUserId] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [isAlertSnackbar, setIsAlertSnackbar] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { user, dog } = useSelector((state: RootState) => state.user);
   const nav = useNavigate();
 
+  // 로그인 API 연동
   const handleLogin = async () => {
-    const login = await fetch('/api/users/signIn', {
+    const login = await fetch(`${logInUrl}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,9 +37,7 @@ export function Login() {
       nav('/');
     } else {
         setIsAlertSnackbar(true);
-
     }
-
   };
 
   return (
@@ -78,37 +77,3 @@ export function Login() {
     </>
   );
 }
-
-const MainFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  justify-self: center;
-  margin: 10% auto;
-  width: 600px;
-  height: 460px;
-  border: black solid 1px;
-  border-radius: 16px;
-`;
-
-const SubFrame = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  & > p {
-    margin-bottom: 5%;
-    font-size: 24px;
-  }
-
-  & > div {
-    width: 70%;
-  }
-
-  div:nth-child(4),
-  div:nth-child(5) {
-    margin-bottom: 2%;
-  }
-`;

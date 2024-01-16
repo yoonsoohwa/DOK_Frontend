@@ -1,39 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import { Box, Button, TextField, FormControlLabel, Checkbox, colors, Modal } from '@mui/material';
+import { Box, Button, TextField, FormControlLabel, Checkbox, Modal } from '@mui/material';
 import { PersonInformation, TrilateralAgreement } from './Agreement';
 import DaumPostcode from 'react-daum-postcode';
-import { AddressAPI } from './AddressAPI';
-import { PhoneCertification } from './PhoneCertification';
-import { error } from 'console';
-import { Height, WidthFull } from '@mui/icons-material';
-import zIndex from '@mui/material/styles/zIndex';
 import { useNavigate } from 'react-router-dom';
+import { signUpUrl } from 'api/apiUrls';
+import { Agreement, ButtonDiv, LoginDiv, MainDiv } from './SignUp.style';
 
 export function SignUp() {
-  // 약관 동의하는 부분의 코드~
-  const [checked, setChecked] = React.useState([true, false]);
 
-  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, event.target.checked]);
-    setAgreeCheck(!agreeCheck);
-  };
-
-  const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, checked[1]]);
-  };
-
-  const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([checked[0], event.target.checked]);
-  };
-
-  const children = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
-      <FormControlLabel label={<PersonInformation />} control={<Checkbox checked={checked[0]} disabled onChange={handleChange2} />} sx={{ marginTop: '2%' }} />
-      <FormControlLabel label={<TrilateralAgreement />} control={<Checkbox checked={checked[0]} disabled onChange={handleChange3} />} sx={{ marginTop: '2%' }} />
-    </Box>
-  );
-  // ~약관 동의하는 부분의 코드
+  let splitPhoneValue : string = '';
+  let firstPhoneValue : string = '';
+  let secondPhoneValue : string = '';
 
   const [idCheck, setIdCheck] = useState<boolean>(false);
   const [pwdCheck, setPwdCheck] = useState<boolean>(false);
@@ -54,9 +31,121 @@ export function SignUp() {
   const [addressBCode, setAddressBCode] = useState<string>();
   const [phoneValue, setPhoneValue] = useState<string>();
   const [nicknameValue, setNicknameValue] = useState<string>();
-  const [agreeValue, setAgreeValue] = useState<boolean>(true);
-  const nav = useNavigate();
 
+  const [checked, setChecked] = React.useState([true, false]);
+
+  const nav = useNavigate();
+  
+  // 약관 동의 모두 체크 시
+  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked([event.target.checked, event.target.checked]);
+    setAgreeCheck(!agreeCheck);
+  };
+
+  // 약관 동의 -하위 첫 번째 체크 시
+  const handleChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked([event.target.checked, checked[1]]);
+  };
+
+  // 약관 동의 -하위 두 번째 체크 시
+  const handleChange3 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked([checked[0], event.target.checked]);
+  };
+
+  // 약관 동의 모두 체크 시 하위 약관들 관리를 위함
+  const children = (
+    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
+      <FormControlLabel label={<PersonInformation />} control={<Checkbox checked={checked[0]} disabled onChange={handleChange2} />} sx={{ marginTop: '2%' }} />
+      <FormControlLabel label={<TrilateralAgreement />} control={<Checkbox checked={checked[0]} disabled onChange={handleChange3} />} sx={{ marginTop: '2%' }} />
+    </Box>
+  );
+
+  // 휴대폰 유효성 체크
+  const phoneValidation = () => {
+    let check = /^010\d{8}$/;
+    return check.test(`${phoneValue}`);
+  };
+
+  // 비밀번호 유효성 체크
+  const pwdValidation = () => {
+    let check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/;
+    return check.test(`${pwdValue}`);
+  };
+
+  // 이메일 인증
+  const handleEmailCertification = () => {
+    
+  };
+
+  // 주소 검색 API 연동
+  const handleAddressSearch = () => {
+    setIsOpen(true);
+  };
+
+  // 주소 API 연동 후 해당 API내에서 선택한 주소값을 가져오는 로직
+  const handleSelectAddress = (data: any) => {
+    setAddressBCode(data.bcode);
+    setAddressValue(data.address);
+    setIsOpen(false);
+  };
+
+  // 회원가입 API를 연동하는 로직
+  const signUp = async () => {
+
+    try{
+      firstPhoneValue.length <= 0 ? console.log("휴대전화 가입 오류") : await fetch(`${signUpUrl}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: idValue,
+          password: pwdValue,
+          name: nameValue,
+          nickname: nicknameValue,
+          address: {
+            text: addressValue,
+            code: addressBCode,
+          },
+          phoneNumber: firstPhoneValue + ' ' + secondPhoneValue,
+          introduce: '',
+          isCertificated: true,
+          deletedAt: '',
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+      nav('/login');;
+    }
+    catch(err){
+      alert("회원가입에 실패하였습니다.");
+    }
+  }
+
+  // 휴대폰 번호 나누는 로직
+  // 백엔드에서 나눠서 받으므로 입력받은 데이터 나눠서 보냄
+  const splitPhoneValues = () => {
+    splitPhoneValue = phoneValue?.substring(3) || '00000000000';
+    firstPhoneValue = splitPhoneValue?.substring(0, 4);
+    secondPhoneValue = splitPhoneValue?.substring(4);
+  }
+
+  // 초기화 로직
+  const initializeValue = () => {
+    splitPhoneValue = '';
+    firstPhoneValue = '';
+    secondPhoneValue = '';
+  }
+
+  // 회원가입 API 연동 로직
+  const handleCheckFormData = () => {
+    splitPhoneValues();
+    signUp();
+    initializeValue();
+  };
+
+  // 회원가입 폼에 있는 양식중 하나라도 작성이 안되어 있다면
+  // '회원가입버튼' 클릭 불가하도록 하는 로직
   useEffect(() => {
     idValue !== undefined && idValue.length >= 1 ? setIdCheck(true) : setIdCheck(false);
     pwdValue !== undefined && pwdValue.length >= 1 ? setPwdCheck(true) : setPwdCheck(false);
@@ -68,74 +157,6 @@ export function SignUp() {
 
     idCheck && pwdCheck && pwdConfirmCheck && nameCheck && addressCheck && phoneCheck && nicknameCheck && agreeCheck ? setFormDataCheck(false) : setFormDataCheck(true);
   }, [idValue, pwdValue, pwdConfirmValue, nameValue, addressValue, phoneValue, nicknameValue, agreeCheck]);
-
-  // useEffect(() => {
-
-  // },[formDataCheck]);
-
-  const phoneValidation = () => {
-    let check = /^010\d{8}$/;
-    return check.test(`${phoneValue}`);
-  };
-
-  const pwdValidation = () => {
-    let check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/;
-    return check.test(`${pwdValue}`);
-  };
-
-  // 이메일 인증
-  const handleEmailCertification = () => {
-    
-  };
-
-
-  // 주소 검색
-  const handleAddressSearch = () => {
-    setIsOpen(true);
-  };
-
-  const handleSelectAddress = (data: any) => {
-    setAddressBCode(data.bcode);
-    setAddressValue(data.address);
-    setIsOpen(false);
-  };
-
-  const handleCheckFormData = async () => {
-    // 휴대폰 010 지우고 앞 4자리 뒷 4자리 띄워주기 (백에서 이렇게받음)
-    const splitPhoneValue = phoneValue?.substring(3);
-    const firstPhoneValue = splitPhoneValue?.substring(0, 4);
-    const secondPhoneValue = splitPhoneValue?.substring(4);
-
-    console.log(addressValue);
-
-    const signUp = await fetch('/api/users/signUp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: idValue,
-        password: pwdValue,
-        name: nameValue,
-        nickname: nicknameValue,
-        address: {
-          text: addressValue,
-          code: addressBCode,
-        },
-        // "bcode" : addressBCode,
-        phoneNumber: firstPhoneValue + ' ' + secondPhoneValue,
-        introduce: '',
-        isCertificated: true,
-        deletedAt: '',
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-    nav('/login');
-  };
-
-  //   ID 중복확인 fetch
-  const handleCheckID = async () => {};
 
   return (
     <MainDiv>
@@ -165,12 +186,15 @@ export function SignUp() {
           label="비밀번호"
           type="password"
           placeholder="비밀번호를 작성해주세요"
-          helperText="* 최소 8자 이상이어야 하며, 알파벳, 숫자, 특수 문자를 포함해야 합니다."
+          helperText={<div>
+            * 비밀번호는 최소 8자 이상이어야 합니다.
+            <br />
+            * 알파벳(대,소문자 모두), 숫자, 특수 문자를 포함해야 합니다.
+          </div>}
           sx={{ width: '60%', margin: '0 0 5% 0' }}
         />
 
         <TextField
-          // phoneValue !== undefined && !phoneValidation() ? true : false
           error={pwdConfirmValue !== undefined && !(pwdConfirmValue === pwdValue) ? true : false}
           defaultValue={pwdConfirmValue}
           onChange={(event) => setPwdConfirmValue(event.target.value)}
@@ -192,9 +216,6 @@ export function SignUp() {
         />
 
         <ButtonDiv>
-          {/* 주소검색  */}
-          {/* {addressCheck ? <AddressAPI addressCheck/> : <AddressAPI />}   */}
-
           <TextField
             error={addressValue !== undefined && !addressCheck ? true : false}
             label={addressValue}
@@ -225,7 +246,6 @@ export function SignUp() {
         </ButtonDiv>
 
         <ButtonDiv>
-          {/* 휴대폰 본인인증 */}
           <TextField
             type="number"
             error={phoneValue !== undefined && !phoneValidation() ? true : false}
@@ -233,8 +253,6 @@ export function SignUp() {
             onChange={(event) => setPhoneValue(event.target.value)}
             id="loginID"
             label="전화번호"
-            // placeholder="01012341234"
-            // helperText="* 하이픈(-)없이 01012341234 형태로 작성해 주세요"
             helperText={phoneValue !== undefined && !phoneValidation() ? '올바른 전화번호를 입력해 주세요.' : ''}
             sx={{ width: '60%', margin: '0% 0 5% 0' }}
           />
@@ -257,9 +275,7 @@ export function SignUp() {
             label="모두동의"
             control={
               <Checkbox
-                // defaultChecked={true}
                 checked={checked[0] && checked[1]}
-                // indeterminate={checked[0] !== checked[1]}
                 onChange={handleChange1}
               />
             }
@@ -274,52 +290,3 @@ export function SignUp() {
     </MainDiv>
   );
 }
-
-const MainDiv = styled.div`
-  margin: 10% auto;
-  width: 700px;
-  height: 100%;
-  border: black solid 1px;
-  border-radius: 16px;
-`;
-
-const LoginDiv = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  & > p {
-    margin-top: 11.5%;
-    font-size: 24px;
-  }
-`;
-
-const ButtonDiv = styled.div`
-  display: flex;
-  width: 100%;
-  /* justify-content: center; */
-  align-items: center;
-
-  margin: 0 0 0 40%;
-  position: relative;
-
-  .emailButton {
-    position: absolute;
-    left: 310px;
-    top: 79px;
-  }
-
-  .addressButton {
-    position: absolute;
-    left: 310px;
-  }
-`;
-const Agreement = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-
-  margin: 0 0 0 40%;
-`;

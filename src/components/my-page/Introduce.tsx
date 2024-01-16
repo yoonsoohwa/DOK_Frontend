@@ -1,9 +1,10 @@
-import { styled } from 'styled-components';
 import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
 import { useEffect } from 'react';
 import { AppDispatch, setDog } from 'store/index';
 import { useDispatch } from 'react-redux';
+import { Add, Dog, Writing } from './Introduce.style';
+import { myInfoUrl } from 'api/apiUrls';
 
 export const Introduce = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -11,7 +12,7 @@ export const Introduce = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/users/myInfo', {
+        const response = await fetch(`${myInfoUrl}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -59,38 +60,3 @@ export const Introduce = () => {
     </>
   );
 };
-
-const Writing = styled.div`
-  display: flex;
-  /* 개행문자 인식을 위한 코드 */
-  white-space: pre-wrap;
-  justify-content: space-between;
-  margin: 3% 5% 0 3%;
-  
-
-  div:nth-child(1) {
-    align-self: center;
-    flex-wrap: wrap;
-    width: 750px;
-  }
-
-  div:nth-child(2) {
-    align-self: center;
-  }
-`;
-
-const Dog = styled.div`
-  p:nth-child(1) {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 50px 10px 20px;
-  }
-`;
-
-const Add = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-// border: black solid 1px;
