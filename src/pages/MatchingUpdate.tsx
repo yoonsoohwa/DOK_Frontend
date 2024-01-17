@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import { ChatOutlined, Info, AddBox, LocationOn, Event, AccessTime, MonetizationOnOutlined, Pets } from '@mui/icons-material';
+import * as styled from './MatchingForm.styled';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -23,21 +22,26 @@ import { AlertError } from 'common/alert/AlertError';
 import { matchingFormUrl } from 'api/apiUrls';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function MatchingUpdatePage() {
-  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
-    useSelector((state: RootState) => state.matchingForm);
+  const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
+    (state: RootState) => state.matchingForm,
+  );
   const [initData, setInitData] = useState({ dogSelect, dateSelect, durationSelect, paySelect, requestText, locationSelect, locationDetailSelect });
   const dispatch = useDispatch<AppDispatch>();
-  const [isForbidden, setIsForbidden] = useState(false);
-  const [openError, setOpenError] = useState(false);
-  const [validateText, setValidateText] = useState('');
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
+  const [isForbidden, setIsForbidden] = useState<boolean>(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [validateText, setValidateText] = useState<string>('');
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
   const nav = useNavigate();
   const loc = useLocation();
 
-  const updatePost = async () => {
+  // 매칭 글 업데이트
+  const handleSubmit = async () => {
     const reqBody = {
       userDog: dogSelect?._id,
       price: paySelect,
@@ -49,21 +53,32 @@ export function MatchingUpdatePage() {
     };
 
     const _id = loc.state.post._id;
-    const res = await fetch(`${matchingFormUrl}/newMatchingRequest/${_id}`, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch(`${matchingFormUrl}/newMatchingRequest/${_id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    nav('/matching');
+      if (res.ok) {
+        nav('/matching');
+      } else {
+        const data = await res.json();
+        console.log(data);
+        setAlertDesc('매칭 글 수정에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('매칭 글 수정에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
-  const handleSubmit = () => {
+  const handleClickSubmit = () => {
     if (errorDogSelect) {
       setValidateText('강아지를 선택해주세요.');
       return setOpenError(true);
@@ -87,7 +102,7 @@ export function MatchingUpdatePage() {
     nav('/matching');
   };
 
-  const handleOpenCancle = () => {
+  const handleClickCancle = () => {
     if (
       dogSelect?._id !== initData.dogSelect?._id ||
       dateSelect !== initData.dateSelect ||
@@ -107,15 +122,18 @@ export function MatchingUpdatePage() {
       return setIsForbidden(true);
     }
 
-    const { _id, user, userDog, price, location, locationDetail, requestText, walkingDate, walkingDuration } = loc.state.post;
+    const { userDog, price, locationDetail, requestText, walkingDate, walkingDuration } = loc.state.post;
 
     dispatch(setDogSelect(userDog));
     dispatch(setDateSelect(walkingDate));
     dispatch(setDurationSelect(walkingDuration));
     dispatch(setPaySelect(price));
-    dispatch(setLocation(location));
     dispatch(setLocationDetail(locationDetail));
     dispatch(setRequestText(requestText));
+
+    return () => {
+      dispatch(setLocation(undefined));
+    };
   }, []);
 
   return (
@@ -123,12 +141,14 @@ export function MatchingUpdatePage() {
       {isForbidden ? (
         <Forbidden />
       ) : (
-        <CertifiCreate>
+        <styled.CertifiCreate>
+          <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
           <AlertSuccess
             open={openSubmit}
             onClose={() => setOpenSubmit(false)}
-            onClick={updatePost}
+            onClick={handleSubmit}
             title="글을 수정하시겠습니까?"
             desc={`${dogSelect?.dogName} | ${dateTimeFormat(dateSelect || '', 'date-time')} | ${durationTimeFormat(
               durationSelect,
@@ -137,79 +157,43 @@ export function MatchingUpdatePage() {
           <AlertError open={openCancle} onClose={() => setOpenCancle(false)} onClick={handleCancle} title="수정을 취소하시겠습니까?" desc="작성한 내용은 저장되지 않습니다." />
 
           <div className="body">
-            <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleSubmit} onReset={handleOpenCancle}>
+            <PostCreateFormLayout title="매칭 신청 수정하기" buttonText="수정하기" onSubmit={handleClickSubmit} onReset={handleClickCancle}>
               <PostCreateGroup title="Pet">
-                <Contents>
+                <styled.Contents>
                   <DogSelect isUpdate={true} />
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
 
               <PostCreateGroup title="Infomation">
                 <div className="flex">
                   <div className="half">
-                    <Contents>
+                    <styled.Contents>
                       <DateSelect />
-                    </Contents>
-                    <Contents>
+                    </styled.Contents>
+                    <styled.Contents>
                       <DurationSelect />
-                    </Contents>
+                    </styled.Contents>
                   </div>
                   <div className="half">
-                    <Contents>
+                    <styled.Contents>
                       <PaySelect />
-                    </Contents>
-                    <Contents>
-                      <LocationSelect />
-                    </Contents>
+                    </styled.Contents>
+                    <styled.Contents>
+                      <LocationSelect editLocation={{ text: loc.state.post.location.text, code: loc.state.post.location.code }} />
+                    </styled.Contents>
                   </div>
                 </div>
               </PostCreateGroup>
 
               <PostCreateGroup title="Addition">
-                <Contents>
+                <styled.Contents>
                   <RequestTextField isUpdate={true} />
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
             </PostCreateFormLayout>
           </div>
-        </CertifiCreate>
+        </styled.CertifiCreate>
       )}
     </>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 40px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: auto;
-    margin-right: 4px;
-  }
-`;

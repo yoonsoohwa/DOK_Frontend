@@ -1,43 +1,51 @@
-import { styled } from 'styled-components';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MainInfo } from '../components/main/MainInfo';
 import { MainSection1 } from '../components/main/MainSection1';
 import { MainSection2 } from '../components/main/MainSection2';
 import { MainSection3 } from '../components/main/MainSection3';
 import { useDispatch } from 'react-redux';
 import { AppDispatch, setMainCertificationPosts, setMainMatchingPosts, setMainDogs, setMainMatchingPostCount } from '../store';
+import { PageLayout } from '../styles/PageDefault.styled';
+import { LoadingPage } from 'common/state/LoadingPage';
+import { mainUrl } from 'api/apiUrls';
 
 export function MainPage() {
   const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://kdt-sw-6-team01.elicecoding.com/api/main`);
-      const data = await res.json();
-      console.log(data);
+      try {
+        const res = await fetch(mainUrl);
+        if (res.ok) {
+          const data = await res.json();
 
-      const [mathingPostCount, dogs, matchingPosts, certificationPosts] = data;
+          const [mathingPostCount, dogs, matchingPosts, certificationPosts] = data;
 
-      dispatch(setMainMatchingPostCount(mathingPostCount));
-      dispatch(setMainDogs(dogs.slice(0, 6)));
-      dispatch(setMainMatchingPosts(matchingPosts.slice(0, 3)));
-      dispatch(setMainCertificationPosts(certificationPosts.slice(0, 3)));
+          dispatch(setMainMatchingPostCount(mathingPostCount));
+          dispatch(setMainDogs(dogs.slice(0, 6)));
+          dispatch(setMainMatchingPosts(matchingPosts.slice(0, 3)));
+          dispatch(setMainCertificationPosts(certificationPosts.slice(0, 3)));
+          setLoading(false);
+        }
+      } catch (e) {
+        console.log('fetch error: ', e);
+      }
     })();
   }, []);
 
   return (
-    <MainPageComponent>
-      <MainInfo />
-      <MainSection1 />
-      <MainSection2 title="오늘의 매칭 글" color="main" />
-      <MainSection3 title="따뜻한 후기" color="sub" />
-    </MainPageComponent>
+    <>
+      {loading ? (
+        <LoadingPage />
+      ) : (
+        <PageLayout>
+          <MainInfo />
+          <MainSection1 />
+          <MainSection2 />
+          <MainSection3 />
+        </PageLayout>
+      )}
+    </>
   );
 }
-
-const MainPageComponent = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: inherit;
-`;

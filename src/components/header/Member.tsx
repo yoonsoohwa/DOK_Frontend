@@ -3,10 +3,12 @@ import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, setUser } from 'store/index';
 import { initUserType } from '../../types';
-import { CertificationCreateIcon } from './CertificationCreate';
+
 import { BorderDiv, CatagoryDiv, LogOutStyledLink, MainDiv, StyledLink, SubCatagoryDiv, SubCatagoryImg } from './Member.style';
 import { Link } from 'react-router-dom';
 import { logOutUrl } from 'api/apiUrls';
+import { CertificationBookmark } from './CertificationBookmark';
+
 
 export const MemberHeader = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -65,7 +67,8 @@ export const MemberHeader = () => {
           </CatagoryDiv>
           {user._id ? (
             <SubCatagoryImg>
-              <CertificationCreateIcon />
+              <div>{/* <Bookmark /> */}</div>
+              <CertificationBookmark />
               <StyledLink to={'/'}>
                 <div onClick={handleLogOut}>로그아웃</div>
               </StyledLink>

@@ -19,6 +19,7 @@ import { useScrollTop } from './hooks/useScrollTop';
 import { NotFound } from 'common/state/NotFoundPage';
 import { useLoginCheck } from './hooks/useLoginCheck';
 import { UserInfo } from './pages/UserInfo';
+import { AlertControll } from './components/matching/AlertControll';
 
 export function AppRoutes() {
   useScrollTop();
@@ -47,6 +48,7 @@ export function AppRoutes() {
         </Routes>
       </DivForFixedHeader>
       <Footer />
+      <AlertControll />
     </DivForHeaderFooter>
   );
 }

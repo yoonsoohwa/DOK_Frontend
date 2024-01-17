@@ -6,7 +6,7 @@ import { EmptyData } from 'common/state/EmptyData';
 import { CertificationPostDetail } from '../certification/PostDetail';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { CertifiPostCard } from '../certification/PostCard';
-import { CardListContainer } from '../../styles/CardListContainer';
+import { CardListContainer } from '../../styles/CardListContainer.styled';
 import { TopBarTitle } from 'common/list-page/TopBarTitle';
 import { MainFrame, MyDialog, Section, TitleFrame } from './Certification.style';
 import { addPostListUrl } from 'api/apiUrls';

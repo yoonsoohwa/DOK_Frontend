@@ -1,18 +1,21 @@
-import { styled } from "styled-components";
-import { ProfileInfo } from "common/user/ProfileInfo";
-import { useSelector } from "react-redux";
-import { RootState } from "store/store";
-import calculateAge from "../../utils/calculateAge";
+import { styled } from 'styled-components';
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import calculateAge from '../../utils/calculateAge';
+import { EditMenu } from 'common/user/EditMenu';
 
 export function DogProfile() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
-  if(!matchingDetailPost) return <></>;
-  const { _id: id, user, userDog, createdAt } = matchingDetailPost;
+  const { user: _user } = useSelector((state: RootState) => state.user);
+  if (!matchingDetailPost) return <></>;
+  const { _id, user, userDog, createdAt, matchingStatus } = matchingDetailPost;
   const { birth: dogBirth, dogImg, dogName, dogType, gender: dogGender, note: dogNote, personality: dogPersonality } = userDog;
 
   return (
     <DogProfileContainer>
       <ProfileInfo userImg={user.userImg} nickname={user.nickname} time={createdAt.toString()} />
+      {_user._id === user._id && matchingStatus === 'process' && <EditMenu post={matchingDetailPost} />}
       <DogImage src={dogImg} />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />
@@ -64,6 +67,7 @@ const DogProfileContainer = styled.div`
   box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
+  position: relative;
 
   @media screen and (min-width: 480px) and (max-width: 1023px) {
     max-width: 525px;

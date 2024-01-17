@@ -1,5 +1,5 @@
 import React, { Children, useEffect, useState } from 'react';
-import { styled } from 'styled-components';
+import * as styled from './CertificationCreate.styled';
 import { PostCreateFormLayout } from '../components/common/create-page/PostCreateFormLayout';
 import { AddPhotoAlternateOutlined, ChatOutlined, Close, LocationOn, Pets } from '@mui/icons-material';
 import { FormLabel, IconButton, TextField } from '@mui/material';
@@ -7,7 +7,7 @@ import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { matchingFormUrl, matchingPostDetailUrl } from 'api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { MatchingPostType } from '../types/index';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
@@ -17,34 +17,37 @@ import { Forbidden } from 'common/state/Forbidden';
 import { NotFound } from 'common/state/NotFoundPage';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { AlertError } from 'common/alert/AlertError';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function CertificationCreatePage() {
   const { user } = useSelector((state: RootState) => state.user);
   const { isLoading } = useSelector((state: RootState) => state.alert);
   // 인증 글 작성은 리덕스 사용 X
-  // -> useState 사용하기(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
+  // -> useState 사용(File 때문에 A non-serializable value was detected in the state 에러 날 수 있음)
   const [matchingPost, setMatchingPost] = useState<MatchingPostType | undefined>();
-  const [postText, setPostText] = useState('');
-  const [errorPostText, setErrorPostText] = useState(true);
-  const [address, setAddress] = useState('');
-  const [errorAddress, setErrorAddress] = useState(true);
+  const [postText, setPostText] = useState<string>('');
+  const [errorPostText, setErrorPostText] = useState<boolean>(true);
+  const [address, setAddress] = useState<string>('');
+  const [errorAddress, setErrorAddress] = useState<boolean>(true);
   const [images, setImages] = useState<File[]>([]);
-  const [imagesURL, setImagesURL] = useState<string[] | null>();
+  const [imagesURL, setImagesURL] = useState<string[]>([]);
   const [errorImages, setErrorImages] = useState<boolean | string>('init');
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
-  const [openError, setOpenError] = useState(false);
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
-  const [isForbidden, setIsForbidden] = useState(false);
-  const [_isLoading, setIsLoading] = useState(false);
-  const [isNotFound, setIsNotFound] = useState(false);
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [isForbidden, setIsForbidden] = useState<boolean>(false);
+  const [_isLoading, setIsLoading] = useState<boolean>(false);
+  const [isNotFound, setIsNotFound] = useState<boolean>(false);
 
   const nav = useNavigate();
   const loc = useLocation();
 
+  // 이미지 선택 시 상태 변경
   const handleChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(!e.target.files?.[0], (images?.length || 0) + (e.target.files?.length || 0) > 6);
     if (!e.target.files?.[0] || (images?.length || 0) + e.target.files.length > 6) {
       setErrorImages(true);
       return;
@@ -57,40 +60,48 @@ export function CertificationCreatePage() {
       formData.append('image', file);
     });
 
-    const res = await fetch(`/api/upload/image`, {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`/api/upload/image`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
 
-    setImages(newImages);
-    setImagesURL(data);
-    setErrorImages(false);
+      if (res.ok) {
+        const data = await res.json();
+
+        setImages(newImages);
+        setImagesURL(data);
+        setErrorImages(false);
+      } else {
+        setAlertDesc('사진 업로드에 실패하였습니다.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('사진 업로드에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
+  // 선택한 이미지 하나씩 삭제하는 기능
   const handleRemoveImage = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     const idx = Number(e.currentTarget.id);
     setErrorImages(false);
 
     if (!images) return;
-    if (images.length <= 1) setErrorImages(true);
+    if (images.length <= 1) {
+      setImages([]);
+      setImagesURL([]);
+      setErrorImages(true);
+      return;
+    }
 
     const newImages = images.filter((file, _idx) => idx !== _idx);
-    let formData = new FormData();
-    newImages.forEach((file) => {
-      formData.append('image', file);
-    });
-
-    const res = await fetch(`/api/upload/image`, {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    });
-    const data = await res.json();
+    const newImagesURL = imagesURL.filter((str, _idx) => idx !== _idx);
 
     setImages(newImages);
-    setImagesURL(data);
+    setImagesURL(newImagesURL);
   };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,38 +124,46 @@ export function CertificationCreatePage() {
     }
   };
 
-  const addPost = async () => {
+  // 인증 글 생성
+  const handleSubmit = async () => {
     const reqBody = {
       sublocation: address.trim(),
       postText: postText.trim(),
       certificationImg: imagesURL || [],
     };
 
-    console.log(imagesURL);
-    const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
-    const data = await res.json();
-    console.log(data, res);
+    try {
+      const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    nav('/certification');
+      if (res.ok) {
+        nav('/certification');
+      } else {
+        setAlertDesc('인증 글 등록에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('인증 글 등록에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
-  const handleSubmit = () => {
+  const handleClickSubmit = () => {
     setIsSubmit(true);
     if (errorPostText || errorAddress || errorImages) {
-      console.log(errorPostText, errorAddress, errorImages);
       return setOpenError(true);
     }
     setOpenSubmit(true);
   };
 
-  const handleOpenCancle = () => {
+  const handleClickCancle = () => {
     if (postText || address || images.length) {
       return setOpenCancle(true);
     }
@@ -156,22 +175,31 @@ export function CertificationCreatePage() {
     const pathArr = loc.pathname.split('/');
     const postId = pathArr[pathArr.length - 1];
 
+    // 해당 인증에 대한 매칭 글이 있는지 확인
     (async () => {
-      const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
-      const data = await res.json();
-      console.log(data);
+      try {
+        const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
 
-      if (!data.length) {
+        if (res.ok) {
+          const data = await res.json();
+
+          if (data.length) {
+            setMatchingPost(data[0]);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        setIsNotFound(true);
+      } catch (e) {
+        console.log('fetch error: ', e);
         setIsNotFound(true);
       }
-
-      setMatchingPost(data[0]);
-      setIsLoading(false);
     })();
   }, []);
 
+  // 로그인 및 접근 권환 확인
   useEffect(() => {
-    console.log(matchingPost?.matchingHandler, user._id);
     if (matchingPost?.matchingHandler !== user._id) {
       setIsForbidden(true);
     } else {
@@ -188,9 +216,11 @@ export function CertificationCreatePage() {
       ) : isForbidden ? (
         <Forbidden />
       ) : (
-        <CertifiCreate>
+        <styled.CertifiCreate>
+          <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
-          <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={addPost} title="글을 작성하시겠습니까?" desc={``} />
+          <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={handleSubmit} title="글을 작성하시겠습니까?" desc={``} />
           <AlertError
             open={openCancle}
             onClose={() => setOpenCancle(false)}
@@ -199,20 +229,20 @@ export function CertificationCreatePage() {
             desc="작성한 내용은 저장되지 않습니다."
           />
           <div className="body">
-            <PostCreateFormLayout onSubmit={handleSubmit} onReset={handleOpenCancle} title="인증 등록하기">
+            <PostCreateFormLayout onSubmit={handleClickSubmit} onReset={handleClickCancle} title="인증 등록하기">
               <PostCreateGroup title="Link">
-                <Contents>
+                <styled.Contents>
                   <Pets className="icon" />
                   <Link to={`/matching/${matchingPost?._id}`}>
                     {`${matchingPost?.userDog.dogName} | ${matchingPost?.walkingDate && dateTimeFormat(matchingPost.walkingDate, 'date')} | ${
                       matchingPost?.walkingDate && durationTimeFormat(matchingPost?.walkingDuration)
                     }`}
                   </Link>
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
 
               <PostCreateGroup title="Contents">
-                <Contents>
+                <styled.Contents>
                   <FormLabel component="legend">
                     <LocationOn className="icon" />
                     산책 장소
@@ -226,9 +256,9 @@ export function CertificationCreatePage() {
                     helperText={isSubmit && errorAddress && '5글자 이상 작성해주세요.'}
                     fullWidth
                   />
-                </Contents>
+                </styled.Contents>
 
-                <Contents>
+                <styled.Contents>
                   <FormLabel component="legend">
                     <ChatOutlined className="icon" />
                     인증 내용
@@ -243,9 +273,9 @@ export function CertificationCreatePage() {
                     rows={4}
                     fullWidth
                   />
-                </Contents>
+                </styled.Contents>
 
-                <Contents className="file-input ">
+                <styled.Contents className="file-input ">
                   <FormLabel component="legend">
                     <AddPhotoAlternateOutlined className="icon" />
                     사진
@@ -267,13 +297,18 @@ export function CertificationCreatePage() {
                     />
                   </div>
                   <p className={`helper-text ${errorImages && errorImages !== 'init' && 'error'}`}>사진은 최대 6개까지 업로드 가능합니다.</p>
-                  {imagesURL && (
+                  {imagesURL.length > 0 && (
                     <div className="preview custom-scrollbar">
                       {Children.toArray(
                         imagesURL.map((url, idx) => (
                           <div className="preview-image">
                             <img src={url} />
-                            <IconButton id={idx.toString()} className="icon" onClick={handleRemoveImage}>
+                            <IconButton
+                              id={idx.toString()}
+                              className="icon"
+                              onClick={handleRemoveImage}
+                              sx={{ backgroundColor: '#00000021', padding: '12px', ':hover': { backgroundColor: '#00000030' } }}
+                            >
                               <Close />
                             </IconButton>
                           </div>
@@ -281,133 +316,12 @@ export function CertificationCreatePage() {
                       )}
                     </div>
                   )}
-                </Contents>
+                </styled.Contents>
               </PostCreateGroup>
             </PostCreateFormLayout>
           </div>
-        </CertifiCreate>
+        </styled.CertifiCreate>
       )}
     </>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-
-  .preview {
-    height: 200px;
-    margin: 20px 0 40px;
-    overflow: auto;
-
-    .preview-image {
-      height: calc(100% - 4px);
-      margin: 0 10px 4px 0;
-      position: relative;
-
-      img {
-        height: 99%;
-      }
-
-      .icon {
-        position: absolute;
-        top: -2px;
-        right: 4px;
-        color: #fff;
-      }
-    }
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 36px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: auto;
-    margin-right: 4px;
-  }
-
-  &.file-input {
-    margin-bottom: 40px;
-    display: block;
-
-    > div {
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .pointer {
-      color: rgba(0, 0, 0, 0.23);
-    }
-
-    label {
-      min-width: 300px;
-      border: solid 1px rgba(0, 0, 0, 0.23);
-      border-radius: 4px;
-      padding: 8.5px 14px;
-      justify-content: space-between;
-
-      font-size: 1rem;
-      line-height: 1.4375em;
-      box-sizing: border-box;
-      display: inline-flex;
-      align-items: center;
-
-      span {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-right: 4px;
-      }
-
-      &.error {
-        border-color: #d32f2f;
-      }
-    }
-
-    input#photo {
-      display: none;
-    }
-  }
-
-  .helper-text {
-    color: #959595;
-    font-family: Noto Sans KR;
-    font-weight: 400;
-    font-size: 0.75rem;
-    line-height: 1.66;
-    text-align: left;
-    margin-top: 3px;
-    margin-right: 14px;
-    margin-bottom: 0;
-    margin-left: 14px;
-    &.error {
-      color: #d32f2f;
-    }
-  }
-
-  a:hover {
-    color: ${({ theme }) => theme.sub};
-  }
-`;
