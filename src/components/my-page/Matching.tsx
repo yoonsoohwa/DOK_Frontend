@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { MatchingCard } from '../matching/Card';
 import { TopBarTitle } from 'common/list-page/TopBarTitle';
-import { CardListContainer } from '../../styles/CardListContainer';
+import { CardListContainer } from '../../styles/CardListContainer.styled';
 import { Children, useEffect, useState } from 'react';
 import { AlertError } from 'common/alert/AlertError';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';

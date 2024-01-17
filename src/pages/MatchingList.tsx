@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MatchingCard } from '../components/matching/Card';
 import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
-import { CardListContainer } from '../styles/CardListContainer';
+import { CardListContainer } from '../styles/CardListContainer.styled';
 import { useInView } from 'react-intersection-observer';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
 import { matchingPostListUrl } from 'api/apiUrls';
+import { PageLayout, Section } from '../styles/PageDefault.styled';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,6 +21,7 @@ export function MatchingListPage() {
 
   const [scrollRef, inView] = useInView();
   const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // 매칭 글 데이터 불러오기
   const addMatchingCardList = async () => {
@@ -28,6 +30,7 @@ export function MatchingListPage() {
       return;
     }
 
+    setLoading(true);
     const _page = matchingPosts.length ? page : 1;
     let url = `${matchingPostListUrl}?page=${_page}&perPage=12`;
 
@@ -45,6 +48,21 @@ export function MatchingListPage() {
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);
+
+    try {
+      const res = await fetch(url);
+
+      if (res.ok) {
+        const data = await res.json();
+
+        dispatch(setMatchingPostCount(Number(data[0])));
+        dispatch(addMatchingPosts(data[1]));
+        setPage(_page + 1);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
   };
 
   // 무한 스크롤 감지
@@ -61,17 +79,11 @@ export function MatchingListPage() {
   }, []);
 
   return (
-    <MatchingList>
+    <PageLayout>
       <MatchingBanner />
       <Section>
         <ListPageTopBar yellow={matchingPostsCount?.toString() || '0'} black="개의 매칭 요청이 있습니다." />
-        {!matchingPostsCount ? (
-          matchingPostsCount === undefined ? (
-            <Loading />
-          ) : (
-            <EmptyData />
-          )
-        ) : (
+        {matchingPostsCount ? (
           <CardListContainer>
             {Children.toArray(
               matchingPosts.map((post) => {
@@ -79,27 +91,13 @@ export function MatchingListPage() {
               }),
             )}
           </CardListContainer>
+        ) : (
+          loading || <EmptyData />
         )}
+        {loading && <Loading />}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <ScrollToTopButton />
-    </MatchingList>
+    </PageLayout>
   );
 }
-
-const MatchingList = styled.div`
-  width: 100%;
-  margin: 0 auto;
-
-  .scroll-ref {
-    height: 1px;
-    position: relative;
-    bottom: 200px;
-  }
-`;
-
-const Section = styled.div`
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-`;

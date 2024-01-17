@@ -10,7 +10,7 @@ import { CertificationPostDetail } from '../certification/PostDetail';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { Dialog } from '@mui/material';
 import { CertifiPostCard } from '../certification/PostCard';
-import { CardListContainer } from '../../styles/CardListContainer';
+import { CardListContainer } from '../../styles/CardListContainer.styled';
 import { TopBarTitle } from 'common/list-page/TopBarTitle';
 
 export const Certification = () => {

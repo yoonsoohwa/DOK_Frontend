@@ -1,29 +1,37 @@
-import { Alert, AlertTitle, Button, IconButton, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { useNavigate } from 'react-router';
-import styled from 'styled-components';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { WarningAmberRounded, WarningRounded } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
-import { CertificationPostType, MatchingPostType, initCertificationPostType } from '../../types';
+import { MatchingPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
-import { Link } from 'react-router-dom';
+import { Certification, TableContainer } from './CertificationBookmark.styled';
 
-export function CertificationCreateIcon() {
+export function CertificationBookmark() {
   const { user } = useSelector((state: RootState) => state.user);
   const [myCertification, setMyCertification] = useState<MatchingPostType[]>([]);
   const [openBox, setOpenBox] = useState(false);
 
+  // 로그인 한 사용자가 등록해야 할 인증글 리스트 가져오기
+  const getUserCertifiList = async () => {
+    try {
+      const res = await fetch(`/api/myPage/myCertification`, { credentials: 'include' });
+      const data = await res.json();
+
+      if (res.ok) {
+        setMyCertification(data);
+      } else {
+        console.log(data);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
+  };
+
   const handleClickIcon = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!openBox) {
-      (async () => {
-        const res = await fetch(`/api/myPage/myCertification`, { credentials: 'include' });
-        const data = await res.json();
-        console.log(data);
-
-        setMyCertification(data);
-      })();
+      getUserCertifiList();
     }
     setOpenBox(!openBox);
   };
@@ -36,13 +44,7 @@ export function CertificationCreateIcon() {
 
   useEffect(() => {
     if (user._id) {
-      (async () => {
-        const res = await fetch(`/api/myPage/myCertification`, { credentials: 'include' });
-        const data = await res.json();
-        console.log(data);
-
-        setMyCertification(data);
-      })();
+      getUserCertifiList();
     }
   }, []);
 
@@ -89,36 +91,3 @@ export function CertificationCreateIcon() {
     </>
   );
 }
-
-const Certification = styled.div`
-  position: relative;
-
-  .icon {
-    cursor: pointer;
-    color: ${({ theme }) => theme.red};
-    font-size: 30px;
-  }
-
-  .hidden {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: -1;
-  }
-`;
-
-const TableContainer = styled.div`
-  background-color: white;
-  position: absolute;
-  top: 60px;
-  right: -70px;
-
-  border-radius: 4px;
-  box-shadow: 1px 1px 4px 1px #0000001e;
-
-  a:hover {
-    color: ${({ theme }) => theme.sub};
-  }
-`;

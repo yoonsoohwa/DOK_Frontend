@@ -5,6 +5,8 @@ import { AppDispatch, RootState, setCertificationPostOne, setCertificationReview
 import userImage from '/temp/뽀삐.png';
 import { useState } from 'react';
 import { certificationUrl } from 'api/apiUrls';
+import { useNavigate } from 'react-router-dom';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 interface ReviewEditProps {
   setIsEditing: (arg: boolean) => void;
@@ -14,10 +16,13 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
   const { certificationDetailPost, certificationDetailPostIndex } = useSelector((state: RootState) => state.certification);
   let { _id, matchingPost, review } = certificationDetailPost;
   const dispatch = useDispatch<AppDispatch>();
+  const nav = useNavigate();
 
   const [rating, setRating] = useState<number>(review.rating || 0);
   const [text, setText] = useState<string>(review.reviewText || '');
   const [errorText, setErrorText] = useState<boolean>(false);
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
 
   // 별점 변경 이벤트
   const handleChangeRating = (e: React.SyntheticEvent<Element, Event>, newValue: number | null) => {
@@ -47,23 +52,50 @@ export function ReviewEdit({ setIsEditing }: ReviewEditProps) {
 
     const newReview = { rating, reviewText: text.trim() };
 
-    const res = await fetch(`${certificationUrl}/newCertificationPostReview/${_id}`, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ matchingPost: matchingPost._id, review: newReview }),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`${certificationUrl}/newCertificationPostReview/${_id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ matchingPost: matchingPost._id, review: newReview }),
+      });
 
-    dispatch(setCertificationReview(data.review));
-    dispatch(setCertificationPostOne({ index: certificationDetailPostIndex, post: { ...certificationDetailPost, review: data.review } }));
-    setIsEditing(false);
+      if (res.ok) {
+        const data = await res.json();
+        dispatch(setCertificationReview(data.review));
+        dispatch(setCertificationPostOne({ index: certificationDetailPostIndex, post: { ...certificationDetailPost, review: data.review } }));
+        setIsEditing(false);
+      }
+
+      if (res.status === 400) {
+        setAlertDesc('(Bad Request)');
+      }
+
+      if (res.status === 401) {
+        setAlertDesc('(Unauthorized)');
+      }
+
+      if (res.status === 403) {
+        setAlertDesc('(Forbidden)');
+      }
+
+      if (res.status === 404) {
+        setAlertDesc('(Not Found)');
+      }
+
+      setOpenAlert(true);
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('(fetch error)');
+      setOpenAlert(true);
+    }
   };
 
   return (
     <styled.ReviewBox>
+      <AlertBottom open={openAlert} onClose={() => setOpenAlert(false)} type="error" title="후기 등록 실패" desc={alertDesc} />
       <div className="top">
         <div className="label">견주의 후기</div>
         <div className="left">

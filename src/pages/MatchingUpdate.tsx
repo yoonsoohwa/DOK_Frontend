@@ -22,6 +22,7 @@ import { AlertError } from 'common/alert/AlertError';
 import { matchingFormUrl } from 'api/apiUrls';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function MatchingUpdatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect } = useSelector(
@@ -34,6 +35,8 @@ export function MatchingUpdatePage() {
   const [validateText, setValidateText] = useState<string>('');
   const [openSubmit, setOpenSubmit] = useState<boolean>(false);
   const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
   const nav = useNavigate();
   const loc = useLocation();
 
@@ -50,17 +53,29 @@ export function MatchingUpdatePage() {
     };
 
     const _id = loc.state.post._id;
-    const res = await fetch(`${matchingFormUrl}/newMatchingRequest/${_id}`, {
-      method: 'PUT',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`${matchingFormUrl}/newMatchingRequest/${_id}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    nav('/matching');
+      if (res.ok) {
+        nav('/matching');
+      } else {
+        const data = await res.json();
+        console.log(data);
+        setAlertDesc('매칭 글 수정에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('매칭 글 수정에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   const handleClickSubmit = () => {
@@ -127,6 +142,8 @@ export function MatchingUpdatePage() {
         <Forbidden />
       ) : (
         <styled.CertifiCreate>
+          <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
           <AlertSuccess
             open={openSubmit}

@@ -36,15 +36,22 @@ export function EditMenu({ post, size }: EditMenuProps) {
   // 수정하기 버튼 클릭
   const handleClickEditButton = async () => {
     // 해당 글에 핸들러 지원자가 있는지 확인
-    const res = await fetch(`${matchingPostDetailUrl}/handler/${post._id}`, { credentials: 'include' });
-    const data = await res.json();
+    try {
+      const res = await fetch(`${matchingPostDetailUrl}/handler/${post._id}`, { credentials: 'include' });
 
-    if (data.length) {
-      // 지원자가 있다면 수정 불가 경고창 띄우기
-      return dispatch(setOpenEditAlert(true));
+      if (res.ok) {
+        const data = await res.json();
+        if (data.length) {
+          // 지원자가 있다면 수정 불가 경고창 띄우기
+          return dispatch(setOpenEditAlert(true));
+        }
+        navigate(`/matching/write/${post._id}`, { state: { post } });
+      } else {
+        console.log(res.status);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
     }
-
-    navigate(`/matching/write/${post._id}`, { state: { post } });
   };
 
   // 삭제하기 버튼 클릭

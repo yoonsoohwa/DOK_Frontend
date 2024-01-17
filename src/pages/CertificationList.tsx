@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, addCertificationPosts, resetCertificationPosts, setCertificationPostsCount, setFilter } from '../store';
 import { CertifiPostCard } from '../components/certification/PostCard';
 import { CertificationPostDetail } from '../components/certification/PostDetail';
-import { CardListContainer } from '../styles/CardListContainer';
+import { CardListContainer } from '../styles/CardListContainer.styled';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { useInView } from 'react-intersection-observer';
 import { Loading } from 'common/state/Loading';
@@ -21,6 +21,7 @@ export function CertificationListPage() {
 
   const [open, setOpen] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
   const [scrollRef, inView] = useInView({ threshold: 0.5 });
 
   // 디테일 모달 열기
@@ -40,6 +41,7 @@ export function CertificationListPage() {
       return;
     }
 
+    setLoading(true);
     const _page = certificationPosts.length ? page : 1;
     let url = `${certificationUrl}/allCertificationPost?page=${_page}&perPage=12`;
 
@@ -51,12 +53,20 @@ export function CertificationListPage() {
       url += `&walkingTime=${dayjs(filter.walkingTime).format('YYYY-MM-DD')}`;
     }
 
-    const res = await fetch(url);
-    const data = await res.json();
+    try {
+      const res = await fetch(url);
 
-    dispatch(setCertificationPostsCount(Number(data[0])));
-    dispatch(addCertificationPosts(data[1]));
-    setPage(_page + 1);
+      if (res.ok) {
+        const data = await res.json();
+
+        dispatch(setCertificationPostsCount(Number(data[0])));
+        dispatch(addCertificationPosts(data[1]));
+        setPage(_page + 1);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
   };
 
   // 무한 스크롤 감지
@@ -76,20 +86,17 @@ export function CertificationListPage() {
       <CertifiBanner />
       <styled.Section>
         <ListPageTopBar yellow={certificationPostsCount?.toString() || '0'} black="개의 산책 인증이 있습니다." />
-        {!certificationPostsCount ? (
-          certificationPostsCount === undefined ? (
-            <Loading />
-          ) : (
-            <EmptyData />
-          )
-        ) : (
+        {certificationPostsCount ? (
           <CardListContainer>
             {Children.toArray(certificationPosts.map((post, index) => <CertifiPostCard contents={post} onClick={handleOpen} index={index} />))}
             <styled.MyDialog onClose={handleClose} open={open} maxWidth={false}>
               <CertificationPostDetail handleClose={handleClose} />
             </styled.MyDialog>
           </CardListContainer>
+        ) : (
+          loading || <EmptyData />
         )}
+        {loading && <Loading />}
       </styled.Section>
       <div className="scroll-ref" ref={scrollRef}></div>
       <ScrollToTopButton />

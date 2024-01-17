@@ -21,6 +21,7 @@ import { matchingFormUrl } from 'api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
@@ -33,6 +34,8 @@ export function MatchingCreatePage() {
   const [openDogError, setOpenDogError] = useState<boolean>(false);
   const [openSubmit, setOpenSubmit] = useState<boolean>(false);
   const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -46,18 +49,29 @@ export function MatchingCreatePage() {
       requestText,
     };
 
-    const res = await fetch(`/api/matchingRequestRouter/matchingRequest`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
+    try {
+      const res = await fetch(`${matchingFormUrl}/matchingRequest`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    const data = await res.json();
-
-    navigate('/matching');
+      if (res.ok) {
+        navigate('/matching');
+      } else {
+        const data = await res.json();
+        console.log(data);
+        setAlertDesc('매칭 글 등록에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('매칭 글 등록에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   const handleCancle = () => {
@@ -104,6 +118,24 @@ export function MatchingCreatePage() {
     navigate('/mypage');
   };
 
+  const getUserDog = async () => {
+    try {
+      const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
+      const data = await res.json();
+      if (res.ok) {
+        if (!data.length) setOpenDogError(true);
+      } else {
+        console.log(data);
+        setAlertDesc('펫 정보 불러오기에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('펫 정보 불러오기에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
+  };
+
   useEffect(() => {
     // 로그인 했는지 확인
     if (!_user._id) {
@@ -112,18 +144,14 @@ export function MatchingCreatePage() {
     }
 
     // 유저에게 강아지가 없는지 확인
-    (async () => {
-      const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
-      const data = await res.json();
-      if (!data.length) {
-        setOpenDogError(true);
-      }
-    })();
+    getUserDog();
   }, []);
 
   return (
     <styled.CertifiCreate>
       {!_user._id && <AlertLogin isBack={true} />}
+      <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
       <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
       <AlertSuccess
         open={openSubmit}

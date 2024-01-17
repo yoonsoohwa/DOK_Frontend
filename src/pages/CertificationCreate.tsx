@@ -17,6 +17,7 @@ import { Forbidden } from 'common/state/Forbidden';
 import { NotFound } from 'common/state/NotFoundPage';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { AlertError } from 'common/alert/AlertError';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function CertificationCreatePage() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -29,10 +30,12 @@ export function CertificationCreatePage() {
   const [address, setAddress] = useState<string>('');
   const [errorAddress, setErrorAddress] = useState<boolean>(true);
   const [images, setImages] = useState<File[]>([]);
-  const [imagesURL, setImagesURL] = useState<string[] | null>();
+  const [imagesURL, setImagesURL] = useState<string[]>([]);
   const [errorImages, setErrorImages] = useState<boolean | string>('init');
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
   const [openError, setOpenError] = useState<boolean>(false);
   const [openSubmit, setOpenSubmit] = useState<boolean>(false);
   const [openCancle, setOpenCancle] = useState<boolean>(false);
@@ -57,16 +60,28 @@ export function CertificationCreatePage() {
       formData.append('image', file);
     });
 
-    const res = await fetch(`/api/upload/image`, {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`/api/upload/image`, {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      });
 
-    setImages(newImages);
-    setImagesURL(data);
-    setErrorImages(false);
+      if (res.ok) {
+        const data = await res.json();
+
+        setImages(newImages);
+        setImagesURL(data);
+        setErrorImages(false);
+      } else {
+        setAlertDesc('사진 업로드에 실패하였습니다.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('사진 업로드에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   // 선택한 이미지 하나씩 삭제하는 기능
@@ -83,20 +98,10 @@ export function CertificationCreatePage() {
     }
 
     const newImages = images.filter((file, _idx) => idx !== _idx);
-    let formData = new FormData();
-    newImages.forEach((file) => {
-      formData.append('image', file);
-    });
-
-    const res = await fetch(`/api/upload/image`, {
-      method: 'POST',
-      credentials: 'include',
-      body: formData,
-    });
-    const data = await res.json();
+    const newImagesURL = imagesURL.filter((str, _idx) => idx !== _idx);
 
     setImages(newImages);
-    setImagesURL(data);
+    setImagesURL(newImagesURL);
   };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,17 +132,27 @@ export function CertificationCreatePage() {
       certificationImg: imagesURL || [],
     };
 
-    const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
-    const data = await res.json();
+    try {
+      const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    nav('/certification');
+      if (res.ok) {
+        nav('/certification');
+      } else {
+        setAlertDesc('인증 글 등록에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('인증 글 등록에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   const handleClickSubmit = () => {
@@ -162,15 +177,24 @@ export function CertificationCreatePage() {
 
     // 해당 인증에 대한 매칭 글이 있는지 확인
     (async () => {
-      const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
-      const data = await res.json();
+      try {
+        const res = await fetch(`${matchingPostDetailUrl}/${postId}`);
 
-      if (!data.length) {
+        if (res.ok) {
+          const data = await res.json();
+
+          if (data.length) {
+            setMatchingPost(data[0]);
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        setIsNotFound(true);
+      } catch (e) {
+        console.log('fetch error: ', e);
         setIsNotFound(true);
       }
-
-      setMatchingPost(data[0]);
-      setIsLoading(false);
     })();
   }, []);
 
@@ -193,6 +217,8 @@ export function CertificationCreatePage() {
         <Forbidden />
       ) : (
         <styled.CertifiCreate>
+          <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
           <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 데이터입니다." desc="작성한 값을 다시 확인해주세요." />
           <AlertSuccess open={openSubmit} onClose={() => setOpenSubmit(false)} onClick={handleSubmit} title="글을 작성하시겠습니까?" desc={``} />
           <AlertError
@@ -271,7 +297,7 @@ export function CertificationCreatePage() {
                     />
                   </div>
                   <p className={`helper-text ${errorImages && errorImages !== 'init' && 'error'}`}>사진은 최대 6개까지 업로드 가능합니다.</p>
-                  {imagesURL && (
+                  {imagesURL.length > 0 && (
                     <div className="preview custom-scrollbar">
                       {Children.toArray(
                         imagesURL.map((url, idx) => (

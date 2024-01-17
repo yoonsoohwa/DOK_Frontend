@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { styled } from 'styled-components';
 import defaultImg from '/svg/dog_default_white.svg';
 import Female from '/svg/gender_female.svg';
 import Male from '/svg/gender_male.svg';
+import { Pet } from './MainPetBox.styled';
 
 interface MainPetBoxProps {
   petData: {
@@ -26,50 +26,3 @@ export function MainPetBox({ petData, className }: MainPetBoxProps) {
     </Pet>
   );
 }
-
-const Pet = styled.div`
-  width: 46%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 18vw;
-
-  &.left {
-    float: left;
-  }
-
-  &.right {
-    float: right;
-  }
-
-  &:nth-child(2) {
-    margin-top: 26vw;
-  }
-
-  .gender-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-
-    img {
-      width: 4vw;
-    }
-
-    div {
-      font-family: 'Gaegu';
-      font-weight: 900;
-      font-size: 3vw;
-      color: #3e3e3e;
-      height: 1em;
-    }
-  }
-
-  .pet-img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    display: block;
-    border-radius: 50%;
-  }
-`;
