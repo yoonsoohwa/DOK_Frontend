@@ -1,15 +1,14 @@
-import { FormControl, FormLabel, InputAdornment, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormControl, FormLabel, InputAdornment, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import dog from '/svg/dog_default.svg';
 import { Children, useEffect, useState } from 'react';
 import { AppDispatch, RootState, setDogSelect, setErrorDogSelect } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { DogType } from '../../types';
 import { Pets } from '@mui/icons-material';
-import { certificationUrl, matchingFormUrl, userUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 
 export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
   const { dogSelect, errorDogSelect } = useSelector((state: RootState) => state.matchingForm);
-  const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [dogs, setDogs] = useState<DogType[]>();
 
@@ -22,22 +21,26 @@ export function DogSelect({ isUpdate }: { isUpdate?: boolean }) {
 
     dispatch(setDogSelect(selected));
     dispatch(setErrorDogSelect(false));
-    console.log(dogSelect);
+  };
+
+  // 로그인 한 유저의 강아지 정보 가져오기
+  const getUserDog = async () => {
+    const res = await fetch(`${userUrl}/myDog`, { credentials: 'include' });
+    const data = await res.json();
+    if (res.ok) {
+      setDogs(data);
+    }
   };
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`${userUrl}/myDog`, { credentials: 'include' });
-      const data = await res.json();
-      if (res.ok) {
-        setDogs(data);
-      }
-    })();
+    getUserDog();
+
+    // 수정 페이지일 때
     if (isUpdate) {
-      console.log('??');
       dispatch(setErrorDogSelect(false));
       return;
     }
+
     dispatch(setDogSelect(undefined));
     dispatch(setErrorDogSelect(true));
   }, []);

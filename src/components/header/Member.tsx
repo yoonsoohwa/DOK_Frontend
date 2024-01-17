@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, setUser } from 'store/index';
 import { initUserType } from '../../types';
-import { CertificationCreateIcon } from './CertificationCreate';
+import { CertificationBookmark } from './CertificationBookmark';
 
 export const MemberHeader = () => {
   // 유저가 로그인 됐는지 확인하는 로직
@@ -64,7 +64,7 @@ export const MemberHeader = () => {
           {user._id ? (
             <SubCatagoryImg>
               <div>{/* <Bookmark /> */}</div>
-              <CertificationCreateIcon />
+              <CertificationBookmark />
               <StyledLink to={'/'}>
                 <div onClick={logOut}>로그아웃</div>
               </StyledLink>
@@ -94,8 +94,6 @@ const BorderDiv = styled.div`
   /* 그림자의 수평 수직 흐림 //불투명도      그림자 투명도 */
   box-shadow: 0 1px 6px 0 #00000010;
   background-color: #ffffff;
-  padding-right: 19px;
-  overflow: hidden;
 `;
 
 const MainDiv = styled.div`

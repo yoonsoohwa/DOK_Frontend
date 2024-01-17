@@ -6,31 +6,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MatchingCard } from '../components/matching/Card';
 import { ScrollToTopButton } from '../components/common/button/ScrollTopButton';
 import { ListPageTopBar } from '../components/common/list-page/ListPageTopBar';
-import { CardListContainer } from '../styles/CardListContainer';
+import { CardListContainer } from '../styles/CardListContainer.styled';
 import { useInView } from 'react-intersection-observer';
-import { AlertError } from 'common/alert/AlertError';
 import dayjs from 'dayjs';
 import { Loading } from 'common/state/Loading';
 import { EmptyData } from 'common/state/EmptyData';
-import { matchingFormUrl, matchingPostListUrl } from 'api/apiUrls';
+import { matchingPostListUrl } from 'api/apiUrls';
+import { PageLayout, Section } from '../styles/PageDefault.styled';
 
 export function MatchingListPage() {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingPosts, matchingPostsCount, matchingPostEditId } = useSelector((state: RootState) => state.matching);
+  const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
   const { filter } = useSelector((state: RootState) => state.filter);
 
   const [scrollRef, inView] = useInView();
-  const [page, setPage] = useState(1);
-  const [openEditAlert, setOpenEditAlert] = useState(false);
-  const [openDeleteAlert, setOpenDeleteAlert] = useState(false);
+  const [page, setPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(true);
 
+  // 매칭 글 데이터 불러오기
   const addMatchingCardList = async () => {
-    // if(matchingPosts) 전체 길이보다 작거나 같으면 그만 요청
-    // console.log(matchingPostsCount, matchingPosts);
+    // 모든 데이터를 다 불러왔을 경우 리턴
     if (matchingPostsCount && matchingPostsCount <= matchingPosts.length) {
       return;
     }
 
+    setLoading(true);
     const _page = matchingPosts.length ? page : 1;
     let url = `${matchingPostListUrl}?page=${_page}&perPage=12`;
 
@@ -44,31 +44,28 @@ export function MatchingListPage() {
 
     const res = await fetch(url);
     const data = await res.json();
-    // console.log(url, data);
 
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
     setPage(_page + 1);
-  };
 
-  const handleEditAlert = () => {
-    setOpenEditAlert(false);
-  };
+    try {
+      const res = await fetch(url);
 
-  const handleDelete = async () => {
-    const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
-    const data = await res.json();
-    console.log(data);
-    setOpenDeleteAlert(false);
-    dispatch(setMatchingPostEditId(''));
-  };
+      if (res.ok) {
+        const data = await res.json();
 
-  useEffect(() => {
-    if (matchingPostEditId) {
-      setOpenDeleteAlert(true);
+        dispatch(setMatchingPostCount(Number(data[0])));
+        dispatch(addMatchingPosts(data[1]));
+        setPage(_page + 1);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
     }
-  }, [matchingPostEditId]);
+  };
 
+  // 무한 스크롤 감지
   useEffect(() => {
     if (inView) {
       addMatchingCardList();
@@ -77,59 +74,30 @@ export function MatchingListPage() {
 
   useEffect(() => {
     dispatch(resetMatchingPosts());
+    dispatch(setMatchingPostEditId(''));
     dispatch(setFilter({ locationCode: '', walkingTime: '' }));
   }, []);
 
   return (
-    <MatchingList>
+    <PageLayout>
       <MatchingBanner />
       <Section>
         <ListPageTopBar yellow={matchingPostsCount?.toString() || '0'} black="개의 매칭 요청이 있습니다." />
-        {!matchingPostsCount ? (
-          matchingPostsCount === undefined ? (
-            <Loading />
-          ) : (
-            <EmptyData />
-          )
-        ) : (
+        {matchingPostsCount ? (
           <CardListContainer>
             {Children.toArray(
               matchingPosts.map((post) => {
-                return <MatchingCard post={post} setOpenAlert={setOpenEditAlert} />;
+                return <MatchingCard post={post} />;
               }),
             )}
           </CardListContainer>
+        ) : (
+          loading || <EmptyData />
         )}
+        {loading && <Loading />}
       </Section>
       <div className="scroll-ref" ref={scrollRef}></div>
-      <AlertError open={openEditAlert} onClick={handleEditAlert} desc={'핸들러 지원 요청이 있는 글은 수정이 불가능 합니다.'} />
-      <AlertError
-        open={openDeleteAlert}
-        onClick={handleDelete}
-        onClose={() => {
-          setOpenDeleteAlert(false);
-          dispatch(setMatchingPostEditId(''));
-        }}
-        desc={'정말 삭제하시겠습니까?'}
-      />
       <ScrollToTopButton />
-    </MatchingList>
+    </PageLayout>
   );
 }
-
-const MatchingList = styled.div`
-  width: 100%;
-  margin: 0 auto;
-
-  .scroll-ref {
-    height: 1px;
-    position: relative;
-    bottom: 200px;
-  }
-`;
-
-const Section = styled.div`
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-`;

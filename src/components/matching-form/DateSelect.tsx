@@ -9,7 +9,7 @@ import { FormLabel } from '@mui/material';
 import { Event } from '@mui/icons-material';
 
 export function DateSelect() {
-  const { dateSelect, errorDateSelect } = useSelector((state: RootState) => state.matchingForm);
+  const { dateSelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (newValue: Dayjs | null) => {

@@ -1,33 +1,29 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FilledInput, FormLabel, TextField } from '@mui/material';
+import * as styled from './LocationSelect.styled';
+import { Button, Dialog, DialogActions, FormLabel, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setLocation, setLocationDetail } from 'store/index';
-import styled from 'styled-components';
-import { LocationOn, Search } from '@mui/icons-material';
+import { LocationOn } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 
 const geocoder = new kakao.maps.services.Geocoder();
-// 키워드 검색
-// const ps = new kakao.maps.services.Places();
 
-export function LocationSelect() {
+interface LocationSelectProps {
+  editLocation?: { text: string; code: string };
+}
+
+export function LocationSelect({ editLocation }: LocationSelectProps) {
   const { locationSelect, locationDetailSelect } = useSelector((state: RootState) => state.matchingForm);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const [locationText, setLocationText] = useState('');
-  const [locationCode, setLocationCode] = useState('');
-  const [position, setPosition] = useState({ lat: 0, lng: 0 });
-  const [mapOpen, setMapOpen] = useState(false);
+  const [locationText, setLocationText] = useState<string>('');
+  const [locationCode, setLocationCode] = useState<string>('');
+  const [position, setPosition] = useState<{ lat: number; lng: number }>({ lat: 0, lng: 0 });
+  const [mapOpen, setMapOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
     setMapOpen(true);
-  };
-
-  const handleSubmit = () => {
-    const newLocation = { text: locationText, code: locationCode };
-    dispatch(setLocation(newLocation));
-    setMapOpen(false);
   };
 
   const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
@@ -36,27 +32,22 @@ export function LocationSelect() {
     }
   };
 
-  const handleChangeLocation = (lng: number, lat: number) => {
+  const handleSubmit = () => {
+    const newLocation = { text: locationText, code: locationCode };
+    dispatch(setLocation(newLocation));
+    setMapOpen(false);
+  };
+
+  const changeLocation = (lng: number, lat: number) => {
+    // 위치 텍스트 변경
     geocoder.coord2Address(lng, lat, (res, status) => {
       if (status === kakao.maps.services.Status.OK && res[0]) {
         var addr = res[0].road_address?.address_name || res[0].address.address_name;
         setLocationText(addr);
-        /*
-        검색 기능(추가기능) 구현 시 필요한 부분
-
-        dispatch(setLocation(addr));
-
-        마커를 클릭한 위치에 표시
-        marker.setPosition(mouseEvent.latLng);
-        marker.setMap(map);
-
-        인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보 표시
-        infowindow.setContent(content);
-        infowindow.open(map, marker);
-         */
       }
     });
 
+    // 위치 (법정동)코드 변경
     geocoder.coord2RegionCode(lng, lat, (res, status) => {
       if (status === kakao.maps.services.Status.OK) {
         setLocationCode(res[0].code);
@@ -64,16 +55,17 @@ export function LocationSelect() {
     });
   };
 
+  // 맵 마커 변경 시 위치 정보 저장
   useEffect(() => {
     if (position.lng && position.lat) {
-      handleChangeLocation(position.lng, position.lat);
+      changeLocation(position.lng, position.lat);
     }
   }, [position]);
 
+  // 로그인이 확인 됐을 시 사용자 정보로 초기화
   useEffect(() => {
     //사용자 위치 정보로 초기화
-    console.log(user.address);
-    let userLocation = user.address.text || '서울특별시 서초구 강남대로 399';
+    let userLocation = editLocation?.text || user.address.text;
 
     geocoder.addressSearch(userLocation, function (result, status) {
       // 정상적으로 검색이 완료됐으면
@@ -84,8 +76,7 @@ export function LocationSelect() {
         lng = Number(result[0].x);
 
         setPosition({ lat, lng });
-        console.log(lng, lat);
-        handleChangeLocation(lng, lat);
+        changeLocation(lng, lat);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         console.log('검색 결과가 존재하지 않습니다.');
       } else if (status === kakao.maps.services.Status.ERROR) {
@@ -95,16 +86,16 @@ export function LocationSelect() {
       geocoder.coord2RegionCode(lng, lat, (res, status) => {
         if (status === kakao.maps.services.Status.OK) {
           setLocationCode(res[0].code);
-          console.log(res[0].code);
-          console.log({ text: userLocation, code: res[0].code });
           dispatch(setLocation({ text: userLocation, code: res[0].code }));
         }
       });
     });
-  }, []);
+
+    dispatch(setLocationDetail(''));
+  }, [user]);
 
   return (
-    <LocationLayout>
+    <styled.LocationLayout>
       <FormLabel component="legend">
         <LocationOn className="icon" />
         만남 위치
@@ -124,8 +115,8 @@ export function LocationSelect() {
       />
 
       <Dialog disableEscapeKeyDown open={mapOpen} onClose={handleClose} maxWidth={false}>
-        <DialogTitleBox>만남 장소를 선택해주세요</DialogTitleBox>
-        <DialogContentBox dividers>
+        <styled.DialogTitleBox>만남 장소를 선택해주세요</styled.DialogTitleBox>
+        <styled.DialogContentBox dividers>
           <div className="location-text">
             <LocationOn className="icon" color="primary" />
             <span>{locationText}</span>
@@ -167,41 +158,8 @@ export function LocationSelect() {
               확인
             </Button>
           </DialogActions>
-        </DialogContentBox>
+        </styled.DialogContentBox>
       </Dialog>
-    </LocationLayout>
+    </styled.LocationLayout>
   );
 }
-
-const LocationLayout = styled.div`
-  .flex {
-    display: flex;
-    margin-bottom: 10px;
-  }
-
-  .location-text {
-    display: flex;
-    align-items: center;
-  }
-`;
-
-const DialogTitleBox = styled(DialogTitle)`
-  /* background-color: ${({ theme }) => theme.sub}; */
-  color: #5e5e5e;
-`;
-
-const DialogContentBox = styled(DialogContent)`
-  .location-text {
-    display: flex;
-    align-items: center;
-    height: 40px;
-    font-size: 28px;
-    font-weight: 500;
-    margin: 10px 0 30px;
-
-    .icon {
-      width: inherit;
-      height: inherit;
-    }
-  }
-`;
