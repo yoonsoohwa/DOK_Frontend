@@ -8,8 +8,9 @@ export function PaySelect() {
   const { paySelect, durationSelect, errorPaySelect } = useSelector((state: RootState) => state.matchingForm);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleError = (pay: number) => {
-    // 최저시급은 상수로 따로 빼기 !!!
+  // 선택한 시급이 최저시급 이상인지 확인
+  const errorCheck = (pay: number) => {
+    // 최저시급: 9860원
     if (pay < 9860 * durationSelect || Number.isNaN(pay)) {
       dispatch(setErrorPaySelect(true));
     } else {
@@ -17,14 +18,14 @@ export function PaySelect() {
     }
   };
 
-  const handleSetPay = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const pay = parseInt(event.target.value);
-    handleError(pay);
+    errorCheck(pay);
     dispatch(setPaySelect(pay));
   };
 
   useEffect(() => {
-    handleError(paySelect);
+    errorCheck(paySelect);
   }, [durationSelect]);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export function PaySelect() {
         error={errorPaySelect && errorPaySelect !== undefined}
         id="outlined-error-helper-text"
         value={paySelect}
-        onChange={handleSetPay}
+        onChange={handleChange}
         helperText={errorPaySelect && `*해당 시간 기준 최저 시급은 ${durationSelect * 9860}원 입니다.`}
         InputProps={{
           endAdornment: <InputAdornment position="end">원</InputAdornment>,

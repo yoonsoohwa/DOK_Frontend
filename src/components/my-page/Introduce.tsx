@@ -1,20 +1,18 @@
-import { styled } from 'styled-components';
 import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
-import { DogDetail } from './DogDetail';
-import { useEffect, useState } from 'react';
-import { AppDispatch, RootState, setDog } from 'store/index';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { AppDispatch, setDog } from 'store/index';
+import { useDispatch } from 'react-redux';
+import { Add, Dog, Writing } from './Introduce.style';
+import { myInfoUrl } from 'api/apiUrls';
 
 export const Introduce = () => {
-  const [clicked, setClicked] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { user, dog } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/users/myInfo', {
+        const response = await fetch(`${myInfoUrl}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -39,11 +37,19 @@ export const Introduce = () => {
     fetchData();
   }, []);
 
+  const handleModifyIntroduce = () => {
+    alert("소개글 수정 테스트");
+  }
+
   return (
     <>
       <Writing>
-        {/* <div>{writingData}</div>
-                <div><Button variant="contained" color="mainB" sx={{}}>소개글 수정</Button></div> */}
+        <div>소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 
+          소개글 소개글 소개글소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 750px로 width고정하였음          
+        </div>
+        <div>
+          <Button variant="contained" color="mainB" sx={{}} onClick={handleModifyIntroduce}>소개글 수정</Button>
+        </div>
       </Writing>
       <Dog>
         <p>나의 반려견</p>
@@ -54,35 +60,3 @@ export const Introduce = () => {
     </>
   );
 };
-
-const Writing = styled.div`
-  display: flex;
-  /* 개행문자 인식을 위한 코드 */
-  white-space: pre-wrap;
-  justify-content: space-between;
-  margin-left: 3%;
-
-  div:nth-child(1) {
-    align-self: center;
-  }
-
-  div:nth-child(2) {
-    align-self: center;
-  }
-`;
-
-const Dog = styled.div`
-  p:nth-child(1) {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 50px 10px 20px;
-  }
-`;
-
-const Add = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-`;
-
-// border: black solid 1px;

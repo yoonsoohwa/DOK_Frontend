@@ -8,5 +8,3 @@ export * from './MatchingCreate';
 export * from './MyPage';
 export * from './SignUp';
 export * from './MatchingUpdate';
-
-// export { CertificationCreate,CertificationList,Login,Main,MatchingDetail,MatchingList,Profile,SignUp };

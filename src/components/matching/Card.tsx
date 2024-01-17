@@ -1,46 +1,24 @@
 import { styled } from 'styled-components';
-import { AccountCircle, LocationOn, AccessTime } from '@mui/icons-material';
-import { CardContainer } from '../certification/PostCard';
+import { LocationOn, AccessTime } from '@mui/icons-material';
+import { CardContainer } from '../certification/PostCard.styled';
 import { MatchingPostType } from '../../types';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import { EditMenu } from 'common/user/EditMenu';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppDispatch, RootState, setCertificationDetail, setMatchingPostEditId } from 'store/index';
-import React, { useState } from 'react';
-import { matchingFormUrl, matchingPostDetailUrl } from 'api/apiUrls';
+import { RootState } from 'store/index';
+import React from 'react';
 
 interface MatchingCardProps {
   post: MatchingPostType;
-  setOpenAlert: (arg: boolean) => void;
 }
 
-export function MatchingCard({ post, setOpenAlert }: MatchingCardProps) {
+export function MatchingCard({ post }: MatchingCardProps) {
   const { _id, user, userDog, location, walkingDate, matchingStatus, walkingDuration, createdAt } = post;
   const { user: _user } = useSelector((state: RootState) => state.user);
-  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
-  const handleEdit = async () => {
-    const res = await fetch(`${matchingPostDetailUrl}/handler/${_id}`, { credentials: 'include' });
-    const data = await res.json();
-    console.log('?', data);
-    if (data.length) {
-      console.log('data: ', data);
-      return setOpenAlert(true);
-    }
-    navigate(`/matching/write/${_id}`, { state: { post } });
-  };
-
-  const handleRemove = async () => {
-    // const res = await fetch(`${matchingFormUrl}/handler/${_id}`, { credentials: 'include' });
-    // const data = await res.json();
-    // console.log(data);
-
-    dispatch(setMatchingPostEditId(_id));
-  };
 
   const handleToDetail = (e: React.MouseEvent) => {
     navigate(`/matching/${_id}`);
@@ -49,14 +27,14 @@ export function MatchingCard({ post, setOpenAlert }: MatchingCardProps) {
   return (
     <CardContainer className={`pointer ${matchingStatus !== 'process' && 'ended'}`} onClick={handleToDetail}>
       <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
-      {_user._id === user._id && matchingStatus === 'process' && <EditMenu _id={_id} handleEdit={handleEdit} handleRemove={handleRemove} />}
+      {_user._id === user._id && matchingStatus === 'process' && <EditMenu size="small" post={post} />}
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
         <div>
           <DogIcon src="/svg/card_dog_icon.svg" />
           <span>{userDog.dogName}</span>
         </div>
-        <div>
+        <div className="location">
           <LocationOn sx={{ fontSize: '120%' }} />
           <span>{location?.text}</span>
         </div>
@@ -77,6 +55,12 @@ const WalkInfo = styled.div`
   flex-direction: column;
   font-size: 13px;
   padding-top: 10px;
+
+  .location span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   & > div {
     display: flex;

@@ -16,12 +16,14 @@ export function AlertLogin({ isBack }: AlertErrorProps) {
   const dispatch = useDispatch<AppDispatch>();
   const nav = useNavigate();
 
-  const handleClick = () => {
+  // 로그인 하러 가기
+  const handleCheckButtonClick = () => {
     nav('/login');
     dispatch(setOpenAlertLogin(false));
   };
 
-  const handleCancle = () => {
+  // 로그인 하러 가기 취소
+  const handleCancleButtonClick = () => {
     dispatch(setOpenAlertLogin(false));
     if (isBack) {
       nav(-1);
@@ -39,10 +41,10 @@ export function AlertLogin({ isBack }: AlertErrorProps) {
                 로그인이 필요한 서비스입니다. 계정이 없는 경우 회원가입을 진행해주세요.
               </div>
               <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
-                <Button variant="contained" color="redW" onClick={handleClick}>
+                <Button variant="contained" color="redW" onClick={handleCheckButtonClick}>
                   확인
                 </Button>
-                <Button variant="outlined" color="redW" onClick={handleCancle}>
+                <Button variant="outlined" color="redW" onClick={handleCancleButtonClick}>
                   취소
                 </Button>
               </Box>

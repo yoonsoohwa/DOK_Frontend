@@ -1,12 +1,11 @@
 import React from 'react';
-import { styled } from 'styled-components';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab, Box } from '@mui/material';
-
 import { Introduce } from './Introduce';
 import { Matching } from './Matching';
 import { Certification } from './Certification';
 import { Modify } from './information-modify/Modify';
+import { TotalFrame } from './Navbar.style';
 
 export const Navbar = () => {
   const [value, setValue] = React.useState('1');
@@ -44,15 +43,3 @@ export const Navbar = () => {
     </TotalFrame>
   );
 };
-
-const TotalFrame = styled.div`
-  /* display: flex; */
-  /* justify-content: flex-start; */
-  max-width: 1110px;
-  margin: 0% auto 5% auto;
-  /* border: black solid 1px; */
-
-  .MuiTabPanel-root {
-    padding: 0;
-  }
-`;

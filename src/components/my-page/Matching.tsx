@@ -1,37 +1,37 @@
-import { styled } from 'styled-components';
 import { MatchingCard } from '../matching/Card';
 import { TopBarTitle } from 'common/list-page/TopBarTitle';
-import { CardListContainer } from '../../styles/CardListContainer';
+import { CardListContainer } from '../../styles/CardListContainer.styled';
 import { Children, useEffect, useState } from 'react';
 import { AlertError } from 'common/alert/AlertError';
 import { ScrollToTopButton } from 'common/button/ScrollTopButton';
 import { addMatchingPosts, resetMatchingPosts, setMatchingPostCount } from 'store/matchingSlice';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from 'store/index';
 import { EmptyData } from 'common/state/EmptyData';
 import { Loading } from 'common/state/Loading';
+import { MainFrame, Section, SubFrame, TitleFrame } from './Matching.style';
+import { myMatchingPostsUrl } from 'api/apiUrls';
 
 export const Matching = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [openAlert, setOpenAlert] = useState(false);
   const { matchingPosts, matchingPostsCount } = useSelector((state: RootState) => state.matching);
 
-  const [openAlert, setOpenAlert] = useState(false);
-
+  // 매칭 리스트 API 연동
   const addMatchingCardList = async () => {
-    let url = `/api/mypage/myMatchingPosts`;
-
-    const res = await fetch(url, { credentials: 'include' });
+    const res = await fetch(`${myMatchingPostsUrl}`, { credentials: 'include' });
     const data = await res.json();
 
     dispatch(setMatchingPostCount(Number(data[0])));
     dispatch(addMatchingPosts(data[1]));
   };
 
+  // 오류시 alert
   const handleAlert = () => {
     setOpenAlert(false);
   };
 
+  // 페이지 로드 시 해당 유저의 매칭글 불러오기
   useEffect(() => {
     dispatch(resetMatchingPosts());
     addMatchingCardList();
@@ -68,27 +68,3 @@ export const Matching = () => {
     </>
   );
 };
-
-const MainFrame = styled.div`
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-`;
-
-const SubFrame = styled.div`
-  /* border: 5px solid black; */
-  display: flex;
-  width: 100%;
-`;
-
-const TitleFrame = styled.div`
-  display: flex;
-  margin: 50px 10px 20px;
-`;
-
-const Section = styled.div`
-  width: 100%;
-  max-width: 1140px;
-  margin: 0 auto;
-`;

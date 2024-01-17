@@ -4,4 +4,4 @@ export * from './MatchingPostType';
 export * from './UserType';
 export * from './RequestHandlerType';
 export * from './MatchingCommentType';
-// export * from '.'
+export * from './MypageUserType';

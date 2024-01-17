@@ -1,3 +1,4 @@
+import * as styled from './TopBarFilter.styled';
 import {
   Box,
   Button,
@@ -19,8 +20,7 @@ import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import React, { useEffect, useState } from 'react';
-import { styled } from 'styled-components';
-import { Clear, SimCardDownload } from '@mui/icons-material';
+import { Clear } from '@mui/icons-material';
 import { SearchButton } from 'common/button/SearchButton';
 import beobjeongdong from 'api/beobjeongdong';
 import { useDispatch } from 'react-redux';
@@ -56,17 +56,20 @@ export function TopBarFilter() {
     setDong(value);
   };
 
+  // 지역 선택 초기화
   const resetDistrict = () => {
     setSido('');
     setSigugun('');
     setDong('');
   };
 
+  // 지역 선택 모달 오픈
   const handleClickOpen = () => {
     setOpen(true);
     focus();
   };
 
+  // 지역 선택 모달 닫기
   const handleClickClose = (event: React.SyntheticEvent<unknown>) => {
     setOpen(false);
     resetDistrict();
@@ -82,9 +85,8 @@ export function TopBarFilter() {
     resetDistrict();
   };
 
-  const handleFilter = () => {
+  const handleSearchButtonClick = () => {
     const filter = { locationCode: districtCode, walkingTime: date?.format() };
-    console.log('set filter : ', filter);
     dispatch(setFilter(filter));
     dispatch(resetMatchingPosts());
     dispatch(resetCertificationPosts());
@@ -93,12 +95,11 @@ export function TopBarFilter() {
   };
 
   useEffect(() => {
-    //districtCode
     dispatch(setFilter({ locationCode: districtCode, walkingTime: '' }));
   }, []);
 
   return (
-    <Section>
+    <styled.Section>
       <TextField className="district" fullWidth id="outlined-required" label="지역 검색" onClick={handleClickOpen} value={district} InputProps={{ readOnly: true }} size="small" />
       <Dialog disableEscapeKeyDown open={open}>
         <DialogTitle>검색할 지역을 선택해주세요</DialogTitle>
@@ -190,7 +191,7 @@ export function TopBarFilter() {
         </DialogActions>
       </Dialog>
 
-      <DateSection>
+      <styled.DateSection>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DatePicker']} sx={{ width: '200px' }}>
             <DesktopDatePicker
@@ -208,39 +209,9 @@ export function TopBarFilter() {
             <Clear />
           </IconButton>
         )}
-      </DateSection>
+      </styled.DateSection>
 
-      {/* <MyButton variant="contained" color="grayB" startIcon={<Search />} sx={{ minWidth: "10px", marginLeft: "8px", padding: "10px 15px", span: { margin: "0 " } }}></MyButton> */}
-      <SearchButton onClick={handleFilter} />
-    </Section>
+      <SearchButton onClick={handleSearchButtonClick} />
+    </styled.Section>
   );
 }
-
-const Section = styled.div`
-  width: 100%;
-  max-width: 500px;
-  font-size: 20px;
-  font-weight: 800;
-  display: flex;
-  align-items: end;
-
-  > div {
-    margin-left: 6px;
-  }
-
-  .district .MuiInputBase-input {
-    cursor: pointer;
-  }
-`;
-
-const DateSection = styled.div`
-  position: relative;
-  .date-clear {
-    position: absolute;
-    top: 8px;
-    right: 28px;
-  }
-`;
-const MyButton = styled(Button)`
-  padding-left: 8px;
-`;

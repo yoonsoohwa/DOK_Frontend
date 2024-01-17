@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import profile_badge from "/svg/profile_badge.svg";
+import * as styled from './UserNickname.styled';
+import profile_badge from '/svg/profile_badge.svg';
 
 interface UserNicknameProps {
   nickname: string;
@@ -8,19 +8,9 @@ interface UserNicknameProps {
 
 export function UserNickname({ nickname, badge }: UserNicknameProps) {
   return (
-    <NicknameBox>
-      <span>{nickname || "user"}</span>
+    <styled.NicknameBox>
+      <span>{nickname || 'user'}</span>
       {badge && <img src={profile_badge} />}
-    </NicknameBox>
+    </styled.NicknameBox>
   );
 }
-
-const NicknameBox = styled.div`
-  width: 90%;
-  display: flex;
-  align-items: center;
-
-  img {
-    height: 1.1em;
-  }
-`;

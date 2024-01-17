@@ -65,7 +65,6 @@ const matchingSlice = createSlice({
     },
     updateMatchingComment: (state, action) => {
       const { commentId, commentData } = action.payload;
-      console.log(commentData);
       const commentIdx = state.matchingComments.findIndex((comment) => comment._id === commentId);
       state.matchingComments.splice(commentIdx, 1, commentData);
     },

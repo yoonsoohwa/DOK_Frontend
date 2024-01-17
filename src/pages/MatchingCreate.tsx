@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { styled } from 'styled-components';
+import * as styled from './MatchingForm.styled';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -12,16 +12,16 @@ import { RequestTextField } from '../components/matching-form/RequestTextField';
 import { LocationSelect } from '../components/matching-form/LocationSelect';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState, resetMatchingSelect, setOpenAlertLogin } from '../store';
+import { AppDispatch, RootState, setOpenAlertLogin } from '../store';
 import { useNavigate } from 'react-router';
 import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 import dayjs from 'dayjs';
 import { AlertError } from 'common/alert/AlertError';
 import { matchingFormUrl } from 'api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
-import { useLoginCheck } from '../hooks/useLoginCheck';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
+import { AlertBottom } from 'common/alert/AlertBottom';
 
 export function MatchingCreatePage() {
   const { dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, errorRequestText, locationSelect, locationDetailSelect } =
@@ -29,11 +29,13 @@ export function MatchingCreatePage() {
   const { user: _user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const [initData, setInitData] = useState({ dateSelect, durationSelect, paySelect, locationSelect });
-  const [openError, setOpenError] = useState(false);
-  const [validateText, setValidateText] = useState('');
-  const [openDogError, setOpenDogError] = useState(false);
-  const [openSubmit, setOpenSubmit] = useState(false);
-  const [openCancle, setOpenCancle] = useState(false);
+  const [openError, setOpenError] = useState<boolean>(false);
+  const [validateText, setValidateText] = useState<string>('');
+  const [openDogError, setOpenDogError] = useState<boolean>(false);
+  const [openSubmit, setOpenSubmit] = useState<boolean>(false);
+  const [openCancle, setOpenCancle] = useState<boolean>(false);
+  const [openAlertBottom, setOpenAlertBottom] = useState<boolean>(false);
+  const [alertDesc, setAlertDesc] = useState<string>('');
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -47,26 +49,36 @@ export function MatchingCreatePage() {
       requestText,
     };
 
-    const res = await fetch(`/api/matchingRequestRouter/matchingRequest`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(reqBody),
-    });
+    try {
+      const res = await fetch(`${matchingFormUrl}/matchingRequest`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(reqBody),
+      });
 
-    const data = await res.json();
-    console.log(data);
-
-    navigate('/matching');
+      if (res.ok) {
+        navigate('/matching');
+      } else {
+        const data = await res.json();
+        console.log(data);
+        setAlertDesc('매칭 글 등록에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('매칭 글 등록에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   const handleCancle = () => {
     navigate('/matching');
   };
 
-  const handleOpenSubmit = () => {
+  const handleClickSubmit = () => {
     if (errorDogSelect) {
       setValidateText('강아지를 선택해주세요.');
       return setOpenError(true);
@@ -86,8 +98,7 @@ export function MatchingCreatePage() {
     setOpenSubmit(true);
   };
 
-  const handleOpenCancle = () => {
-    console.log(initData, dogSelect, errorDogSelect, dateSelect, errorDateSelect, durationSelect, paySelect, errorPaySelect, requestText, locationSelect, locationDetailSelect);
+  const handleClickCancle = () => {
     if (
       dogSelect ||
       dateSelect !== initData.dateSelect ||
@@ -102,8 +113,27 @@ export function MatchingCreatePage() {
     handleCancle();
   };
 
+  // 마이페이지 이동하기 버튼 클릭 이벤트
   const handleGoToMypage = () => {
     navigate('/mypage');
+  };
+
+  const getUserDog = async () => {
+    try {
+      const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
+      const data = await res.json();
+      if (res.ok) {
+        if (!data.length) setOpenDogError(true);
+      } else {
+        console.log(data);
+        setAlertDesc('펫 정보 불러오기에 실패하였습니다. 다시 시도해주세요.');
+        setOpenAlertBottom(true);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+      setAlertDesc('펫 정보 불러오기에 실패하였습니다. 다시 시도해주세요.');
+      setOpenAlertBottom(true);
+    }
   };
 
   useEffect(() => {
@@ -114,19 +144,14 @@ export function MatchingCreatePage() {
     }
 
     // 유저에게 강아지가 없는지 확인
-    (async () => {
-      const res = await fetch(`${matchingFormUrl}/doginformation/${_user._id}`);
-      const data = await res.json();
-      console.log(data);
-      if (!data.length) {
-        setOpenDogError(true);
-      }
-    })();
+    getUserDog();
   }, []);
 
   return (
-    <CertifiCreate>
+    <styled.CertifiCreate>
       {!_user._id && <AlertLogin isBack={true} />}
+      <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
+
       <AlertSnackbar open={openError} onClose={() => setOpenError(false)} type="error" title="잘못된 입력" desc={validateText} />
       <AlertSuccess
         open={openSubmit}
@@ -151,77 +176,41 @@ export function MatchingCreatePage() {
       />
 
       <div className="body">
-        <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleOpenSubmit} onReset={handleOpenCancle}>
+        <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleClickSubmit} onReset={handleClickCancle}>
           <PostCreateGroup title="Pet">
-            <Contents>
+            <styled.Contents>
               <DogSelect />
-            </Contents>
+            </styled.Contents>
           </PostCreateGroup>
 
           <PostCreateGroup title="Infomation">
             <div className="flex">
               <div className="half">
-                <Contents>
+                <styled.Contents>
                   <DateSelect />
-                </Contents>
-                <Contents>
+                </styled.Contents>
+                <styled.Contents>
                   <DurationSelect />
-                </Contents>
+                </styled.Contents>
               </div>
               <div className="half">
-                <Contents>
+                <styled.Contents>
                   <PaySelect />
-                </Contents>
-                <Contents>
+                </styled.Contents>
+                <styled.Contents>
                   <LocationSelect />
-                </Contents>
+                </styled.Contents>
               </div>
             </div>
           </PostCreateGroup>
 
           <PostCreateGroup title="Addition">
-            <Contents>
+            <styled.Contents>
               <RequestTextField />
-            </Contents>
+            </styled.Contents>
           </PostCreateGroup>
         </PostCreateFormLayout>
       </div>
-    </CertifiCreate>
+    </styled.CertifiCreate>
   );
 }
-
-const CertifiCreate = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background: ${({ theme }) => theme.main4};
-
-  .body {
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .half {
-    width: 48%;
-  }
-
-  .MuiFormLabel-root {
-    margin-bottom: 4px;
-    font-size: small;
-  }
-`;
-
-const Contents = styled.div`
-  padding-bottom: 40px;
-
-  legend {
-    display: flex;
-  }
-
-  .icon {
-    color: #959595;
-    width: 18px;
-    height: auto;
-    margin-right: 4px;
-  }
-`;
