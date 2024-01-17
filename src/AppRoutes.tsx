@@ -18,6 +18,7 @@ import {
 import { useScrollTop } from './hooks/useScrollTop';
 import { NotFound } from 'common/state/NotFoundPage';
 import { useLoginCheck } from './hooks/useLoginCheck';
+import { UserInfo } from './pages/UserInfo';
 import { AlertControll } from './components/matching/AlertControll';
 
 export function AppRoutes() {
@@ -41,6 +42,7 @@ export function AppRoutes() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/userinfo/:id" element={<UserInfo />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
