@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { AlertError } from 'common/alert/AlertError';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, deleteMatchingComment } from 'store/index';
+import { AppDispatch, RootState, deleteIsOpenCommentInput, deleteMatchingComment, setIsOpenCommentInput, toggleIsOpenCommentInput } from 'store/index';
 
 interface type {
   comment: MatchingCommentType;
@@ -17,15 +17,14 @@ interface type {
 
 export function CommentItem({ comment, commentType }: type) {
   const dispatch = useDispatch<AppDispatch>();
-  const { matchingDetailPost, matchingComments } = useSelector((state: RootState) => state.matching);
+  const { matchingDetailPost, matchingComments, isOpenCommentInput } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
-  const [openInput, setOpenInput] = useState(false);
   const [openErrorAlert, setOpenErrorAlert] = useState(false);
   const [editComment, setEditComment] = useState(false);
   const { _id, comment: text, createdAt, user: commentUser, parentCommentId, updatedAt } = comment;
 
   const handleAddReply = () => {
-    setOpenInput(!openInput);
+    dispatch(toggleIsOpenCommentInput(_id));
   };
 
   const handleRemove = async () => {
@@ -38,8 +37,8 @@ export function CommentItem({ comment, commentType }: type) {
       });
       const data = await res.json();
       setOpenErrorAlert(false);
-      setOpenInput(false);
       dispatch(deleteMatchingComment(_id));
+      dispatch(deleteIsOpenCommentInput(_id));
     } catch (err) {
       console.log(err);
     }
@@ -48,6 +47,12 @@ export function CommentItem({ comment, commentType }: type) {
   useEffect(() => {
     setEditComment(false);
   }, [matchingComments]);
+
+  useEffect(() => {
+    if (!commentType) {
+      dispatch(setIsOpenCommentInput(_id));
+    }
+  }, []);
 
   return editComment ? (
     parentCommentId ? (
@@ -58,7 +63,6 @@ export function CommentItem({ comment, commentType }: type) {
   ) : (
     <CommentItemLayout>
       <UserImg src={commentUser.userImg || userImage} className={`user-img ${commentType}`} />
-
       <div>
         <CommentInfo>
           <span>{commentUser.nickname}</span>
@@ -84,9 +88,8 @@ export function CommentItem({ comment, commentType }: type) {
             </>
           )}
         </CommentItemLayout>
-        {openInput && <CommentInput commentType="reply" parentCommentId={_id} />}
+        {isOpenCommentInput[_id] && <CommentInput commentType="reply" parentCommentId={_id} />}
       </div>
-
       <AlertError title="정말 삭제하시겠습니까?" open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} onClick={handleRemove} />
     </CommentItemLayout>
   );
