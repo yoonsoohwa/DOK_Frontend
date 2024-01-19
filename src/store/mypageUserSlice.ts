@@ -1,17 +1,19 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { MypageDogType, MypageUserType, initMypageUserType } from '../types';
+import { MypageDogType, MypageRatingType, MypageUserType, initMypageUserType } from '../types';
 
 
 interface MypageUserSliceType {
   mypageUser: MypageUserType;
   mypageDog: MypageDogType[],
-  mypageSelectedImg: string | ''
+  mypageSelectedImg: string | '',
+  mypageRating : MypageRatingType[],
 }
 
 const initialState: MypageUserSliceType = {
     mypageUser: initMypageUserType,
     mypageDog: [],
     mypageSelectedImg: '',
+    mypageRating: [],
 };
 
 const mypageUser = createSlice({
@@ -27,8 +29,11 @@ const mypageUser = createSlice({
     setMypageSelectedImg: (state, action) => {
         state.mypageSelectedImg = action.payload;
     },
+    setMypageRating: (state, action : PayloadAction<MypageRatingType[]>) => {
+      state.mypageRating = action.payload;
+    },
   },
 });
 
-export const { setMypageUser, setMypageDog, setMypageSelectedImg } = mypageUser.actions;
+export const { setMypageUser, setMypageDog, setMypageSelectedImg, setMypageRating } = mypageUser.actions;
 export default mypageUser;

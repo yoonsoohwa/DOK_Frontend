@@ -1,8 +1,8 @@
 import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
 import { useEffect, useState } from 'react';
-import { AppDispatch, setDog } from 'store/index';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState, setDog } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
 import { Add, Dog, Writing } from './Introduce.style';
 import { myInfoUrl } from 'api/apiUrls';
 import { TextField } from '@mui/material';
@@ -10,6 +10,7 @@ import { TextField } from '@mui/material';
 export const Introduce = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const { mypageUser } = useSelector((state: RootState) => state.mypageUser);
   const [myIntroduce, setMyIntroduce] = useState<string>('');
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export const Introduce = () => {
       <Writing>
         <div>
         <TextField
-          placeholder={'소개글을 작성해 주세요.최대 160자까지 작성 가능합니다.'}
+          placeholder={ mypageUser.introduce ? mypageUser.introduce : '소개글을 작성해 주세요.최대 160자까지 작성 가능합니다.'}
           InputProps={{ inputProps: { maxLength: 160 } }}
           multiline
           rows={3}

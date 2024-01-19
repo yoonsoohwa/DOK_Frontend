@@ -2,18 +2,17 @@
 import { useEffect, useState } from "react";
 import { MypageProfileInfo } from "../components/my-page/MypageProfileInfo";
 import { Navbar } from "../components/user-my-page/Navbar";
-import { useDispatch } from "react-redux";
-import { AppDispatch, setIsLoading, setMypageDog, setMypageUser } from "store/index";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState, setIsLoading, setMypageDog, setMypageRating, setMypageUser } from "store/index";
 import { Forbidden } from 'common/state/Forbidden';
 import { useParams } from "react-router-dom";
-import { initUserType } from "../types";
-import mypageUser from "store/mypageUserSlice";
 
 // 유저 마이페이지
 export function UserInfo() {
 
   const [isUser, setIsUser] = useState<boolean>(true);
   const { id } = useParams();
+  const { mypageRating } = useSelector((state: RootState) => state.mypageUser); 
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -42,16 +41,19 @@ export function UserInfo() {
             console.log(`디스패치 전`);
             dispatch(setMypageUser(data.user));
             dispatch(setMypageDog(data.userDogs));
+            dispatch(setMypageRating(data.rating));
+            
             // setIsUser(true);
             console.log(`디스패치 후`);
+            console.log(mypageRating[0]);
             console.log(`${JSON.stringify(data)}`);
             
           } else {
-            dispatch(setMypageUser(initUserType));
+            // console.error('유저 마이페이지 조회 오류');  
           }
           dispatch(setIsLoading(false));
         } catch (error) {
-          console.error('유저 마이페이지 조회 오류:', error);
+          // console.error('유저 마이페이지 조회 오류:', error);
         }
       };
   
