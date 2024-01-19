@@ -29,7 +29,7 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
 
   return (
     <styled.CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
-      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
+      <ProfileInfo _id={user._id} nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
       <Tooltip
         title={
           <div style={{ fontSize: '14px' }}>
