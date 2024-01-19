@@ -8,8 +8,6 @@ export const BorderDiv = styled.div`
   z-index: 999;
   box-shadow: 0 1px 6px 0 #00000010;
   background-color: #ffffff;
-  padding-right: 19px;
-  overflow: hidden;
 `;
 
 export const MainDiv = styled.div`
