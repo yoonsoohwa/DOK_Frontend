@@ -15,11 +15,19 @@ export function AlertControll() {
   };
 
   const handleDelete = async () => {
-    const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
-    const data = await res.json();
-    dispatch(setOpenDeleteAlert(false));
-    dispatch(setMatchingPostEditId(''));
-    navigate(`/matching`);
+    try {
+      const res = await fetch(`${matchingFormUrl}/noMatchingRequest/${matchingPostEditId}`, { credentials: 'include', method: 'PUT' });
+      const data = await res.json();
+      if (res.ok) {
+        dispatch(setOpenDeleteAlert(false));
+        dispatch(setMatchingPostEditId(''));
+        navigate(`/matching`);
+      } else {
+        console.log(data);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
   };
 
   return (
