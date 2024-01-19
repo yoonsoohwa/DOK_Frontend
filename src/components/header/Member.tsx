@@ -38,6 +38,12 @@ export const MemberHeader = () => {
           </Link>
           <CatagoryDiv>
             <div>
+              <StyledLink to={'/profile'}>
+                유저마이페이지
+                {pathname === '/profile' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
+              </StyledLink>
+            </div>
+            <div>
               <StyledLink to={'/matching'}>
                 매칭
                 {pathname === '/matching' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
