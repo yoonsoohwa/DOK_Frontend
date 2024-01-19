@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import * as styled from './MatchingForm.styled';
+import { CertifiCreate, Contents } from './MatchingForm.styled';
 import { PostCreateFormLayout } from 'common/create-page/PostCreateFormLayout';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
@@ -148,7 +148,7 @@ export function MatchingCreatePage() {
   }, []);
 
   return (
-    <styled.CertifiCreate>
+    <CertifiCreate>
       {!_user._id && <AlertLogin isBack={true} />}
       <AlertBottom open={openAlertBottom} onClose={() => setOpenAlertBottom(false)} type="error" desc={alertDesc} />
 
@@ -178,39 +178,39 @@ export function MatchingCreatePage() {
       <div className="body">
         <PostCreateFormLayout title="매칭 신청하기" onSubmit={handleClickSubmit} onReset={handleClickCancle}>
           <PostCreateGroup title="Pet">
-            <styled.Contents>
+            <Contents>
               <DogSelect />
-            </styled.Contents>
+            </Contents>
           </PostCreateGroup>
 
           <PostCreateGroup title="Infomation">
             <div className="flex">
               <div className="half">
-                <styled.Contents>
+                <Contents>
                   <DateSelect />
-                </styled.Contents>
-                <styled.Contents>
+                </Contents>
+                <Contents>
                   <DurationSelect />
-                </styled.Contents>
+                </Contents>
               </div>
               <div className="half">
-                <styled.Contents>
+                <Contents>
                   <PaySelect />
-                </styled.Contents>
-                <styled.Contents>
+                </Contents>
+                <Contents>
                   <LocationSelect />
-                </styled.Contents>
+                </Contents>
               </div>
             </div>
           </PostCreateGroup>
 
           <PostCreateGroup title="Addition">
-            <styled.Contents>
+            <Contents>
               <RequestTextField />
-            </styled.Contents>
+            </Contents>
           </PostCreateGroup>
         </PostCreateFormLayout>
       </div>
-    </styled.CertifiCreate>
+    </CertifiCreate>
   );
 }
