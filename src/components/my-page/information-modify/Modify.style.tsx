@@ -1,10 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const MainContainer = styled.div`
   box-sizing: border-box;
   margin: 0 auto;
   width: 600px;
   padding: 30px 0;
+
+  @media screen and (max-width: 600px) {
+    width: 425px;
+  }
 `;
 
 export const TabContainer = styled.nav`
@@ -43,11 +47,15 @@ export const ModifyTab = styled.div`
   }
 `;
 
-export const TabImg = styled.img<{$align: 'left' | 'right'}>`
+export const TabImg = styled.img<{ $align: 'left' | 'right' }>`
   position: absolute;
   top: -3px;
-  ${props => props.$align} : 280px;
+  ${(props) => props.$align} : 280px;
   z-index: 5;
+
+  @media screen and (max-width: 600px) {
+    ${(props) => props.$align} : 190px;
+  }
 `;
 
 export const ModifyContainer = styled.div`

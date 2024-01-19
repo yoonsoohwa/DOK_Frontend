@@ -9,6 +9,10 @@ export const ModifyInfoContainer = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 10px;
+
+  @media screen and (max-width: 600px) {
+    padding: 40px 10px;
+  }
 `;
 
 export const AddressLayout = styled.div`

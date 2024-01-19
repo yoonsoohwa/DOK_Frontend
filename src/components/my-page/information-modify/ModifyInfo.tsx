@@ -4,17 +4,15 @@ import { AppDispatch, RootState, setCheckModifyInfoIsValid } from 'store/index';
 import DaumPostcode from 'react-daum-postcode';
 import { ChangeProfileImg } from './ChangeProfileImg';
 import { ButtonMain } from 'common/button/ButtonMain';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Modal from 'react-modal';
 import { myInfoUrl } from '../../../api/apiUrls';
 import { AddressLayout, ButtonContainer, ModifyInfoContainer } from './ModifyInfo.style';
 import { setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar, setOpenErrorModifyInfoAlert } from 'store/alertSlice';
+import { Box, Button, TextField, Modal } from '@mui/material';
+
 
 export function ModifyInfo() {
   const dispatch = useDispatch<AppDispatch>();
   const { user, selectedImg, checkModifyInfoIsValid } = useSelector((state: RootState) => state.user);
-
   const [isOpenSearchAddress, setIsOpenSearchAddress] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState({
     id: user.userId,
@@ -137,25 +135,24 @@ export function ModifyInfo() {
       <AddressLayout>
         <TextField label="주소" value={userInfo.address.text} sx={sx} size="small" disabled />
         <Button variant="outlined" sx={{ width: '110px', height: '40px', marginLeft: '10px' }} onClick={() => setIsOpenSearchAddress(true)}>
-          지역검색
+          주소검색
         </Button>
-        <Modal
-          isOpen={isOpenSearchAddress}
-          ariaHideApp={false}
-          style={{
-            content: {
-              width: '50%',
-              height: '50%',
-              margin: 'auto',
-            },
-            overlay: {
-              zIndex: 10,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            },
-          }}
-        >
-          <DaumPostcode onComplete={handleSelectAddress} />
-        </Modal>
+        <Modal open={isOpenSearchAddress} onClose={() => setIsOpenSearchAddress(false)}>
+            <Box
+              sx={{
+                position: 'absolute' as 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 700,
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <DaumPostcode onComplete={handleSelectAddress} />
+            </Box>
+          </Modal>
       </AddressLayout>
       <TextField
         label="전화번호"
