@@ -1,15 +1,15 @@
-import { styled } from 'styled-components';
 import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from '@mui/icons-material';
 import { HandlerRequestButton } from './HandlerRequestButton';
 import { HandlerSelectContainer } from './HandlerSelectContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
 import { LocationMap } from './LocationMap';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import calculateWalkingTime from '../../utils/calculateWalkingTime';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { HandlerContainer, MapLayout, TextAlignLayout, WalkDetailLayout, WalkInfoBox, WalkInfoItem } from './WalkDetailInfo.style';
 
 export function WalkDetailInfo() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,15 +19,18 @@ export function WalkDetailInfo() {
   const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus, user: postUser } = matchingDetailPost;
   const isAuthor = user._id === postUser._id;
 
+  //매칭글의 핸들러 요청 목록 가져오기
   useEffect(() => {
     const RequestHandlerList = async () => {
       try {
         const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingDetailPost?._id}`);
         const data = await res.json();
 
-        dispatch(setRequestHandlers(data));
+        if (res.ok) {
+          dispatch(setRequestHandlers(data));
+        }
       } catch (error) {
-        console.log(error);
+        console.log('fetch error: ' + error);
       }
     };
     RequestHandlerList();
@@ -87,79 +90,3 @@ export function WalkDetailInfo() {
     </WalkDetailLayout>
   );
 }
-
-const FlexLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const WalkDetailLayout = styled(FlexLayout)`
-  width: 100%;
-  max-width: 525px;
-  justify-content: space-between;
-  box-sizing: border-box;
-`;
-
-const WalkInfoBox = styled(FlexLayout)`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.main4};
-  border-radius: 8px;
-  border: 1px dashed #fcd11e;
-  padding: 35px 20px;
-  justify-content: space-between;
-  align-items: normal;
-  box-sizing: border-box;
-  gap: 10px;
-`;
-
-const TextAlignLayout = styled(FlexLayout)`
-  flex-direction: row;
-
-  p > p {
-    font-size: 14px;
-    display: inline;
-  }
-`;
-
-const WalkInfoItem = styled(TextAlignLayout)`
-  > div {
-    flex-shrink: 0;
-    align-self: flex-start;
-  }
-  span {
-    width: 5.5rem;
-    display: block;
-    padding-left: 5px;
-    font-weight: 700;
-    font-size: 18px;
-    color: #5e5e5e;
-  }
-  p {
-    font-weight: 400;
-  }
-
-  @media screen and (max-width: 480px) {
-    > div > span {
-      font-size: 16px;
-    }
-
-    p {
-      font-size: 14px;
-    }
-  }
-`;
-
-const MapLayout = styled(FlexLayout)`
-  align-items: normal;
-  flex: 1;
-  gap: 7px;
-`;
-
-const HandlerContainer = styled.div`
-  width: 100%;
-  padding-top: 23px;
-  display: flex;
-  justify-content: center;
-`;

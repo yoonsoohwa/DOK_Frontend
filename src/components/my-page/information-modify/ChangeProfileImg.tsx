@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setSelectedImg } from 'store/index';
-import styled from 'styled-components';
 import userImage from '/svg/user_image1.svg';
 import ModeIcon from '@mui/icons-material/Mode';
+import { EditIcon, ImgContainer, OpacityContainer } from './ChangeProfileImg.style';
 
 export const ChangeProfileImg = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,7 +28,6 @@ export const ChangeProfileImg = () => {
       reader.onload = function (e: ProgressEvent<FileReader>) {
         const image = e.target?.result as string;
         setImagePath(image);
-        console.log(imagePath);
       };
       reader.readAsDataURL(file);
 
@@ -65,32 +64,3 @@ export const ChangeProfileImg = () => {
   );
 };
 
-const ImgContainer = styled.div`
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 10px;
-
-  > img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const EditIcon = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const OpacityContainer = styled.div`
-  background-color: gray;
-  opacity: 0.5;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;

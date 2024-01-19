@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import { LocationOn, AccessTime } from '@mui/icons-material';
 import { CardContainer } from '../certification/PostCard.styled';
 import { MatchingPostType } from '../../types';
@@ -10,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store/index';
 import React from 'react';
+import { WalkInfo, DogIcon, MatchingStatusImage } from './Card.style';
 
 interface MatchingCardProps {
   post: MatchingPostType;
@@ -20,7 +20,8 @@ export function MatchingCard({ post }: MatchingCardProps) {
   const { user: _user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  const handleToDetail = (e: React.MouseEvent) => {
+  //카드 선택시 각 상세 페이지로 이동
+  const handleToDetail = () => {
     navigate(`/matching/${_id}`);
   };
 
@@ -49,43 +50,3 @@ export function MatchingCard({ post }: MatchingCardProps) {
     </CardContainer>
   );
 }
-
-const WalkInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-size: 13px;
-  padding-top: 10px;
-
-  .location span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  & > div {
-    display: flex;
-    align-items: center;
-    padding: 3px 0;
-
-    & > span {
-      padding-left: 7px;
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    & > div {
-      padding: 1px 0;
-    }
-  }
-`;
-
-const MatchingStatusImage = styled.img`
-  position: absolute;
-  top: -1px;
-  right: -4px;
-  width: 7em;
-`;
-
-const DogIcon = styled.img`
-  width: 8%;
-`;

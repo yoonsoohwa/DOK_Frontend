@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
@@ -11,13 +10,15 @@ import { AlertError } from 'common/alert/AlertError';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Modal from 'react-modal';
+import { myInfoUrl } from '../../../api/apiUrls';
+import { AddressLayout, ButtonContainer, ModifyInfoContainer } from './ModifyInfo.style';
 
 export function ModifyInfo() {
   const { user, selectedImg } = useSelector((state: RootState) => state.user);
-  const [isOpenSearchAddress, setIsOpenSearchAddress] = useState(false);
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
+  const [isOpenSearchAddress, setIsOpenSearchAddress] = useState<boolean>(false);
+  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
+  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState<boolean>(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState({
     id: user.userId,
     name: user.name,
@@ -25,7 +26,7 @@ export function ModifyInfo() {
     address: user.address,
     phoneNumber: `010 ${user.phoneNumber}`,
   });
-  const [isValid, setIsValid] = useState({
+  const [isValid, setIsValid] = useState<{name: boolean, nickname: boolean, phoneNumber: boolean}>({
     name: true,
     nickname: true,
     phoneNumber: true,
@@ -37,44 +38,55 @@ export function ModifyInfo() {
     '& .MuiInputBase-input.Mui-disabled': { WebkitTextFillColor: '#000000' },
   };
 
+  // 변경된 주소 상태 저장
   const handleSelectAddress = (data: any) => {
     setUserInfo({ ...userInfo, address: { text: data.address, code: data.bcode } });
     setIsOpenSearchAddress(false);
   };
 
+  // 변경된 정보 상태 저장
   const handleChangeUserInfo = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, type: string) => {
     setUserInfo({ ...userInfo, [type]: e.target.value.trim() });
   };
 
+  // 잘못된 입력 값 여부 확인
   const handleCheckIsValid = () => {
     if (Object.values(isValid).includes(false)) {
-        setOpenErrorAlert(true);
+      setOpenErrorAlert(true);
       return;
     }
 
-    handleModifyInfo();
+    modifyUserInfo();
   };
 
-  const handleModifyInfo = async () => {
-    const res = await fetch(`/api/users/myInfo`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: userInfo.name,
-        address: userInfo.address,
-        phoneNumber: userInfo.phoneNumber.slice(4),
-        nickname: userInfo.nickname,
-        userImg: selectedImg,
-      }),
-      credentials: 'include',
-    });
+  //정보 수정 요청
+  const modifyUserInfo = async () => {
+    try {
+      const res = await fetch(`${myInfoUrl}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: userInfo.name,
+          address: userInfo.address,
+          phoneNumber: userInfo.phoneNumber.slice(4),
+          nickname: userInfo.nickname,
+          userImg: selectedImg,
+        }),
+        credentials: 'include',
+      });
 
-    setOpenSuccessSnackbar(true);
-    window.location.reload();
+      if (res.ok) {
+        setOpenSuccessSnackbar(true);
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log('fetch error: ' + err);
+    }
   };
 
+  //이름과 닉네임 작성 여부 검사
   useEffect(() => {
     setIsValid((prevIsValid) => ({
       ...prevIsValid,
@@ -83,6 +95,7 @@ export function ModifyInfo() {
     }));
   }, [userInfo.name, userInfo.nickname]);
 
+  // 전화번호 유효성 검사
   useEffect(() => {
     let check = /^010 [0-9]{4} [0-9]{4}$/;
 
@@ -151,28 +164,7 @@ export function ModifyInfo() {
       </ButtonContainer>
       <AlertSuccess title={'개인정보를 수정하시겠습니까?'} open={openSuccessAlert} onClick={handleCheckIsValid} onClose={() => setOpenSuccessAlert(false)} />
       <AlertSnackbar title="수정이 완료되었습니다." open={openSuccessSnackbar} onClose={() => setOpenSuccessSnackbar(false)} />
-      <AlertError title="개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요." open={openErrorAlert} onClick={() => setOpenErrorAlert(false)}/>
+      <AlertError title="개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요." open={openErrorAlert} onClick={() => setOpenErrorAlert(false)} />
     </ModifyInfoContainer>
   );
 }
-
-const ModifyInfoContainer = styled.div`
-  width: 100%;
-  padding: 40px 50px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const AddressLayout = styled.div`
-  display: flex;
-  width: 100%;
-`;
-
-const ButtonContainer = styled.div`
-  width: 170px;
-  padding-top: 20px;
-`;

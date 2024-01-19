@@ -1,6 +1,5 @@
-import { styled } from 'styled-components';
+import { CommentInfo, CommentItemLayout, OptionButton, UserImg } from './CommentItem.style';
 import userImage from '/svg/user_image1.svg';
-import { UserNickname } from 'common/user/UserNickname';
 import { CommentInput } from './CommentInput';
 import { MatchingCommentType } from '../../types';
 import timeDiff from '../../utils/timeDiff';
@@ -19,14 +18,16 @@ export function CommentItem({ comment, commentType }: type) {
   const dispatch = useDispatch<AppDispatch>();
   const { matchingDetailPost, matchingComments, isOpenCommentInput } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
-  const [openErrorAlert, setOpenErrorAlert] = useState(false);
-  const [editComment, setEditComment] = useState(false);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
+  const [editComment, setEditComment] = useState<boolean>(false);
   const { _id, comment: text, createdAt, user: commentUser, parentCommentId, updatedAt } = comment;
 
-  const handleAddReply = () => {
+  // 대댓글 쓰기를 클릭했을 때 해당 댓글의 대댓글 input 열기
+  const handleOpenReplyInput = () => {
     dispatch(toggleIsOpenCommentInput(_id));
   };
 
+  //댓글 삭제
   const handleRemove = async () => {
     try {
       const res = await fetch(`${matchingPostDetailUrl}/comment/${_id}`, {
@@ -36,11 +37,14 @@ export function CommentItem({ comment, commentType }: type) {
         },
       });
       const data = await res.json();
-      setOpenErrorAlert(false);
-      dispatch(deleteMatchingComment(_id));
-      dispatch(deleteIsOpenCommentInput(_id));
+
+      if (res.ok) {
+        setOpenErrorAlert(false);
+        dispatch(deleteMatchingComment(_id));
+        dispatch(deleteIsOpenCommentInput(_id));
+      }
     } catch (err) {
-      console.log(err);
+      console.log('fetch error: ' + err);
     }
   };
 
@@ -73,7 +77,7 @@ export function CommentItem({ comment, commentType }: type) {
         <p>{text}</p>
         <CommentItemLayout>
           {!commentType && matchingDetailPost?.matchingStatus === 'process' ? (
-            <OptionButton id="addReply" onClick={handleAddReply}>
+            <OptionButton id="addReply" onClick={handleOpenReplyInput}>
               댓글쓰기
             </OptionButton>
           ) : null}
@@ -94,45 +98,3 @@ export function CommentItem({ comment, commentType }: type) {
     </CommentItemLayout>
   );
 }
-
-const CommentItemLayout = styled.div`
-  display: flex;
-  gap: 7px;
-  padding: 3px 0;
-
-  > div {
-    width: 100%;
-  }
-`;
-
-const UserImg = styled.img`
-  width: 35px;
-  height: 35px;
-
-  &.reply {
-    width: 28px;
-    height: 28px;
-  }
-`;
-
-const CommentInfo = styled(CommentItemLayout)`
-  align-items: center;
-  width: fit-content;
-
-  > span:first-of-type {
-    font-weight: 600;
-  }
-
-  > span:last-of-type {
-    font-size: 12px;
-    color: #9d9d9d;
-    flex-shrink: 0;
-  }
-`;
-
-const OptionButton = styled.button`
-  border: 0;
-  background: transparent;
-  padding: 2px 0;
-  font-size: 12px;
-`;

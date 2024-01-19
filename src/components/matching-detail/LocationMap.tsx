@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
-import { styled } from 'styled-components';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { MapContainer } from './LocationMap.style';
 
 export function LocationMap() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   if (!matchingDetailPost) return <></>;
   const { location } = matchingDetailPost;
-  const [position, setPosition] = useState({ lat: 33.450701, lng: 126.570667 });
+  const [position, setPosition] = useState<{ lat: number; lng: number } | { x: number; y: number }>({ lat: 33.450701, lng: 126.570667 });
   const geocoder = new kakao.maps.services.Geocoder();
 
+  //저장된 위치를 기준으로 지도 보여주기
   useEffect(() => {
     if (location) {
       geocoder.addressSearch(location.text, function (result, status) {
@@ -39,8 +40,3 @@ export function LocationMap() {
     </MapContainer>
   );
 }
-
-const MapContainer = styled.div`
-  height: 300px;
-  border: 1px solid ${({ theme }) => theme.gray};
-`;

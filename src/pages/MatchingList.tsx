@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import { MatchingBanner } from '../components/matching/Banner';
 import { useState, useEffect, Children } from 'react';
 import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts, setFilter, setMatchingPostCount, setMatchingPostEditId } from '../store';

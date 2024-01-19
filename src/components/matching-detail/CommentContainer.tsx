@@ -1,8 +1,8 @@
-import { styled } from 'styled-components';
+import { ReplyContainer } from './CommentContainer.style';
 import { CommentItem } from './CommentItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setMatchingComments } from 'store/index';
-import { Children, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import { Children } from 'react';
 import { MatchingCommentType } from '../../types';
 
 interface type {
@@ -22,6 +22,3 @@ export function CommentContainer({ comment }: type) {
   );
 }
 
-const ReplyContainer = styled.div`
-  padding-left: 42px;
-`;
