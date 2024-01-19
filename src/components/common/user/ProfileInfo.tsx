@@ -3,16 +3,24 @@ import { useEffect, useState } from 'react';
 import defaultImg from '/svg/user_image1.svg';
 import { UserNickname } from './UserNickname';
 import timeDiff from '../../../utils/timeDiff';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileInfoProps {
+  _id: string;
   userImg?: string;
   nickname: string;
   time: Date | string;
   size?: 'small';
 }
 
-export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps) {
+export function ProfileInfo({ _id, userImg, nickname, time, size }: ProfileInfoProps) {
   const [userImage, setUserImage] = useState(userImg);
+  const nav = useNavigate();
+
+  const handleClick = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    e.stopPropagation();
+    nav(`/profile/${_id}`);
+  };
 
   useEffect(() => {
     // 이미지 데이터가 정상인지 확인
@@ -26,7 +34,7 @@ export function ProfileInfo({ userImg, nickname, time, size }: ProfileInfoProps)
 
   return (
     <styled.PostUser className={size}>
-      <img className="user-img" src={userImage} />
+      <img className="user-img pointer" src={userImage} onClick={handleClick} />
       <styled.UserInfo>
         <UserNickname nickname={nickname} />
         <span>{timeDiff(time.toString())}</span>

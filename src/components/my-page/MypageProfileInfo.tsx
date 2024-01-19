@@ -7,12 +7,12 @@ import { Address, Img, Name, TotalFrame, WalkInfo } from './ProfileInfo.style';
 // User 닉네임, 주소, 회원등급, 산책평점, 산책횟수가 나타납니다.
 export const MypageProfileInfo = () => {
   const { mypageUser, mypageRating } = useSelector((state: RootState) => state.mypageUser);
-  
+
   return (
     <>
       <TotalFrame>
         <Img>
-          <img className="mypageUserImg" src={mypageUser.userImg || '/svg/mypageUser_image1.svg'} />
+          <img className="mypageUserImg user-img" src={mypageUser.userImg || '/svg/mypageUser_image1.svg'} />
         </Img>
         <div>
           <Name>
@@ -24,16 +24,12 @@ export const MypageProfileInfo = () => {
             </Address>
           )}
           <WalkInfo>
-            <div className='member'>
-              일반회원
-            </div>
-            <div className='score'>
+            <div className="member">일반회원</div>
+            <div className="score">
               {/* 산책평점 <Rating value={} precision={0.5} readOnly sx={{fontSize:"16px"}} /> */}
-              산책평점 <Rating value={(mypageRating[0] as unknown) as number || 0} precision={0.5} readOnly sx={{fontSize:"16px"}} />
+              산책평점 <Rating value={(mypageRating[0] as unknown as number) || 0} precision={0.5} readOnly sx={{ fontSize: '16px' }} />
             </div>
-            <div className='number'>
-              산책횟수 {(mypageRating[1] as unknown) as number || 0}회   
-            </div>
+            <div className="number">산책횟수 {(mypageRating[1] as unknown as number) || 0}회</div>
           </WalkInfo>
         </div>
       </TotalFrame>

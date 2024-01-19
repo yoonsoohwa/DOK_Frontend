@@ -1,8 +1,8 @@
-import { styled } from 'styled-components';
 import BannerImage from '/svg/matching_banner_image.svg';
 import { Button } from '@mui/material';
 import { ListPageBanner } from 'common/list-page/ListPageBanner';
 import { useNavigate } from 'react-router-dom';
+import { RightBox } from './Banner.styled';
 
 export function MatchingBanner() {
   const navigate = useNavigate();
@@ -32,16 +32,3 @@ export function MatchingBanner() {
     </ListPageBanner>
   );
 }
-
-const RightBox = styled.div`
-  width: 100%;
-  padding-bottom: 20px;
-
-  img {
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    bottom: -4px;
-    z-index: 2;
-  }
-`;
