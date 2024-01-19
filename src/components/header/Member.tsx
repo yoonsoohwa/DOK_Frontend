@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { logOutUrl } from 'api/apiUrls';
 import { CertificationBookmark } from './CertificationBookmark';
 
-
 export const MemberHeader = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const { pathname } = useLocation();
@@ -58,7 +57,7 @@ export const MemberHeader = () => {
             </div>
             {user._id && (
               <div>
-                <StyledLink to={'/mypage'}>                
+                <StyledLink to={'/mypage'}>
                   마이페이지
                   {pathname === '/mypage' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
                 </StyledLink>
