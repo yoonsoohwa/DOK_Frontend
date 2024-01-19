@@ -49,7 +49,8 @@ export function ModifyInfo() {
   // 잘못된 입력 값 여부 확인
   const handleCheckIsValid = () => {
     if (Object.values(isValid).includes(false)) {
-      dispatch(setOpenErrorModifyInfoAlert(true));
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'info' }));
+      dispatch(setCheckModifyInfoIsValid(false));
       return;
     }
 
@@ -74,13 +75,15 @@ export function ModifyInfo() {
         credentials: 'include',
       });
 
+      dispatch(setCheckModifyInfoIsValid(false));
+
       if (res.ok) {
-        dispatch(setCheckModifyInfoIsValid(false));
-        dispatch(setOpenSuccessModifyInfoSnackbar(true));
+        dispatch(setOpenSuccessModifyInfoSnackbar({ isOpen: true, type: 'info' }));
         window.location.reload();
       }
     } catch (err) {
       console.log('fetch error: ' + err);
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'info' }));
     }
   };
 
@@ -164,7 +167,7 @@ export function ModifyInfo() {
         size="small"
       />
       <ButtonContainer>
-        <ButtonMain text="수정하기" fill={true} onClick={() => dispatch(setOpenModifyInfoAlert(true))} />
+        <ButtonMain text="수정하기" fill={true} onClick={() => dispatch(setOpenModifyInfoAlert({ isOpen: true, type: 'info' }))} />
       </ButtonContainer>
     </ModifyInfoContainer>
   );

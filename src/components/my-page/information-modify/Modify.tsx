@@ -31,16 +31,16 @@ export const Modify = () => {
       </TabContainer>
       <ModifyContainer>{selected === 'info' ? <ModifyInfo /> : <ChangePassword />}</ModifyContainer>
       <AlertSuccess
-        title={'개인정보를 수정하시겠습니까?'}
-        open={openModifyInfoAlert}
+        title={openModifyInfoAlert.type === 'info' ? '개인정보를 수정하시겠습니까?' : '비밀번호를 변경하시겠습니까?'}
+        open={openModifyInfoAlert.isOpen}
         onClick={() => dispatch(setCheckModifyInfoIsValid(true))}
-        onClose={() => dispatch(setOpenModifyInfoAlert(false))}
+        onClose={() => dispatch(setOpenModifyInfoAlert({isOpen: false}))}
       />
-      <AlertSnackbar title="수정이 완료되었습니다." open={openSuccessModifyInfoSnackbar} onClose={() => dispatch(setOpenSuccessModifyInfoSnackbar(false))} />
+      <AlertSnackbar title={openSuccessModifyInfoSnackbar.type === 'info' ? "수정이 완료되었습니다." : '변경이 완료되었습니다.'} open={openSuccessModifyInfoSnackbar.isOpen} onClose={() => dispatch(setOpenSuccessModifyInfoSnackbar({isOpen: false}))} />
       <AlertError
-        title="개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요."
-        open={openErrorModifyInfoAlert}
-        onClick={() => dispatch(setOpenErrorModifyInfoAlert(false))}
+        title={openErrorModifyInfoAlert.type === 'info' ? "개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요." : '비밀번호 변경에 실패했습니다. 입력한 정보를 다시 확인해주세요.'}
+        open={openErrorModifyInfoAlert.isOpen}
+        onClick={() => dispatch(setOpenErrorModifyInfoAlert({isOpen: false}))}
       />
     </MainContainer>
   );

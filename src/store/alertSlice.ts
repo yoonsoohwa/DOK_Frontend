@@ -6,9 +6,18 @@ interface initialStateType {
   isLoading: boolean;
   openEditAlert: boolean;
   openDeleteAlert: boolean;
-  openModifyInfoAlert: boolean;
-  openSuccessModifyInfoSnackbar: boolean;
-  openErrorModifyInfoAlert: boolean;
+  openModifyInfoAlert: {
+    isOpen: boolean;
+    type?: 'info' | 'password';
+  };
+  openSuccessModifyInfoSnackbar: {
+    isOpen: boolean;
+    type?: 'info' | 'password';
+  };
+  openErrorModifyInfoAlert: {
+    isOpen: boolean;
+    type?: 'info' | 'password';
+  };
 }
 
 const initialState: initialStateType = {
@@ -17,9 +26,18 @@ const initialState: initialStateType = {
   isLoading: true,
   openEditAlert: false,
   openDeleteAlert: false,
-  openModifyInfoAlert: false,
-  openSuccessModifyInfoSnackbar: false,
-  openErrorModifyInfoAlert: false,
+  openModifyInfoAlert: {
+    isOpen: false,
+    type: 'info',
+  },
+  openSuccessModifyInfoSnackbar: {
+    isOpen: false,
+    type: 'info',
+  },
+  openErrorModifyInfoAlert: {
+    isOpen: false,
+    type: 'info',
+  },
 };
 
 const alertSlice = createSlice({
@@ -41,15 +59,26 @@ const alertSlice = createSlice({
     setOpenDeleteAlert: (state, action: PayloadAction<boolean>) => {
       state.openDeleteAlert = action.payload;
     },
-    setOpenModifyInfoAlert: (state, action: PayloadAction<boolean>) => {
-      console.log(action.payload);
-      state.openModifyInfoAlert = action.payload;
+    setOpenModifyInfoAlert: (state, action: PayloadAction<{ isOpen: boolean; type?: 'info' | 'password' }>) => {
+      if (action.payload.type) {
+        state.openModifyInfoAlert = action.payload;
+      } else {
+        state.openModifyInfoAlert = { ...state.openModifyInfoAlert, isOpen: action.payload.isOpen };
+      }
     },
-    setOpenSuccessModifyInfoSnackbar: (state, action: PayloadAction<boolean>) => {
-      state.openSuccessModifyInfoSnackbar = action.payload;
+    setOpenSuccessModifyInfoSnackbar: (state, action: PayloadAction<{ isOpen: boolean; type?: 'info' | 'password' }>) => {
+      if (action.payload.type) {
+        state.openSuccessModifyInfoSnackbar = action.payload;
+      } else {
+        state.openSuccessModifyInfoSnackbar = { ...state.openSuccessModifyInfoSnackbar, isOpen: action.payload.isOpen };
+      }
     },
-    setOpenErrorModifyInfoAlert: (state, action: PayloadAction<boolean>) => {
-      state.openErrorModifyInfoAlert = action.payload;
+    setOpenErrorModifyInfoAlert: (state, action: PayloadAction<{ isOpen: boolean; type?: 'info' | 'password' }>) => {
+      if (action.payload.type) {
+        state.openErrorModifyInfoAlert = action.payload;
+      } else {
+        state.openErrorModifyInfoAlert = { ...state.openErrorModifyInfoAlert, isOpen: action.payload.isOpen };
+      }
     },
   },
 });

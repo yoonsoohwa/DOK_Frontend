@@ -1,21 +1,14 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store/index';
-import DaumPostcode from 'react-daum-postcode';
-import { ChangeProfileImg } from './ChangeProfileImg';
+import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenErrorModifyInfoAlert, setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar } from 'store/index';
 import { ButtonMain } from 'common/button/ButtonMain';
-import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Modal from 'react-modal';
 import { ButtonContainer, ChangePasswordContainer } from './ChangePassword.style';
 import { myPasswordUrl } from '../../../api/apiUrls';
 
 export function ChangePassword() {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [isOpenSearchAddress, setIsOpenSearchAddress] = useState(false);
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { checkModifyInfoIsValid } = useSelector((state: RootState) => state.user);
   const [password, setPassword] = useState({
     currentPassword: '',
     newPassword: '',
@@ -35,24 +28,19 @@ export function ChangePassword() {
 
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, type: string) => {
     setPassword({ ...password, [type]: e.target.value.trim() });
-
-    if (type === 'currentPassword') {
-      isCurrentPasswordValid();
-    }
-
-    if (type === 'newPassword' || type === 'confirmNewPassword') {
-      isNewPasswordValid();
-    }
   };
 
-  const handleCheckIsValid = () => {
+  const checkPasswordIsValid = () => {
     isCurrentPasswordValid();
     isNewPasswordValid();
+    isConfirmPasswordValid();
 
-    if (Object.values(isValid).every((value) => value)) {
-      changeUserPassword();
-    } else {
+    if (!Object.values(isValid).every((value) => value)) {
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
+      dispatch(setCheckModifyInfoIsValid(false));
+      return;
     }
+    changeUserPassword();
   };
 
   const isCurrentPasswordValid = () => {
@@ -60,8 +48,11 @@ export function ChangePassword() {
   };
 
   const isNewPasswordValid = () => {
-    let check = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
-    setIsValid((prev) => ({ ...prev, newPassword: password.newPassword !== '' && check.test(password.newPassword) }));
+    const CHECK = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
+    setIsValid((prev) => ({ ...prev, newPassword: password.newPassword !== '' && CHECK.test(password.newPassword) }));
+  };
+
+  const isConfirmPasswordValid = () => {
     setIsValid((prev) => ({ ...prev, confirmNewPassword: password.newPassword === password.confirmNewPassword }));
   };
 
@@ -80,14 +71,40 @@ export function ChangePassword() {
         credentials: 'include',
       });
 
+      dispatch(setCheckModifyInfoIsValid(false));
+
       if (res.ok) {
-        // setOpenSuccessSnackbar(true);
+        dispatch(setOpenSuccessModifyInfoSnackbar({ isOpen: true, type: 'password' }));
         window.location.reload();
+      }
+
+      if (res.status === 401 || res.status === 404 || res.status == 400) {
+        dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
       }
     } catch (err) {
       console.log('fetch error: ' + err);
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
     }
   };
+
+  useEffect(() => {
+    if (password.newPassword !== '') {
+      isNewPasswordValid();
+    }
+  }, [password.newPassword]);
+
+  useEffect(() => {
+    if (password.newPassword !== '' && password.confirmNewPassword !== '') {
+      isConfirmPasswordValid();
+    }
+  }, [password.confirmNewPassword]);
+
+  useEffect(() => {
+    if (checkModifyInfoIsValid) {
+      checkPasswordIsValid();
+    }
+  }, [checkModifyInfoIsValid]);
+
   return (
     <ChangePasswordContainer>
       <TextField label="현재 비밀번호" onChange={(e) => handleChangePassword(e, 'currentPassword')} error={!isValid.currentPassword} type="password" sx={sx} size="small" />
@@ -109,10 +126,8 @@ export function ChangePassword() {
         size="small"
       />
       <ButtonContainer>
-        <ButtonMain text="변경하기" fill={true} onClick={() => setOpenSuccessAlert(true)} />
+        <ButtonMain text="변경하기" fill={true} onClick={() => dispatch(setOpenModifyInfoAlert({ isOpen: true, type: 'password' }))} />
       </ButtonContainer>
-      <AlertSuccess title={'비밀번호를 변경하시겠습니까?'} open={openSuccessAlert} onClick={handleCheckIsValid} onClose={() => setOpenSuccessAlert(false)} />
-      {/* <AlertSnackbar title="변경이 완료되었습니다." open={openSuccessSnackbar} onClose={() => setOpenSuccessSnackbar(false)} /> */}
     </ChangePasswordContainer>
   );
 }
