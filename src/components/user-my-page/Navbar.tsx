@@ -30,11 +30,8 @@ export const Navbar = () => {
 };
 
 const TotalFrame = styled.div`
-  /* display: flex; */
-  /* justify-content: flex-start; */
   max-width: 1110px;
-  margin: 0% auto 5% auto;
-  /* border: black solid 1px; */
+  margin: 0% auto 5% auto;  
 
   .MuiTabPanel-root {
     padding: 0;

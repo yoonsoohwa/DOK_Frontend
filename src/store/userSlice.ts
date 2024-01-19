@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { DogType, UserType, initDogType, initUserType } from '../types';
 import { MypageUserType } from 'src/types/MypageUserType';
 
+
 interface userSliceType {
   user: UserType;
   // dog: DogType,
@@ -42,5 +43,5 @@ const user = createSlice({
   },
 });
 
-export const { setUser, setDog, setSelectedImg, setMypageUser, setCheckModifyInfoIsValid } = user.actions;
+export const { setUser, setDog, setSelectedImg, setCheckModifyInfoIsValid } = user.actions;
 export default user;

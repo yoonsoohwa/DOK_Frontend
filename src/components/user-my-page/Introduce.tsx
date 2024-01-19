@@ -1,44 +1,43 @@
 import { styled } from 'styled-components';
 import { DogButton } from '../my-page/DogButton';
 import { useEffect,  } from 'react';
-import { AppDispatch, setDog } from 'store/index';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState, setMypageDog } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const Introduce = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/users/myInfo', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          credentials: 'include',
-        });
+  const { mypageUser } = useSelector((state: RootState) => state.mypageUser);
 
-        if (response.status === 200) {
-          const data = await response.json();
-          dispatch(setDog(data.userDogs));
-          console.log(data.userDogs);
-        } else {
-          console.log('dog추가 오류');
-        }
-      } catch (error) {
-        console.error('dog데이터 조회 오류:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('/api/users/myInfo', {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         credentials: 'include',
+  //       });
 
-    fetchData();
-  }, []);
+  //       if (response.status === 200) {
+  //         const data = await response.json();
+  //         dispatch(setMypageDog(data.userDogs));
+  //       } else {
+  //         console.log('dog추가 오류');
+  //       }
+  //     } catch (error) {
+  //       console.error('dog데이터 조회 오류:', error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   return (
     <>
       <Writing>
-        <div>소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 
-          소개글 소개글 소개글소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 750px로 width고정하였음          
-        </div>
+        <div>{mypageUser.introduce === "" ? `${mypageUser.nickname}님의 소개글이 없습니다.` : mypageUser.introduce}</div>
       </Writing>
       <Dog>
         <p>나의 반려견을 소개합니다!</p>

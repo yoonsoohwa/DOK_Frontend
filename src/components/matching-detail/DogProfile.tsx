@@ -14,7 +14,7 @@ export function DogProfile() {
 
   return (
     <DogProfileContainer>
-      <ProfileInfo userImg={user.userImg} nickname={user.nickname} time={createdAt.toString()} />
+      <ProfileInfo _id={user._id} userImg={user.userImg} nickname={user.nickname} time={createdAt.toString()} />
       {_user._id === user._id && matchingStatus === 'process' && <EditMenu post={matchingDetailPost} />}
       <DogImage src={dogImg} />
       <DogNameBox>

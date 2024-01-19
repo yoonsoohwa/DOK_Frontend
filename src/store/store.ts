@@ -6,6 +6,7 @@ import matchingSlice from './matchingSlice';
 import userSlice from './userSlice';
 import alertSlice from './alertSlice';
 import filterSlice from './filterSlice';
+import mypageUserSlice from './mypageUserSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     matching: matchingSlice.reducer,
     matchingForm: matchingFormSlice.reducer,
     user : userSlice.reducer,
+    mypageUser : mypageUserSlice.reducer,
   },
 });
 

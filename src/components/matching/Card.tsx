@@ -27,7 +27,7 @@ export function MatchingCard({ post }: MatchingCardProps) {
 
   return (
     <CardContainer className={`pointer ${matchingStatus !== 'process' && 'ended'}`} onClick={handleToDetail}>
-      <ProfileInfo nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
+      <ProfileInfo _id={user._id} nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
       {_user._id === user._id && matchingStatus === 'process' && <EditMenu size="small" post={post} />}
       <img src={userDog.dogImg} className="main-img" />
       <WalkInfo>
