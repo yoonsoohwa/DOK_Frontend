@@ -42,7 +42,7 @@ export function AppRoutes() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/userinfo/:id" element={<UserInfo />} />
+          <Route path="/userinfo/" element={<UserInfo />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

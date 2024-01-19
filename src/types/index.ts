@@ -5,3 +5,4 @@ export * from './UserType';
 export * from './RequestHandlerType';
 export * from './MatchingCommentType';
 export * from './MypageUserType';
+export * from './MypageDogType';

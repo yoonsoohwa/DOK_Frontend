@@ -6,3 +6,4 @@ export * from './matchingSlice';
 export * from './userSlice';
 export * from './alertSlice';
 export * from './filterSlice';
+export * from './mypageUserSlice';

@@ -12,6 +12,7 @@ export const DogButton = () => {
   const [isLoding, setIsLoding] = useState(true);
   const { pathname } = useLocation();
   const { dog } = useSelector((state: RootState) => state.user);
+  const { mypageDog } = useSelector((state: RootState) => state.mypageUser);
 
   useEffect(() => {
     setIsLoding(false);
@@ -21,10 +22,10 @@ export const DogButton = () => {
     <>
       {isLoding ? (
         <Loading />
-      ) : (pathname === "/userinfo/:id" ? (
+      ) : (pathname === "/userinfo" ? (
         <>
         {/* path가 userinfo로 들어왔을 경우에 dogCard 추가하는 버튼 안보이게 */}
-          {dog.map((item) => (
+          {mypageDog.map((item) => (
             <DogCard
               dogImg={item.dogImg}
               key={item._id}

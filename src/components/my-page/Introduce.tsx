@@ -1,13 +1,16 @@
 import Button from '@mui/material/Button';
 import { DogButton } from './DogButton';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AppDispatch, setDog } from 'store/index';
 import { useDispatch } from 'react-redux';
 import { Add, Dog, Writing } from './Introduce.style';
 import { myInfoUrl } from 'api/apiUrls';
+import { TextField } from '@mui/material';
 
 export const Introduce = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const [myIntroduce, setMyIntroduce] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,18 +40,48 @@ export const Introduce = () => {
     fetchData();
   }, []);
 
-  const handleModifyIntroduce = () => {
-    alert("소개글 수정 테스트");
+  const handleModifyIntroduce = async () => {
+    try {
+      const req = await fetch(`/api/users/myIntroduce`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          introduce: `${myIntroduce}`,
+        }),
+        credentials: 'include',
+      });
+
+      alert("소개글이 수정되었습니다.");
+      
+    } catch (error) {
+      console.error('소개글 등록 오류:', error);
+    }
   }
 
   return (
     <>
       <Writing>
-        <div>소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 
-          소개글 소개글 소개글소개글 소개글 소개글 소개글 소개글 소개글 소개글 소개글 750px로 width고정하였음          
+        <div>
+        <TextField
+          placeholder={'소개글을 작성해 주세요.최대 160자까지 작성 가능합니다.'}
+          InputProps={{ inputProps: { maxLength: 160 } }}
+          multiline
+          rows={3}
+          onChange={(event) => setMyIntroduce(event.target.value)}
+          sx={{
+            overflowY: 'auto',
+            '.MuiInputBase-input': {
+              width: "max",
+              padding: '0',
+              fontSize: '14px',
+            },
+          }}
+        />      
         </div>
         <div>
-          <Button variant="contained" color="mainB" sx={{}} onClick={handleModifyIntroduce}>소개글 수정</Button>
+          <Button variant="contained" color="mainB" sx={{}} onClick={handleModifyIntroduce}>소개글 등록</Button>
         </div>
       </Writing>
       <Dog>
