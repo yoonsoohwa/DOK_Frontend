@@ -39,9 +39,9 @@ export const MemberHeader = () => {
           </Link>
           <CatagoryDiv>
             <div>
-              <StyledLink to={'/userinfo'}>
+              <StyledLink to={'/profile'}>
                 유저마이페이지
-                {pathname === '/userinfo' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
+                {pathname === '/profile' ? <img src={headerHover} style={{ visibility: 'visible' }} /> : <img src={headerHover} />}
               </StyledLink>
             </div>
             <div>

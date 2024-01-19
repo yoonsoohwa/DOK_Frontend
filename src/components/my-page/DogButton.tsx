@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import { DogCard } from './DogCard';
 import { Loading } from 'common/state/Loading';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { AddButton } from './DogButton.style';
 
 export const DogButton = () => {
@@ -13,7 +13,8 @@ export const DogButton = () => {
   const { pathname } = useLocation();
   const { dog } = useSelector((state: RootState) => state.user);
   const { mypageDog } = useSelector((state: RootState) => state.mypageUser);
-
+  const { id } = useParams();
+  
   useEffect(() => {
     setIsLoding(false);
   }, [dog]);
@@ -22,9 +23,9 @@ export const DogButton = () => {
     <>
       {isLoding ? (
         <Loading />
-      ) : (pathname === "/userinfo" ? (
+      ) : (pathname === `/profile/${id}` ? (
         <>
-        {/* path가 userinfo로 들어왔을 경우에 dogCard 추가하는 버튼 안보이게 */}
+        {/* path가 profile 들어왔을 경우에 dogCard 추가하는 버튼 안보이게 */}
           {mypageDog.map((item) => (
             <DogCard
               dogImg={item.dogImg}

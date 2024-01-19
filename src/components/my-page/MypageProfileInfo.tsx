@@ -29,10 +29,10 @@ export const MypageProfileInfo = () => {
             </div>
             <div className='score'>
               {/* 산책평점 <Rating value={} precision={0.5} readOnly sx={{fontSize:"16px"}} /> */}
-              산책평점 <Rating value={(mypageRating[0])} precision={0.5} readOnly sx={{fontSize:"16px"}} />
+              산책평점 <Rating value={(mypageRating[0] as unknown) as number || 0} precision={0.5} readOnly sx={{fontSize:"16px"}} />
             </div>
             <div className='number'>
-              산책횟수 {mypageRating[1]}회
+              산책횟수 {(mypageRating[1] as unknown) as number || 0}회   
             </div>
           </WalkInfo>
         </div>
