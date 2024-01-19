@@ -18,7 +18,11 @@ export function Profile() {
 
   useEffect(() => {
 
-    if (`${id}` === "" || user._id === "") {
+    // 로그인한 회원인지 1차 체크
+    user._id === "" ? setIsUser(false) : setIsUser(true);
+
+    // 로그인 되었더라도 url로 유저id가 없는지 체크
+    if (`${id}` === "") {
       setIsUser(false);
     } else {
       const fetchData = async () => {
@@ -58,7 +62,7 @@ export function Profile() {
   
       fetchData();
     }
-  }, [id]);
+  }, [id,user._id]);
 
   return (
     // <>
