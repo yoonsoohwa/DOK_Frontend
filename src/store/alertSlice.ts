@@ -6,6 +6,9 @@ interface initialStateType {
   isLoading: boolean;
   openEditAlert: boolean;
   openDeleteAlert: boolean;
+  openModifyInfoAlert: boolean;
+  openSuccessModifyInfoSnackbar: boolean;
+  openErrorModifyInfoAlert: boolean;
 }
 
 const initialState: initialStateType = {
@@ -14,6 +17,9 @@ const initialState: initialStateType = {
   isLoading: true,
   openEditAlert: false,
   openDeleteAlert: false,
+  openModifyInfoAlert: false,
+  openSuccessModifyInfoSnackbar: false,
+  openErrorModifyInfoAlert: false,
 };
 
 const alertSlice = createSlice({
@@ -35,8 +41,19 @@ const alertSlice = createSlice({
     setOpenDeleteAlert: (state, action: PayloadAction<boolean>) => {
       state.openDeleteAlert = action.payload;
     },
+    setOpenModifyInfoAlert: (state, action: PayloadAction<boolean>) => {
+      console.log(action.payload);
+      state.openModifyInfoAlert = action.payload;
+    },
+    setOpenSuccessModifyInfoSnackbar: (state, action: PayloadAction<boolean>) => {
+      state.openSuccessModifyInfoSnackbar = action.payload;
+    },
+    setOpenErrorModifyInfoAlert: (state, action: PayloadAction<boolean>) => {
+      state.openErrorModifyInfoAlert = action.payload;
+    },
   },
 });
 
-export const { setOpenAlertLogin, setIsLoading, setOpenEditAlert, setOpenDeleteAlert } = alertSlice.actions;
+export const { setOpenAlertLogin, setIsLoading, setOpenEditAlert, setOpenDeleteAlert, setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar, setOpenErrorModifyInfoAlert } =
+  alertSlice.actions;
 export default alertSlice;

@@ -1,24 +1,21 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setCheckModifyInfoIsValid } from 'store/index';
 import DaumPostcode from 'react-daum-postcode';
 import { ChangeProfileImg } from './ChangeProfileImg';
 import { ButtonMain } from 'common/button/ButtonMain';
-import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { AlertSnackbar } from 'common/alert/AlertSnackbar';
-import { AlertError } from 'common/alert/AlertError';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Modal from 'react-modal';
 import { myInfoUrl } from '../../../api/apiUrls';
 import { AddressLayout, ButtonContainer, ModifyInfoContainer } from './ModifyInfo.style';
+import { setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar, setOpenErrorModifyInfoAlert } from 'store/alertSlice';
 
 export function ModifyInfo() {
-  const { user, selectedImg } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
+  const { user, selectedImg, checkModifyInfoIsValid } = useSelector((state: RootState) => state.user);
+
   const [isOpenSearchAddress, setIsOpenSearchAddress] = useState<boolean>(false);
-  const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
-  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState<boolean>(false);
-  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState({
     id: user.userId,
     name: user.name,
@@ -26,7 +23,7 @@ export function ModifyInfo() {
     address: user.address,
     phoneNumber: `010 ${user.phoneNumber}`,
   });
-  const [isValid, setIsValid] = useState<{name: boolean, nickname: boolean, phoneNumber: boolean}>({
+  const [isValid, setIsValid] = useState<{ name: boolean; nickname: boolean; phoneNumber: boolean }>({
     name: true,
     nickname: true,
     phoneNumber: true,
@@ -52,7 +49,7 @@ export function ModifyInfo() {
   // 잘못된 입력 값 여부 확인
   const handleCheckIsValid = () => {
     if (Object.values(isValid).includes(false)) {
-      setOpenErrorAlert(true);
+      dispatch(setOpenErrorModifyInfoAlert(true));
       return;
     }
 
@@ -78,7 +75,8 @@ export function ModifyInfo() {
       });
 
       if (res.ok) {
-        setOpenSuccessSnackbar(true);
+        dispatch(setCheckModifyInfoIsValid(false));
+        dispatch(setOpenSuccessModifyInfoSnackbar(true));
         window.location.reload();
       }
     } catch (err) {
@@ -104,6 +102,12 @@ export function ModifyInfo() {
       phoneNumber: check.test(userInfo.phoneNumber),
     }));
   }, [userInfo.phoneNumber]);
+
+  useEffect(() => {
+    if (checkModifyInfoIsValid) {
+      handleCheckIsValid();
+    }
+  }, [checkModifyInfoIsValid]);
 
   return (
     <ModifyInfoContainer>
@@ -160,11 +164,8 @@ export function ModifyInfo() {
         size="small"
       />
       <ButtonContainer>
-        <ButtonMain text="수정하기" fill={true} onClick={() => setOpenSuccessAlert(true)} />
+        <ButtonMain text="수정하기" fill={true} onClick={() => dispatch(setOpenModifyInfoAlert(true))} />
       </ButtonContainer>
-      <AlertSuccess title={'개인정보를 수정하시겠습니까?'} open={openSuccessAlert} onClick={handleCheckIsValid} onClose={() => setOpenSuccessAlert(false)} />
-      <AlertSnackbar title="수정이 완료되었습니다." open={openSuccessSnackbar} onClose={() => setOpenSuccessSnackbar(false)} />
-      <AlertError title="개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요." open={openErrorAlert} onClick={() => setOpenErrorAlert(false)} />
     </ModifyInfoContainer>
   );
 }

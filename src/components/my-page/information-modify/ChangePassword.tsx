@@ -13,7 +13,7 @@ import { ButtonContainer, ChangePasswordContainer } from './ChangePassword.style
 import { myPasswordUrl } from '../../../api/apiUrls';
 
 export function ChangePassword() {
-  const { user, selectedImg } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
   const [isOpenSearchAddress, setIsOpenSearchAddress] = useState(false);
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [password, setPassword] = useState({

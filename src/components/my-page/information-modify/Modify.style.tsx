@@ -18,6 +18,7 @@ export const ModifyTab = styled.div`
   text-align: center;
   border: #fcd11e dashed 3px;
   position: relative;
+  z-index: 1;
 
   &:first-of-type {
     border-top-left-radius: 10px;
@@ -45,7 +46,8 @@ export const ModifyTab = styled.div`
 export const TabImg = styled.img<{$align: 'left' | 'right'}>`
   position: absolute;
   top: -3px;
-  ${props => props.$align} : -19px;
+  ${props => props.$align} : 280px;
+  z-index: 5;
 `;
 
 export const ModifyContainer = styled.div`
