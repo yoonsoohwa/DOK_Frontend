@@ -29,9 +29,9 @@ export const WalkInfoBox = styled(FlexLayout)`
 export const TextAlignLayout = styled(FlexLayout)`
   flex-direction: row;
 
-  p > p {
+  .sub-info {
     font-size: 14px;
-    display: inline;
+    padding-left: 3px;
   }
 `;
 

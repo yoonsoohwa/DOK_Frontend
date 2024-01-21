@@ -30,6 +30,7 @@ export function ChangePassword() {
     setPassword({ ...password, [type]: e.target.value.trim() });
   };
 
+  //입력 값 유효성 검사 후 잘못된 값이 있는지 확인
   const checkPasswordIsValid = () => {
     isCurrentPasswordValid();
     isNewPasswordValid();
@@ -43,19 +44,23 @@ export function ChangePassword() {
     changeUserPassword();
   };
 
+  //현재 비밀번호 유효성 검사
   const isCurrentPasswordValid = () => {
     setIsValid((prev) => ({ ...prev, currentPassword: password.currentPassword !== '' }));
   };
 
+  //새 비밀번호 유효성 검사
   const isNewPasswordValid = () => {
     const CHECK = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
     setIsValid((prev) => ({ ...prev, newPassword: password.newPassword !== '' && CHECK.test(password.newPassword) }));
   };
 
+  //새 비밀번호 확인 유효성 검사
   const isConfirmPasswordValid = () => {
     setIsValid((prev) => ({ ...prev, confirmNewPassword: password.newPassword === password.confirmNewPassword }));
   };
 
+  //비밀번호 변경 요청
   const changeUserPassword = async () => {
     try {
       const res = await fetch(`${myPasswordUrl}`, {
@@ -87,18 +92,21 @@ export function ChangePassword() {
     }
   };
 
+  //새 비밀번호를 입력할 때마다 유효성 검사
   useEffect(() => {
     if (password.newPassword !== '') {
       isNewPasswordValid();
     }
   }, [password.newPassword]);
 
+  //새 비밀번호 확인을 입력할 때마다 유효성 검사
   useEffect(() => {
     if (password.newPassword !== '' && password.confirmNewPassword !== '') {
       isConfirmPasswordValid();
     }
   }, [password.confirmNewPassword]);
 
+  //비밀번호 변경 여부 alert에서 확인을 누르면 한 번 더 유효성 검사
   useEffect(() => {
     if (checkModifyInfoIsValid) {
       checkPasswordIsValid();

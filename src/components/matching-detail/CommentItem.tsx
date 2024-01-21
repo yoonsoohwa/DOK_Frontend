@@ -8,6 +8,7 @@ import { AlertError } from 'common/alert/AlertError';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, deleteIsOpenCommentInput, deleteMatchingComment, setIsOpenCommentInput, toggleIsOpenCommentInput } from 'store/index';
+import { useNavigate } from 'react-router-dom';
 
 interface type {
   comment: MatchingCommentType;
@@ -21,11 +22,17 @@ export function CommentItem({ comment, commentType }: type) {
   const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
   const [editComment, setEditComment] = useState<boolean>(false);
   const { _id, comment: text, createdAt, user: commentUser, parentCommentId, updatedAt } = comment;
+  const navigate = useNavigate();
 
   // 대댓글 쓰기를 클릭했을 때 해당 댓글의 대댓글 input 열기
   const handleOpenReplyInput = () => {
     dispatch(toggleIsOpenCommentInput(_id));
   };
+
+  //해당 유저의 프로필로 이동
+  const handleToProfile = () => {
+    navigate(`/profile/${commentUser._id}`);
+  }
 
   //댓글 삭제
   const handleRemove = async () => {
@@ -38,8 +45,9 @@ export function CommentItem({ comment, commentType }: type) {
       });
       const data = await res.json();
 
+      setOpenErrorAlert(false);
+
       if (res.ok) {
-        setOpenErrorAlert(false);
         dispatch(deleteMatchingComment(_id));
         dispatch(deleteIsOpenCommentInput(_id));
       }
@@ -66,10 +74,10 @@ export function CommentItem({ comment, commentType }: type) {
     )
   ) : (
     <CommentItemLayout>
-      <UserImg src={commentUser.userImg || userImage} className={`user-img ${commentType}`} />
+      <UserImg src={commentUser.userImg || userImage} className={`pointer user-img ${commentType}`} onClick={handleToProfile} />
       <div>
         <CommentInfo>
-          <span>{commentUser.nickname}</span>
+          <span className='pointer' onClick={handleToProfile}>{commentUser.nickname}</span>
           <span>
             {timeDiff(createdAt)} {updatedAt !== createdAt && '(수정됨)'}
           </span>

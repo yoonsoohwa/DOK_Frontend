@@ -51,9 +51,8 @@ export function WalkDetailInfo() {
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>
-            {calculateWalkingTime(walkingDate.toString(), walkingDuration)} <p>({durationTimeFormat(walkingDuration)})</p>
-          </p>
+          <p>{calculateWalkingTime(walkingDate.toString(), walkingDuration)}</p>
+          <p className="sub-info">({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <MapLayout>
@@ -62,9 +61,8 @@ export function WalkDetailInfo() {
               <TextAlignLayout>
                 <span>만남 장소</span>
                 <div>
-                  <p>
-                    {`${location?.text}`} {locationDetail && <p>({locationDetail})</p>}
-                  </p>
+                  <p>{`${location?.text}`}</p>
+                  {locationDetail && <p className='sub-info'>({locationDetail})</p>}
                 </div>
               </TextAlignLayout>
             </TextAlignLayout>

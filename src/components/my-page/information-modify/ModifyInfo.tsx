@@ -104,6 +104,7 @@ export function ModifyInfo() {
     }));
   }, [userInfo.phoneNumber]);
 
+  // 비밀번호 수정 여부 alert에서 확인을 눌렀을 경우 한번 더 유효성 검사
   useEffect(() => {
     if (checkModifyInfoIsValid) {
       handleCheckIsValid();

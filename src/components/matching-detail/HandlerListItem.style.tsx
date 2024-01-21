@@ -15,6 +15,7 @@ export const ItemLayout = styled.div`
   width: 100%;
   height: 100%;
   align-items: center;
+  gap: 5px;
 `;
 
 export const UserImg = styled.img`
@@ -26,12 +27,9 @@ export const UserInfo = styled(ItemLayout)`
   padding: 0 5px;
   justify-content: space-between;
 
-  > span:first-of-type {
+  > span {
     font-size: 16px;
     font-weight: 500;
   }
 
-  > span:last-of-type {
-    font-size: 12px;
-  }
 `;
