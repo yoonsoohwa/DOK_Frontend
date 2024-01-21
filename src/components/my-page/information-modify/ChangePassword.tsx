@@ -1,24 +1,23 @@
-import { styled } from 'styled-components';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from 'store/index';
-import DaumPostcode from 'react-daum-postcode';
-import { ChangeProfileImg } from './ChangeProfileImg';
+import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenErrorModifyInfoAlert, setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar } from 'store/index';
 import { ButtonMain } from 'common/button/ButtonMain';
-import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Modal from 'react-modal';
+import { ButtonContainer, ChangePasswordContainer } from './ChangePassword.style';
+import { myPasswordUrl } from '../../../api/apiUrls';
 
 export function ChangePassword() {
-  const { user, selectedImg } = useSelector((state: RootState) => state.user);
-  const [isOpenSearchAddress, setIsOpenSearchAddress] = useState(false);
-  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
-  const [userInfo, setUserInfo] = useState({
-    id: user.userId,
-    password: user.password,
-    confirmPassword: user.nickname,
+  const dispatch = useDispatch<AppDispatch>();
+  const { checkModifyInfoIsValid } = useSelector((state: RootState) => state.user);
+  const [password, setPassword] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmNewPassword: '',
+  });
+  const [isValid, setIsValid] = useState({
+    currentPassword: true,
+    newPassword: true,
+    confirmNewPassword: true,
   });
 
   const sx = {
@@ -27,35 +26,116 @@ export function ChangePassword() {
     '& .MuiInputBase-input.Mui-disabled': { WebkitTextFillColor: '#000000' },
   };
 
-  const handleCheckIsValid = () => {
-    console.log('dd');
+  const handleChangePassword = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, type: string) => {
+    setPassword({ ...password, [type]: e.target.value.trim() });
   };
+
+  //입력 값 유효성 검사 후 잘못된 값이 있는지 확인
+  const checkPasswordIsValid = () => {
+    isCurrentPasswordValid();
+    isNewPasswordValid();
+    isConfirmPasswordValid();
+
+    if (!Object.values(isValid).every((value) => value)) {
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
+      dispatch(setCheckModifyInfoIsValid(false));
+      return;
+    }
+    changeUserPassword();
+  };
+
+  //현재 비밀번호 유효성 검사
+  const isCurrentPasswordValid = () => {
+    setIsValid((prev) => ({ ...prev, currentPassword: password.currentPassword !== '' }));
+  };
+
+  //새 비밀번호 유효성 검사
+  const isNewPasswordValid = () => {
+    const CHECK = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,}$/;
+    setIsValid((prev) => ({ ...prev, newPassword: password.newPassword !== '' && CHECK.test(password.newPassword) }));
+  };
+
+  //새 비밀번호 확인 유효성 검사
+  const isConfirmPasswordValid = () => {
+    setIsValid((prev) => ({ ...prev, confirmNewPassword: password.newPassword === password.confirmNewPassword }));
+  };
+
+  //비밀번호 변경 요청
+  const changeUserPassword = async () => {
+    try {
+      const res = await fetch(`${myPasswordUrl}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword: password.currentPassword,
+          newPassword: password.newPassword,
+          confirmNewPassword: password.confirmNewPassword,
+        }),
+        credentials: 'include',
+      });
+
+      dispatch(setCheckModifyInfoIsValid(false));
+
+      if (res.ok) {
+        dispatch(setOpenSuccessModifyInfoSnackbar({ isOpen: true, type: 'password' }));
+        window.location.reload();
+      }
+
+      if (res.status === 401 || res.status === 404 || res.status == 400) {
+        dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
+      }
+    } catch (err) {
+      console.log('fetch error: ' + err);
+      dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
+    }
+  };
+
+  //새 비밀번호를 입력할 때마다 유효성 검사
+  useEffect(() => {
+    if (password.newPassword !== '') {
+      isNewPasswordValid();
+    }
+  }, [password.newPassword]);
+
+  //새 비밀번호 확인을 입력할 때마다 유효성 검사
+  useEffect(() => {
+    if (password.newPassword !== '' && password.confirmNewPassword !== '') {
+      isConfirmPasswordValid();
+    }
+  }, [password.confirmNewPassword]);
+
+  //비밀번호 변경 여부 alert에서 확인을 누르면 한 번 더 유효성 검사
+  useEffect(() => {
+    if (checkModifyInfoIsValid) {
+      checkPasswordIsValid();
+    }
+  }, [checkModifyInfoIsValid]);
 
   return (
     <ChangePasswordContainer>
-      <TextField label="현재 비밀번호" type='password' sx={sx} size="small" />
-      <TextField label="새 비밀번호" type='password' helperText="* 영문 대소문자, 숫자, 특수 문자를 조합하여 8자 이상으로 구성해주세요." sx={sx} size="small" />
-      <TextField label="새 비밀번호 확인" type='password' sx={sx} size="small" />
+      <TextField label="현재 비밀번호" onChange={(e) => handleChangePassword(e, 'currentPassword')} error={!isValid.currentPassword} type="password" sx={sx} size="small" />
+      <TextField
+        label="새 비밀번호"
+        onChange={(e) => handleChangePassword(e, 'newPassword')}
+        error={!isValid.newPassword}
+        type="password"
+        helperText="* 영문 대소문자, 숫자, 특수 문자를 조합하여 8자 이상으로 구성해주세요."
+        sx={sx}
+        size="small"
+      />
+      <TextField
+        label="새 비밀번호 확인"
+        onChange={(e) => handleChangePassword(e, 'confirmNewPassword')}
+        error={!isValid.confirmNewPassword}
+        type="password"
+        sx={sx}
+        size="small"
+      />
       <ButtonContainer>
-        <ButtonMain text="변경하기" fill={true} onClick={() => setOpenSuccessAlert(true)} />
+        <ButtonMain text="변경하기" fill={true} onClick={() => dispatch(setOpenModifyInfoAlert({ isOpen: true, type: 'password' }))} />
       </ButtonContainer>
-      <AlertSuccess title={'비밀번호를 변경하시겠습니까?'} open={openSuccessAlert} onClick={handleCheckIsValid} onClose={() => setOpenSuccessAlert(false)} />
-      {/* <AlertSnackbar title="변경이 완료되었습니다." open={openSuccessSnackbar} onClose={() => setOpenSuccessSnackbar(false)} /> */}
     </ChangePasswordContainer>
   );
 }
-
-const ChangePasswordContainer = styled.div`
-  width: 100%;
-  padding: 50px 50px 30px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const ButtonContainer = styled.div`
-  width: 170px;
-`;

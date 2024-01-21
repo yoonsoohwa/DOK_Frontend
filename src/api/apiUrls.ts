@@ -13,6 +13,7 @@ export const signUpUrl = domain + 'users/signUp';
 export const addPostListUrl = domain + 'mypage/myCertificationLists';
 export const myDogUrl = domain + 'users/myDog';
 export const myInfoUrl = domain + 'users/myInfo';
+export const myPasswordUrl = domain + 'users/myPassword';
 export const uploadImageUrl = domain + 'upload/image';
 export const myMatchingPostsUrl = domain + 'mypage/myMatchingPosts';
 
