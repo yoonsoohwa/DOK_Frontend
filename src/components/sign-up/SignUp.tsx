@@ -167,15 +167,12 @@ export function SignUp() {
           <TextField
             error={idValue !== undefined && !idCheck ? true : false}
             id="testTest"
-            label="이메일"
+            label="아이디"
             defaultValue={idValue}
             onChange={(event) => setIdValue(event.target.value)}
-            placeholder="이메일을 작성해주세요"
+            placeholder="아이디를 작성해주세요"
             sx={{ width: '60%', margin: '10% 0 5% 0' }}
-          />
-          <Button className="emailButton" variant="outlined" color="subB" sx={{ margin: '0% 0% 5% 2.5%' }} onClick={handleEmailCertification}>
-            메일인증
-          </Button>
+          />          
         </ButtonDiv>
 
         <TextField
