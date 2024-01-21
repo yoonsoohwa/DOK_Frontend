@@ -1,10 +1,10 @@
-import { styled } from 'styled-components';
+import { InputLayout, UserImg } from './CommentInput.style';
 import userImage from '/svg/user_image1.svg';
 import { Input, IconButton } from '@mui/material';
-import { Bolt, Send } from '@mui/icons-material';
+import { Send } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setOpenAlertLogin, addMatchingComment, updateMatchingComment } from 'store/index';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { matchingPostDetailUrl } from '../../api/apiUrls';
 import { AlertLogin } from 'common/alert/AlertLogin';
 
@@ -19,27 +19,29 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
-  const [text, setText] = useState(editText || '');
-  const isLogined = user._id !== '';
+  const [text, setText] = useState<string>(editText || '');
+  const isLogined: boolean = user._id !== '';
 
-  const onClickHandler = () => {
+  const handleOnClick = () => {
     addComment();
   };
 
-  const onKeyDownHandler = (e: React.KeyboardEvent) => {
+  //화살표 버튼 외에도 enter키를 눌렀을 때
+  const handleOnKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       addComment();
     }
   };
 
+  //댓글 추가 (비로그인이거나 글이 없는 경우 추가 X)
   const addComment = async () => {
     if (!isLogined) {
       dispatch(setOpenAlertLogin(true));
       return;
     }
 
-    if(text === '') {
-        return;
+    if (text === '') {
+      return;
     }
 
     if (!editText) {
@@ -57,10 +59,13 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
           }),
         });
         const data = await res.json();
-        dispatch(addMatchingComment({ ...data, user }));
-        setText('');
+
+        if (res.ok) {
+          dispatch(addMatchingComment({ ...data, user }));
+          setText('');
+        }
       } catch (err) {
-        console.log(err);
+        console.log('fetch error:' + err);
       }
     } else {
       try {
@@ -74,14 +79,17 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
           }),
         });
         const data = await res.json();
-        dispatch(updateMatchingComment({ commentId, commentData: { ...data, user } }));
+
+        if (res.ok) {
+          dispatch(updateMatchingComment({ commentId, commentData: { ...data, user } }));
+        }
       } catch (err) {
-        console.log(err);
+        console.log('fetch error:' + err);
       }
     }
   };
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
@@ -94,31 +102,13 @@ export function CommentInput({ commentType, parentCommentId, editText, commentId
         value={text}
         sx={{ width: '100%' }}
         autoFocus={Boolean(editText)}
-        onChange={onChangeHandler}
-        onKeyDown={(e) => onKeyDownHandler(e)}
+        onChange={handleOnChange}
+        onKeyDown={(e) => handleOnKeyDown(e)}
         disabled={matchingDetailPost?.matchingStatus !== 'process'}
       />
-      <IconButton size="small" onClick={onClickHandler}>
+      <IconButton size="small" onClick={handleOnClick}>
         <Send sx={{ transform: 'rotate(-15deg)' }} />
       </IconButton>
     </InputLayout>
   );
 }
-
-const InputLayout = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-  padding-bottom: 20px;
-`;
-
-const UserImg = styled.img`
-  width: 35px;
-  height: 35px;
-
-  &.reply {
-    width: 28px;
-    height: 28px;
-  }
-`;

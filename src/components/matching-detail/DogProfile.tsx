@@ -1,15 +1,15 @@
-import { styled } from 'styled-components';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/index';
 import calculateAge from '../../utils/calculateAge';
 import { EditMenu } from 'common/user/EditMenu';
+import { DogIcon, DogImage, DogInfoListItem, DogNameBox, DogProfileContainer } from './DogProfile.style';
 
 export function DogProfile() {
   const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
   const { user: _user } = useSelector((state: RootState) => state.user);
   if (!matchingDetailPost) return <></>;
-  const { _id, user, userDog, createdAt, matchingStatus } = matchingDetailPost;
+  const { user, userDog, createdAt, matchingStatus } = matchingDetailPost;
   const { birth: dogBirth, dogImg, dogName, dogType, gender: dogGender, note: dogNote, personality: dogPersonality } = userDog;
 
   return (
@@ -56,62 +56,3 @@ export function DogProfile() {
     </DogProfileContainer>
   );
 }
-
-const DogProfileContainer = styled.div`
-  width: 100%;
-  max-width: 460px;
-  padding: 10px 20px;
-  background-color: ${({ theme }) => theme.main4};
-  box-sizing: border-box;
-  border-radius: 8px;
-  box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-
-  @media screen and (min-width: 480px) and (max-width: 1023px) {
-    max-width: 525px;
-  }
-`;
-
-const DogImage = styled.img`
-  width: 100%;
-  max-width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-`;
-
-const DogIcon = styled.img`
-  width: 2.5em;
-`;
-
-const TextAlignLayout = styled.div`
-  display: flex;
-  align-items: center;
-
-  > span {
-    display: block;
-    flex-shrink: 0;
-    align-self: flex-start;
-  }
-  > p {
-    padding-left: 10px;
-  }
-`;
-
-const DogNameBox = styled(TextAlignLayout)`
-  padding: 5px 0;
-  > p {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
-const DogInfoListItem = styled(TextAlignLayout)`
-  font-size: 16px;
-  padding: 5px 0;
-
-  > span {
-    font-weight: 500;
-  }
-`;

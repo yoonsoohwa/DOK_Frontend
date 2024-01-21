@@ -1,9 +1,10 @@
-import { styled } from 'styled-components';
-import { Button } from '@mui/material';
 import { RequestHandlerType } from 'src/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setSelectedHandler } from 'store/index';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, setSelectedHandler } from 'store/index';
 import userImage from '/svg/user_image1.svg';
+import { ItemContainer, ItemLayout, UserImg, UserInfo } from './HandlerListItem.style';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface type {
   handler: RequestHandlerType;
@@ -11,64 +12,31 @@ interface type {
 
 export function HandlerListItem({ handler }: type) {
   const dispatch = useDispatch<AppDispatch>();
-  const { nickname, _id: id, userImg, address } = handler.user;
+  const navigate = useNavigate();
+  const { nickname, _id: id, userImg } = handler.user;
 
-  const onClickHandler = () => {
+  //핸들러 선택 시 해당 핸들러 정보 저장
+  const handleOnClick = () => {
     dispatch(setSelectedHandler(handler));
   };
 
+  //선택한 핸들러의 프로필로 이동
   const onClickToProfileHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-  }
+    navigate(`/profile/${id}`);
+  };
 
   return (
-    <ItemContainer onClick={onClickHandler}>
+    <ItemContainer onClick={handleOnClick}>
       <ItemLayout>
-        <UserImg src={userImg || userImage} className='user-img' />
+        <UserImg src={userImg || userImage} className="user-img" />
         <UserInfo>
           <span>{nickname}</span>
-          <span>{address.text}</span>
         </UserInfo>
-        {/* <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
+        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
-        </Button> */}
+        </Button>
       </ItemLayout>
     </ItemContainer>
   );
 }
-
-const ItemContainer = styled.div`
-  height: 50px;
-  padding: 5px;
-  background-color: ${({ theme }) => theme.main4};
-  box-sizing: border-box;
-  &:hover {
-    background: #eaeaea;
-  }
-`;
-
-const ItemLayout = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-`;
-
-const UserImg = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-const UserInfo = styled(ItemLayout)`
-  padding: 0 5px;
-  justify-content: space-between;
-
-  > span:first-of-type {
-    font-size: 16px;
-    font-weight: 500;
-  }
-
-  > span:last-of-type {
-    font-size: 12px;
-  }
-`;
