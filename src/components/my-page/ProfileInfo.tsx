@@ -28,7 +28,7 @@ export const ProfileInfo = () => {
       if (response.status === 200) {
         const data = await response.json();
         dispatch(setMypageRating(data.rating));
-        console.log(`데이터 정보 ${data}`);
+        // console.log(`데이터 정보 ${data}`);
         
       } else {
       }

@@ -29,8 +29,7 @@ export const Introduce = () => {
         // 응답의 상태를 체크해야함 reponse.ok
         if (response.status === 200) {
           const data = await response.json();
-          dispatch(setDog(data.userDogs));
-          console.log(data.userDogs);
+          dispatch(setDog(data.userDogs));          
         } else {
           console.log('dog추가 오류');
         }
