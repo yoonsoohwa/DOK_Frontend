@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { MatchingPostType } from '../types';
+import { MatchingBookmarkType, MatchingPostType } from '../types';
 import { RequestHandlerType } from '../types';
 import { MatchingCommentType } from '../types';
 
@@ -12,6 +12,7 @@ type matchingType = {
   matchingComments: MatchingCommentType[];
   matchingPostEditId: string;
   isOpenCommentInput: { [key: string]: boolean };
+  matchingBookmark: MatchingBookmarkType[];
 };
 
 const initialState: matchingType = {
@@ -23,6 +24,7 @@ const initialState: matchingType = {
   matchingComments: [],
   matchingPostEditId: '',
   isOpenCommentInput: {},
+  matchingBookmark: [],
 };
 
 const matchingSlice = createSlice({
@@ -31,7 +33,7 @@ const matchingSlice = createSlice({
   reducers: {
     resetMatchingPosts: (state) => {
       state.matchingPosts = [];
-    },
+    },    
     addMatchingPosts: (state, action: PayloadAction<MatchingPostType[]>) => {
       state.matchingPosts.push(...action.payload);
     },
@@ -77,6 +79,9 @@ const matchingSlice = createSlice({
     deleteIsOpenCommentInput: (state, action: PayloadAction<string>) => {
       delete state.isOpenCommentInput[action.payload];
     },
+    setMatchingBookmark: (state, action : PayloadAction<MatchingBookmarkType[]>) => {
+      state.matchingBookmark = action.payload;
+    },
   },
 });
 
@@ -96,5 +101,6 @@ export const {
   setIsOpenCommentInput,
   toggleIsOpenCommentInput,
   deleteIsOpenCommentInput,
+  setMatchingBookmark,  
 } = matchingSlice.actions;
 export default matchingSlice;

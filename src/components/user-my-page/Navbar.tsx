@@ -1,8 +1,8 @@
 import React from 'react';
-import { styled } from 'styled-components';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab, Box } from '@mui/material';
 import { Introduce } from './Introduce';
+import { TotalFrame } from './Navbar.style';
 
 export const Navbar = () => {
   const [value, setValue] = React.useState('1');
@@ -28,12 +28,3 @@ export const Navbar = () => {
     </TotalFrame>
   );
 };
-
-const TotalFrame = styled.div`
-  max-width: 1110px;
-  margin: 0% auto 5% auto;  
-
-  .MuiTabPanel-root {
-    padding: 0;
-  }
-`;

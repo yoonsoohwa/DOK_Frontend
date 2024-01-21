@@ -16,5 +16,7 @@ export const myInfoUrl = domain + 'users/myInfo';
 export const myPasswordUrl = domain + 'users/myPassword';
 export const uploadImageUrl = domain + 'upload/image';
 export const myMatchingPostsUrl = domain + 'mypage/myMatchingPosts';
+export const myPageUserInfoUrl = domain + 'users/userInfo';
+export const myIntroduceUrl = domain + 'users/myIntroduce';
 
 export const mainUrl = domain + 'main';
