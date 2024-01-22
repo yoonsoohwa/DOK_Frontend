@@ -1,7 +1,5 @@
 # 🐾DOK(도크)
 
-프로젝트 기간 : 2023/11/06 ~ 2024/01/22
-
 ![image](https://github.com/pado0711/DokProject-backend/assets/109504714/e421edf2-e741-4445-8b36-b9eaeb985b2c)
 
 > 집에 혼자 있을 강아지가 걱정되나요?
@@ -32,6 +30,10 @@
 ### 2. Persona(가상의 대상 고객)
 
 ![Untitled](https://github.com/pado0711/DokProject-backend/assets/109504714/8dab7335-df7a-475b-aabd-71e9bab420cd)
+
+### 3. 프로젝트 기간
+
+#### 2023/11/06 ~ 2024/01/22
 
 <br/>
 <br/>
