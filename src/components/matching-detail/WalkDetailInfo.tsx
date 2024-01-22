@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import calculateWalkingTime from '../../utils/calculateWalkingTime';
-import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { HandlerContainer, MapLayout, TextAlignLayout, WalkDetailLayout, WalkInfoBox, WalkInfoItem } from './WalkDetailInfo.style';
 
 export function WalkDetailInfo() {

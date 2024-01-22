@@ -4,7 +4,7 @@ import { HandlerListItem } from './HandlerLIstItem';
 import { ButtonMain } from 'common/button/ButtonMain';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, updateMatchingStatus } from 'store/index';
-import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
 import { ButtonContainer, HandlerListContainer, HandlerSelectLayout, SelectButtonContainer, SelectorLayout } from './HandlerSelectContainer.style';

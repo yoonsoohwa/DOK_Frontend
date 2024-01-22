@@ -4,7 +4,7 @@ import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenErrorModifyIn
 import { ButtonMain } from 'common/button/ButtonMain';
 import TextField from '@mui/material/TextField';
 import { ButtonContainer, ChangePasswordContainer } from './ChangePassword.style';
-import { userUrl } from '../../../api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 
 export function ChangePassword() {
   const dispatch = useDispatch<AppDispatch>();

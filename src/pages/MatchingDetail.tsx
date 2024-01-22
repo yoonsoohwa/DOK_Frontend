@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setMatchingDetailPost, setSelectedHandler } from 'store/index';
-import { matchingPostDetailUrl } from '../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { LoadingPage } from 'common/state/LoadingPage';
 import { NotFound } from 'common/state/NotFoundPage';
 import { ContentBox, MatchingDetailLayout, WalkContainer } from './MatchingDetail.style';

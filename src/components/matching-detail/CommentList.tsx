@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setMatchingComments } from 'store/index';
 import { Children, useEffect } from 'react';
 import { CommentContainer } from './CommentContainer';
-import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { CommentLayout, NoCommentContainer } from './CommentList.style';
 
 export function CommentList() {

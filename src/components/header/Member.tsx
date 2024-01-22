@@ -19,15 +19,25 @@ export const MemberHeader = () => {
 
   // 로그아웃 API 연동
   const handleLogOut = async () => {
-    await fetch(`${userUrl}/signOut`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
-    dispatch(setUser(initUserType));
-    window.location.reload();
+    try {
+      const res = await fetch(`${userUrl}/signOut`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        dispatch(setUser(initUserType));
+        window.location.reload();
+      } else {
+        console.log(data);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
   };
 
   return (

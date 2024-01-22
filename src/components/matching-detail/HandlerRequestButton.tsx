@@ -5,7 +5,7 @@ import { AlertLogin } from 'common/alert/AlertLogin';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setOpenAlertLogin } from 'store/index';
-import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { ButtonContainer } from './HandlerRequestButton.style';
 
 export function HandlerRequestButton() {

@@ -5,7 +5,7 @@ import { MatchingCommentType } from '../../types';
 import timeDiff from '../../utils/timeDiff';
 import { useEffect, useState } from 'react';
 import { AlertError } from 'common/alert/AlertError';
-import { matchingPostDetailUrl } from '../../api/apiUrls';
+import { matchingPostDetailUrl } from 'api/apiUrls';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, deleteIsOpenCommentInput, deleteMatchingComment, setIsOpenCommentInput, toggleIsOpenCommentInput } from 'store/index';
 import { useNavigate } from 'react-router-dom';

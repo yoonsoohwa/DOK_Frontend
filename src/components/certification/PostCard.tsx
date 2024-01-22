@@ -3,7 +3,7 @@ import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { Rating, Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState, setCertificationDetail, setCertificationDetailIndex } from '../../store';
+import { AppDispatch, RootState, setCertificationDetail, setCertificationDetailIndex } from 'store/index';
 import { CertificationPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import notfoundimg from '/svg/notfoundimage.svg';
