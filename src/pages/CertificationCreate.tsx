@@ -7,7 +7,7 @@ import { PostCreateGroup } from 'common/create-page/PostCreateGroup';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { AlertSuccess } from 'common/alert/AlertSuccess';
-import { matchingPostDetailUrl } from 'api/apiUrls';
+import { certificationUrl, matchingPostDetailUrl, uploadImageUrl } from 'api/apiUrls';
 import { MatchingPostType } from '../types/index';
 import dateTimeFormat from '../utils/dateTimeFormat';
 import durationTimeFormat from '../utils/durationTimeFormat';
@@ -61,7 +61,7 @@ export function CertificationCreatePage() {
     });
 
     try {
-      const res = await fetch(`/api/upload/image`, {
+      const res = await fetch(`${uploadImageUrl}`, {
         method: 'POST',
         credentials: 'include',
         body: formData,
@@ -133,7 +133,7 @@ export function CertificationCreatePage() {
     };
 
     try {
-      const res = await fetch(`/api/certificationRouter/newCertificationPost/${matchingPost?._id}`, {
+      const res = await fetch(`${certificationUrl}/newCertificationPost/${matchingPost?._id}`, {
         method: 'POST',
         credentials: 'include',
         headers: {
