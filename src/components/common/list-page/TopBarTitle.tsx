@@ -1,5 +1,4 @@
-import React from "react";
-import { styled } from "styled-components";
+import { Section } from './TopBarTitle.styled';
 
 interface TopBarTitleProps {
   yellow?: string;
@@ -14,14 +13,3 @@ export function TopBarTitle({ yellow, black }: TopBarTitleProps) {
     </Section>
   );
 }
-
-const Section = styled.div`
-  width: fit-content;
-  font-size: 20px;
-  font-weight: 700;
-  flex-shrink: 0;
-
-  .point {
-    color: ${({ theme }) => theme.main};
-  }
-`;

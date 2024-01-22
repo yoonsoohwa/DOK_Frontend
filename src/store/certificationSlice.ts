@@ -1,28 +1,55 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CertificationPostType } from "../types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { CertificationPostType, initCertificationPostType } from '../types';
 
 interface certificationSliceType {
   certificationPosts: CertificationPostType[];
-  certificationDetailPost: CertificationPostType | null;
+  certificationPostsCount: number | undefined;
+  certificationDetailPost: CertificationPostType;
+  certificationDetailPostIndex: number;
 }
 
 const initialState: certificationSliceType = {
   certificationPosts: [],
-  certificationDetailPost: null,
+  certificationPostsCount: undefined,
+  certificationDetailPost: initCertificationPostType,
+  certificationDetailPostIndex: 0,
 };
 
 const certificationSlice = createSlice({
-  name: "certification", //이름
+  name: 'certification', //이름
   initialState, //초기값
   reducers: {
-    addCertificationPosts: (state, action) => {
+    resetCertificationPosts: (state) => {
+      state.certificationPosts = [];
+    },
+    addCertificationPosts: (state, action: PayloadAction<CertificationPostType[]>) => {
       state.certificationPosts.push(...action.payload);
     },
-    setCertificationDetail: (state, action) => {
+    setCertificationPostOne: (state, action: PayloadAction<{ index: number; post: CertificationPostType }>) => {
+      state.certificationPosts[action.payload.index] = action.payload.post;
+    },
+    setCertificationDetail: (state, action: PayloadAction<CertificationPostType>) => {
       state.certificationDetailPost = action.payload;
+    },
+    setCertificationDetailIndex: (state, action: PayloadAction<number>) => {
+      state.certificationDetailPostIndex = action.payload;
+    },
+    setCertificationPostsCount: (state, action: PayloadAction<number | undefined>) => {
+      state.certificationPostsCount = action.payload;
+    },
+    setCertificationReview: (state, action: PayloadAction<{ rating: number; reviewText: string }>) => {
+      state.certificationDetailPost.review = action.payload;
     },
   },
 });
 
-export const { addCertificationPosts, setCertificationDetail } = certificationSlice.actions;
+export const {
+  resetCertificationPosts,
+  addCertificationPosts,
+  setCertificationPostOne,
+  setCertificationDetail,
+  setCertificationDetailIndex,
+  setCertificationPostsCount,
+  setCertificationReview,
+} = certificationSlice.actions;
 export default certificationSlice;

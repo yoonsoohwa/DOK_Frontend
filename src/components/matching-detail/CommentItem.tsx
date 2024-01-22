@@ -1,60 +1,112 @@
-import { styled } from "styled-components";
-import personImg from "/svg/person_img.svg";
-import { UserNickname } from "common/user/UserNickname";
+import { CommentInfo, CommentItemLayout, OptionButton, UserImg } from './CommentItem.style';
+import userImage from '/svg/user_image1.svg';
+import { CommentInput } from './CommentInput';
+import { MatchingCommentType } from '../../types';
+import timeDiff from '../../utils/timeDiff';
+import { useEffect, useState } from 'react';
+import { AlertError } from 'common/alert/AlertError';
+import { matchingPostDetailUrl } from 'api/apiUrls';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, deleteIsOpenCommentInput, deleteMatchingComment, setIsOpenCommentInput, toggleIsOpenCommentInput } from 'store/index';
+import { useNavigate } from 'react-router-dom';
 
 interface type {
-  commentType?: "reply";
+  comment: MatchingCommentType;
+  commentType?: 'reply';
 }
 
-export function CommentItem({ commentType }: type) {
-  return (
-    <CommentItemLayout className={commentType}>
-      <UserImg src={personImg} />
+export function CommentItem({ comment, commentType }: type) {
+  const dispatch = useDispatch<AppDispatch>();
+  const { matchingDetailPost, matchingComments, isOpenCommentInput } = useSelector((state: RootState) => state.matching);
+  const { user } = useSelector((state: RootState) => state.user);
+  const [openErrorAlert, setOpenErrorAlert] = useState<boolean>(false);
+  const [editComment, setEditComment] = useState<boolean>(false);
+  const { _id, comment: text, createdAt, user: commentUser, parentCommentId, updatedAt } = comment;
+  const navigate = useNavigate();
+
+  // 대댓글 쓰기를 클릭했을 때 해당 댓글의 대댓글 input 열기
+  const handleOpenReplyInput = () => {
+    dispatch(toggleIsOpenCommentInput(_id));
+  };
+
+  //해당 유저의 프로필로 이동
+  const handleToProfile = () => {
+    navigate(`/profile/${commentUser._id}`);
+  };
+
+  //댓글 삭제
+  const handleRemove = async () => {
+    try {
+      const res = await fetch(`${matchingPostDetailUrl}/comment/${_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+
+      setOpenErrorAlert(false);
+
+      if (res.ok) {
+        dispatch(deleteMatchingComment(_id));
+        dispatch(deleteIsOpenCommentInput(_id));
+      } else {
+        console.log(data);
+      }
+    } catch (err) {
+      console.log('fetch error: ' + err);
+    }
+  };
+
+  useEffect(() => {
+    setEditComment(false);
+  }, [matchingComments]);
+
+  useEffect(() => {
+    if (!commentType) {
+      dispatch(setIsOpenCommentInput(_id));
+    }
+  }, []);
+
+  return editComment ? (
+    parentCommentId ? (
+      <CommentInput commentType="reply" editText={text} commentId={_id} />
+    ) : (
+      <CommentInput editText={text} commentId={_id} />
+    )
+  ) : (
+    <CommentItemLayout>
+      <UserImg src={commentUser.userImg || userImage} className={`pointer user-img ${commentType}`} onClick={handleToProfile} />
       <div>
         <CommentInfo>
-          <UserNickname nickname="쿵치팍치" badge={true} />
-          <span>25분 전</span>
+          <span className="pointer" onClick={handleToProfile}>
+            {commentUser.nickname}
+          </span>
+          <span>
+            {timeDiff(createdAt)} {updatedAt !== createdAt && '(수정됨)'}
+          </span>
         </CommentInfo>
-        <p>신청 많이 해주세요~!</p>
-        <CommentOption>
-          {!commentType ? <span id="addReply">댓글쓰기</span> : null}
-          <span id="commentEdit">수정</span>
-          <span id="commentDelete">삭제</span>
-        </CommentOption>
+        <p>{text}</p>
+        <CommentItemLayout>
+          {!commentType && matchingDetailPost?.matchingStatus === 'process' ? (
+            <OptionButton id="addReply" onClick={handleOpenReplyInput}>
+              댓글쓰기
+            </OptionButton>
+          ) : null}
+          {user._id === commentUser._id && (
+            <>
+              <OptionButton id="commentEdit" onClick={() => setEditComment(true)}>
+                수정
+              </OptionButton>
+              <OptionButton id="commentDelete" onClick={() => setOpenErrorAlert(true)}>
+                삭제
+              </OptionButton>
+            </>
+          )}
+        </CommentItemLayout>
+        {isOpenCommentInput[_id] && <CommentInput commentType="reply" parentCommentId={_id} />}
       </div>
+      <AlertError title="정말 삭제하시겠습니까?" open={openErrorAlert} onClose={() => setOpenErrorAlert(false)} onClick={handleRemove} />
     </CommentItemLayout>
   );
 }
-
-const CommentItemLayout = styled.div`
-  display: flex;
-  gap: 7px;
-  padding: 3px 0;
-
-  &.reply {
-    padding-left: 40px;
-  }
-`;
-
-const UserImg = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-const CommentInfo = styled(CommentItemLayout)`
-  align-items: center;
-
-  > div > span:first-of-type {
-    font-weight: 600;
-  }
-
-  > span:last-of-type {
-    font-size: 12px;
-    color: #9d9d9d;
-    flex-shrink: 0;
-  }
-`;
-
-const CommentOption = styled(CommentItemLayout)`
-  font-size: 12px;
-`;

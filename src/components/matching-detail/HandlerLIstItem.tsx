@@ -1,55 +1,42 @@
-import { styled } from "styled-components";
-import personImg from "/svg/person_img.svg";
-import { Button } from "@mui/material";
+import { RequestHandlerType } from 'src/types';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, setSelectedHandler } from 'store/index';
+import userImage from '/svg/user_image1.svg';
+import { ItemContainer, ItemLayout, UserImg, UserInfo } from './HandlerListItem.style';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-export function HandlerListItem() {
+interface type {
+  handler: RequestHandlerType;
+}
+
+export function HandlerListItem({ handler }: type) {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { nickname, _id: id, userImg } = handler.user;
+
+  //핸들러 선택 시 해당 핸들러 정보 저장
+  const handleOnClick = () => {
+    dispatch(setSelectedHandler(handler));
+  };
+
+  //선택한 핸들러의 프로필로 이동
+  const onClickToProfileHandler = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/profile/${id}`);
+  };
+
   return (
-    <ItemContainer>
+    <ItemContainer onClick={handleOnClick}>
       <ItemLayout>
-        <UserImg src={personImg} />
+        <UserImg src={userImg || userImage} className="user-img" />
         <UserInfo>
-          <span>쿵치팍치</span>
-          <span>서울특별시 종로구 효자동</span>
+          <span>{nickname}</span>
         </UserInfo>
-        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: "fit-content" }}>
+        <Button variant="outlined" size="small" color="subW" sx={{ minWidth: 'fit-content' }} onClick={onClickToProfileHandler}>
           프로필
         </Button>
       </ItemLayout>
     </ItemContainer>
   );
 }
-
-const ItemContainer = styled.div`
-  height: 3rem;
-  padding: 5px;
-  background-color: ${({ theme }) => theme.main4};
-  box-sizing: border-box;
-  &:hover {
-    background: #eaeaea;
-  }
-`;
-
-const ItemLayout = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-`;
-
-const UserImg = styled.img`
-  width: 40px;
-  height: 40px;
-`;
-
-const UserInfo = styled(ItemLayout)`
-  flex-direction: column;
-  align-items: flex-start;
-
-  > span:first-of-type {
-    font-size: 16px;
-  }
-
-  > span:last-of-type {
-    font-size: 10px;
-  }
-`;

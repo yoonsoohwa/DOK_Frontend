@@ -1,102 +1,58 @@
-import { styled } from "styled-components";
-import { ProfileInfo } from "common/user/ProfileInfo";
+import { ProfileInfo } from 'common/user/ProfileInfo';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import calculateAge from '../../utils/calculateAge';
+import { EditMenu } from 'common/user/EditMenu';
+import { DogIcon, DogImage, DogInfoListItem, DogNameBox, DogProfileContainer } from './DogProfile.style';
 
 export function DogProfile() {
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { user: _user } = useSelector((state: RootState) => state.user);
+  if (!matchingDetailPost) return <></>;
+  const { user, userDog, createdAt, matchingStatus } = matchingDetailPost;
+  const { birth: dogBirth, dogImg, dogName, dogType, gender: dogGender, note: dogNote, personality: dogPersonality } = userDog;
+
   return (
     <DogProfileContainer>
-      <ProfileInfo />
-      <DogImage src="/temp/리버.png" />
+      <ProfileInfo _id={user._id} userImg={user.userImg} nickname={user.nickname} time={createdAt.toString()} />
+      {_user._id === user._id && matchingStatus === 'process' && <EditMenu post={matchingDetailPost} />}
+      <DogImage src={dogImg} />
       <DogNameBox>
         <DogIcon src="/svg/card_dog_icon.svg" />
-        <p>이뽀삐</p>
+        <p>{dogName}</p>
       </DogNameBox>
       <ul>
         <li>
           <DogInfoListItem>
             <span>나이:</span>
-            <p>2살</p>
+            <p>{calculateAge(dogBirth.toString())}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>견종:</span>
-            <p>말티즈</p>
+            <p>{dogType}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>성별:</span>
-            <p>여자</p>
+            <p>{dogGender === 'Male' ? '남자' : '여자'}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>성격:</span>
-            <p>매우 활발</p>
+            <p>{dogPersonality}</p>
           </DogInfoListItem>
         </li>
         <li>
           <DogInfoListItem>
             <span>특이사항:</span>
-            <p>호기심이 많고, 냄새 맡는 거 좋아합니다. 산책할 때 천천히 냄새 맡을 수 있게 기다려주세요!</p>
+            <p>{dogNote || '없음'}</p>
           </DogInfoListItem>
         </li>
       </ul>
     </DogProfileContainer>
   );
 }
-
-const DogProfileContainer = styled.div`
-  width: 100%;
-  max-width: 460px;
-  padding: 10px 20px;
-  background-color: ${({ theme }) => theme.main4};
-  box-sizing: border-box;
-  border-radius: 8px;
-  box-shadow: 1.5px 1.5px 6px rgba(0, 0, 0, 0.25);
-  display: flex;
-  flex-direction: column;
-
-  @media screen and (min-width: 480px) and (max-width: 1023px) {
-    max-width: 525px;
-  }
-`;
-
-const DogImage = styled.img`
-  width: 100%;
-`;
-
-const DogIcon = styled.img`
-  width: 2.5em;
-`;
-
-const TextAlignLayout = styled.div`
-  display: flex;
-  align-items: center;
-
-  > span {
-    display: block;
-    flex-shrink: 0;
-    align-self: flex-start;
-  }
-  > p {
-    padding-left: 10px;
-  }
-`;
-
-const DogNameBox = styled(TextAlignLayout)`
-  padding: 5px 0;
-  > p {
-    font-weight: 600;
-    font-size: 24px;
-  }
-`;
-
-const DogInfoListItem = styled(TextAlignLayout)`
-  font-size: 16px;
-  padding: 2px 0;
-
-  > span {
-    font-weight: 500;
-  }
-`;

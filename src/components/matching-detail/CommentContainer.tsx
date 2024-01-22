@@ -1,22 +1,23 @@
-import {styled} from 'styled-components';
-import { CommentInput } from './CommentInput';
+import { ReplyContainer } from './CommentContainer.style';
 import { CommentItem } from './CommentItem';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/index';
+import { Children } from 'react';
+import { MatchingCommentType } from '../../types';
 
-export function CommentContainer() {
-    return (
-        <CommentLayout>
-            <CommentInput />
-            <CommentItem />
-            <CommentItem commentType='reply'/>
-        </CommentLayout>
-    )
+interface type {
+  comment: MatchingCommentType;
 }
 
-const CommentLayout = styled.div`
-    max-width: 900px;
-    padding: 2vw 4vw;
-    margin: 0 auto;
-    box-sizing: border-box;
-    border-top: solid #c0c0c0 1px;
-    border-bottom: solid #c0c0c0 1px;
-`
+export function CommentContainer({ comment }: type) {
+  const { matchingComments } = useSelector((state: RootState) => state.matching);
+
+  return (
+    <>
+      <CommentItem comment={comment} />
+      <ReplyContainer>
+        {Children.toArray(matchingComments.filter((reply) => comment._id === reply.parentCommentId).map((reply) => <CommentItem comment={reply} commentType="reply" />))}
+      </ReplyContainer>
+    </>
+  );
+}

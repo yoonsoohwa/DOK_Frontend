@@ -1,47 +1,53 @@
-import {styled} from "styled-components";
-import {ChangeTextfiled} from "./ChangeTextfiled"
-import Button from '@mui/material/Button';
-import {ChangeProfileImg} from "./ChangeProfileImg"
+import { useState } from 'react';
+import tabLeft from '/svg/modify_tab_left.svg';
+import tabRight from '/svg/modify_tab_right.svg';
+import { ModifyInfo } from './ModifyInfo';
+import { ChangePassword } from './ChangePassword';
+import { MainContainer, ModifyContainer, ModifyTab, TabContainer, TabImg } from './Modify.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenErrorModifyInfoAlert, setOpenModifyInfoAlert, setOpenSuccessModifyInfoSnackbar } from 'store/index';
+import { AlertSnackbar } from 'common/alert/AlertSnackbar';
+import { AlertSuccess } from 'common/alert/AlertSuccess';
+import { AlertError } from 'common/alert/AlertError';
+
 export const Modify = () => {
-    return (
-        <MainFrame>
-            <ChangeProfileImg />
-            <ChangeTextfiled label="닉네임" placeholder="변경하실 닉네임을 작성해주세요" />
-            <ChangeTextfiled label="비밀번호" placeholder="변경하실 비밀번호를 작성해주세요" />
-            <ChangeTextfiled label="비밀번호 확인" placeholder="변경하실 비밀번호를 다시 한 번 작성해주세요" />
-            <ChangeTextfiled label="이름" placeholder="변경하실 이름을 작성해주세요" />
-            <ChangeTextfiled label="주소" placeholder="변경하실 주소를 작성해주세요" />
-            <div className="phoneNumber">
-                <ChangeTextfiled label="전화번호" placeholder="변경하실 전화번호를 작성해주세요" />
-                <Button variant="contained" color="mainB" sx={{padding:"3%", width:"20%", height:"100%", margin:"3.2% 3.5% 0% 0"}}>본인인증</Button>
-            </div>
-            <Button variant="contained" color="mainB" sx={{margin:"5% auto", width:"25%", height:"6%", borderRadius:"20px", fontSize:"large"}}>저장하기</Button>
-        </MainFrame>
-    )
-}
+  const dispatch = useDispatch<AppDispatch>();
+  const { openErrorModifyInfoAlert, openModifyInfoAlert, openSuccessModifyInfoSnackbar } = useSelector((state: RootState) => state.alert);
+  const [selected, setSelected] = useState<'info' | 'password'>('info');
 
-const MainFrame = styled.div`
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    border: #FCD11E dashed 3px;
-    border-radius: 10px;
-    width: 75%;
-    height: 100%;
-    margin: 3% auto;
-
-    div.phoneNumber {
-        display: flex;
-        /* border: 1px solid black; */
-        /* flex:1; */
-        justify-content: stretch;
-        align-items: stretch;
-        
-        width: 75%;
-        
-        /* margin: 0 auto; */
-    }
-`
+  return (
+    <MainContainer>
+      <TabContainer>
+        <ModifyTab className={`pointer ${selected === 'info' ? 'selected' : ''}`} onClick={() => setSelected('info')}>
+          <span>개인정보 수정</span>
+          {selected === 'info' && <TabImg $align="left" src={tabLeft} />}
+        </ModifyTab>
+        <ModifyTab className={`pointer ${selected === 'password' ? 'selected' : ''}`} onClick={() => setSelected('password')}>
+          <span>비밀번호 변경</span>
+          {selected === 'password' && <TabImg $align="right" src={tabRight} />}
+        </ModifyTab>
+      </TabContainer>
+      <ModifyContainer>{selected === 'info' ? <ModifyInfo /> : <ChangePassword />}</ModifyContainer>
+      <AlertSuccess
+        title={openModifyInfoAlert.type === 'info' ? '개인정보를 수정하시겠습니까?' : '비밀번호를 변경하시겠습니까?'}
+        open={openModifyInfoAlert.isOpen}
+        onClick={() => dispatch(setCheckModifyInfoIsValid(true))}
+        onClose={() => dispatch(setOpenModifyInfoAlert({ isOpen: false }))}
+      />
+      <AlertSnackbar
+        title={openSuccessModifyInfoSnackbar.type === 'info' ? '수정이 완료되었습니다.' : '변경이 완료되었습니다.'}
+        open={openSuccessModifyInfoSnackbar.isOpen}
+        onClose={() => dispatch(setOpenSuccessModifyInfoSnackbar({ isOpen: false }))}
+      />
+      <AlertError
+        title={
+          openErrorModifyInfoAlert.type === 'info'
+            ? '개인정보 수정에 실패했습니다. 입력한 정보를 다시 확인해주세요.'
+            : '비밀번호 변경에 실패했습니다. 입력한 정보를 다시 확인해주세요.'
+        }
+        open={openErrorModifyInfoAlert.isOpen}
+        onClick={() => dispatch(setOpenErrorModifyInfoAlert({ isOpen: false }))}
+      />
+    </MainContainer>
+  );
+};

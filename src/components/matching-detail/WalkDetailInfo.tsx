@@ -1,9 +1,44 @@
-import { styled } from "styled-components";
-import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from "@mui/icons-material";
-import { HandlerRequestButton } from "./HandlerRequestButton";
-import { HandlerSelectContainer } from "./HandlerSelectContainer";
+import { LocationOn, AccessTime, CalendarToday, MonetizationOn, Chat } from '@mui/icons-material';
+import { HandlerRequestButton } from './HandlerRequestButton';
+import { HandlerSelectContainer } from './HandlerSelectContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setRequestHandlers } from 'store/index';
+import { LocationMap } from './LocationMap';
+import { useEffect } from 'react';
+import dateTimeFormat from '../../utils/dateTimeFormat';
+import durationTimeFormat from '../../utils/durationTimeFormat';
+import calculateWalkingTime from '../../utils/calculateWalkingTime';
+import { matchingPostDetailUrl } from 'api/apiUrls';
+import { HandlerContainer, MapLayout, TextAlignLayout, WalkDetailLayout, WalkInfoBox, WalkInfoItem } from './WalkDetailInfo.style';
 
 export function WalkDetailInfo() {
+  const dispatch = useDispatch<AppDispatch>();
+  const { matchingDetailPost } = useSelector((state: RootState) => state.matching);
+  const { user } = useSelector((state: RootState) => state.user);
+  if (!matchingDetailPost) return <></>;
+  const { location, locationDetail, price, requestText, walkingDate, walkingDuration, matchingStatus, user: postUser } = matchingDetailPost;
+  const isAuthor = user._id === postUser._id;
+
+  //매칭글의 핸들러 요청 목록 가져오기
+  useEffect(() => {
+    const RequestHandlerList = async () => {
+      try {
+        const res = await fetch(`${matchingPostDetailUrl}/handler/${matchingDetailPost?._id}`);
+        const data = await res.json();
+
+        if (res.ok) {
+          dispatch(setRequestHandlers(data));
+        } else {
+          console.log(data);
+        }
+      } catch (error) {
+        console.log('fetch error: ' + error);
+      }
+    };
+
+    RequestHandlerList();
+  }, [isAuthor, matchingDetailPost]);
+
   return (
     <WalkDetailLayout>
       <WalkInfoBox>
@@ -12,23 +47,29 @@ export function WalkDetailInfo() {
             <CalendarToday />
             <span>산책 날짜</span>
           </TextAlignLayout>
-          <p>2023-11-10</p>
+          <p>{dateTimeFormat(walkingDate.toString(), 'date')}</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <AccessTime />
             <span>산책 시간</span>
           </TextAlignLayout>
-          <p>15:40 ~ 16:10 (30분)</p>
+          <p>{calculateWalkingTime(walkingDate.toString(), walkingDuration)}</p>
+          <p className="sub-info">({durationTimeFormat(walkingDuration)})</p>
         </WalkInfoItem>
         <WalkInfoItem>
-          <TextAlignLayout>
-            <LocationOn />
-            <span>만남 장소</span>
-          </TextAlignLayout>
           <MapLayout>
-            <p>시그니엘 1차 입구</p>
-            <div></div>
+            <TextAlignLayout>
+              <LocationOn />
+              <TextAlignLayout>
+                <span>만남 장소</span>
+                <div>
+                  <p>{`${location?.text}`}</p>
+                  {locationDetail && <p className="sub-info">({locationDetail})</p>}
+                </div>
+              </TextAlignLayout>
+            </TextAlignLayout>
+            <LocationMap></LocationMap>
           </MapLayout>
         </WalkInfoItem>
         <WalkInfoItem>
@@ -36,90 +77,17 @@ export function WalkDetailInfo() {
             <MonetizationOn />
             <span>금액</span>
           </TextAlignLayout>
-          <p>5000원</p>
+          <p>{price.toLocaleString()}원</p>
         </WalkInfoItem>
         <WalkInfoItem>
           <TextAlignLayout>
             <Chat />
             <span>요구사항</span>
           </TextAlignLayout>
-          <p>코스는 시그니엘 1차 -&gt; 서울숲 2바퀴 -&gt; 시그니엘 2차 놀이터 -&gt; 시그니엘 1차로 다시 다녀오시면 됩니다! 뽀삐 칭찬 많이 해주실 분 구합니다^^</p>
+          <p>{requestText}</p>
         </WalkInfoItem>
       </WalkInfoBox>
-      <HandlerSelectContainer />
-      {/* <HandlerRequestButton /> */}
+      {matchingStatus === 'process' && <HandlerContainer>{isAuthor ? <HandlerSelectContainer /> : <HandlerRequestButton />}</HandlerContainer>}
     </WalkDetailLayout>
   );
 }
-
-const FlexLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const WalkDetailLayout = styled(FlexLayout)`
-  width: 100%;
-  max-width: 525px;
-  justify-content: space-between;
-  box-sizing: border-box;
-`;
-
-const WalkInfoBox = styled(FlexLayout)`
-  height: 100%;
-  background-color: ${({ theme }) => theme.main4};
-  border-radius: 8px;
-  border: 1px dashed #fcd11e;
-  padding: 30px 19px;
-  justify-content: space-between;
-  align-items: normal;
-  box-sizing: border-box;
-  gap: 10px;
-`;
-
-const TextAlignLayout = styled(FlexLayout)`
-  flex-direction: row;
-`;
-
-const WalkInfoItem = styled(TextAlignLayout)`
-  > div {
-    flex-shrink: 0;
-    align-self: flex-start;
-  }
-  > div > span {
-    width: 5.5rem;
-    display: block;
-    padding-left: 5px;
-    font-weight: 700;
-    font-size: 18px;
-    color: #5e5e5e;
-  }
-  p {
-    font-weight: 400;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
-  }
-
-  @media screen and (max-width: 480px) {
-    > div > span {
-      font-size: 16px;
-    }
-
-    p {
-      font-size: 14px;
-    }
-  }
-`;
-
-const MapLayout = styled(FlexLayout)`
-  align-items: normal;
-  flex: 1;
-
-  > p {
-    padding-bottom: 5px;
-  }
-
-  div {
-    background-color: black;
-    height: 200px;
-  }
-`;

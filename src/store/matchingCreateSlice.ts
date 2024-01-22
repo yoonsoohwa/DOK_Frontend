@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { DogType } from "../types";
-import dayjs from "dayjs";
+import { createSlice } from '@reduxjs/toolkit';
+import { DogType } from '../types';
+import dayjs from 'dayjs';
 
-type type = {
+type initialStateType = {
   dogSelect: DogType | undefined;
   errorDogSelect: boolean;
   dateSelect: string | undefined;
@@ -10,12 +10,13 @@ type type = {
   durationSelect: 0.5 | 1 | 1.5 | 2;
   paySelect: number;
   errorPaySelect: boolean;
-  requestText: string;
-  location: string | undefined;
-  locationDetail: string;
+  requestText: string | undefined;
+  errorRequestText: boolean;
+  locationSelect: { text: string; code: string } | undefined;
+  locationDetailSelect: string;
 };
 
-const initialState: type = {
+const initialState: initialStateType = {
   dogSelect: undefined,
   errorDogSelect: true,
   dateSelect: undefined,
@@ -23,15 +24,19 @@ const initialState: type = {
   durationSelect: 0.5,
   paySelect: 0.5 * 9860,
   errorPaySelect: true,
-  requestText: "",
-  location: "",
-  locationDetail: "",
+  requestText: undefined,
+  errorRequestText: true,
+  locationSelect: undefined,
+  locationDetailSelect: '',
 };
 
-const matchingCreateSlice = createSlice({
-  name: "matchingCreate", //이름
+const matchingFormSlice = createSlice({
+  name: 'matchingForm', //이름
   initialState, //초기값
   reducers: {
+    resetMatchingSelect: (state) => {
+      Object.assign(state, initialState);
+    },
     setDogSelect: (state, action) => {
       state.dogSelect = action.payload;
     },
@@ -40,7 +45,7 @@ const matchingCreateSlice = createSlice({
     },
     setDateSelect: (state, action: { payload: string | undefined }) => {
       //유효성 검사
-      if (dayjs(action.payload).format() !== "Invalid Date") {
+      if (dayjs(action.payload).format() !== 'Invalid Date') {
         state.dateSelect = action.payload;
       }
     },
@@ -59,16 +64,20 @@ const matchingCreateSlice = createSlice({
     setRequestText: (state, action) => {
       state.requestText = action.payload;
     },
+    setErrorRequestText: (state, action) => {
+      state.errorRequestText = action.payload;
+    },
     setLocation: (state, action) => {
-      state.location = action.payload;
+      state.locationSelect = action.payload;
     },
     setLocationDetail: (state, action) => {
-      state.locationDetail = action.payload;
+      state.locationDetailSelect = action.payload;
     },
   },
 });
 
 export const {
+  resetMatchingSelect,
   setDogSelect,
   setErrorDogSelect,
   setDateSelect,
@@ -77,7 +86,8 @@ export const {
   setPaySelect,
   setErrorPaySelect,
   setRequestText,
+  setErrorRequestText,
   setLocation,
   setLocationDetail,
-} = matchingCreateSlice.actions;
-export default matchingCreateSlice;
+} = matchingFormSlice.actions;
+export default matchingFormSlice;

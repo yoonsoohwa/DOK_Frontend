@@ -1,22 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { CertificationPostType, DogType, MatchingPostType } from "../types";
+import { createSlice } from '@reduxjs/toolkit';
+import { CertificationPostType, DogType, MatchingPostType } from '../types';
 
-interface type {
+interface initialStateType {
+  matchingPostCount: number;
   dogs: DogType[];
   matchingPosts: MatchingPostType[];
   certificationPosts: CertificationPostType[];
 }
 
-const initialState: type = {
+const initialState: initialStateType = {
+  matchingPostCount: 0,
   dogs: [],
   matchingPosts: [],
   certificationPosts: [],
 };
 
 const mainSlice = createSlice({
-  name: "main", //이름
+  name: 'main', //이름
   initialState, //초기값
   reducers: {
+    setMainMatchingPostCount: (state, action) => {
+      state.matchingPostCount = action.payload;
+    },
     setMainDogs: (state, action) => {
       state.dogs = action.payload;
     },
@@ -29,5 +34,5 @@ const mainSlice = createSlice({
   },
 });
 
-export const { setMainDogs, setMainMatchingPosts, setMainCertificationPosts } = mainSlice.actions;
+export const { setMainDogs, setMainMatchingPosts, setMainCertificationPosts, setMainMatchingPostCount } = mainSlice.actions;
 export default mainSlice;

@@ -1,64 +1,60 @@
-import { styled } from 'styled-components';
+import { Rating } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState, setIsLoading, setMypageRating } from 'store/index';
+import { Address, Img, Name, TotalFrame, WalkInfo } from './ProfileInfo.style';
+import { useEffect } from 'react';
+import { userUrl } from 'api/apiUrls';
 
-// 프로필정보 페이지에 프로필 인포가 아니라 그냥 다른 인포(강아지인포,알바생(핸들러)인포)가 올 수도 있는데
-// "프로필"인포기 때문에 프로필인포로 지음
+// 마이페이지 상단 User의 프로필 정보 입니다.
+// User 닉네임, 주소, 회원등급, 산책평점, 산책횟수가 나타납니다.
 export const ProfileInfo = () => {
-    return <>
-            <TotalFrame>
-                <Img>
-                    <img src="/svg/person_img.svg"/>
-                </Img>
-                <div>
-                    <Name>
-                        <div>뽀삐엄마</div>
-                        <div><img src="/svg/profile_badge.svg"/></div>
-                    </Name>
-                    <Adress>
-                        서울특별시/노원구/누원로18/어디선가살아요
-                    </Adress>
-                    <WalkInfo>
-                        <div>산책평점 : 4.5/5</div>
-                        <div>산책횟수 : 32</div>
-                    </WalkInfo>
-                </div>            
-            </TotalFrame>
-    </>
-}
+  const { user } = useSelector((state: RootState) => state.user);
+  const { mypageRating } = useSelector((state: RootState) => state.mypageUser);
+  const dispatch = useDispatch<AppDispatch>();
 
-const TotalFrame = styled.div`
-    display: flex;    
-    justify-content: flex-start;
-    max-width: 900px;
-    margin: 5% auto 0 auto;
-    /* border: black solid 1px; */
-`
+  // 산책평점이랑 횟수는 로그인 할 때 user정보에서 못가져와서
+  // mypageRating API호출해서 거기서 가져옴
+  // 그걸 하는 함수.
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${userUrl}/userInfo/${user._id}`, { credentials: 'include' });
+      const data = await response.json();
 
-const Img = styled.div`
-    align-self: center;
-    margin-right: 1%;
-`
+      if (response.ok) {
+        dispatch(setMypageRating(data.rating));
+      } else {
+        console.log(data);
+      }
+      dispatch(setIsLoading(false));
+    } catch (error) {}
+  };
 
-const Name = styled.div`
-    display: flex;
-    
-    div{        
-        align-self: center;
-    }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    div:nth-child(2) img{        
-        object-fit: contain;
-        width: 35%;
-    }
-`
-
-const Adress = styled.div`
-    /* 최종확인할 때 해당 style component에 추가되는 사항 없으면 삭제 */
-`
-
-const WalkInfo = styled.div`
-    display: flex;
-
-    :nth-child(1){
-        margin-right: 5%;
-    }
-`
+  return (
+    <TotalFrame>
+      <Img>
+        <img className="user-img" src={user.userImg || '/svg/user_image1.svg'} />
+      </Img>
+      <div>
+        <Name>
+          <div>{user.nickname}</div>
+        </Name>
+        {user.address && (
+          <Address>
+            {user.address?.text.split(' ')[0]} {user.address?.text.split(' ')[1]}
+          </Address>
+        )}
+        <WalkInfo>
+          <div className="member">일반회원</div>
+          <div className="score">
+            산책평점 <Rating value={(mypageRating[0] as unknown as number) || 0} precision={0.5} readOnly sx={{ fontSize: '16px' }} />
+          </div>
+          <div className="number">산책횟수 {(mypageRating[1] as unknown as number) || 0}회</div>
+        </WalkInfo>
+      </div>
+    </TotalFrame>
+  );
+};
