@@ -3,7 +3,7 @@ import { Box, Button, TextField, FormControlLabel, Checkbox, Modal } from '@mui/
 import { PersonInformation, TrilateralAgreement } from './Agreement';
 import DaumPostcode from 'react-daum-postcode';
 import { useNavigate } from 'react-router-dom';
-import { signUpUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 import { Agreement, ButtonDiv, LoginDiv, MainDiv } from './SignUp.style';
 
 export function SignUp() {
@@ -93,7 +93,7 @@ export function SignUp() {
   const signUp = async () => {
 
     try{
-      firstPhoneValue.length <= 0 ? console.log("휴대전화 가입 오류") : await fetch(`${signUpUrl}`, {
+      firstPhoneValue.length <= 0 ? console.log("휴대전화 가입 오류") : await fetch(`${userUrl}/signUp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

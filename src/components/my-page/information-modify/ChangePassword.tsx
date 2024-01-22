@@ -4,7 +4,7 @@ import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenErrorModifyIn
 import { ButtonMain } from 'common/button/ButtonMain';
 import TextField from '@mui/material/TextField';
 import { ButtonContainer, ChangePasswordContainer } from './ChangePassword.style';
-import { myPasswordUrl } from '../../../api/apiUrls';
+import { userUrl } from '../../../api/apiUrls';
 
 export function ChangePassword() {
   const dispatch = useDispatch<AppDispatch>();
@@ -63,7 +63,7 @@ export function ChangePassword() {
   //비밀번호 변경 요청
   const changeUserPassword = async () => {
     try {
-      const res = await fetch(`${myPasswordUrl}`, {
+      const res = await fetch(`${userUrl}/myPassword`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
