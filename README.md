@@ -1,4 +1,4 @@
-# DOK(도크)
+# 🐾DOK(도크)
 ![image](https://github.com/pado0711/DokProject-backend/assets/109504714/e421edf2-e741-4445-8b36-b9eaeb985b2c)
 
 
@@ -17,7 +17,7 @@ DOK 서비스를 통해서 자유롭게 핸들러를 찾아보세요!
 <br/>
 <br/>
 
-## 서비스 소개
+## ✨서비스 소개
 
 
 견주는 자신의 강아지들을 등록하여, 등록한 강아지에 대한 산책을 의뢰할 수 있습니다. 
@@ -41,21 +41,21 @@ DOK 서비스를 통해서 자유롭게 핸들러를 찾아보세요!
 <br/>
 <br/>
 
-## 기술 스택
+## 🛠️기술 스택
 
 ![image](https://github.com/pado0711/DokProject-backend/assets/109504714/7a17adbd-a1f2-418d-a41e-40ba4c980530)
 
 <br/>
 <br/>
 
-## Figma
+## 📄Figma
 
 [Figma Link](https://www.figma.com/file/QISBhhxPuj1rMK7CMggSUS/%EC%97%98%EB%A6%AC%EC%8A%A4-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-2%EC%B0%A8?type=design&mode=design)
 
 <br/>
 <br/>
 
-## 스키마 및 기능 명세서
+## 📄스키마 및 기능 명세서
 
 
 [ERD]
@@ -67,14 +67,14 @@ DOK 서비스를 통해서 자유롭게 핸들러를 찾아보세요!
 <br/>
 <br/>
 
-## API 명세서
+## 📄API 명세서
 
 [API Document Link](https://documenter.getpostman.com/view/30238247/2s9YeEbBkH)
 
 <br/>
 <br/>
 
-## 기능
+## ⚙️기능
 
 
 ### 로그인/회원가입 기능
@@ -229,7 +229,7 @@ DOK 서비스를 통해서 자유롭게 핸들러를 찾아보세요!
 
 <br/><br/>
 
-## 팀원 소개 및 역할
+## 💁팀원 소개 및 역할
 
 
 
