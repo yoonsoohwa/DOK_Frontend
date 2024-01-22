@@ -1,6 +1,7 @@
 # 🐾DOK(도크)
 
 ![image](https://github.com/pado0711/DokProject-backend/assets/109504714/e421edf2-e741-4445-8b36-b9eaeb985b2c)
+[DOK 바로가기](http://kdt-sw-6-team01.elicecoding.com/)
 
 > 집에 혼자 있을 강아지가 걱정되나요?
 > 강아지 산책을 자주 시켜주지 못해 항상 미안하신가요?
