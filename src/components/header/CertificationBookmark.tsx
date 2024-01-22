@@ -7,16 +7,17 @@ import { MatchingPostType } from '../../types';
 import dateTimeFormat from '../../utils/dateTimeFormat';
 import durationTimeFormat from '../../utils/durationTimeFormat';
 import { Certification, TableContainer } from './CertificationBookmark.styled';
+import { myPageUrl } from 'api/apiUrls';
 
 export function CertificationBookmark() {
   const { user } = useSelector((state: RootState) => state.user);
   const [myCertification, setMyCertification] = useState<MatchingPostType[]>([]);
-  const [openBox, setOpenBox] = useState(false);
+  const [openBox, setOpenBox] = useState<boolean>(false);
 
   // 로그인 한 사용자가 등록해야 할 인증글 리스트 가져오기
   const getUserCertifiList = async () => {
     try {
-      const res = await fetch(`/api/myPage/myCertification`, { credentials: 'include' });
+      const res = await fetch(`${myPageUrl}/myCertification`, { credentials: 'include' });
       const data = await res.json();
 
       if (res.ok) {

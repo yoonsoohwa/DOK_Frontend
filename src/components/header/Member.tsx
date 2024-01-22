@@ -8,6 +8,7 @@ import { BorderDiv, CatagoryDiv, LogOutStyledLink, MainDiv, StyledLink, SubCatag
 import { Link } from 'react-router-dom';
 import { logOutUrl } from 'api/apiUrls';
 import { CertificationBookmark } from './CertificationBookmark';
+import { MatchingBookmark } from './MatchingBookmark';
 
 export const MemberHeader = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -60,7 +61,7 @@ export const MemberHeader = () => {
           </CatagoryDiv>
           {user._id ? (
             <SubCatagoryImg>
-              <div>{/* <Bookmark /> */}</div>
+              <MatchingBookmark />
               <CertificationBookmark />
               <StyledLink to={'/'}>
                 <div onClick={handleLogOut}>로그아웃</div>
