@@ -7,7 +7,7 @@ import { AppDispatch, setUser } from 'store/index';
 import { useNavigate } from 'react-router-dom';
 import { AlertSnackbar } from 'common/alert/AlertSnackbar';
 import { MainFrame, SubFrame } from './Login.style';
-import { logInUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 
 export function Login() {
   const [userId, setUserId] = useState<string>();
@@ -18,7 +18,7 @@ export function Login() {
 
   // 로그인 API 연동
   const handleLogin = async () => {
-    const login = await fetch(`${logInUrl}`, {
+    const login = await fetch(`${userUrl}/signIn`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
