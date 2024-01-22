@@ -15,20 +15,28 @@ export const Certification = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { certificationPosts, certificationPostsCount } = useSelector((state: RootState) => state.certification);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   // 산책 인증 포스트 닫기
   const handleClose = () => {
     setOpen(false);
   };
 
-    // 산책 인증 포스트 API 연동
+  // 산책 인증 포스트 API 연동
   const addPostList = async () => {
-    const res = await fetch(`${addPostListUrl}`, { credentials: 'include' });
-    const data = await res.json();
+    try {
+      const res = await fetch(`${addPostListUrl}`, { credentials: 'include' });
+      const data = await res.json();
 
-    dispatch(setCertificationPostsCount(Number(data[0])));
-    dispatch(addCertificationPosts(data[1]));
+      if (res.ok) {
+        dispatch(setCertificationPostsCount(Number(data[0])));
+        dispatch(addCertificationPosts(data[1]));
+      } else {
+        console.log(data);
+      }
+    } catch (e) {
+      console.log('fetch error: ', e);
+    }
   };
 
   useEffect(() => {

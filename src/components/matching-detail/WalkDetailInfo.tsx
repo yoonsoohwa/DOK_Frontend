@@ -28,11 +28,14 @@ export function WalkDetailInfo() {
 
         if (res.ok) {
           dispatch(setRequestHandlers(data));
+        } else {
+          console.log(data);
         }
       } catch (error) {
         console.log('fetch error: ' + error);
       }
     };
+
     RequestHandlerList();
   }, [isAuthor, matchingDetailPost]);
 
@@ -62,7 +65,7 @@ export function WalkDetailInfo() {
                 <span>만남 장소</span>
                 <div>
                   <p>{`${location?.text}`}</p>
-                  {locationDetail && <p className='sub-info'>({locationDetail})</p>}
+                  {locationDetail && <p className="sub-info">({locationDetail})</p>}
                 </div>
               </TextAlignLayout>
             </TextAlignLayout>

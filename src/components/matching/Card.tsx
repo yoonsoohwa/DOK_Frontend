@@ -8,7 +8,6 @@ import { EditMenu } from 'common/user/EditMenu';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from 'store/index';
-import React from 'react';
 import { WalkInfo, DogIcon, MatchingStatusImage } from './Card.style';
 
 interface MatchingCardProps {

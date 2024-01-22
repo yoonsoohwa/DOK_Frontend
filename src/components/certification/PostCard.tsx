@@ -1,5 +1,4 @@
-import React from 'react';
-import * as styled from './PostCard.styled';
+import { CardContainer, Contents, Review } from './PostCard.styled';
 import { AccessTime, Pets } from '@mui/icons-material';
 import { ProfileInfo } from 'common/user/ProfileInfo';
 import { Rating, Tooltip } from '@mui/material';
@@ -28,7 +27,7 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
   };
 
   return (
-    <styled.CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
+    <CardContainer className="certifiCard pointer" onClick={handleOpenDetail}>
       <ProfileInfo _id={user._id} nickname={user.nickname} userImg={user.userImg} time={createdAt} size="small" />
       <Tooltip
         title={
@@ -43,7 +42,7 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
       >
         <img className="main-img" src={certificationImg[0] || notfoundimg} />
       </Tooltip>
-      <styled.Contents>
+      <Contents>
         <div>
           <AccessTime sx={{ fontSize: '20px' }} />
           <span>{dateTimeFormat(matchingPost.walkingDate.toString(), 'date-time')}</span>
@@ -51,12 +50,12 @@ export function CertifiPostCard({ contents, onClick, index }: CertifiPostCardPro
         <div className={`detail ${review.rating && 'review'}`}>
           {postText}
           {review.rating && (
-            <styled.Review>
+            <Review>
               견주의 후기: <Rating value={review.rating} precision={0.5} readOnly></Rating>
-            </styled.Review>
+            </Review>
           )}
         </div>
-      </styled.Contents>
-    </styled.CardContainer>
+      </Contents>
+    </CardContainer>
   );
 }

@@ -9,12 +9,12 @@ import { myPasswordUrl } from '../../../api/apiUrls';
 export function ChangePassword() {
   const dispatch = useDispatch<AppDispatch>();
   const { checkModifyInfoIsValid } = useSelector((state: RootState) => state.user);
-  const [password, setPassword] = useState({
+  const [password, setPassword] = useState<{ currentPassword: string; newPassword: string; confirmNewPassword: string }>({
     currentPassword: '',
     newPassword: '',
     confirmNewPassword: '',
   });
-  const [isValid, setIsValid] = useState({
+  const [isValid, setIsValid] = useState<{ currentPassword: boolean; newPassword: boolean; confirmNewPassword: boolean }>({
     currentPassword: true,
     newPassword: true,
     confirmNewPassword: true,
@@ -81,9 +81,7 @@ export function ChangePassword() {
       if (res.ok) {
         dispatch(setOpenSuccessModifyInfoSnackbar({ isOpen: true, type: 'password' }));
         window.location.reload();
-      }
-
-      if (res.status === 401 || res.status === 404 || res.status == 400) {
+      } else {
         dispatch(setOpenErrorModifyInfoAlert({ isOpen: true, type: 'password' }));
       }
     } catch (err) {

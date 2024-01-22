@@ -18,6 +18,8 @@ export function CommentList() {
         const data = await res.json();
         if (res.ok) {
           dispatch(setMatchingComments(data.reverse()));
+        } else {
+          console.log(data);
         }
       } catch (err) {
         console.log('fetch error: ' + err);
