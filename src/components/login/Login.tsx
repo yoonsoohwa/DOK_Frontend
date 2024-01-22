@@ -18,27 +18,32 @@ export function Login() {
 
   // 로그인 API 연동
   const handleLogin = async () => {
-    const login = await fetch(`${logInUrl}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: userId,
-        password: password,
-      }),
-      credentials: 'include',
-    });
-
-    const data = await login.json();    
-    
-    if (login.status === 201) {
-      dispatch(setUser(data));
-      nav('/');
-    } else {
-        setIsAlertSnackbar(true);
+    try{
+      const login = await fetch(`${logInUrl}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          password: password,
+        }),
+        credentials: 'include',
+      });
+  
+      const data = await login.json();    
+      
+      if (login.status === 201) {
+        dispatch(setUser(data));
+        nav('/');
+      } else {
+          setIsAlertSnackbar(true);
+      }
+    }catch(e){
+      console.log(`e`);
     }
-  };
+  }
+    
 
   return (
     <>
