@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { AlertError } from 'common/alert/AlertError';
 import defaultImage from '/image/dogDefaultImage.png';
 import { AddButton, InfoFrame, TotalFrame } from './DogDetail.style';
-import { myDogUrl, myInfoUrl, uploadImageUrl } from 'api/apiUrls';
+import { userUrl, uploadImageUrl } from 'api/apiUrls';
 
 export const DogDetail = () => {
   const [clicked, setClicked] = useState<boolean>(false);
@@ -51,7 +51,7 @@ export const DogDetail = () => {
   // 실제로 API 연동하는 부분
   const addMyDog = async () => {
     try {
-      const res = await fetch(`${myDogUrl}`, {
+      const res = await fetch(`${userUrl}/myDog`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export const DogDetail = () => {
 
       if (res.status === 201) {
         try {
-          const response = await fetch(`${myInfoUrl}`, { credentials: 'include' });
+          const response = await fetch(`${userUrl}/myInfo`, { credentials: 'include' });
           const data = await response.json();
 
           if (response.status === 200) {

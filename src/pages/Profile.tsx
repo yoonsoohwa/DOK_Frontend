@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setIsLoading, setMypageDog, setMypageRating, setMypageUser } from 'store/index';
 import { Forbidden } from 'common/state/Forbidden';
 import { useParams } from 'react-router-dom';
-import { myPageUserInfoUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 
 // 유저 마이페이지
 export function Profile() {
@@ -25,7 +25,7 @@ export function Profile() {
     } else {
       const fetchData = async () => {
         try {
-          const response = await fetch(`${myPageUserInfoUrl}/${id}`, { credentials: 'include' });
+          const response = await fetch(`${userUrl}/userInfo/${id}`, { credentials: 'include' });
           const data = await response.json();
 
           if (response.ok) {

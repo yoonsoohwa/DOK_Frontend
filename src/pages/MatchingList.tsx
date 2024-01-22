@@ -41,13 +41,6 @@ export function MatchingListPage() {
       url += `&walkingTime=${dayjs(filter.walkingTime).format('YYYY-MM-DD')}`;
     }
 
-    const res = await fetch(url);
-    const data = await res.json();
-
-    dispatch(setMatchingPostCount(Number(data[0])));
-    dispatch(addMatchingPosts(data[1]));
-    setPage(_page + 1);
-
     try {
       const res = await fetch(url);
       const data = await res.json();

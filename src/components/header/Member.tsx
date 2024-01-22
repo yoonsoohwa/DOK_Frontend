@@ -6,7 +6,7 @@ import { initUserType } from '../../types';
 
 import { BorderDiv, CatagoryDiv, LogOutStyledLink, MainDiv, StyledLink, SubCatagoryDiv, SubCatagoryImg } from './Member.style';
 import { Link } from 'react-router-dom';
-import { logOutUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 import { CertificationBookmark } from './CertificationBookmark';
 import { MatchingBookmark } from './MatchingBookmark';
 
@@ -19,7 +19,7 @@ export const MemberHeader = () => {
 
   // 로그아웃 API 연동
   const handleLogOut = async () => {
-    await fetch(`${logOutUrl}`, {
+    await fetch(`${userUrl}/signOut`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

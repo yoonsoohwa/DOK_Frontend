@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, setIsLoading, setMypageRating } from 'store/index';
 import { Address, Img, Name, TotalFrame, WalkInfo } from './ProfileInfo.style';
 import { useEffect } from 'react';
-import { myPageUserInfoUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 
 // 마이페이지 상단 User의 프로필 정보 입니다.
 // User 닉네임, 주소, 회원등급, 산책평점, 산책횟수가 나타납니다.
@@ -17,7 +17,7 @@ export const ProfileInfo = () => {
   // 그걸 하는 함수.
   const fetchData = async () => {
     try {
-      const response = await fetch(`${myPageUserInfoUrl}/${user._id}`, { credentials: 'include' });
+      const response = await fetch(`${userUrl}/userInfo/${user._id}`, { credentials: 'include' });
       const data = await response.json();
 
       if (response.ok) {

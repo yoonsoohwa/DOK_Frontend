@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { AppDispatch, RootState, setDog } from 'store/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { Add, Dog, Writing } from './Introduce.style';
-import { myInfoUrl, myIntroduceUrl } from 'api/apiUrls';
 import { TextField, Button } from '@mui/material';
+import { userUrl } from 'api/apiUrls';
 
 export const Introduce = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,7 +15,7 @@ export const Introduce = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${myInfoUrl}`, { credentials: 'include' });
+        const response = await fetch(`${userUrl}/myInfo`, { credentials: 'include' });
 
         // 데이터가 undefined면 로그인 안한거니까 할 필요 없음
         // 응답의 상태를 체크해야함 reponse.ok
@@ -35,7 +35,7 @@ export const Introduce = () => {
 
   const handleModifyIntroduce = async () => {
     try {
-      const res = await fetch(`${myIntroduceUrl}`, {
+      const res = await fetch(`${userUrl}/myIntroduce`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

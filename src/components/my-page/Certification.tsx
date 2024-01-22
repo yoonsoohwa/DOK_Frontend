@@ -9,7 +9,7 @@ import { CertifiPostCard } from '../certification/PostCard';
 import { CardListContainer } from '../../styles/CardListContainer.styled';
 import { TopBarTitle } from 'common/list-page/TopBarTitle';
 import { MainFrame, MyDialog, Section, TitleFrame } from './Certification.style';
-import { addPostListUrl } from 'api/apiUrls';
+import { myPageUrl } from 'api/apiUrls';
 
 export const Certification = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +25,7 @@ export const Certification = () => {
   // 산책 인증 포스트 API 연동
   const addPostList = async () => {
     try {
-      const res = await fetch(`${addPostListUrl}`, { credentials: 'include' });
+      const res = await fetch(`${myPageUrl}/myCertificationLists`, { credentials: 'include' });
       const data = await res.json();
 
       if (res.ok) {

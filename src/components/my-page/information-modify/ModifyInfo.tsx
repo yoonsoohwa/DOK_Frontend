@@ -4,7 +4,7 @@ import { AppDispatch, RootState, setCheckModifyInfoIsValid, setOpenModifyInfoAle
 import DaumPostcode from 'react-daum-postcode';
 import { ChangeProfileImg } from './ChangeProfileImg';
 import { ButtonMain } from 'common/button/ButtonMain';
-import { myInfoUrl } from '../../../api/apiUrls';
+import { userUrl } from '../../../api/apiUrls';
 import { AddressLayout, ButtonContainer, ModifyInfoContainer } from './ModifyInfo.style';
 import { Box, Button, TextField, Modal } from '@mui/material';
 
@@ -62,7 +62,7 @@ export function ModifyInfo() {
   //정보 수정 요청
   const modifyUserInfo = async () => {
     try {
-      const res = await fetch(`${myInfoUrl}`, {
+      const res = await fetch(`${userUrl}/myInfo`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

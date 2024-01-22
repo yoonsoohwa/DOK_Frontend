@@ -3,7 +3,7 @@ import { Box, Button, TextField, FormControlLabel, Checkbox, Modal } from '@mui/
 import { PersonInformation, TrilateralAgreement } from './Agreement';
 import DaumPostcode from 'react-daum-postcode';
 import { useNavigate } from 'react-router-dom';
-import { signUpUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 import { Agreement, ButtonDiv, LoginDiv, MainDiv } from './SignUp.style';
 
 export function SignUp() {
@@ -90,7 +90,7 @@ export function SignUp() {
       return;
     }
     try {
-      const res = await fetch(`${signUpUrl}`, {
+      const res = await fetch(`${userUrl}/signUp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

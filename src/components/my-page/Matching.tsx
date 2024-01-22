@@ -9,7 +9,7 @@ import { AppDispatch, RootState, addMatchingPosts, resetMatchingPosts, setMatchi
 import { EmptyData } from 'common/state/EmptyData';
 import { Loading } from 'common/state/Loading';
 import { MainFrame, Section, SubFrame, TitleFrame } from './Matching.style';
-import { myMatchingPostsUrl } from 'api/apiUrls';
+import { myPageUrl } from 'api/apiUrls';
 
 export const Matching = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,7 +19,7 @@ export const Matching = () => {
   // 매칭 리스트 API 연동
   const addMatchingCardList = async () => {
     try {
-      const res = await fetch(`${myMatchingPostsUrl}`, { credentials: 'include' });
+      const res = await fetch(`${myPageUrl}/myMatchingPosts`, { credentials: 'include' });
       const data = await res.json();
 
       if (res.ok) {
