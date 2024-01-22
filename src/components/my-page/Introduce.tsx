@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AppDispatch, RootState, setDog } from 'store/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { Add, Dog, Writing } from './Introduce.style';
-import { myInfoUrl, myIntroduceUrl } from 'api/apiUrls';
+import { userUrl } from 'api/apiUrls';
 import { TextField } from '@mui/material';
 
 export const Introduce = () => {
@@ -17,7 +17,7 @@ export const Introduce = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${myInfoUrl}`, {
+        const response = await fetch(`${userUrl}/myInfo`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const Introduce = () => {
 
   const handleModifyIntroduce = async () => {
     try {
-      const req = await fetch(`${myIntroduceUrl}`, {
+      const req = await fetch(`${userUrl}/myIntroduce`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
